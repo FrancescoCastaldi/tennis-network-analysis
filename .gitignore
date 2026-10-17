@@ -12,6 +12,7 @@
 !docs/**
 
 # Python
+.ipynb_checkpoints/
 .venv/
 venv/
 __pycache__/

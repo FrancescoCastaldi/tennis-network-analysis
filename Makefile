@@ -1,7 +1,7 @@
 # Reproducible pipeline. Each target can also be run as `python -m tennis_networks.<module>`.
 PY ?= python
 
-.PHONY: help install data networks analysis hypotheses reproduce report-assets report wordcount test lint all
+.PHONY: help install data networks analysis hypotheses structure triads levels reproduce report-assets report wordcount test lint all
 
 help:  ## List the targets
 	@grep -E '^[a-z-]+:.*##' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-15s %s\n", $$1, $$2}'
@@ -26,6 +26,15 @@ analysis:  ## Measures, null models and robustness for every configured network
 hypotheses:  ## Tests of H1-H4
 	$(PY) -m tennis_networks.hypotheses --null 200
 
+structure:  ## HITS, structural equivalence, core-periphery, small-world
+	$(PY) -m tennis_networks.structure
+
+triads:  ## Triad census and hypothesis H5
+	$(PY) -m tennis_networks.triads
+
+levels:  ## Monadic, dyadic (QAP) and mixed hypotheses H6-H8
+	$(PY) -m tennis_networks.levels
+
 report-assets:  ## LaTeX tables and PDF figures of the report
 	$(PY) -m tennis_networks.report_assets
 
@@ -42,4 +51,4 @@ lint:  ## Lint and format check
 	ruff check .
 	ruff format --check .
 
-all: networks reproduce analysis hypotheses report  ## Everything from the raw data to the PDF
+all: networks reproduce analysis hypotheses structure triads levels report  ## Everything from the raw data to the PDF
