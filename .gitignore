@@ -46,6 +46,12 @@ slides/
 papers/
 notes/
 private/
+EXAM_INFO.md
+STUDY_INFO.md
+email/
+*.eml
+*.msg
+note_private/
 
 # OS and editors
 .DS_Store

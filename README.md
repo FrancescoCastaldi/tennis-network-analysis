@@ -88,7 +88,7 @@ src/tennis_networks/     the Python package (one module per pipeline step)
 tests/                   unit tests and data checks (pytest)
 results/                 tables (CSV) and figures produced by the pipeline
 report/                  LaTeX report: main.tex, generated tables/ and figures/
-docs/                    data provenance and methodology
+docs/                    data provenance, methodology and design decisions
 ```
 
 ## Report
