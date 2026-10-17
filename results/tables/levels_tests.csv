@@ -1,0 +1,13 @@
+hypothesis,level,comparison,statistic,value,p_value,n,note
+H6,monadic,td_atp_2000_2006: log(ranking) on log(PageRank) and log(wins),beta log PageRank,-0.6311091510747274,0.001,524,R2 = 0.611
+H6,monadic,td_atp_2000_2006: log(ranking) on log(PageRank) and log(wins),beta log wins,-0.15369455486735922,0.415,524,R2 = 0.611
+H6,monadic,td_atp_2007_2012: log(ranking) on log(PageRank) and log(wins),beta log PageRank,-0.7727989274894828,0.001,423,R2 = 0.758
+H6,monadic,td_atp_2007_2012: log(ranking) on log(PageRank) and log(wins),beta log wins,-0.10081180510687213,0.593,423,R2 = 0.758
+H6,monadic,td_atp_2013_2018: log(ranking) on log(PageRank) and log(wins),beta log PageRank,-0.8588027164027894,0.001,393,R2 = 0.758
+H6,monadic,td_atp_2013_2018: log(ranking) on log(PageRank) and log(wins),beta log wins,-0.012041304328929359,0.951,393,R2 = 0.758
+H6,monadic,td_atp_2019_2025: log(ranking) on log(PageRank) and log(wins),beta log PageRank,-0.725035424826211,0.001,442,R2 = 0.729
+H6,monadic,td_atp_2019_2025: log(ranking) on log(PageRank) and log(wins),beta log wins,-0.13207743907968414,0.505,442,R2 = 0.729
+H7,dyadic,"head-to-head balance on Clay vs on Hard, ATP 2000-2025",QAP Pearson r,0.14911149532586265,0.001,328,mean permuted r = 0.000
+H7,dyadic,"head-to-head balance on Grass vs on Hard, ATP 2000-2025",QAP Pearson r,0.12321826534834436,0.001,306,mean permuted r = 0.000
+H8,mixed,"same surface profile vs matches played, ATP 2000-2025",QAP Pearson r,0.05551458245032528,0.001,328,"all-round: 204, clay: 76, hard: 48"
+H8,mixed,"difference in clay-hard specialisation vs matches played, ATP 2000-2025",QAP Pearson r,-0.09418518783952297,0.001,328,"all-round: 204, clay: 76, hard: 48"

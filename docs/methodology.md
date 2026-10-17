@@ -24,6 +24,11 @@ which two players are linked if they met at least once.
 | Robustness | largest component after removal by PageRank vs random | `measures.robustness_curve` |
 | Mixing | degree assortativity, ranking-band homophily | `measures` |
 | Significance | configuration model by degree-preserving edge swaps, z-score, empirical p-value | `nullmodels` |
+| Winners and gatekeepers | HITS: authority (beats strong players), hub (goes deep and loses to the champions) | `structure` |
+| Interchangeable players | structural equivalence: cosine similarity of opponent vectors | `structure` |
+| Core and periphery | Borgatti-Everett discrete model, core grown by degree, compared with the k-core | `structure` |
+| Small world | sigma = (C / C_null) / (L / L_null) | `structure`, `nullmodels` |
+| Consistency of the hierarchy | triad census, ratio of cyclic (030C) to transitive (030T) triads | `triads` |
 
 ## Hypotheses and tests
 
@@ -33,6 +38,12 @@ which two players are linked if they met at least once.
 | H2 | Networks more disassortative than the configuration model | degree assortativity | 200 degree-preserving null graphs per network |
 | H3 | Grass smaller and more centralized than clay and hard | degree centralization, top-10 PageRank share | permutation of match surface labels (199), size-aware |
 | H4 | WTA prestige less concentrated than ATP | same as H1, paired by season | random sign flips (9,990) |
+| H5 | More rigid hierarchy at the peak of the Big Three (2007-2012) | 030C/030T per season | permutation of season labels (999) |
+| H6 | PageRank explains the ranking beyond the number of wins (monadic) | standardised betas of log PageRank and log wins | regression with permuted ranking (999) |
+| H7 | Head-to-head dominance carries over between surfaces (dyadic) | correlation of head-to-head balance matrices | QAP (999) |
+| H8 | Players with the same surface profile meet more often (mixed) | same-profile and specialisation-gap matrices vs matches played | QAP (999) |
+
+The four levels follow course slide L04: H1-H5 are network-level, H6 monadic, H7 dyadic, H8 mixed.
 
 Statistics that depend on network size are never compared directly across networks of different
 size: tests compare seasons of similar size, or permute matches keeping group sizes and compare the

@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-18
+
+### Added
+
+- `structure` module: HITS hubs and authorities, structural equivalence with a QAP test against
+  ranking gaps, Borgatti-Everett core-periphery compared with the k-core, small-world sigma on the
+  nine comparative networks.
+- `triads` module: ratio of cyclic to transitive triads against the directed configuration model,
+  per-season series and hypothesis H5 (more rigid hierarchy in 2007-2012).
+- `levels` module: hypotheses at the monadic (H6, permutation regression), dyadic (H7, QAP between
+  surfaces) and mixed (H8, QAP on surface profiles) levels of course slide L04.
+- `qap` module: QAP correlation and permutation regression, with unit tests.
+- `notebooks/full_pipeline.ipynb`: the whole pipeline in one notebook, with a quick test mode;
+  `notebook` optional dependencies and an nbstripout pre-commit hook.
+
 ## [0.1.0] - 2026-10-17
 
 ### Added
@@ -24,5 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tests, word limit and PDF build.
 - Contributing guide, issue and pull request templates, data provenance and methodology notes.
 
-[Unreleased]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/FrancescoCastaldi/tennis-network-analysis/releases/tag/v0.1.0

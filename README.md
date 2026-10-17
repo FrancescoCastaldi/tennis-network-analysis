@@ -31,6 +31,10 @@ graph rewards wins against players who themselves win often.
 | H2: networks more disassortative than the configuration model | 200 degree-preserving nulls | rejected in the opposite direction (z = 15 to 38) |
 | H3: grass is smaller and more centralized than clay and hard | match permutation, size-corrected | supported (p ≤ 0.015) |
 | H4: WTA prestige less concentrated than ATP | paired sign-flip over seasons | supported for PageRank (p = 0.016) |
+| H5: more rigid hierarchy (fewer cyclic triads) in 2007-2012 | season permutation of 030C/030T | see `triads_h5.csv` |
+| H6 (monadic): PageRank explains the ranking beyond wins | permutation regression | see `levels_tests.csv` |
+| H7 (dyadic): head-to-head dominance carries over between surfaces | QAP | see `levels_tests.csv` |
+| H8 (mixed): players with the same surface profile meet more often | QAP | see `levels_tests.csv` |
 
 Every number above is in [`results/tables/hypothesis_tests.csv`](results/tables/hypothesis_tests.csv).
 
@@ -44,7 +48,14 @@ pytest                             # unit tests and checks on the committed data
 ```
 
 The processed networks and the results are committed, so the report can be rebuilt without
-running the analysis. To run everything from the raw files:
+running the analysis.
+
+**Notebook.** [`notebooks/full_pipeline.ipynb`](notebooks/full_pipeline.ipynb) runs every step below in
+order and shows the main tables and figures after each one. Install the extra kernel with
+`pip install -e ".[dev,notebook]"`, open the notebook on the `.venv` kernel and *Run All*. Set
+`QUICK = True` for a test run in a few minutes (not for the numbers of the report).
+
+To run everything from the raw files without the notebook:
 
 ```bash
 make all                           # or the python -m commands below, one by one
@@ -58,6 +69,9 @@ make all                           # or the python -m commands below, one by one
 | Reproduce the paper | `python -m tennis_networks.reproduce` | `results/tables/michieli_reproduction.csv` |
 | Measures and null models | `python -m tennis_networks.analysis` | `results/` |
 | Hypotheses H1-H4 | `python -m tennis_networks.hypotheses --null 200` | `results/tables/hypothesis_tests.csv` |
+| Structure: HITS, equivalence, core-periphery, small-world | `python -m tennis_networks.structure` | `results/tables/structure_summary.csv` |
+| Triad census and H5 | `python -m tennis_networks.triads` | `results/tables/triads_*.csv` |
+| Hypotheses H6-H8 (monadic, dyadic, mixed) | `python -m tennis_networks.levels` | `results/tables/levels_tests.csv` |
 | Report tables and figures | `python -m tennis_networks.report_assets` | `report/tables/`, `report/figures/` |
 | Word limit | `python -m tennis_networks.wordcount` | exit code 1 above 5,000 words |
 
