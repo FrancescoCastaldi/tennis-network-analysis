@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Structural Analysis of Professional Tennis Networks: A Comparative Study Across Eras, Surfaces, and Genders"
+type: software
+version: 0.1.0
+date-released: 2026-10-17
+license: MIT
+authors:
+  - given-names: Jacopo
+    family-names: Bonifazi
+  - given-names: Francesco
+    family-names: Castaldi
+  - given-names: Paolo
+    family-names: Fusco
+  - given-names: Shivam
+    family-names: Kumar
+  - given-names: Gaetano
+    family-names: Muscarello
+references:
+  - type: article
+    title: "Complex Network Analysis of Men Single ATP Tennis Matches"
+    authors:
+      - family-names: Michieli
+        given-names: Umberto
+    year: 2018
+    identifiers:
+      - type: other
+        value: "arXiv:1804.08138"

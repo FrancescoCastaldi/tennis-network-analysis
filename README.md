@@ -1,0 +1,95 @@
+# Tennis Network Analysis
+
+[![CI](https://github.com/FrancescoCastaldi/tennis-network-analysis/actions/workflows/ci.yml/badge.svg)](https://github.com/FrancescoCastaldi/tennis-network-analysis/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.11%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+Structural analysis of professional tennis match networks, comparing historical eras, playing
+surfaces and the men's (ATP) and women's (WTA) tours. Group project for the Network Analysis course
+(Master's Degree in Computer Science, University of Bologna, A.Y. 2026/2027).
+
+> **Research question.** How does the structure of professional tennis match networks differ across
+> eras, surfaces and tours, and what do these differences reveal about competitive balance and
+> dominance in the sport?
+
+## The model
+
+A **node** is a player. A **directed edge** goes from the loser to the winner of at least one
+official main-draw singles match, **weighted** by the number of wins in the period. PageRank on this
+graph rewards wins against players who themselves win often.
+
+| Source | Networks | Use |
+|---|---|---|
+| Michieli (2018), arXiv:1804.08138 | M1 wins, M2 points, M3 undirected, M4 extended (1968 to 2017/18, no dates) | Historical baseline, reproduction of the paper |
+| [tennis-data.co.uk](http://www.tennis-data.co.uk/) | 4 ATP eras (2000-2025), 3 ATP surfaces, ATP and WTA 2007-2025 | Comparative study, hypotheses H1-H4 |
+
+## Main results (draft)
+
+| Hypothesis | Test | Outcome |
+|---|---|---|
+| H1: prestige more concentrated in 2007-2018 (Big Three) than 2019-2025 | season permutation | not supported (p = 0.06) |
+| H2: networks more disassortative than the configuration model | 200 degree-preserving nulls | rejected in the opposite direction (z = 15 to 38) |
+| H3: grass is smaller and more centralized than clay and hard | match permutation, size-corrected | supported (p ≤ 0.015) |
+| H4: WTA prestige less concentrated than ATP | paired sign-flip over seasons | supported for PageRank (p = 0.016) |
+
+Every number above is in [`results/tables/hypothesis_tests.csv`](results/tables/hypothesis_tests.csv).
+
+## Quick start
+
+```bash
+python -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+pip install -e ".[dev]"
+pytest                             # unit tests and checks on the committed data
+```
+
+The processed networks and the results are committed, so the report can be rebuilt without
+running the analysis. To run everything from the raw files:
+
+```bash
+make all                           # or the python -m commands below, one by one
+```
+
+| Step | Command | Writes |
+|---|---|---|
+| Download tennis-data.co.uk (optional, files are committed) | `python -m tennis_networks.download` | `data/raw/tennisdata/` |
+| Convert the Michieli networks | `python -m tennis_networks.michieli` | `data/processed/michieli_*.csv` |
+| Build the comparative networks | `python -m tennis_networks.tennisdata` | `data/processed/td_*.csv` |
+| Reproduce the paper | `python -m tennis_networks.reproduce` | `results/tables/michieli_reproduction.csv` |
+| Measures and null models | `python -m tennis_networks.analysis` | `results/` |
+| Hypotheses H1-H4 | `python -m tennis_networks.hypotheses --null 200` | `results/tables/hypothesis_tests.csv` |
+| Report tables and figures | `python -m tennis_networks.report_assets` | `report/tables/`, `report/figures/` |
+| Word limit | `python -m tennis_networks.wordcount` | exit code 1 above 5,000 words |
+
+All random draws use the seed in [`config/networks.json`](config/networks.json) (`20261115`).
+Most of the running time goes into the null models; `--samples` and `--null` lower it for quick checks.
+
+## Repository layout
+
+```text
+config/networks.json     networks of the study, seed and null-model sizes
+data/raw/                original files, never edited (provenance in docs/data.md)
+data/processed/          CSV edge lists: source, target[, weight]
+src/tennis_networks/     the Python package (one module per pipeline step)
+tests/                   unit tests and data checks (pytest)
+results/                 tables (CSV) and figures produced by the pipeline
+report/                  LaTeX report: main.tex, generated tables/ and figures/
+docs/                    data provenance and methodology
+```
+
+## Report
+
+`report/main.tex` follows the official course template (A4, 12 pt, 3 cm margins, at most 5,000
+words). Tables and figures are generated: never edit `report/tables/` or `report/figures/` by hand,
+change the code and run `make report-assets`. CI builds the PDF on every push and attaches it to
+the run as an artifact.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for roles, branches, commits and the review checklist.
+
+## Authors
+
+Jacopo Bonifazi, Francesco Castaldi, Paolo Fusco, Shivam Kumar, Gaetano Muscarello.
+
+Code under the [MIT License](LICENSE). Datasets belong to their authors, see [docs/data.md](docs/data.md).

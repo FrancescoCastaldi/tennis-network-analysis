@@ -1,0 +1,31 @@
+name: Task
+description: A unit of work for the project (analysis, writing, review)
+labels: ["type: task"]
+body:
+  - type: dropdown
+    id: role
+    attributes:
+      label: Role
+      description: Who leads it (see CONTRIBUTING.md)
+      options: ["A: context and motivation", "B1: datasets and validity", "B2: measures", "B3: hypotheses and tests", "C: interpretation and critique"]
+    validations:
+      required: true
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Phase
+      options: [setup, analysis, writing, delivery]
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What must be true when this is done
+    validations:
+      required: true
+  - type: textarea
+    id: outputs
+    attributes:
+      label: Outputs
+      description: Files, tables, figures or report sections affected

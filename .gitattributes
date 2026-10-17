@@ -1,0 +1,13 @@
+* text=auto eol=lf
+
+*.mat binary
+*.xls binary
+*.xlsx binary
+*.pdf binary
+*.png binary
+
+# Generated files: collapsed in diffs and excluded from language statistics
+data/processed/** linguist-generated=true -diff
+results/** linguist-generated=true
+report/tables/** linguist-generated=true
+report/figures/** linguist-generated=true

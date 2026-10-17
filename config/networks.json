@@ -1,0 +1,155 @@
+{
+  "seed": 20261115,
+  "null_model_samples": 1000,
+  "betweenness_sample_threshold": 5000,
+  "betweenness_sample_size": 500,
+  "networks": [
+    {
+      "id": "example_karate",
+      "label": "Zachary karate club (test fixture)",
+      "builtin": "karate_club",
+      "directed": false,
+      "weighted": false,
+      "node_meaning": "Club member",
+      "edge_meaning": "Friendship outside the club"
+    },
+    {
+      "id": "atp_wins_direct",
+      "label": "ATP Men Single Matches 1968-2017 (Direct Wins)",
+      "file": "michieli_1_wins.csv",
+      "directed": true,
+      "weighted": true,
+      "node_meaning": "ATP professional tennis player",
+      "edge_meaning": "Directed victory edge from loser to winner with weight equal to number of wins",
+      "null_samples": 30,
+      "small_world_samples": 5
+    },
+    {
+      "id": "atp_matches_undirect",
+      "label": "ATP Men Single Matches 1968-2017 (Undirected Matches)",
+      "file": "michieli_3_undirected.csv",
+      "directed": false,
+      "weighted": false,
+      "node_meaning": "ATP professional tennis player",
+      "edge_meaning": "Undirected connection indicating at least one official match played between the two players",
+      "null_samples": 30,
+      "small_world_samples": 5
+    },
+    {
+      "id": "td_atp_2000_2006",
+      "label": "ATP 2000-2006 (tennis-data.co.uk, main draw, walkovers excluded)",
+      "file": "td_atp_2000_2006.csv",
+      "ranks": "td_atp_2000_2006_ranks.csv",
+      "directed": true,
+      "weighted": true,
+      "null_samples": 100,
+      "small_world_samples": 20,
+      "node_meaning": "Professional tennis player",
+      "edge_meaning": "Directed from loser to winner, weight = number of wins in the period"
+    },
+    {
+      "id": "td_atp_2007_2012",
+      "label": "ATP 2007-2012 (tennis-data.co.uk, main draw, walkovers excluded)",
+      "file": "td_atp_2007_2012.csv",
+      "ranks": "td_atp_2007_2012_ranks.csv",
+      "directed": true,
+      "weighted": true,
+      "null_samples": 100,
+      "small_world_samples": 20,
+      "node_meaning": "Professional tennis player",
+      "edge_meaning": "Directed from loser to winner, weight = number of wins in the period"
+    },
+    {
+      "id": "td_atp_2013_2018",
+      "label": "ATP 2013-2018 (tennis-data.co.uk, main draw, walkovers excluded)",
+      "file": "td_atp_2013_2018.csv",
+      "ranks": "td_atp_2013_2018_ranks.csv",
+      "directed": true,
+      "weighted": true,
+      "null_samples": 100,
+      "small_world_samples": 20,
+      "node_meaning": "Professional tennis player",
+      "edge_meaning": "Directed from loser to winner, weight = number of wins in the period"
+    },
+    {
+      "id": "td_atp_2019_2025",
+      "label": "ATP 2019-2025 (tennis-data.co.uk, main draw, walkovers excluded)",
+      "file": "td_atp_2019_2025.csv",
+      "ranks": "td_atp_2019_2025_ranks.csv",
+      "directed": true,
+      "weighted": true,
+      "null_samples": 100,
+      "small_world_samples": 20,
+      "node_meaning": "Professional tennis player",
+      "edge_meaning": "Directed from loser to winner, weight = number of wins in the period"
+    },
+    {
+      "id": "td_atp_clay",
+      "label": "ATP clay 2000-2025 (tennis-data.co.uk, main draw, walkovers excluded)",
+      "file": "td_atp_clay.csv",
+      "ranks": "td_atp_clay_ranks.csv",
+      "directed": true,
+      "weighted": true,
+      "null_samples": 100,
+      "small_world_samples": 20,
+      "node_meaning": "Professional tennis player",
+      "edge_meaning": "Directed from loser to winner, weight = number of wins in the period"
+    },
+    {
+      "id": "td_atp_grass",
+      "label": "ATP grass 2000-2025 (tennis-data.co.uk, main draw, walkovers excluded)",
+      "file": "td_atp_grass.csv",
+      "ranks": "td_atp_grass_ranks.csv",
+      "directed": true,
+      "weighted": true,
+      "null_samples": 100,
+      "small_world_samples": 20,
+      "node_meaning": "Professional tennis player",
+      "edge_meaning": "Directed from loser to winner, weight = number of wins in the period"
+    },
+    {
+      "id": "td_atp_hard",
+      "label": "ATP hard 2000-2025 (tennis-data.co.uk, main draw, walkovers excluded)",
+      "file": "td_atp_hard.csv",
+      "ranks": "td_atp_hard_ranks.csv",
+      "directed": true,
+      "weighted": true,
+      "null_samples": 100,
+      "small_world_samples": 20,
+      "node_meaning": "Professional tennis player",
+      "edge_meaning": "Directed from loser to winner, weight = number of wins in the period"
+    },
+    {
+      "id": "td_atp_2007_2025",
+      "label": "ATP 2007-2025 (tennis-data.co.uk, main draw, walkovers excluded)",
+      "file": "td_atp_2007_2025.csv",
+      "ranks": "td_atp_2007_2025_ranks.csv",
+      "directed": true,
+      "weighted": true,
+      "null_samples": 100,
+      "small_world_samples": 20,
+      "node_meaning": "Professional tennis player",
+      "edge_meaning": "Directed from loser to winner, weight = number of wins in the period"
+    },
+    {
+      "id": "td_wta_2007_2025",
+      "label": "WTA 2007-2025 (tennis-data.co.uk, main draw, walkovers excluded)",
+      "file": "td_wta_2007_2025.csv",
+      "ranks": "td_wta_2007_2025_ranks.csv",
+      "directed": true,
+      "weighted": true,
+      "null_samples": 100,
+      "small_world_samples": 20,
+      "node_meaning": "Professional tennis player",
+      "edge_meaning": "Directed from loser to winner, weight = number of wins in the period"
+    }
+  ],
+  "_format": {
+    "file": "path relative to data/processed (CSV edge list with columns source,target[,weight], or .graphml)",
+    "directed": "true if edges are directed",
+    "weighted": "true if the weight column exists",
+    "ranks": "optional: CSV player,rank with the median ranking, for the Spearman correlation and ranking-band homophily",
+    "null_samples": "optional: null graphs for this network (default null_model_samples)",
+    "small_world_samples": "optional: null graphs for the small-world index (undirected networks only)"
+  }
+}

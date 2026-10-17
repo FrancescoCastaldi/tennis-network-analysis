@@ -1,0 +1,394 @@
+"""LaTeX tables and figures of the report, built only from results/ and data/processed/.
+
+Run (after analysis, hypotheses and reproduce):
+    python -m tennis_networks.report_assets
+
+Outputs:
+    report/tables/*.tex      the tabular only: captions and labels live in report/main.tex
+    report/figures/*.pdf     vector figures (plus .png for a quick look)
+"""
+
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import networkx as nx
+import numpy as np
+import pandas as pd
+
+from tennis_networks.config import PROCESSED, REPORT, TABLES
+from tennis_networks.loaders import load_undirected as undirected
+
+OUT_TAB = REPORT / "tables"
+OUT_FIG = REPORT / "figures"
+
+ERAS = ["td_atp_2000_2006", "td_atp_2007_2012", "td_atp_2013_2018", "td_atp_2019_2025"]
+SURFACES = ["td_atp_clay", "td_atp_grass", "td_atp_hard"]
+TOURS = ["td_atp_2007_2025", "td_wta_2007_2025"]
+NETS = ERAS + SURFACES + TOURS
+SHORT = {
+    "td_atp_2000_2006": "2000-06",
+    "td_atp_2007_2012": "2007-12",
+    "td_atp_2013_2018": "2013-18",
+    "td_atp_2019_2025": "2019-25",
+    "td_atp_clay": "Clay",
+    "td_atp_grass": "Grass",
+    "td_atp_hard": "Hard",
+    "td_atp_2007_2025": "ATP 07-25",
+    "td_wta_2007_2025": "WTA 07-25",
+}
+PLAIN = SHORT
+
+# Reference categorical palette (slots 1-4), with distinct markers for black-and-white printing.
+COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"]
+MARKERS = ["o", "s", "^", "D"]
+INK, MUTED, GRID = "#0b0b0b", "#52514e", "#e4e3df"
+
+
+def num(x, digits=3):
+    if pd.isna(x):
+        return "n/a"
+    if float(x).is_integer() and digits == 0:
+        return f"{int(x):,}"
+    text = f"{x:,.{digits}f}"
+    return "$-$" + text[1:] if text.startswith("-") else text
+
+
+def write(name, body):
+    OUT_TAB.mkdir(parents=True, exist_ok=True)
+    (OUT_TAB / name).write_text(body.strip() + "\n", encoding="utf-8")
+
+
+# Tables
+
+
+def table_networks():
+    summary = pd.read_csv(TABLES / "td_networks_summary.csv").set_index("network")
+    mich = []
+    for i, (label, kind) in enumerate(
+        [
+            ("Wins", "directed, weighted by wins"),
+            ("Points", "both directions, weighted by ATP points"),
+            ("Matches", "undirected, unweighted"),
+            ("Extended", "undirected, unweighted, lower tiers"),
+        ],
+        start=1,
+    ):
+        f = {1: "michieli_1_wins", 2: "michieli_2_points", 3: "michieli_3_undirected", 4: "michieli_4_extended"}[i]
+        e = pd.read_csv(PROCESSED / f"{f}.csv")
+        nodes = len(set(e["source"]) | set(e["target"]))
+        matches = num(e["weight"].sum(), 0) if i == 1 else "n/a"
+        period = "1968-2018" if i == 4 else "1968-2017"
+        mich.append(f"M{i} {label} & {period} & {kind} & {nodes:,} & {len(e):,} & {matches} \\\\")
+    td_rows = []
+    for n in NETS:
+        r = summary.loc[n]
+        a, b = (int(x) for x in n.split("_")[-2:]) if n not in SURFACES else (2000, 2025)
+        period = f"{a}-{b}"
+        label = f"{n.split('_')[1].upper()} " + (SHORT[n] if n in SURFACES else period)
+        td_rows.append(
+            f"{label} & {period} & directed, weighted by wins & {int(r['players']):,} & "
+            f"{int(r['edges']):,} & {int(r['matches']):,} \\\\"
+        )
+    body = "\n".join(
+        [
+            r"\begin{tabular}{@{}llp{4.2cm}rrr@{}}",
+            r"\toprule",
+            r"Network & Period & Type & Nodes & Edges & Matches \\",
+            r"\midrule",
+            r"\multicolumn{6}{@{}l}{\emph{Michieli (2018), aggregated, no dates}} \\",
+            *mich,
+            r"\midrule",
+            r"\multicolumn{6}{@{}l}{\emph{tennis-data.co.uk, main draw, walkovers excluded}} \\",
+            *td_rows,
+            r"\bottomrule",
+            r"\end{tabular}",
+        ]
+    )
+    write("tab_networks.tex", body)
+
+
+def table_reproduction():
+    d = pd.read_csv(TABLES / "michieli_reproduction.csv")
+    rows = []
+    for r in d.itertuples(index=False):
+        integers = float(r.paper).is_integer() and float(r.ours).is_integer()
+        digits = 0 if integers else (4 if abs(r.paper) < 0.05 else 2)
+        rows.append(f"{r.network} & {r.measure} & {num(r.paper, digits)} & {num(r.ours, digits)} \\\\")
+    write(
+        "tab_reproduction.tex",
+        "\n".join(
+            [
+                r"\begin{tabular}{@{}llrr@{}}",
+                r"\toprule",
+                r"Network & Measure & Paper & This study \\",
+                r"\midrule",
+                *rows,
+                r"\bottomrule",
+                r"\end{tabular}",
+            ]
+        ),
+    )
+
+
+def table_global():
+    g = pd.read_csv(TABLES / "global_measures.csv").set_index("network").loc[NETS]
+    und = {n: undirected(n) for n in NETS}
+    nu = pd.DataFrame(
+        {
+            "avg_clustering": {n: nx.average_clustering(h) for n, h in und.items()},
+            "transitivity": {n: nx.transitivity(h) for n, h in und.items()},
+            "degree_assortativity": {n: nx.degree_assortativity_coefficient(h) for n, h in und.items()},
+        }
+    )
+    kcore = {n: max(nx.core_number(h).values()) for n, h in und.items()}
+    spec = [
+        ("Players $n$", g["nodes"], 0),
+        ("Edges $m$", g["edges"], 0),
+        ("Density", g["density"], 4),
+        ("Mean out-degree", g["mean_degree"], 1),
+        ("Reciprocity", g["reciprocity"], 3),
+        ("Largest SCC (share)", g["giant_fraction"], 3),
+        ("Avg.\\ distance (SCC)", g["avg_path_giant"], 2),
+        ("Diameter (SCC)", g["diameter_giant"], 0),
+        ("Avg.\\ clustering $C$", nu["avg_clustering"], 3),
+        ("Transitivity $T$", nu["transitivity"], 3),
+        ("Degree assortativity $r$", nu["degree_assortativity"], 3),
+        ("Max $k$-core", pd.Series(kcore), 0),
+        ("Louvain communities", g["communities"], 0),
+        ("Modularity $Q$", g["modularity"], 3),
+        ("Top-10 PageRank share", g["top10_pagerank_share"], 3),
+        ("Gini of in-strength", g["gini_in_strength"], 3),
+        ("Spearman PageRank, rank", g["spearman_pagerank_atp_rank"], 3),
+    ]
+    head = " & ".join(SHORT[n] for n in NETS)
+    rows = [f"{label} & " + " & ".join(num(v[n], d) for n in NETS) + r" \\" for label, v, d in spec]
+    write(
+        "tab_global.tex",
+        "\n".join(
+            [
+                r"\begin{tabular}{@{}l" + "r" * len(NETS) + "@{}}",
+                r"\toprule",
+                r" & \multicolumn{4}{c}{ATP eras} & \multicolumn{3}{c}{ATP surfaces} & \multicolumn{2}{c}{Tours} \\",
+                r"\cmidrule(lr){2-5}\cmidrule(lr){6-8}\cmidrule(l){9-10}",
+                f"Measure & {head} \\\\",
+                r"\midrule",
+                *rows,
+                r"\bottomrule",
+                r"\end{tabular}",
+            ]
+        ),
+    )
+
+
+def table_null():
+    d = pd.read_csv(TABLES / "null_undirected.csv")
+    tested = set(d["network"])
+    stats = [("degree_assortativity", "$r$"), ("avg_clustering", "$C$"), ("transitivity", "$T$")]
+    rows = []
+    for n in [n for n in NETS if n in tested]:
+        cells = []
+        for s, _ in stats:
+            r = d[(d["network"] == n) & (d["statistic"] == s)].iloc[0]
+            cells += [num(r["observed"], 3), num(r["null_mean"], 3), num(r["z"], 1)]
+        rows.append(f"{PLAIN[n]} & " + " & ".join(cells) + r" \\")
+    samples = int(d["samples"].iloc[0])
+    head = " & ".join(rf"\multicolumn{{3}}{{c}}{{{lab}}}" for _, lab in stats)
+    write(
+        "tab_null.tex",
+        "\n".join(
+            [
+                r"\begin{tabular}{@{}l" + "rrr" * 3 + "@{}}",
+                r"\toprule",
+                f" & {head} \\\\",
+                r"\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(l){8-10}",
+                "Network & " + " & ".join(["obs.", "null", "$z$"] * 3) + r" \\",
+                r"\midrule",
+                *rows,
+                r"\bottomrule",
+                r"\end{tabular}",
+            ]
+        ),
+    )
+    return samples
+
+
+def table_tests():
+    d = pd.read_csv(TABLES / "hypothesis_tests.csv")
+    stat = {"top10_pagerank_share": "top-10 PageRank share", "degree_centralization": "degree centralization"}
+    rows = []
+    for h in ("H1", "H2", "H3", "H4"):
+        if h == "H2":
+            h2 = d[d["hypothesis"] == "H2"]
+            rows.append(
+                f"H2 & degree assortativity & each of the 8 networks vs null & "
+                f"{num(h2['value_a'].min(), 3)} to {num(h2['value_a'].max(), 3)} & "
+                f"{num(h2['value_b'].min(), 3)} to {num(h2['value_b'].max(), 3)} & "
+                f"$>0$ in all & 0 & $\\le${num(h2['p_value'].max(), 3)} \\\\"
+            )
+            continue
+        for r in d[d["hypothesis"] == h].itertuples(index=False):
+            comp = {"H1": "2007-18 vs 2019-25 (seasons)", "H4": "WTA vs ATP (paired seasons)"}.get(
+                h, r.comparison.replace("ATP ", "")
+            )
+            expected = num(r.perm_mean_diff, 3) if not pd.isna(r.perm_mean_diff) else "0"
+            rows.append(
+                f"{h} & {stat[r.statistic]} & {comp} & {num(r.value_a, 3)} & {num(r.value_b, 3)} & "
+                f"{num(r.diff, 3)} & {expected} & {num(r.p_value, 3)} \\\\"
+            )
+    write(
+        "tab_tests.tex",
+        "\n".join(
+            [
+                r"\begin{tabular}{@{}llp{3.3cm}rrrrr@{}}",
+                r"\toprule",
+                r"H & Statistic & Comparison & A & B & A$-$B & $E_0$[A$-$B] & $p$ \\",
+                r"\midrule",
+                *rows,
+                r"\bottomrule",
+                r"\end{tabular}",
+            ]
+        ),
+    )
+
+
+def table_top10():
+    cols = ERAS + ["td_wta_2007_2025"]
+    lists = {}
+    for n in cols:
+        nodes = pd.read_csv(TABLES / f"{n}_nodes.csv").set_index("node")
+        ranks = pd.read_csv(PROCESSED / f"{n}_ranks.csv", index_col="player")["rank"]
+        top = nodes["pagerank"].sort_values(ascending=False).head(10).index
+        lists[n] = [f"{p} ({int(ranks[p]) if p in ranks.index else 'n/a'})" for p in top]
+    head = " & ".join(SHORT[n] if n in TOURS else "ATP " + SHORT[n] for n in cols)
+    rows = [f"{i + 1} & " + " & ".join(lists[n][i] for n in cols) + r" \\" for i in range(10)]
+    write(
+        "tab_top10.tex",
+        "\n".join(
+            [
+                r"\begin{tabular}{@{}r" + "l" * len(cols) + "@{}}",
+                r"\toprule",
+                f" & {head} \\\\",
+                r"\midrule",
+                *rows,
+                r"\bottomrule",
+                r"\end{tabular}",
+            ]
+        ),
+    )
+
+
+# Figures
+
+
+def style():
+    plt.rcParams.update(
+        {
+            "font.family": "serif",
+            "font.serif": ["Times New Roman", "Times", "DejaVu Serif"],
+            "mathtext.fontset": "stix",
+            "font.size": 9,
+            "axes.labelsize": 9,
+            "axes.titlesize": 9,
+            "legend.fontsize": 8,
+            "axes.edgecolor": MUTED,
+            "axes.labelcolor": INK,
+            "xtick.color": MUTED,
+            "ytick.color": MUTED,
+            "axes.spines.top": False,
+            "axes.spines.right": False,
+            "axes.grid": True,
+            "grid.color": GRID,
+            "grid.linewidth": 0.6,
+            "lines.linewidth": 1.6,
+            "lines.markersize": 4,
+            "legend.frameon": False,
+            "savefig.bbox": "tight",
+        }
+    )
+
+
+def save(fig, name):
+    OUT_FIG.mkdir(parents=True, exist_ok=True)
+    fig.savefig(OUT_FIG / f"{name}.pdf")
+    fig.savefig(OUT_FIG / f"{name}.png", dpi=200)
+    plt.close(fig)
+
+
+GROUPS = [("(a) ATP eras", ERAS), ("(b) ATP surfaces, 2000-2025", SURFACES), ("(c) ATP vs WTA, 2007-2025", TOURS)]
+
+
+def figure_degree():
+    fig, axes = plt.subplots(1, 3, figsize=(6.3, 2.3), sharey=True)
+    for ax, (title, nets) in zip(axes, GROUPS, strict=True):
+        for i, n in enumerate(nets):
+            deg = np.sort(np.array([d for _, d in undirected(n).degree()]))
+            ccdf = 1 - np.arange(len(deg)) / len(deg)
+            ax.loglog(deg, ccdf, color=COLORS[i], label=PLAIN[n], marker=MARKERS[i], markevery=0.12, markersize=3.5)
+        ax.set_title(title, loc="left")
+        ax.set_xlabel("distinct opponents $k$")
+        ax.legend(loc="lower left")
+    axes[0].set_ylabel(r"$P(K \geq k)$")
+    fig.tight_layout()
+    save(fig, "fig_degree_ccdf")
+
+
+def figure_robustness():
+    fig, axes = plt.subplots(1, 3, figsize=(6.3, 2.4), sharey=True)
+    for ax, (title, nets) in zip(axes, GROUPS, strict=True):
+        for i, n in enumerate(nets):
+            c = pd.read_csv(TABLES / f"{n}_robustness.csv")
+            ax.plot(c["fraction"], c["attack"], color=COLORS[i], marker=MARKERS[i], markersize=3, label=PLAIN[n])
+            ax.plot(c["fraction"], c["random"], color=COLORS[i], linestyle="--", linewidth=1.1)
+        ax.set_title(title, loc="left")
+        ax.set_xlabel("share of players removed")
+        ax.legend(loc="lower left")
+    axes[0].set_ylabel("relative largest component")
+    axes[2].text(
+        0.98,
+        0.98,
+        "solid: by PageRank\ndashed: random",
+        transform=axes[2].transAxes,
+        ha="right",
+        va="top",
+        fontsize=7.5,
+        color=MUTED,
+    )
+    fig.tight_layout()
+    save(fig, "fig_robustness")
+
+
+def figure_yearly():
+    y = pd.read_csv(TABLES / "yearly_statistics.csv").set_index("season")
+    fig, axes = plt.subplots(1, 2, figsize=(6.3, 2.4))
+    stats = ("top10_pagerank_share", "degree_centralization")
+    labels = ("(a) top-10 PageRank share", "(b) degree centralization")
+    for ax, stat, label in zip(axes, stats, labels, strict=True):
+        ax.axvspan(2006.5, 2018.5, color=GRID, alpha=0.6, linewidth=0)
+        for i, tour in enumerate(("ATP", "WTA")):
+            s = y[f"{tour}_{stat}"].dropna()
+            ax.plot(s.index, s.values, color=COLORS[i], marker=MARKERS[i], label=tour)
+        ax.set_title(label, loc="left")
+        ax.set_xlabel("season")
+        ax.legend(loc="upper right")
+    axes[0].text(2012.5, axes[0].get_ylim()[0], "2007-2018", ha="center", va="bottom", fontsize=7.5, color=MUTED)
+    fig.tight_layout()
+    save(fig, "fig_yearly")
+
+
+def main():
+    table_networks()
+    table_reproduction()
+    table_global()
+    samples = table_null()
+    table_tests()
+    table_top10()
+    style()
+    figure_degree()
+    figure_robustness()
+    figure_yearly()
+    print(f"Tables in {OUT_TAB}, figures in {OUT_FIG} (null models: {samples} samples)")
+
+
+if __name__ == "__main__":
+    main()

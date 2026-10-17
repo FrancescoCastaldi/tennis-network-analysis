@@ -1,0 +1,13 @@
+network,measure,paper,ours,note
+M1 directed,largest strongly connected component,2428.0,2428.0,
+M1 directed,average distance,3.48,3.47,"estimated from 1,000 sources"
+M1 directed,diameter,10.0,9.0,"longest distance observed from 1,000 sources"
+M1 directed,top-10 PageRank players shared with the paper,10.0,10.0,"ours: Connors J., Lendl I., Federer R., Mcenroe J., Nadal R., Vilas G., Djokovic N., Nastase I., Borg B., Agassi A."
+M3 undirected,connected components,1.0,1.0,
+M3 undirected,average distance,3.34,3.34,"estimated from 1,000 sources"
+M3 undirected,diameter,8.0,8.0,double-sweep approximation
+M3 undirected,average clustering,0.07,0.311,transitivity 0.355; no standard definition gives the value of the paper
+M3 undirected,degree assortativity,-0.0076,-0.0043,
+M4 extended,average distance,3.64,3.63,"estimated from 1,000 sources"
+M4 extended,diameter,9.0,9.0,double-sweep approximation
+M4 extended,degree assortativity,0.272,0.2723,

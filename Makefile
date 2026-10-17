@@ -1,0 +1,45 @@
+# Reproducible pipeline. Each target can also be run as `python -m tennis_networks.<module>`.
+PY ?= python
+
+.PHONY: help install data networks analysis hypotheses reproduce report-assets report wordcount test lint all
+
+help:  ## List the targets
+	@grep -E '^[a-z-]+:.*##' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-15s %s\n", $$1, $$2}'
+
+install:  ## Install the package with development tools
+	$(PY) -m pip install -e ".[dev]"
+	pre-commit install
+
+data:  ## Download the tennis-data.co.uk seasons (overwrites data/raw/tennisdata)
+	$(PY) -m tennis_networks.download
+
+networks:  ## Build every processed network from data/raw
+	$(PY) -m tennis_networks.michieli
+	$(PY) -m tennis_networks.tennisdata
+
+reproduce:  ## Reproduce the figures of Michieli (2018)
+	$(PY) -m tennis_networks.reproduce
+
+analysis:  ## Measures, null models and robustness for every configured network
+	$(PY) -m tennis_networks.analysis
+
+hypotheses:  ## Tests of H1-H4
+	$(PY) -m tennis_networks.hypotheses --null 200
+
+report-assets:  ## LaTeX tables and PDF figures of the report
+	$(PY) -m tennis_networks.report_assets
+
+report: report-assets  ## Build report/main.pdf (needs latexmk)
+	cd report && latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+
+wordcount:  ## Check the 5,000-word limit
+	$(PY) -m tennis_networks.wordcount
+
+test:  ## Run the test suite
+	$(PY) -m pytest
+
+lint:  ## Lint and format check
+	ruff check .
+	ruff format --check .
+
+all: networks reproduce analysis hypotheses report  ## Everything from the raw data to the PDF
