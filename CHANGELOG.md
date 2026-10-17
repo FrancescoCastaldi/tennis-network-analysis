@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Privacy guardrails in `.gitignore` for academic exam specifications and personal notes (`EXAM_INFO.md`, `STUDY_INFO.md`, `email/`, `note_private/`).
 - Architectural and workflow choices document in `docs/decisions.md` explaining the upfront pipeline strategy.
+- Complete draft of Section 4 (Validity and Reliability) in `report/main.tex`, covering reference paper reproduction, source consistency, model construct validity and computational reliability.
+- Computed results tables for structural measures (HITS, structural equivalence, core-periphery, small-world) and triad census / H5 hypothesis tests in `results/tables/`.
 
 ## [0.2.0] - 2026-10-18
 
