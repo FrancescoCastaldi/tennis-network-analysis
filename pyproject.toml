@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tennis-networks"
-version = "0.2.3"
+version = "0.2.4"
 description = "Structural analysis of professional tennis match networks across eras, surfaces and tours (Network Analysis, University of Bologna)."
 readme = "README.md"
 license = { text = "MIT" }

@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
 title: "Structural Analysis of Professional Tennis Networks: A Comparative Study Across Eras, Surfaces, and Genders"
 type: software
-version: 0.2.3
+version: 0.2.4
 date-released: 2026-10-18
 license: MIT
 authors:

@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-10-18
+
+### Changed
+
+- Condensed Section 5 (*Measures and Results*) in `report/main.tex` from 2,599 words down to 1,355 words, preserving all 8 tables, 3 figures, statistical test values, and formulas, recovering 1,244 words of margin (total report at 2,795 words out of 5,000).
+- Fine-tuned LaTeX typography and phrasing in Section 5, eliminating all overfull and underfull box warnings in body text.
+
+### Added
+
+- Author briefing guide for Shivam Kumar (Role A) in `docs/briefing_role_a.md` detailing theoretical foundations, literature benchmarks (Radicchi 2011, Michieli 2018), 3 research questions, and the multi-level hypothesis architecture (~950 words target across Sections 1 and 2).
+- Author briefing guide for Paolo Fusco (Role C) in `docs/briefing_role_c.md` detailing empirical synthesis of findings and critical limitations (~950 words target across Sections 6 and 7).
+- Updated `docs/README.md` index referencing the new role briefing guides.
+
 ## [0.2.3] - 2026-10-18
 
 ### Documentation
