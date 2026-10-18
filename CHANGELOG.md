@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-10-18
+
 ### Added
 
 - Privacy guardrails in `.gitignore` for academic exam specifications and personal notes (`EXAM_INFO.md`, `STUDY_INFO.md`, `email/`, `note_private/`).
@@ -49,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tests, word limit and PDF build.
 - Contributing guide, issue and pull request templates, data provenance and methodology notes.
 
-[Unreleased]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/FrancescoCastaldi/tennis-network-analysis/releases/tag/v0.1.0

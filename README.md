@@ -31,12 +31,12 @@ graph rewards wins against players who themselves win often.
 | H2: networks more disassortative than the configuration model | 200 degree-preserving nulls | rejected in the opposite direction (z = 15 to 38) |
 | H3: grass is smaller and more centralized than clay and hard | match permutation, size-corrected | supported (p ≤ 0.015) |
 | H4: WTA prestige less concentrated than ATP | paired sign-flip over seasons | supported for PageRank (p = 0.016) |
-| H5: more rigid hierarchy (fewer cyclic triads) in 2007-2012 | season permutation of 030C/030T | see `triads_h5.csv` |
-| H6 (monadic): PageRank explains the ranking beyond wins | permutation regression | see `levels_tests.csv` |
-| H7 (dyadic): head-to-head dominance carries over between surfaces | QAP | see `levels_tests.csv` |
-| H8 (mixed): players with the same surface profile meet more often | QAP | see `levels_tests.csv` |
+| H5: more rigid hierarchy (fewer cyclic triads) in 2007-2012 | season permutation of 030C/030T | supported (p = 0.020) |
+| H6 (monadic): PageRank explains the ranking beyond wins | permutation regression | supported (p = 0.001) |
+| H7 (dyadic): head-to-head dominance carries over between surfaces | QAP | supported (p = 0.001) |
+| H8 (mixed): players with the same surface profile meet more often | QAP | supported (p = 0.001) |
 
-Every number above is in [`results/tables/hypothesis_tests.csv`](results/tables/hypothesis_tests.csv).
+Every number above is in [`results/tables/hypothesis_tests.csv`](results/tables/hypothesis_tests.csv), [`results/tables/triads_h5.csv`](results/tables/triads_h5.csv) and [`results/tables/levels_tests.csv`](results/tables/levels_tests.csv).
 
 ## Quick start
 
