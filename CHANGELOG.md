@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-10-18
+
+### Documentation
+
+- Formalized collaborative team authoring and section ownership in `docs/decisions.md` (§5), `CONTRIBUTING.md`, and `README.md`, reflecting the official 20/60/20 grading pillars.
+- Added explicit LaTeX comment blocks in `report/main.tex` identifying section lead authors and clarifying that Section 5 (*Measures and Results*) serves as an initial technical working scaffold owned by Roles B2 (Jacopo Bonifazi) and B3 (Gaetano Muscarello).
+
 ## [0.2.1] - 2026-10-18
 
 ### Added
@@ -51,7 +58,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tests, word limit and PDF build.
 - Contributing guide, issue and pull request templates, data provenance and methodology notes.
 
-[Unreleased]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/FrancescoCastaldi/tennis-network-analysis/releases/tag/v0.1.0

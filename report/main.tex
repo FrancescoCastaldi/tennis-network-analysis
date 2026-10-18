@@ -42,17 +42,29 @@ A Comparative Study Across Eras, Surfaces, and Genders}
 \section{Introduction}
 \label{introduction}
 
-% Role A (about 450 words). General field (sport analytics, network science applied to sport),
-% specific application (networks of matches between players), prior work: Radicchi (2011), Michieli (2018).
+% =========================================================================
+% SECTION 1: INTRODUCTION (part of 20% Context & Problem)
+% Lead Author: Shivam Kumar (Role A, ~450 words target)
+% Scope: General sport analytics, network science applied to tennis, prior literature (Radicchi 2011, Michieli 2018).
+% =========================================================================
 
 \section{Problem and Motivation}
 \label{problem-and-motivation}
 
-% Role A (about 500 words). Research question of the outline, why eras, surfaces and tours,
-% contributions of the project. Hypotheses H1-H4 are stated in Measures and Results.
+% =========================================================================
+% SECTION 2: PROBLEM AND MOTIVATION (part of 20% Context & Problem)
+% Lead Author: Shivam Kumar (Role A, ~500 words target)
+% Scope: Research questions, comparative rationale across eras, surfaces, tours, scientific contributions.
+% =========================================================================
 
 \section{Datasets}
 \label{datasets}
+
+% =========================================================================
+% SECTION 3 & 4: DATASETS, VALIDITY AND RELIABILITY (part of 60% Data & Results)
+% Lead Author: Francesco Castaldi (Role B1, ~1,000 words target total)
+% Scope: Data provenance, network semantics, cleaning, validation, baseline reproduction, computational reliability.
+% =========================================================================
 
 We work with two public sources and model every one of them in the same way: a node is a professional player, and an edge connects two players who met in at least one official singles match. Unless stated otherwise the edge is directed from the loser to the winner and its weight is the number of times the winner beat the loser in the period, so the in-strength of a player is the number of matches won and the out-strength the number of matches lost. All the networks are one-mode and no node carries attributes other than the ranking described below. Table~\ref{tab:networks} lists the thirteen networks.
 
@@ -99,6 +111,16 @@ Data obtained from \texttt{tennis-data.co.uk} and Google Drive are pinned by SHA
 
 \section{Measures and Results}
 \label{measures}
+
+% =========================================================================
+% SECTION 5: MEASURES AND RESULTS (part of 60% Data & Results)
+% Lead Authors: Jacopo Bonifazi (Role B2 - Measures) & Gaetano Muscarello (Role B3 - Tests)
+% Note for the team: The paragraphs, tables and tests below represent an initial
+% technical scaffold and working draft assembled directly from the computational pipeline.
+% Roles B2 and B3 hold full editorial ownership of this section: please revise, rephrase,
+% restructure, or condense this text as appropriate to integrate your own analysis and
+% balance the group word budget (~5,000 words total across all 7 sections).
+% =========================================================================
 
 Each measure answers one of the questions of Section~\ref{problem-and-motivation}; we group them by the phenomenon they capture and report the values for the nine comparative networks in Table~\ref{tab:global}. Measures that need an undirected graph (clustering, assortativity, $k$-cores) are computed on the projection in which two players are linked if they met at least once.
 
@@ -220,13 +242,20 @@ We classified regular players into clay specialists, hard specialists, and all-r
 \section{Conclusion}
 \label{conclusion}
 
-% Role C (about 450 words). Qualitative reading of the results of the previous section.
+% =========================================================================
+% SECTION 6: CONCLUSION (part of 20% Interpretation & Critique)
+% Lead Author: Paolo Fusco (Role C, ~450 words target)
+% Scope: High-level synthesis and qualitative interpretation of findings across eras, surfaces, and tours.
+% =========================================================================
 
 \section{Critique}
 \label{critique}
 
-% Role C (about 500 words). Limits: main draw only, aggregation by period, size-dependent
-% statistics, few seasons for H1, no nationality attribute.
+% =========================================================================
+% SECTION 7: CRITIQUE (part of 20% Interpretation & Critique)
+% Lead Author: Paolo Fusco (Role C, ~500 words target)
+% Scope: Methodological and data limitations: main draw truncation, multi-year aggregation, size-dependent metrics, absence of player attributes (nationality, age).
+% =========================================================================
 
 \begin{thebibliography}{99}\small
 \bibitem{michieli2018} U.~Michieli. Complex network analysis of men single ATP tennis matches. arXiv:1804.08138, 2018.

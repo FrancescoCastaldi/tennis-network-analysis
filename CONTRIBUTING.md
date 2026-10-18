@@ -18,6 +18,12 @@ The course grades three areas (20/60/20). Each member leads one role and support
 Progress is tracked in the group's Google Sheet ("SNA - UNIBO"); issues and milestones here mirror
 it for code and report work.
 
+*Note on collaborative drafting*: Francesco (B1) established the data pipeline, tests, and the drafts for
+Datasets and Validity & Reliability. The text currently in Section 5 (*Measures and Results*) is an initial
+technical working scaffold derived from pipeline outputs: Jacopo (B2) and Gaetano (B3) hold full editorial
+ownership to revise, rewrite, or condense this text to balance the overall group word budget. Sections 1, 2,
+6, and 7 are reserved for Shivam (A) and Paolo (C).
+
 ## Workflow
 
 1. Open or pick an issue, set its role and phase labels and its milestone.

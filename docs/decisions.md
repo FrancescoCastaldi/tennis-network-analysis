@@ -88,3 +88,19 @@ The notebook `notebooks/full_pipeline.ipynb` provides a `QUICK` switch:
 ### Rationale and Benefits
 Enables seamless live demonstrations during the exam presentation without risking presentation timeouts
 or hanging kernels.
+
+---
+
+## 5. Collaborative Team Authoring and Section Ownership
+
+### Context
+The course examination assesses three distinct conceptual pillars:
+1. Context, Problem, and Motivation (20%): Role A (Shivam Kumar)
+2. Datasets, Measures, and Results (60%): Role B1 (Francesco Castaldi), Role B2 (Jacopo Bonifazi), Role B3 (Gaetano Muscarello)
+3. Interpretation and Critique (20%): Role C (Paolo Fusco)
+
+### Decision
+* **Role B1 (Francesco Castaldi)** implemented the data pipeline, reproducibility harness, automated LaTeX table/figure exports, and the draft for Sections 3 (*Datasets*) and 4 (*Validity and Reliability*).
+* The preliminary narrative in Section 5 (*Measures and Results*) serves as an initial technical working scaffold assembled from pipeline outputs, providing clear empirical anchors so that Roles B2 and B3 do not start from a blank page.
+* **Roles B2 (Jacopo Bonifazi) and B3 (Gaetano Muscarello)** hold full editorial ownership of Section 5. They are expected to revise, reorganize, expand or condense this technical text to reflect their own analysis and ensure a balanced word allocation across the 5,000-word group ceiling.
+* Sections 1, 2, 6, and 7 remain reserved for Roles A and C, ensuring balanced contributions and authentic co-authoring across all five group members.

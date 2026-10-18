@@ -98,6 +98,20 @@ words). Tables and figures are generated: never edit `report/tables/` or `report
 change the code and run `make report-assets`. CI builds the PDF on every push and attaches it to
 the run as an artifact.
 
+## Group project structure and report authoring
+
+The report is co-authored by the five group members based on the three course grading pillars:
+
+| Area | Weight | Lead | Report Sections | Status |
+|---|---|---|---|---|
+| Context & Problem | 20% | Shivam Kumar (Role A) | Introduction, Problem and Motivation | To be written (~950 words) |
+| Datasets & Validity | 60% (part 1) | Francesco Castaldi (Role B1) | Datasets, Validity and Reliability | Drafted; pipeline and CI active |
+| Measures | 60% (part 2) | Jacopo Bonifazi (Role B2) | Measures and Results (measures) | Initial technical scaffold provided |
+| Hypotheses & Tests | 60% (part 3) | Gaetano Muscarello (Role B3) | Measures and Results (tests) | Initial technical scaffold provided |
+| Interpretation & Critique | 20% | Paolo Fusco (Role C) | Conclusion, Critique | To be written (~950 words) |
+
+The preliminary text in Section 5 (*Measures and Results*) is an initial technical working draft generated to summarize pipeline outputs. Roles B2 and B3 hold full editorial ownership to revise, reorganize, or condense this section as needed to balance the overall 5,000-word limit.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for roles, branches, commits and the review checklist.
