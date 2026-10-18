@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Architectural and workflow choices document in `docs/decisions.md` explaining the upfront pipeline strategy.
 - Complete draft of Section 4 (Validity and Reliability) in `report/main.tex`, covering reference paper reproduction, source consistency, model construct validity and computational reliability.
 - Computed results tables for structural measures (HITS, structural equivalence, core-periphery, small-world) and triad census / H5 hypothesis tests in `results/tables/`.
+- LaTeX report integration in Section 5 (Measures and Results) of multi-level hypotheses (H5-H8) and structural properties with custom table generation (`tab_structure.tex`, `tab_levels.tex`).
+- Dedicated unit test module `tests/test_report_assets.py` bringing the test suite to 47 passing tests.
+- LaTeX float queue optimizations and column formatting eliminating underfull/overfull box warnings.
 
 ## [0.2.0] - 2026-10-18
 

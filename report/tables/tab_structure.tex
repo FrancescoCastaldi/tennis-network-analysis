@@ -1,0 +1,32 @@
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+ & \multicolumn{4}{c}{ATP eras} & \multicolumn{3}{c}{ATP surfaces} & \multicolumn{2}{c}{Tours} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-8}\cmidrule(l){9-10}
+Property & 2000-06 & 2007-12 & 2013-18 & 2019-25 & Clay & Grass & Hard & ATP 07-25 & WTA 07-25 \\
+\midrule
+\multicolumn{10}{@{}l}{\emph{HITS centrality (Spearman rank correlation)}} \\
+Authority vs PageRank ($\rho$) & 0.987 & 0.985 & 0.987 & 0.989 & 0.969 & 0.964 & 0.975 & 0.981 & 0.981 \\
+Authority vs official rank ($\rho$) & $-$0.830 & $-$0.830 & $-$0.844 & $-$0.854 & $-$0.774 & $-$0.617 & $-$0.810 & $-$0.837 & $-$0.841 \\
+Hub vs official rank ($\rho$) & $-$0.814 & $-$0.809 & $-$0.847 & $-$0.852 & $-$0.719 & $-$0.609 & $-$0.787 & $-$0.805 & $-$0.816 \\
+\midrule
+\multicolumn{10}{@{}l}{\emph{Borgatti-Everett discrete core-periphery model}} \\
+Core size $k$ & 131 & 107 & 115 & 127 & 176 & 151 & 216 & 203 & 203 \\
+Core share & 0.163 & 0.164 & 0.191 & 0.202 & 0.148 & 0.171 & 0.156 & 0.159 & 0.154 \\
+Fit correlation $\phi$ & 0.700 & 0.718 & 0.731 & 0.688 & 0.466 & 0.336 & 0.533 & 0.635 & 0.621 \\
+Core density $d_{cc}$ & 0.640 & 0.700 & 0.676 & 0.614 & 0.352 & 0.202 & 0.408 & 0.542 & 0.533 \\
+Core-periphery density $d_{cp}$ & 0.066 & 0.081 & 0.076 & 0.074 & 0.043 & 0.028 & 0.042 & 0.056 & 0.053 \\
+Periphery density $d_{pp}$ & 0.0066 & 0.0086 & 0.0083 & 0.0093 & 0.0058 & 0.0056 & 0.0052 & 0.0058 & 0.0059 \\
+Core vs $k$-core Jaccard & 0.779 & 0.832 & 0.861 & 0.866 & 0.685 & 0.539 & 0.629 & 0.624 & 0.810 \\
+Core median rank & 49.0 & 46.0 & 48.0 & 48.0 & 47.0 & 46.0 & 41.5 & 46.0 & 50.0 \\
+Core top-100 share & 0.962 & 0.991 & 1.000 & 0.976 & 0.972 & 0.934 & 0.981 & 0.970 & 0.980 \\
+\midrule
+\multicolumn{10}{@{}l}{\emph{Structural equivalence (cosine similarity on opponents)}} \\
+Regular players ($\ge 30$ opponents) & 236 & 198 & 194 & 213 & 359 & 156 & 444 & 426 & 430 \\
+Mean cosine similarity & 0.345 & 0.374 & 0.377 & 0.361 & 0.173 & 0.155 & 0.195 & 0.259 & 0.245 \\
+Rank-gap correlation $r$ & 0.144 & 0.200 & 0.141 & 0.186 & 0.029 & 0.043 & 0.075 & 0.109 & 0.070 \\
+Rank-gap QAP $p$ & 0.005 & 0.005 & 0.010 & 0.005 & 0.290 & 0.285 & 0.005 & 0.005 & 0.005 \\
+\midrule
+\multicolumn{10}{@{}l}{\emph{Small-world topology (Maslov-Sneppen null model)}} \\
+Small-world index $\sigma$ & 0.92 & 0.87 & 0.89 & 0.86 & 1.34 & 1.20 & 1.32 & 1.09 & 1.05 \\
+\bottomrule
+\end{tabular}

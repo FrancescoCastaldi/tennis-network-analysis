@@ -236,11 +236,20 @@ def table_tests():
                 f"{h} & {stat[r.statistic]} & {comp} & {num(r.value_a, 3)} & {num(r.value_b, 3)} & "
                 f"{num(r.diff, 3)} & {expected} & {num(r.p_value, 3)} \\\\"
             )
+    if (TABLES / "triads_h5.csv").exists():
+        h5 = pd.read_csv(TABLES / "triads_h5.csv")
+        for r in h5.itertuples(index=False):
+            label = "H5" if r.hypothesis == "H5" else "H5 (tours)"
+            comp = "2007-12 vs other eras" if r.hypothesis == "H5" else "WTA vs ATP (paired seasons)"
+            rows.append(
+                f"{label} & cyclic triad ratio & {comp} & {num(r.value_a, 3)} & {num(r.value_b, 3)} & "
+                f"{num(r.diff, 3)} & 0 & {num(r.p_value, 3)} \\\\"
+            )
     write(
         "tab_tests.tex",
         "\n".join(
             [
-                r"\begin{tabular}{@{}llp{3.3cm}rrrrr@{}}",
+                r"\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{3.1cm}rrrrr@{}}",
                 r"\toprule",
                 r"H & Statistic & Comparison & A & B & A$-$B & $E_0$[A$-$B] & $p$ \\",
                 r"\midrule",
@@ -250,6 +259,160 @@ def table_tests():
             ]
         ),
     )
+
+
+def table_structure():
+    s = pd.read_csv(TABLES / "structure_summary.csv").set_index("network").loc[NETS]
+    head = " & ".join(SHORT[n] for n in NETS)
+
+    def section(title, items):
+        out = [rf"\multicolumn{{{len(NETS) + 1}}}{{@{{}}l}}{{\emph{{{title}}}}} \\"]
+        for label, col, d in items:
+            out.append(f"{label} & " + " & ".join(num(s.loc[n, col], d) for n in NETS) + r" \\")
+        return out
+
+    rows = []
+    rows += section(
+        "HITS centrality (Spearman rank correlation)",
+        [
+            (r"Authority vs PageRank ($\rho$)", "authority_pagerank_spearman", 3),
+            (r"Authority vs official rank ($\rho$)", "authority_rank_spearman", 3),
+            (r"Hub vs official rank ($\rho$)", "hub_rank_spearman", 3),
+        ],
+    )
+    rows.append(r"\midrule")
+    rows += section(
+        "Borgatti-Everett discrete core-periphery model",
+        [
+            (r"Core size $k$", "core_size", 0),
+            (r"Core share", "core_share", 3),
+            (r"Fit correlation $\phi$", "core_fit", 3),
+            (r"Core density $d_{cc}$", "density_core", 3),
+            (r"Core-periphery density $d_{cp}$", "density_core_periphery", 3),
+            (r"Periphery density $d_{pp}$", "density_periphery", 4),
+            (r"Core vs $k$-core Jaccard", "core_kcore_jaccard", 3),
+            (r"Core median rank", "core_median_rank", 1),
+            (r"Core top-100 share", "core_share_top100", 3),
+        ],
+    )
+    rows.append(r"\midrule")
+    rows += section(
+        "Structural equivalence (cosine similarity on opponents)",
+        [
+            (r"Regular players ($\ge 30$ opponents)", "equivalence_players", 0),
+            (r"Mean cosine similarity", "equivalence_mean_similarity", 3),
+            (r"Rank-gap correlation $r$", "equivalence_rankgap_r", 3),
+            (r"Rank-gap QAP $p$", "equivalence_rankgap_p", 3),
+        ],
+    )
+    rows.append(r"\midrule")
+    rows += section(
+        "Small-world topology (Maslov-Sneppen null model)",
+        [
+            (r"Small-world index $\sigma$", "sw_sigma", 2),
+        ],
+    )
+
+    write(
+        "tab_structure.tex",
+        "\n".join(
+            [
+                r"\begin{tabular}{@{}l" + "r" * len(NETS) + "@{}}",
+                r"\toprule",
+                r" & \multicolumn{4}{c}{ATP eras} & \multicolumn{3}{c}{ATP surfaces} & \multicolumn{2}{c}{Tours} \\",
+                r"\cmidrule(lr){2-5}\cmidrule(lr){6-8}\cmidrule(l){9-10}",
+                f"Property & {head} \\\\",
+                r"\midrule",
+                *rows,
+                r"\bottomrule",
+                r"\end{tabular}",
+            ]
+        ),
+    )
+
+
+def table_levels():
+    rows = []
+    if (TABLES / "triads_h5.csv").exists():
+        h5 = pd.read_csv(TABLES / "triads_h5.csv")
+        rows.append(
+            r"\multicolumn{7}{@{}l}{\emph{Network level: "
+            r"Triad hierarchy (cyclic ratio $030C/030T$, random baseline $= 1/3$)}} \\"
+        )
+        for r in h5.itertuples(index=False):
+            label = "H5" if r.hypothesis == "H5" else "H5 (tours)"
+            comp = "ATP 2007-12 vs other eras" if r.hypothesis == "H5" else "WTA vs ATP (paired seasons)"
+            note = f"{num(r.value_a, 3)} vs {num(r.value_b, 3)}"
+            diff_str, p_str = num(r.diff, 3), num(r.p_value, 3)
+            rows.append(f"{label} & Network & {comp} & cyclic triad ratio & {diff_str} & {p_str} & {note} \\\\")
+        rows.append(r"\midrule")
+
+    if (TABLES / "levels_tests.csv").exists():
+        lt = pd.read_csv(TABLES / "levels_tests.csv")
+        rows.append(
+            r"\multicolumn{7}{@{}l}{\emph{Monadic level: "
+            r"Permutation regression of $\log(\text{ranking})$ on PageRank and wins}} \\"
+        )
+        mon = lt[lt["level"] == "monadic"]
+        eras_labels = {
+            "td_atp_2000_2006": "ATP 2000-06",
+            "td_atp_2007_2012": "ATP 2007-12",
+            "td_atp_2013_2018": "ATP 2013-18",
+            "td_atp_2019_2025": "ATP 2019-25",
+        }
+        for era_id, era_name in eras_labels.items():
+            sub = mon[mon["comparison"].str.contains(era_id)]
+            if sub.empty:
+                continue
+            pr_row = sub[sub["statistic"] == "beta log PageRank"].iloc[0]
+            w_row = sub[sub["statistic"] == "beta log wins"].iloc[0]
+            n_val = pr_row["n"]
+            r2_val = pr_row["note"].replace("R2", "$R^2$")
+            pr_val, pr_p = num(pr_row["value"], 3), num(pr_row["p_value"], 3)
+            rows.append(
+                f"H6 & Monadic & {era_name} ($n={n_val}$) & $\\beta$ log PageRank & {pr_val} & {pr_p} & {r2_val} \\\\"
+            )
+            w_val, w_p = num(w_row["value"], 3), num(w_row["p_value"], 3)
+            rows.append(f"   &         &                      & $\\beta$ log wins     & {w_val} & {w_p} & \\\\")
+        rows.append(r"\midrule")
+
+        rows.append(
+            r"\multicolumn{7}{@{}l}{\emph{Dyadic level: "
+            r"QAP correlation of head-to-head dominance balance across surfaces}} \\"
+        )
+        dya = lt[lt["level"] == "dyadic"]
+        for r in dya.itertuples(index=False):
+            comp = "Clay vs Hard balance" if "Clay" in r.comparison else "Grass vs Hard balance"
+            note = f"$n={r.n}$, $E_0[r]=0.000$"
+            rows.append(
+                f"H7 & Dyadic & {comp} & QAP Pearson $r$ & {num(r.value, 3)} & {num(r.p_value, 3)} & {note} \\\\"
+            )
+        rows.append(r"\midrule")
+
+        rows.append(
+            r"\multicolumn{7}{@{}l}{\emph{Mixed level: "
+            r"QAP correlation of surface specialisation with match encounters}} \\"
+        )
+        mix = lt[lt["level"] == "mixed"]
+        for r in mix.itertuples(index=False):
+            comp = "Same surface profile vs meetings" if "profile" in r.comparison else "Specialisation gap vs meetings"
+            note = "$n=328$, 3 classes" if "profile" in r.comparison else "$n=328$, Euclidean diff"
+            rows.append(
+                f"H8 & Mixed & {comp} & QAP Pearson $r$ & {num(r.value, 3)} & {num(r.p_value, 3)} & {note} \\\\"
+            )
+
+    body = "\n".join(
+        [
+            r"\begin{tabular}{@{}llp{3.6cm}lrrr@{}}",
+            r"\toprule",
+            r"Hyp. & Level & Comparison / Target & Predictor / Stat & Coeff. / $r$ & $p$ & Notes \\",
+            r"\midrule",
+            *rows,
+            r"\bottomrule",
+            r"\end{tabular}",
+        ]
+    )
+    write("tab_levels.tex", body)
 
 
 def table_top10():
@@ -383,6 +546,8 @@ def main():
     samples = table_null()
     table_tests()
     table_top10()
+    table_structure()
+    table_levels()
     style()
     figure_degree()
     figure_robustness()
