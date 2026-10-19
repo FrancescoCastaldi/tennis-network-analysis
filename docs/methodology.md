@@ -26,9 +26,13 @@ which two players are linked if they met at least once.
 | Significance | configuration model by degree-preserving edge swaps, z-score, empirical p-value | `nullmodels` |
 | Winners and gatekeepers | HITS: authority (beats strong players), hub (goes deep and loses to the champions) | `structure` |
 | Interchangeable players | structural equivalence: cosine similarity of opponent vectors | `structure` |
-| Core and periphery | Borgatti-Everett discrete model, core grown by degree, compared with the k-core | `structure` |
+| Core and periphery | Borgatti-Everett discrete model, continuous coreness fit and comparison with the k-core | `structure` |
 | Small world | sigma = (C / C_null) / (L / L_null) | `structure`, `nullmodels` |
-| Consistency of the hierarchy | triad census, ratio of cyclic (030C) to transitive (030T) triads | `triads` |
+| Consistency of the hierarchy | 16-class triad spectrum against configuration nulls; ratio of cyclic (030C) to transitive (030T) triads | `triads` |
+
+The null-model API also exposes an Erdős-Rényi `G(n, m)` baseline and a dual-baseline comparison
+helper. This does not change the configuration-model baseline specified for H2 below. See
+[API.md](API.md#null-models) for callable interfaces and sampling controls.
 
 ## Hypotheses and tests
 
