@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.6] - 2026-10-19
+
+### Fixed
+
+- Sanitized and formatted `run_analysis.py` to satisfy Ruff linting and formatting rules (`SIM108`, `F841`, `W291`, `W293`, `E501`), resolving CI workflow failure in GitHub Actions.
+- Synchronized package release version metadata to 0.2.6 across `pyproject.toml`, `CITATION.cff`, and `tennis_networks.__init__`.
+
 ## [0.2.5] - 2026-10-19
 
 ### Added
