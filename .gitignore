@@ -26,6 +26,7 @@ coverage.xml
 htmlcov/
 build/
 dist/
+output/
 
 # LaTeX build artefacts (the PDF is built locally or by CI, never committed)
 report/*.aux

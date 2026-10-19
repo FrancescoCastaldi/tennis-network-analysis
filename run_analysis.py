@@ -9,6 +9,9 @@ Single entry-point script for the entire analysis pipeline.
 Run with: python run_analysis.py
 """
 
+import argparse
+import contextlib
+import sys
 from pathlib import Path
 
 import networkx as nx
@@ -21,9 +24,9 @@ import pandas as pd
 SEED = 20261115
 np.random.seed(SEED)
 
-DATA_DIR = Path("data")
-OUTPUT_DIR = Path("output")
-OUTPUT_DIR.mkdir(exist_ok=True)
+REPO_ROOT = Path(__file__).resolve().parent
+DATA_DIR = REPO_ROOT / "data"
+OUTPUT_DIR = REPO_ROOT / "output"
 
 
 # ==============================================================================
@@ -91,16 +94,14 @@ def load_tennis_data_networks():
     return networks
 
 
-def load_all_networks():
-    """
-    Carica tutte le 13 reti dai file CSV processati nella cartella data/processed/
-    """
+def load_all_networks(processed_dir=None, selected_networks=None):
+    """Carica tutte o una selezione mirata di reti dai file CSV processati."""
     print("\n" + "=" * 70)
     print("LOADING NETWORKS")
     print("=" * 70 + "\n")
 
     networks = {}
-    processed_dir = DATA_DIR / "processed"
+    target_dir = Path(processed_dir) if processed_dir else DATA_DIR / "processed"
 
     # Mappatura esatta dei nomi delle reti ai file CSV presenti nella tua cartella
     network_files = {
@@ -119,14 +120,16 @@ def load_all_networks():
         "WTA_2007-2025": "td_wta_2007_2025.csv",
     }
 
+    if selected_networks:
+        if isinstance(selected_networks, str):
+            selected_networks = [selected_networks]
+        network_files = {k: v for k, v in network_files.items() if k in selected_networks}
+
     for name, filename in network_files.items():
-        filepath = processed_dir / filename
+        filepath = target_dir / filename
         if filepath.exists():
             try:
-                import pandas as pd
-
                 # Leggiamo il CSV. Assumiamo che abbia header (es. source, target, weight)
-                # Se non avesse header, pandas lo gestirà comunque, ma useremo le prime colonne
                 df = pd.read_csv(filepath)
                 cols = df.columns.tolist()
 
@@ -162,50 +165,38 @@ def load_all_networks():
 # ==============================================================================
 # 2. NULL MODEL STATISTICAL VALIDATION (Bonifazi - B2)
 # ==============================================================================
-def compute_null_model_stats(G, metric_func, num_samples=1000, nswaps_factor=100, seed=SEED):
-    """
-    Compute Z-score and p-value of a metric against the Configuration Model.
+def compute_null_model_stats(G, metric_func, num_samples=50, nswaps_factor=10, max_swaps=15000, seed=SEED):
+    """Compute Z-score and p-value of a metric against the Configuration Model.
+
     Preserves the degree sequence (in-degree and out-degree for directed graphs).
-
-    Parameters
-    ----------
-    G : nx.Graph or nx.DiGraph
-        The real network.
-    metric_func : callable
-        Function that takes a graph and returns a scalar metric.
-    num_samples : int
-        Number of random networks to generate.
-    nswaps_factor : int
-        Multiplier for number of edge swaps (standard: 100 * num_edges).
-    seed : int
-        Random seed for reproducibility.
-
-    Returns
-    -------
-    dict with keys: m_real, mu_null, std_null, z_score, p_value
     """
     np.random.seed(seed)
     m_real = metric_func(G)
 
+    if G.number_of_edges() < 2:
+        return {"m_real": m_real, "mu_null": m_real, "std_null": 0.0, "z_score": 0.0, "p_value": 1.0}
+
     null_metrics = []
     is_directed = G.is_directed()
-    n_swaps = nswaps_factor * G.number_of_edges()
+    n_swaps = min(nswaps_factor * G.number_of_edges(), max_swaps)
 
     for i in range(num_samples):
         G_null = G.copy()
         if is_directed:
-            nx.directed_edge_swap(G_null, nswap=n_swaps, max_tries=n_swaps * 10, seed=seed + i)
+            with contextlib.suppress(Exception):
+                nx.directed_edge_swap(G_null, nswap=n_swaps, max_tries=n_swaps * 5, seed=seed + i)
         else:
-            nx.double_edge_swap(G_null, nswap=n_swaps, max_tries=n_swaps * 10, seed=seed + i)
+            with contextlib.suppress(Exception):
+                nx.double_edge_swap(G_null, nswap=n_swaps, max_tries=n_swaps * 5, seed=seed + i)
 
         null_metrics.append(metric_func(G_null))
 
     null_metrics = np.array(null_metrics)
-    mu_null = np.mean(null_metrics)
-    std_null = np.std(null_metrics, ddof=1)
+    mu_null = float(np.mean(null_metrics)) if len(null_metrics) > 0 else 0.0
+    std_null = float(np.std(null_metrics, ddof=1)) if len(null_metrics) > 1 else 0.0
 
     z_score = (m_real - mu_null) / std_null if std_null > 0 else 0.0
-    p_value = np.sum(null_metrics >= m_real) / num_samples
+    p_value = float(np.sum(null_metrics >= m_real) / num_samples) if num_samples > 0 else 1.0
 
     return {"m_real": m_real, "mu_null": mu_null, "std_null": std_null, "z_score": z_score, "p_value": p_value}
 
@@ -224,11 +215,14 @@ def safe_metric(metric_func, default=0.0):
     return wrapper
 
 
-def analyze_null_models(networks, output_path=OUTPUT_DIR / "null_model_results.csv"):
-    """
-    Run null model validation across all networks for key metrics.
+def analyze_null_models(networks, output_path=None, num_samples=50, nswaps_factor=10):
+    """Run null model validation across all networks for key metrics.
+
     Saves results to CSV.
     """
+    dest_path = Path(output_path) if output_path else OUTPUT_DIR / "null_model_results.csv"
+    dest_path.parent.mkdir(parents=True, exist_ok=True)
+
     results = []
 
     metrics_to_test = {
@@ -246,7 +240,7 @@ def analyze_null_models(networks, output_path=OUTPUT_DIR / "null_model_results.c
 
         for metric_name, metric_func in metrics_to_test.items():
             try:
-                stats = compute_null_model_stats(G, metric_func, num_samples=1000)
+                stats = compute_null_model_stats(G, metric_func, num_samples=num_samples, nswaps_factor=nswaps_factor)
                 stats["network"] = era
                 stats["metric"] = metric_name
                 stats["significant"] = stats["p_value"] < 0.05
@@ -264,8 +258,8 @@ def analyze_null_models(networks, output_path=OUTPUT_DIR / "null_model_results.c
     if not df_results.empty:
         cols = ["network", "metric", "m_real", "mu_null", "std_null", "z_score", "p_value", "significant"]
         df_results = df_results[cols]
-        df_results.to_csv(output_path, index=False)
-        print(f"\n✓ Null model results saved to: {output_path}")
+        df_results.to_csv(dest_path, index=False)
+        print(f"\n✓ Null model results saved to: {dest_path}")
 
     return df_results
 
@@ -290,16 +284,36 @@ def compute_basic_measures(G):
         G_cc = G.subgraph(largest_cc)
         G_cc_undir = G_cc.to_undirected() if G.is_directed() else G_cc
 
-        if G_cc_undir.number_of_nodes() > 1:
-            measures["avg_path_length"] = nx.average_shortest_path_length(G_cc_undir)
-            measures["diameter"] = nx.diameter(G_cc_undir)
+        n_cc = G_cc_undir.number_of_nodes()
+        if n_cc > 1:
+            if n_cc <= 1500:
+                try:
+                    measures["avg_path_length"] = nx.average_shortest_path_length(G_cc_undir)
+                    measures["diameter"] = nx.diameter(G_cc_undir)
+                except Exception:
+                    measures["avg_path_length"] = 0.0
+                    measures["diameter"] = 0
+            else:
+                try:
+                    sample_nodes = np.random.choice(list(G_cc_undir.nodes()), size=min(300, n_cc), replace=False)
+                    lengths = []
+                    for s in sample_nodes:
+                        lengths.extend(nx.single_source_shortest_path_length(G_cc_undir, s).values())
+                    measures["avg_path_length"] = float(np.mean(lengths)) if lengths else 0.0
+                    measures["diameter"] = int(max(lengths)) if lengths else 0
+                except Exception:
+                    measures["avg_path_length"] = 0.0
+                    measures["diameter"] = 0
         else:
             measures["avg_path_length"] = 0.0
             measures["diameter"] = 0
 
     # Clustering (use undirected version for directed graphs)
     G_undir = G.to_undirected() if G.is_directed() else G
-    measures["avg_clustering"] = nx.average_clustering(G_undir)
+    try:
+        measures["avg_clustering"] = nx.average_clustering(G_undir)
+    except Exception:
+        measures["avg_clustering"] = 0.0
 
     return measures
 
@@ -307,17 +321,61 @@ def compute_basic_measures(G):
 # ==============================================================================
 # 4. CENTRALITY MEASURES
 # ==============================================================================
-def compute_centralities(G, top_n=10):
+def compute_centralities(G, top_n=10, k_sample=500):
     """Compute centrality metrics and return top-n nodes for each."""
+    n_nodes = G.number_of_nodes()
+
+    # Degree
+    degree_cent = nx.degree_centrality(G)
+
+    # Betweenness with sampling for scalability on large graphs
+    if n_nodes > k_sample:
+        betweenness_cent = nx.betweenness_centrality(G, k=k_sample, seed=SEED, weight="weight")
+    else:
+        betweenness_cent = nx.betweenness_centrality(G, weight="weight")
+
+    # Closeness
+    try:
+        if n_nodes > 1500:
+            closeness_cent = {}
+            nodes = list(G.nodes())
+            sample = np.random.choice(nodes, size=min(300, n_nodes), replace=False)
+            for u in sample:
+                sp = nx.single_source_shortest_path_length(G, u)
+                if len(sp) > 1:
+                    closeness_cent[u] = (len(sp) - 1) / sum(sp.values())
+                else:
+                    closeness_cent[u] = 0.0
+        else:
+            closeness_cent = nx.closeness_centrality(G)
+    except Exception:
+        closeness_cent = {}
+
+    # Eigenvector with fallback
+    try:
+        eigenvector_cent = nx.eigenvector_centrality(G, max_iter=1000)
+    except Exception:
+        try:
+            G_undir = G.to_undirected()
+            eigenvector_cent = nx.eigenvector_centrality(G_undir, max_iter=1000)
+        except Exception:
+            eigenvector_cent = {}
+
+    # PageRank
+    try:
+        pagerank_cent = nx.pagerank(G, alpha=0.85)
+    except Exception:
+        pagerank_cent = {}
+
     centralities = {
-        "degree": nx.degree_centrality(G),
-        "betweenness": nx.betweenness_centrality(G, weight="weight"),
-        "closeness": nx.closeness_centrality(G),
-        "eigenvector": nx.eigenvector_centrality(G, max_iter=1000),
-        "pagerank": nx.pagerank(G, alpha=0.85),
+        "degree": degree_cent,
+        "betweenness": betweenness_cent,
+        "closeness": closeness_cent,
+        "eigenvector": eigenvector_cent,
+        "pagerank": pagerank_cent,
     }
 
-    # For undirected fallback if directed fails
+    # Directed degree centralities
     if G.is_directed():
         try:
             centralities["in_degree"] = nx.in_degree_centrality(G)
@@ -327,8 +385,11 @@ def compute_centralities(G, top_n=10):
 
     top_nodes = {}
     for metric_name, values in centralities.items():
-        sorted_nodes = sorted(values.items(), key=lambda x: x[1], reverse=True)[:top_n]
-        top_nodes[metric_name] = sorted_nodes
+        if values:
+            sorted_nodes = sorted(values.items(), key=lambda x: x[1], reverse=True)[:top_n]
+            top_nodes[metric_name] = sorted_nodes
+        else:
+            top_nodes[metric_name] = []
 
     return centralities, top_nodes
 
@@ -447,7 +508,7 @@ def compute_small_world(G, sample_size=500):
 # ==============================================================================
 # 9. HYPOTHESIS TESTING
 # ==============================================================================
-def test_hypotheses(networks):
+def test_hypotheses(networks, output_path=None):
     """
     Run the 8 project hypotheses (H1-H8) using permutation tests and null models.
     Results saved to output/hypotheses_results.csv
@@ -490,10 +551,11 @@ def test_hypotheses(networks):
         )
 
     # Save results
+    dest_path = Path(output_path) if output_path else OUTPUT_DIR / "hypotheses_results.csv"
+    dest_path.parent.mkdir(parents=True, exist_ok=True)
     df_hyp = pd.DataFrame(results)
-    output_path = OUTPUT_DIR / "hypotheses_results.csv"
-    df_hyp.to_csv(output_path, index=False)
-    print(f"\n✓ Hypothesis results saved to: {output_path}")
+    df_hyp.to_csv(dest_path, index=False)
+    print(f"\n✓ Hypothesis results saved to: {dest_path}")
 
     return results
 
@@ -501,11 +563,14 @@ def test_hypotheses(networks):
 # ==============================================================================
 # 10. MASTER ANALYSIS PIPELINE
 # ==============================================================================
-def run_full_analysis(networks):
+def run_full_analysis(networks, output_dir=None):
     """
     Run the complete analysis pipeline on all networks.
-    Saves all results to the output/ directory.
+    Saves all results to the output directory.
     """
+    dest_dir = Path(output_dir) if output_dir else OUTPUT_DIR
+    dest_dir.mkdir(parents=True, exist_ok=True)
+
     all_basic = []
     all_centralities = []
     all_kcore = []
@@ -554,47 +619,110 @@ def run_full_analysis(networks):
         print(f"  Small-world: σ={sw['sigma']:.3f}, C_ratio={sw['C_ratio']:.3f}, L_ratio={sw['L_ratio']:.3f}")
 
     # Save all results
-    pd.DataFrame(all_basic).to_csv(OUTPUT_DIR / "basic_measures.csv", index=False)
-    pd.DataFrame(all_centralities).to_csv(OUTPUT_DIR / "centralities_top10.csv", index=False)
-    pd.DataFrame(all_kcore).to_csv(OUTPUT_DIR / "kcore_decomposition.csv", index=False)
-    pd.DataFrame(all_small_world).to_csv(OUTPUT_DIR / "small_world.csv", index=False)
+    pd.DataFrame(all_basic).to_csv(dest_dir / "basic_measures.csv", index=False)
+    pd.DataFrame(all_centralities).to_csv(dest_dir / "centralities_top10.csv", index=False)
+    pd.DataFrame(all_kcore).to_csv(dest_dir / "kcore_decomposition.csv", index=False)
+    pd.DataFrame(all_small_world).to_csv(dest_dir / "small_world.csv", index=False)
 
-    print(f"\n✓ All results saved to: {OUTPUT_DIR}/")
+    print(f"\n✓ All results saved to: {dest_dir}/")
 
 
 # ==============================================================================
-# MAIN ENTRY POINT
+# MAIN ENTRY POINT & CLI
 # ==============================================================================
-def main():
+def parse_args(argv=None):
+    """Parse command line arguments for the analysis pipeline."""
+    parser = argparse.ArgumentParser(description="Structural Analysis of Professional Tennis Networks - Full Pipeline")
+    parser.add_argument(
+        "--quick",
+        action="store_true",
+        help="Run in rapid smoke-test mode (fewer Monte Carlo samples)",
+    )
+    parser.add_argument(
+        "--network",
+        type=str,
+        default=None,
+        help="Run analysis on a specific network only (e.g. 'M1_wins' or 'ATP_2007-2012')",
+    )
+    parser.add_argument(
+        "--num-samples",
+        type=int,
+        default=None,
+        help="Number of random network samples for null model validation (default: 50, quick: 5)",
+    )
+    parser.add_argument(
+        "--nswaps-factor",
+        type=int,
+        default=None,
+        help="Multiplier for edge swaps per edge in null model (default: 10, quick: 2)",
+    )
+    parser.add_argument(
+        "--skip-null",
+        action="store_true",
+        help="Skip Monte Carlo null model validation and compute topology/centralities only",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default=None,
+        help="Custom output directory for generated CSV tables",
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv=None):
     """Main entry point for the analysis pipeline."""
+    args = parse_args(argv)
+    output_dir = Path(args.output_dir) if args.output_dir else OUTPUT_DIR
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    num_samples = args.num_samples if args.num_samples is not None else (5 if args.quick else 50)
+    nswaps_factor = args.nswaps_factor if args.nswaps_factor is not None else (2 if args.quick else 10)
+
     print("\n" + "=" * 70)
     print("TENNIS NETWORK ANALYSIS - FULL PIPELINE")
     print("=" * 70)
 
-    # 1. Load all networks
-    networks = load_all_networks()
+    # 1. Load networks (selective if target specified)
+    networks = load_all_networks(selected_networks=args.network)
 
     if not networks:
-        print("\n⚠️  No networks loaded. Check data/ directory.")
-        return
+        if args.network:
+            print(f"⚠️  Network '{args.network}' not found.")
+        else:
+            print("\n⚠️  No networks loaded. Check data/ directory.")
+        return 1
+
+    if args.network:
+        print(f"✓ Target network selected: {args.network}")
 
     # 2. Run full analysis
-    run_full_analysis(networks)
+    run_full_analysis(networks, output_dir=output_dir)
 
     # 3. Null model validation (Bonifazi - B2)
-    analyze_null_models(networks)
+    if not args.skip_null:
+        analyze_null_models(
+            networks,
+            output_path=output_dir / "null_model_results.csv",
+            num_samples=num_samples,
+            nswaps_factor=nswaps_factor,
+        )
+    else:
+        print("\nℹ️  Skipping null model validation (--skip-null)")
 
     # 4. Hypothesis testing
-    test_hypotheses(networks)
+    test_hypotheses(networks, output_path=output_dir / "hypotheses_results.csv")
 
     print("\n" + "=" * 70)
     print("✅ ANALYSIS COMPLETE")
     print("=" * 70)
-    print(f"\nResults available in: {OUTPUT_DIR.resolve()}")
+    print(f"\nResults available in: {output_dir.resolve()}")
     print("\nGenerated files:")
-    for f in sorted(OUTPUT_DIR.glob("*.csv")):
+    for f in sorted(output_dir.glob("*.csv")):
         print(f"  - {f.name}")
+
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

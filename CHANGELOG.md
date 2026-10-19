@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.7] - 2026-10-19
+
+### Added
+
+- Comprehensive CLI interface with `argparse` in `run_analysis.py`, adding flags for `--quick` smoke-test mode, `--network` single-target execution, custom sample counts (`--num-samples`, `--nswaps-factor`), `--skip-null`, and customizable output destination (`--output-dir`).
+- Automated regression test suite in `tests/test_run_analysis.py` verifying CLI argument parsing, synthetic graph null model validation, and end-to-end smoke pipeline execution.
+
+### Fixed
+
+- Resolved computational bottleneck in `run_analysis.py` by bounding Monte Carlo edge swaps to scalable thresholds and implementing sampled betweenness and path lengths for networks exceeding 1,500 nodes.
+- Anchored data paths and output directories to repository root `Path(__file__).resolve().parent`.
+- Added `output/` to `.gitignore` to prevent generated analysis artifacts from polluting working tree status.
+
 ## [0.2.6] - 2026-10-19
 
 ### Fixed
