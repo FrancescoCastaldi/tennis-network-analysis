@@ -68,3 +68,41 @@ def test_run_analysis_smoke_pipeline(tmp_path):
     assert (out_dir / "centralities_top10.csv").exists()
     assert (out_dir / "kcore_decomposition.csv").exists()
     assert (out_dir / "small_world.csv").exists()
+
+
+def test_betweenness_ignores_win_counts():
+    # c beat a 50 times directly. Read as a distance, that strong tie would be "longer" than the
+    # detour a -> b -> c, and b would wrongly become a broker.
+    G = nx.DiGraph()
+    G.add_edge("a", "c", weight=50)
+    G.add_edge("a", "b", weight=1)
+    G.add_edge("b", "c", weight=1)
+    assert nx.betweenness_centrality(G, weight="weight")["b"] > 0  # the old behaviour
+    cent, _ = run_analysis.compute_centralities(G)
+    assert cent["betweenness"]["b"] == 0
+
+
+def test_core_periphery_matches_report_model():
+    G = nx.karate_club_graph()
+    cp = run_analysis.compute_core_periphery(G)
+    core, stats = run_analysis.core_periphery(G)
+    assert set(cp["core"]) == core
+    assert cp["core_fit"] == stats["core_fit"]
+
+
+def test_sampled_distances_exclude_self_pairs(monkeypatch):
+    G = nx.path_graph(30)
+    exact = run_analysis.compute_basic_measures(G)
+    monkeypatch.setattr(run_analysis, "EXACT_PATHS_MAX_NODES", 10)
+    monkeypatch.setattr(run_analysis, "PATH_SAMPLE_SIZE", 30)
+    sampled = run_analysis.compute_basic_measures(G)
+    assert sampled["paths_sampled"]
+    # With every node as a source the estimate equals the exact value only if d(s, s) = 0 is left out.
+    assert sampled["avg_path_length"] == exact["avg_path_length"]
+
+
+def test_small_world_skipped_on_large_networks(monkeypatch):
+    monkeypatch.setattr(run_analysis, "SMALL_WORLD_MAX_NODES", 20)
+    sw = run_analysis.compute_small_world(nx.karate_club_graph())
+    assert sw["samples"] == 0
+    assert run_analysis.np.isnan(sw["sigma"])

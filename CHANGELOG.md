@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - `run_analysis.py` null models now reuse `tennis_networks.nullmodels`: no 15,000-swap cap (large networks were barely randomised), two-sided p-values with the +1 correction (they could be 0), each null graph generated once for all metrics, and statistics computed on the undirected projection used in the report. Density is no longer tested, since edge swaps keep it constant.
+- `run_analysis.py` measures now match the report: betweenness ignores weights (wins were read as distances), core-periphery uses the Borgatti-Everett model of `structure.core_periphery` (was the top 20% by degree, now saved to `core_periphery.csv`), and small-world sigma uses `nullmodels.small_world_sigma` against the configuration model (was an analytical Erdos-Renyi baseline). Sampled distances leave out the distance of each source to itself and are flagged in `paths_sampled`; closeness is exact or skipped, never ranked on a random sample. Failed measures are reported as NaN with a warning instead of 0.
 
 ## [0.2.7] - 2026-10-19
 
