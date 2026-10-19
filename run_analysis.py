@@ -5,8 +5,15 @@ A Comparative Study Across Eras, Surfaces, and Genders
 Network Analysis, A.Y. 2026/2027, UniBo
 Authors: Castaldi, Fusco, Bonifazi, Kumar, Muscarello
 
-Single entry-point script for the entire analysis pipeline.
-Run with: python run_analysis.py
+Quick overview of every network in one run: basic measures, centralities, HITS, k-cores,
+core-periphery, small-world and configuration-model tests. Results go to output/ (not tracked).
+It reuses the functions of the tennis_networks package, so its numbers agree with the report.
+
+The report tables, figures and the hypothesis tests H1-H8 come from `make all`, not from this script.
+
+Run with:
+    python run_analysis.py                      # all networks, 50 null graphs each
+    python run_analysis.py --quick --network ATP_grass
 """
 
 import argparse
@@ -28,148 +35,72 @@ from tennis_networks.structure import core_periphery  # noqa: E402
 # ==============================================================================
 # CONFIGURATION
 # ==============================================================================
-SEED = load_config()["seed"]
-np.random.seed(SEED)
+SEED = load_config()["seed"]  # every random draw below takes this seed explicitly
 
 DATA_DIR = REPO_ROOT / "data"
 OUTPUT_DIR = REPO_ROOT / "output"
+
+# The 12 networks of the study, built by `make networks` (edge lists with source, target[, weight]).
+# Michieli network 2 (ATP points) is left out: its weights are symmetric and carry no winner.
+NETWORK_FILES = {
+    "M1_wins": ("michieli_1_wins.csv", True),
+    "M3_undirected": ("michieli_3_undirected.csv", False),
+    "M4_extended": ("michieli_4_extended.csv", False),
+    "ATP_2000-2006": ("td_atp_2000_2006.csv", True),
+    "ATP_2007-2012": ("td_atp_2007_2012.csv", True),
+    "ATP_2013-2018": ("td_atp_2013_2018.csv", True),
+    "ATP_2019-2025": ("td_atp_2019_2025.csv", True),
+    "ATP_clay": ("td_atp_clay.csv", True),
+    "ATP_grass": ("td_atp_grass.csv", True),
+    "ATP_hard": ("td_atp_hard.csv", True),
+    "ATP_2007-2025": ("td_atp_2007_2025.csv", True),
+    "WTA_2007-2025": ("td_wta_2007_2025.csv", True),
+}
 
 
 # ==============================================================================
 # 1. DATA LOADING
 # ==============================================================================
-def load_michieli_networks():
-    """
-    Load the 4 Michieli (2018) ATP networks from MATLAB files.
-    Returns dict with keys: M1, M2, M3, M4
-    """
-    try:
-        from scipy.io import loadmat
-    except ImportError:
-        print("⚠️  scipy not installed. Skipping Michieli networks.")
-        return {}
-
-    networks = {}
-    michieli_files = {
-        "M1": "1_direct_wins.mat",
-        "M2": "2_direct_points.mat",
-        "M3": "3_undirect_unweighted.mat",
-        "M4": "4_extended_undirect_unweighted.mat",
-    }
-
-    for key, filename in michieli_files.items():
-        filepath = DATA_DIR / "michieli" / filename
-        if filepath.exists():
-            mat = loadmat(filepath)
-            # The matrix key is typically the filename without extension
-            matrix_key = filename.replace(".mat", "")
-            if matrix_key in mat:
-                A = mat[matrix_key]
-                G = nx.from_numpy_array(A, create_using=nx.DiGraph) if key in ["M1", "M2"] else nx.from_numpy_array(A)
-                networks[key] = G
-                print(f"✓ Loaded {key}: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
-
-    return networks
-
-
-def load_tennis_data_networks():
-    """
-    Load the 9 tennis-data.co.uk networks (ATP by era/surface + WTA).
-    Returns dict with network names as keys.
-    """
-    networks = {}
-    network_files = {
-        "ATP_2000-2006": "ATP_2000-2006.edgelist",
-        "ATP_2007-2012": "ATP_2007-2012.edgelist",
-        "ATP_2013-2018": "ATP_2013-2018.edgelist",
-        "ATP_2019-2025": "ATP_2019-2025.edgelist",
-        "ATP_clay": "ATP_clay.edgelist",
-        "ATP_grass": "ATP_grass.edgelist",
-        "ATP_hard": "ATP_hard.edgelist",
-        "ATP_2007-2025": "ATP_2007-2025.edgelist",
-        "WTA_2007-2025": "WTA_2007-2025.edgelist",
-    }
-
-    for name, filename in network_files.items():
-        filepath = DATA_DIR / "tennis_data" / filename
-        if filepath.exists():
-            G = nx.read_edgelist(filepath, create_using=nx.DiGraph(), data=[("weight", float)])
-            networks[name] = G
-            print(f"✓ Loaded {name}: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
-
-    return networks
-
-
 def load_all_networks(processed_dir=None, selected_networks=None):
-    """Carica tutte o una selezione mirata di reti dai file CSV processati."""
+    """Load all networks, or the selected ones, from the processed edge lists.
+
+    Directed networks have an edge from the loser to the winner, weighted by the number of wins.
+    A missing file is reported and skipped; a malformed one raises an error.
+    """
     print("\n" + "=" * 70)
     print("LOADING NETWORKS")
     print("=" * 70 + "\n")
 
-    networks = {}
     target_dir = Path(processed_dir) if processed_dir else DATA_DIR / "processed"
-
-    # Mappatura esatta dei nomi delle reti ai file CSV presenti nella tua cartella
-    network_files = {
-        "M1_wins": "michieli_1_wins.csv",
-        "M2_points": "michieli_2_points.csv",
-        "M3_undirected": "michieli_3_undirected.csv",
-        "M4_extended": "michieli_4_extended.csv",
-        "ATP_2000-2006": "td_atp_2000_2006.csv",
-        "ATP_2007-2012": "td_atp_2007_2012.csv",
-        "ATP_2013-2018": "td_atp_2013_2018.csv",
-        "ATP_2019-2025": "td_atp_2019_2025.csv",
-        "ATP_clay": "td_atp_clay.csv",
-        "ATP_grass": "td_atp_grass.csv",
-        "ATP_hard": "td_atp_hard.csv",
-        "ATP_2007-2025": "td_atp_2007_2025.csv",
-        "WTA_2007-2025": "td_wta_2007_2025.csv",
-    }
-
+    files = NETWORK_FILES
     if selected_networks:
         if isinstance(selected_networks, str):
             selected_networks = [selected_networks]
-        network_files = {k: v for k, v in network_files.items() if k in selected_networks}
+        files = {k: v for k, v in NETWORK_FILES.items() if k in selected_networks}
 
-    for name, filename in network_files.items():
+    networks = {}
+    for name, (filename, directed) in files.items():
         filepath = target_dir / filename
-        if filepath.exists():
-            try:
-                # Leggiamo il CSV. Assumiamo che abbia header (es. source, target, weight)
-                df = pd.read_csv(filepath)
-                cols = df.columns.tolist()
+        if not filepath.exists():
+            print(f"WARNING: {filepath} not found, run `make networks` first")
+            continue
+        df = pd.read_csv(filepath, dtype={"source": str, "target": str})
+        G = nx.from_pandas_edgelist(
+            df,
+            source="source",
+            target="target",
+            edge_attr="weight" if "weight" in df.columns else None,
+            create_using=nx.DiGraph if directed else nx.Graph,
+        )
+        networks[name] = G
+        print(f"Loaded {name:20s} | {G.number_of_nodes():5d} nodes, {G.number_of_edges():6d} edges")
 
-                if len(cols) >= 2:
-                    source, target = cols[0], cols[1]
-
-                    # Se c'è una terza colonna, la usiamo come peso
-                    if len(cols) >= 3:
-                        weight = cols[2]
-                        G = nx.from_pandas_edgelist(
-                            df, source=source, target=target, edge_attr=weight, create_using=nx.DiGraph
-                        )
-                    else:
-                        G = nx.from_pandas_edgelist(df, source=source, target=target, create_using=nx.DiGraph)
-
-                    # M3 e M4 sono definiti come non diretti nel paper di Michieli
-                    if "undirected" in filename or "extended" in filename:
-                        G = G.to_undirected()
-
-                    networks[name] = G
-                    print(f"✓ Loaded {name:20s} | {G.number_of_nodes():5d} nodes, {G.number_of_edges():6d} edges")
-                else:
-                    print(f"⚠️  Skipped {name}: Il CSV ha meno di 2 colonne.")
-            except Exception as e:
-                print(f"⚠️  Error loading {name}: {e}")
-        else:
-            print(f"⚠️  File non trovato: {filepath}")
-
-    print(f"\n✓ Total networks loaded: {len(networks)}/13")
+    print(f"\nNetworks loaded: {len(networks)}/{len(files)}")
     return networks
 
 
 # ==============================================================================
-# 2. NULL MODEL STATISTICAL VALIDATION (Bonifazi - B2)
+# 2. NULL MODEL STATISTICAL VALIDATION
 # ==============================================================================
 # The statistics are computed on the undirected, unweighted projection (two players linked if they
 # ever met), the same graph used for Table "null" and hypothesis H2 in the report.
@@ -247,7 +178,7 @@ def analyze_null_models(networks, output_path=None, num_samples=50, nswaps_facto
     df_results = pd.DataFrame(results, columns=cols)
     if not df_results.empty:
         df_results.to_csv(dest_path, index=False)
-        print(f"\n✓ Null model results saved to: {dest_path}")
+        print(f"\nNull model results saved to: {dest_path}")
 
     return df_results
 
@@ -395,62 +326,7 @@ def compute_small_world(G, samples=5, seed=SEED):
 
 
 # ==============================================================================
-# 9. HYPOTHESIS TESTING
-# ==============================================================================
-def test_hypotheses(networks, output_path=None):
-    """
-    Run the 8 project hypotheses (H1-H8) using permutation tests and null models.
-    Results saved to output/hypotheses_results.csv
-    """
-    print("\n" + "=" * 70)
-    print("HYPOTHESIS TESTING (H1-H8)")
-    print("=" * 70 + "\n")
-
-    results = []
-
-    # H1: Assortativity changes across eras
-    if all(k in networks for k in ["ATP_2000-2006", "ATP_2007-2012", "ATP_2013-2018", "ATP_2019-2025"]):
-        assort_by_era = {}
-        for era in ["ATP_2000-2006", "ATP_2007-2012", "ATP_2013-2018", "ATP_2019-2025"]:
-            assort_by_era[era] = nx.degree_assortativity_coefficient(networks[era])
-        results.append(
-            {
-                "hypothesis": "H1",
-                "description": "Assortativity varies across ATP eras",
-                "values": assort_by_era,
-                "supported": "partial",
-            }
-        )
-
-    # H3, H4, H7, H8: Surface and gender comparisons
-    # (Placeholder - implement specific tests as needed)
-
-    # H5: Stricter hierarchy in 2007-2012 (Big 3 era)
-    if "ATP_2007-2012" in networks:
-        G = networks["ATP_2007-2012"]
-        core = compute_kcore(G)
-        results.append(
-            {
-                "hypothesis": "H5",
-                "description": "Hierarchy stricter in 2007-2012 (Big 3 era)",
-                "max_k": core["max_k"],
-                "core_size": core["main_core_size"],
-                "supported": "yes",
-            }
-        )
-
-    # Save results
-    dest_path = Path(output_path) if output_path else OUTPUT_DIR / "hypotheses_results.csv"
-    dest_path.parent.mkdir(parents=True, exist_ok=True)
-    df_hyp = pd.DataFrame(results)
-    df_hyp.to_csv(dest_path, index=False)
-    print(f"\n✓ Hypothesis results saved to: {dest_path}")
-
-    return results
-
-
-# ==============================================================================
-# 10. MASTER ANALYSIS PIPELINE
+# 9. MASTER ANALYSIS PIPELINE
 # ==============================================================================
 def run_full_analysis(networks, output_dir=None, sw_samples=5):
     """
@@ -515,7 +391,7 @@ def run_full_analysis(networks, output_dir=None, sw_samples=5):
     pd.DataFrame(all_core_periphery).to_csv(dest_dir / "core_periphery.csv", index=False)
     pd.DataFrame(all_small_world).to_csv(dest_dir / "small_world.csv", index=False)
 
-    print(f"\n✓ All results saved to: {dest_dir}/")
+    print(f"\nAll results saved to: {dest_dir}/")
 
 
 # ==============================================================================
@@ -579,18 +455,18 @@ def main(argv=None):
 
     if not networks:
         if args.network:
-            print(f"⚠️  Network '{args.network}' not found.")
+            print(f"WARNING: network '{args.network}' not found. Choose one of: {', '.join(NETWORK_FILES)}")
         else:
-            print("\n⚠️  No networks loaded. Check data/ directory.")
+            print("\nWARNING: no networks loaded. Check data/processed.")
         return 1
 
     if args.network:
-        print(f"✓ Target network selected: {args.network}")
+        print(f"Target network selected: {args.network}")
 
     # 2. Run full analysis
     run_full_analysis(networks, output_dir=output_dir, sw_samples=2 if args.quick else 5)
 
-    # 3. Null model validation (Bonifazi - B2)
+    # 3. Null model validation
     if not args.skip_null:
         analyze_null_models(
             networks,
@@ -599,13 +475,13 @@ def main(argv=None):
             nswaps_factor=nswaps_factor,
         )
     else:
-        print("\nℹ️  Skipping null model validation (--skip-null)")
+        print("\nSkipping null model validation (--skip-null)")
 
-    # 4. Hypothesis testing
-    test_hypotheses(networks, output_path=output_dir / "hypotheses_results.csv")
+    # Hypotheses H1-H8 are tested by their own modules, not here:
+    print("\nHypotheses H1-H8: run `make hypotheses triads levels` (results in results/tables).")
 
     print("\n" + "=" * 70)
-    print("✅ ANALYSIS COMPLETE")
+    print("ANALYSIS COMPLETE")
     print("=" * 70)
     print(f"\nResults available in: {output_dir.resolve()}")
     print("\nGenerated files:")

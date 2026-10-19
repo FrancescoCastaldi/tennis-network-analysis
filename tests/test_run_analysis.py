@@ -106,3 +106,13 @@ def test_small_world_skipped_on_large_networks(monkeypatch):
     sw = run_analysis.compute_small_world(nx.karate_club_graph())
     assert sw["samples"] == 0
     assert run_analysis.np.isnan(sw["sigma"])
+
+
+def test_network_list_leaves_out_points_network():
+    # Michieli network 2 has symmetric weights and no winner: the group decided not to use it.
+    assert "M2_points" not in run_analysis.NETWORK_FILES
+    assert len(run_analysis.NETWORK_FILES) == 12
+
+
+def test_unknown_network_returns_error_code(tmp_path):
+    assert run_analysis.main(["--quick", "--skip-null", "--network", "nope", "--output-dir", str(tmp_path)]) == 1
