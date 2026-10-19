@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Polished narrative, structural rigor, and mathematical definitions in Part B (Sections 3, 4, and 5) of `report/main.tex`:
+  - Formalized directed graph model $G = (V, E, W)$, in/out-strength formulas, tournament bracket constraints ($N \in \{32, 48, 64, 96, 128\}$), and seeding separation rules in Section 3.
+  - Articulated construct validity, error classification (omission/commission), baseline reproduction fidelity against Michieli (2018), and clustering metric discrepancy resolution in Section 4.
+  - Enhanced Section 5 with explicit PageRank formulation, domain mechanics linking negative degree assortativity in null models to tournament bracket seeding, core-periphery dynamics, and multi-level hypothesis evaluations (H1-H8).
+  - Maintained word budget at exactly 2,952 words out of 5,000 (2,048 words reserved for Roles A and C) with zero AI punctuation artifacts (no em/en-dashes).
+
 ## [0.2.4] - 2026-10-18
 
 ### Changed
