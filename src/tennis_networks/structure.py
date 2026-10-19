@@ -22,6 +22,7 @@ import argparse
 import networkx as nx
 import numpy as np
 import pandas as pd
+from scipy.optimize import minimize
 
 from tennis_networks import nullmodels as nm
 from tennis_networks.config import PROCESSED, TABLES, load_config
@@ -77,6 +78,81 @@ def core_periphery(und):
     return set(order[:k]), stats
 
 
+def continuous_core_periphery(und, weight=None, max_iter=500):
+    """Borgatti-Everett continuous core-periphery model (1999).
+
+    Computes continuous coreness c_i in [0, 1] maximizing Pearson correlation
+    rho(A, c c^T) over off-diagonal entries (i < j).
+    Returns (coreness_dict, correlation).
+    """
+    if und.is_directed():
+        raise ValueError("continuous_core_periphery requires an undirected graph")
+
+    nodes = list(und.nodes())
+    n = len(nodes)
+    if n < 2:
+        return ({v: 0.0 for v in nodes}, 0.0)
+
+    a = nx.to_numpy_array(und, nodelist=nodes, weight=weight)
+
+    iu = np.triu_indices(n, 1)
+    x = a[iu]
+    sx = np.std(x)
+    if sx < 1e-12:
+        return ({v: 1.0 if a.sum() > 0 else 0.0 for v in nodes}, 0.0)
+
+    x_tilde = x - np.mean(x)
+    sx_norm = np.sqrt(np.sum(x_tilde**2))
+
+    x_mat = np.zeros((n, n), dtype=float)
+    x_mat[iu] = x_tilde
+    x_mat = x_mat + x_mat.T
+
+    m = n * (n - 1) // 2
+
+    def objective(c):
+        s1 = np.sum(c)
+        s2 = np.sum(c**2)
+        s4 = np.sum(c**4)
+        y_sum = (s1**2 - s2) / 2.0
+        y_bar = y_sum / m
+        var_y = (s2**2 - s4) / 2.0 - (y_sum**2) / m
+        if var_y <= 1e-13:
+            return 0.0, np.zeros_like(c)
+        d_val = np.sqrt(var_y)
+        num_val = 0.5 * (c @ (x_mat @ c))
+        rho = num_val / (sx_norm * d_val)
+
+        grad_v = 2.0 * s2 * c - 2.0 * (c**3) - 2.0 * y_bar * (s1 - c)
+        grad_d = grad_v / (2.0 * d_val)
+        grad_rho = (x_mat @ c * d_val - num_val * grad_d) / (sx_norm * var_y)
+        return -rho, -grad_rho
+
+    # Initialize with leading eigenvector of adjacency matrix
+    evals, evecs = np.linalg.eigh(a)
+    c0 = np.abs(evecs[:, -1])
+    if np.std(c0) < 1e-6:
+        c0 = c0 + np.linspace(0.01, 0.05, n)
+    max_c0 = np.max(c0)
+    c0 = c0 / max_c0 if max_c0 > 0 else np.ones(n) / np.sqrt(n)
+
+    res = minimize(
+        objective,
+        c0,
+        jac=True,
+        bounds=[(0.0, None)] * n,
+        method="L-BFGS-B",
+        options={"maxiter": max_iter, "ftol": 1e-9},
+    )
+
+    c_opt = np.maximum(res.x, 0.0)
+    max_c = np.max(c_opt)
+    c_opt = c_opt / max_c if max_c > 1e-9 else np.zeros(n)
+
+    fit = max(0.0, float(-res.fun)) if res.fun <= 0 else 0.0
+    return dict(zip(nodes, c_opt, strict=True)), fit
+
+
 def structural_equivalence(und, players):
     """Cosine similarity between the opponent vectors (number of meetings) of the given players."""
     nodes = list(und.nodes())
@@ -125,6 +201,7 @@ def analyse(spec, seed, sw_samples, n_perm):
             )
 
     core, cp = core_periphery(und)
+    _cont_core, cont_fit = continuous_core_periphery(und)
     kcore = nx.core_number(und)
     kmax = max(kcore.values())
     inner = {v for v, k in kcore.items() if k == kmax}
@@ -132,6 +209,7 @@ def analyse(spec, seed, sw_samples, n_perm):
     row.update(cp)
     row.update(
         {
+            "continuous_core_fit": cont_fit,
             "max_kcore": kmax,
             "max_kcore_size": len(inner),
             "core_kcore_jaccard": len(core & inner) / len(core | inner),

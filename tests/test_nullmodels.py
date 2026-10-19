@@ -1,3 +1,5 @@
+import math
+
 import networkx as nx
 import numpy as np
 
@@ -42,3 +44,66 @@ def test_compare_to_null_pvalue_bounds():
     res = nm.compare_to_null(10.0, np.random.default_rng(0).normal(0, 1, 99))
     assert 0 < res["p_empirical"] <= 1
     assert res["z"] > 5
+
+
+def test_erdos_renyi_null_preserves_nodes_and_edges(karate):
+    h = nm.erdos_renyi_null(karate, np.random.default_rng(42))
+    assert set(h.nodes()) == set(karate.nodes())
+    assert h.number_of_edges() == karate.number_of_edges()
+    assert nx.number_of_selfloops(h) == 0
+    assert not h.is_directed()
+
+
+def test_directed_erdos_renyi_null():
+    g = nx.DiGraph([(0, 1), (1, 2), (2, 0), (0, 3)])
+    h = nm.erdos_renyi_null(g, np.random.default_rng(42))
+    assert set(h.nodes()) == set(g.nodes())
+    assert h.number_of_edges() == g.number_of_edges()
+    assert h.is_directed()
+    assert nx.number_of_selfloops(h) == 0
+
+
+def test_null_statistics_parallel_n_jobs(karate):
+    stats = {"c": nx.average_clustering, "t": nx.transitivity}
+    df_seq = nm.null_statistics(karate, stats, 4, seed=42, n_jobs=1)
+    df_par = nm.null_statistics(karate, stats, 4, seed=42, n_jobs=2)
+    assert list(df_par.columns) == ["c", "t"]
+    assert len(df_par) == 4
+    assert len(df_seq) == 4
+    assert not df_par.isna().any().any()
+
+
+def test_compare_dual_null_models(karate):
+    stats = {"clustering": nx.average_clustering, "transitivity": nx.transitivity}
+    res = nm.compare_dual_null_models(karate, stats, samples=5, seed=123, n_jobs=1)
+    expected_cols = [
+        "statistic",
+        "observed",
+        "cm_null_mean",
+        "cm_null_sd",
+        "cm_z",
+        "cm_p_empirical",
+        "er_null_mean",
+        "er_null_sd",
+        "er_z",
+        "er_p_empirical",
+    ]
+    assert list(res.columns) == expected_cols
+    assert len(res) == 2
+    assert set(res["statistic"]) == {"clustering", "transitivity"}
+    assert not res.isna().any().any()
+
+
+def test_compare_dual_null_models_empty(karate):
+    res = nm.compare_dual_null_models(karate, {}, samples=5, seed=123)
+    assert len(res) == 0
+    assert "cm_z" in res.columns
+    assert "er_z" in res.columns
+
+
+def test_compare_to_null_empty():
+    res = nm.compare_to_null(5.0, [])
+    assert math.isnan(res["null_mean"])
+    assert math.isnan(res["null_sd"])
+    assert math.isnan(res["z"])
+    assert math.isnan(res["p_empirical"])

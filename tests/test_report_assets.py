@@ -54,3 +54,12 @@ def test_table_tests_includes_h1_to_h5():
     assert "H5" in content
     assert r">{\raggedright\arraybackslash}" in content
     assert re.search(r"\bnan\b", content, re.IGNORECASE) is None
+
+
+def test_figure_network_core_generates_pdf_and_png():
+    ra.style()
+    ra.figure_network_core()
+    fig_pdf = REPORT / "figures" / "fig_network_core_2007_2012.pdf"
+    fig_png = REPORT / "figures" / "fig_network_core_2007_2012.png"
+    assert fig_pdf.exists() and fig_pdf.stat().st_size > 10000
+    assert fig_png.exists() and fig_png.stat().st_size > 20000

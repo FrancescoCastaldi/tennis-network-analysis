@@ -56,30 +56,137 @@ def degree_preserving_null(g, rng, swaps_per_edge=10):
     return h
 
 
-def null_distribution(g, statistic, samples, seed):
-    """Values of `statistic(graph)` over `samples` null graphs, with a fixed seed."""
+def erdos_renyi_null(g, rng):
+    """Erdos-Renyi G(n, m) null graph matching node set, edge count, and directedness of g.
+
+    Nodes have identical labels and self-loops are omitted.
+    """
+    nodes = list(g.nodes())
+    n = len(nodes)
+    m = g.number_of_edges()
+    directed = g.is_directed()
+    max_m = n * (n - 1) if directed else n * (n - 1) // 2
+    m = min(m, max(0, max_m))
+    h_int = nx.gnm_random_graph(n, m, seed=rng, directed=directed)
+    return nx.relabel_nodes(h_int, dict(enumerate(nodes)))
+
+
+def _sample_null_worker(args):
+    """Worker function for parallel Monte Carlo null model sampling."""
+    g, stat_funcs, model, seed = args
     rng = np.random.default_rng(seed)
-    return np.array([statistic(degree_preserving_null(g, rng)) for _ in range(samples)])
+    if model == "erdos_renyi":
+        h = erdos_renyi_null(g, rng)
+    elif callable(model):
+        h = model(g, rng)
+    else:
+        h = degree_preserving_null(g, rng)
+    return {name: fn(h) for name, fn in stat_funcs}
 
 
-def null_statistics(g, statistics, samples, seed):
+def null_distribution(g, statistic, samples, seed, model="configuration", n_jobs=1):
+    """Values of `statistic(graph)` over `samples` null graphs, with a fixed seed."""
+    df = null_statistics(g, {"stat": statistic}, samples, seed, model=model, n_jobs=n_jobs)
+    return df["stat"].to_numpy()
+
+
+def null_statistics(g, statistics, samples, seed, model="configuration", n_jobs=1):
     """All statistics on the same null graphs: one row per sample, one column per statistic.
 
     Each null graph is generated once, which is the expensive part on large networks.
+    Supports model='configuration' (default) or model='erdos_renyi', and parallelization
+    via n_jobs (default 1, -1 for all available CPU cores).
     """
-    rng = np.random.default_rng(seed)
-    rows = []
-    for _ in range(samples):
-        h = degree_preserving_null(g, rng)
-        rows.append({name: fn(h) for name, fn in statistics.items()})
+    if n_jobs is None or n_jobs == 1:
+        rng = np.random.default_rng(seed)
+        rows = []
+        for _ in range(samples):
+            if model == "erdos_renyi":
+                h = erdos_renyi_null(g, rng)
+            elif callable(model):
+                h = model(g, rng)
+            else:
+                h = degree_preserving_null(g, rng)
+            rows.append({name: fn(h) for name, fn in statistics.items()})
+        return pd.DataFrame(rows, columns=list(statistics))
+
+    import os
+    from concurrent.futures import ProcessPoolExecutor
+
+    max_workers = os.cpu_count() if n_jobs == -1 else max(1, int(n_jobs))
+    seeds = np.random.SeedSequence(seed).spawn(samples)
+    stat_items = list(statistics.items())
+    worker_args = [(g, stat_items, model, s) for s in seeds]
+
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        rows = list(executor.map(_sample_null_worker, worker_args))
+
     return pd.DataFrame(rows, columns=list(statistics))
+
+
+def compare_dual_null_models(g, statistics, samples, seed, n_jobs=1):
+    """Dual null model comparison: Configuration Model vs Erdos-Renyi G(n, m).
+
+    Evaluates observed statistics on g and compares them against both null distributions.
+    Returns a DataFrame comparing observed values, null means, standard deviations,
+    z-scores, and empirical p-values for both models.
+    """
+    expected_cols = [
+        "statistic",
+        "observed",
+        "cm_null_mean",
+        "cm_null_sd",
+        "cm_z",
+        "cm_p_empirical",
+        "er_null_mean",
+        "er_null_sd",
+        "er_z",
+        "er_p_empirical",
+    ]
+    if not statistics:
+        return pd.DataFrame(columns=expected_cols)
+
+    observed = {name: fn(g) for name, fn in statistics.items()}
+    cm_df = null_statistics(g, statistics, samples, seed, model="configuration", n_jobs=n_jobs)
+    er_seed = int(np.random.default_rng(seed).integers(0, 2**31 - 1))
+    er_df = null_statistics(g, statistics, samples, er_seed, model="erdos_renyi", n_jobs=n_jobs)
+
+    records = []
+    for name in statistics:
+        obs = observed[name]
+        cm_res = compare_to_null(obs, cm_df[name])
+        er_res = compare_to_null(obs, er_df[name])
+        records.append(
+            {
+                "statistic": name,
+                "observed": obs,
+                "cm_null_mean": cm_res["null_mean"],
+                "cm_null_sd": cm_res["null_sd"],
+                "cm_z": cm_res["z"],
+                "cm_p_empirical": cm_res["p_empirical"],
+                "er_null_mean": er_res["null_mean"],
+                "er_null_sd": er_res["null_sd"],
+                "er_z": er_res["z"],
+                "er_p_empirical": er_res["p_empirical"],
+            }
+        )
+    return pd.DataFrame(records)
 
 
 def compare_to_null(observed, null_values):
     """z-score and two-sided empirical p-value (with the +1 correction)."""
     null_values = np.asarray(null_values, dtype=float)
-    mu, sd = null_values.mean(), null_values.std(ddof=1)
-    z = (observed - mu) / sd if sd > 0 else float("nan")
+    if len(null_values) == 0:
+        return {
+            "observed": observed,
+            "null_mean": float("nan"),
+            "null_sd": float("nan"),
+            "z": float("nan"),
+            "p_empirical": float("nan"),
+        }
+    mu = float(null_values.mean())
+    sd = float(null_values.std(ddof=1)) if len(null_values) > 1 else float("nan")
+    z = (observed - mu) / sd if (not np.isnan(sd) and sd > 0) else float("nan")
     extreme = np.sum(np.abs(null_values - mu) >= abs(observed - mu))
     p = (extreme + 1) / (len(null_values) + 1)
     return {"observed": observed, "null_mean": mu, "null_sd": sd, "z": z, "p_empirical": p}

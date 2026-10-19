@@ -7,13 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Continuous core-periphery model (Borgatti & Everett 1999) in `src/tennis_networks/structure.py` (`continuous_core_periphery`), maximizing Pearson correlation $\rho(A, c c^T)$ via exact analytical gradient optimization under L-BFGS-B with bounds, support for weighted graphs, input validation, and full table integration in `results/tables/structure_summary.csv` and `report/tables/tab_structure.tex`.
+- 16-class Holland-Leinhardt triad census z-score spectrum against the configuration model in `src/tennis_networks/triads.py` (`triad_census_spectrum`), with empirical p-values and comprehensive test coverage in `tests/test_triads.py`.
+- Dual null model comparison engine in `src/tennis_networks/nullmodels.py` (`compare_dual_null_models` and `erdos_renyi_null`), evaluating topological metrics against both degree-preserving configuration models and Erdős-Rényi $G(n, m)$ baselines, with test coverage in `tests/test_nullmodels.py`.
+- Parallelization option (`n_jobs`) for Monte Carlo null model sampling across CPU cores in `src/tennis_networks/nullmodels.py` and `triads.py` via `ProcessPoolExecutor` with deterministic independent RNG streams.
+- Automated Google Sheet synchronization CLI script in `scripts/sync_sheet.py` using `gsheets.cmd` to update dashboard metrics (word count 3,016, 63/63 tests passing) and task progress in spreadsheet `1dP7wSrawDRVBZ_0TUiQTd1p2IdShwmcEY7R-W1mpBec`.
+- High-resolution dual-panel visualization of the 2007-2012 golden era elite core ($N=12$) and 16-class triad census z-score spectrum in `report/figures/fig_network_core_2007_2012.pdf` and `.png`, integrated into `src/tennis_networks/report_assets.py` and referenced in `report/main.tex`.
+
 ### Changed
 
 - Polished narrative, structural rigor, and mathematical definitions in Part B (Sections 3, 4, and 5) of `report/main.tex`:
   - Formalized directed graph model $G = (V, E, W)$, in/out-strength formulas, tournament bracket constraints ($N \in \{32, 48, 64, 96, 128\}$), and seeding separation rules in Section 3.
   - Articulated construct validity, error classification (omission/commission), baseline reproduction fidelity against Michieli (2018), and clustering metric discrepancy resolution in Section 4.
-  - Enhanced Section 5 with explicit PageRank formulation, domain mechanics linking negative degree assortativity in null models to tournament bracket seeding, core-periphery dynamics, and multi-level hypothesis evaluations (H1-H8).
-  - Maintained word budget at exactly 2,952 words out of 5,000 (2,048 words reserved for Roles A and C) with zero AI punctuation artifacts (no em/en-dashes).
+  - Enhanced Section 5 with explicit PageRank formulation, domain mechanics linking negative degree assortativity in null models to tournament bracket seeding, core-periphery dynamics (both discrete $\phi$ and continuous $\rho$), and multi-level hypothesis evaluations (H1-H8).
+  - Maintained word budget at exactly 3,016 words out of 5,000 (1,984 words reserved for Roles A and C) with zero AI punctuation artifacts (no em/en-dashes).
 
 ## [0.2.4] - 2026-10-18
 

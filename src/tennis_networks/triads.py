@@ -41,6 +41,48 @@ def cyclic_ratio(g):
     return census["030C"] / census["030T"] if census["030T"] else float("nan")
 
 
+def _triad_census_worker(args):
+    """Worker function for parallel triad census null sampling."""
+    g, seed = args
+    rng = np.random.default_rng(seed)
+    h = nm.degree_preserving_null(g, rng)
+    return nx.triads.triadic_census(h)
+
+
+def triad_census_spectrum(g, samples=20, seed=None, n_jobs=1):
+    """16-class Holland-Leinhardt triad census z-score spectrum against the configuration model.
+
+    Computes observed counts, configuration null means, null stds, z-scores, and empirical
+    two-sided p-values for all 16 triad types.
+    Returns a DataFrame with columns: triad, observed, null_mean, null_sd, z, p_empirical.
+    """
+    if not g.is_directed():
+        raise ValueError("triad_census_spectrum requires a directed graph (DiGraph)")
+
+    observed = nx.triads.triadic_census(g)
+    triad_names = list(observed.keys())
+
+    if n_jobs is None or n_jobs == 1:
+        rng = np.random.default_rng(seed)
+        null_rows = [nx.triads.triadic_census(nm.degree_preserving_null(g, rng)) for _ in range(samples)]
+    else:
+        import os
+        from concurrent.futures import ProcessPoolExecutor
+
+        max_workers = os.cpu_count() if n_jobs == -1 else max(1, int(n_jobs))
+        seeds = np.random.SeedSequence(seed).spawn(samples)
+        worker_args = [(g, s) for s in seeds]
+        with ProcessPoolExecutor(max_workers=max_workers) as executor:
+            null_rows = list(executor.map(_triad_census_worker, worker_args))
+
+    null_df = pd.DataFrame(null_rows)
+    records = []
+    for t in triad_names:
+        res = nm.compare_to_null(observed[t], null_df[t])
+        records.append({"triad": t, **res})
+    return pd.DataFrame(records)
+
+
 def season_ratios(matches, tour, years):
     m = matches[matches["tour"] == tour]
     return pd.Series({y: cyclic_ratio(td.to_graph(m[m["year"] == y])) for y in years}, name=f"{tour}_cyclic_ratio")
@@ -65,6 +107,9 @@ def main():
         rows.append({"network": name, "cyclic_ratio": observed, "random_outcomes": RANDOM_RATIO, **res})
         print(f"[{name}] 030C/030T = {observed:.3f}, configuration model {res['null_mean']:.3f}, z = {res['z']:.1f}")
     pd.DataFrame(rows).assign(samples=args.null).to_csv(TABLES / "triads_networks.csv", index=False, encoding="utf-8")
+
+    spectrum_2007_2012 = triad_census_spectrum(load_network(specs["td_atp_2007_2012"]), samples=args.null, seed=seed)
+    spectrum_2007_2012.to_csv(TABLES / "triads_spectrum_2007_2012.csv", index=False, encoding="utf-8")
 
     matches = pd.read_csv(PROCESSED / "td_matches.csv", parse_dates=["date"])
     seasons = pd.concat(

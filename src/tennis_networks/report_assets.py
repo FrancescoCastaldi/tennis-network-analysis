@@ -17,7 +17,9 @@ import numpy as np
 import pandas as pd
 
 from tennis_networks.config import PROCESSED, REPORT, TABLES
+from tennis_networks.loaders import load_network
 from tennis_networks.loaders import load_undirected as undirected
+from tennis_networks.triads import triad_census_spectrum
 
 OUT_TAB = REPORT / "tables"
 OUT_FIG = REPORT / "figures"
@@ -287,6 +289,7 @@ def table_structure():
             (r"Core size $k$", "core_size", 0),
             (r"Core share", "core_share", 3),
             (r"Fit correlation $\phi$", "core_fit", 3),
+            (r"Continuous model fit $\rho$", "continuous_core_fit", 3),
             (r"Core density $d_{cc}$", "density_core", 3),
             (r"Core-periphery density $d_{cp}$", "density_core_periphery", 3),
             (r"Periphery density $d_{pp}$", "density_periphery", 4),
@@ -539,6 +542,126 @@ def figure_yearly():
     save(fig, "fig_yearly")
 
 
+def figure_network_core():
+    fig, (ax_net, ax_triad) = plt.subplots(1, 2, figsize=(6.3, 3.0), gridspec_kw={"width_ratios": [1.15, 1.0]})
+
+    # (a) Network core (Top 12 players of 2007-2012)
+    spec_2007 = {"id": "td_atp_2007_2012", "file": "td_atp_2007_2012.csv", "directed": True}
+    g = load_network(spec_2007)
+    nodes_df = pd.read_csv(TABLES / "td_atp_2007_2012_nodes.csv").set_index("node")
+    top_players = list(nodes_df["pagerank"].sort_values(ascending=False).head(12).index)
+    sub = g.subgraph(top_players).copy()
+
+    big4 = {"Nadal R.", "Djokovic N.", "Federer R.", "Murray A."}
+    node_colors = ["#2a78d6" if p in big4 else "#eb6834" for p in top_players]
+    node_sizes = [180 + 2600 * nodes_df.loc[p, "pagerank"] for p in top_players]
+
+    pos = nx.circular_layout(top_players)
+
+    # Draw directed edges with encounter weights
+    for u, v, d in sub.edges(data=True):
+        w = d.get("weight", 1)
+        ax_net.annotate(
+            "",
+            xy=pos[v],
+            xytext=pos[u],
+            arrowprops=dict(
+                arrowstyle="->",
+                color="#888888",
+                lw=0.4 + 0.12 * min(w, 10),
+                alpha=0.5,
+                shrinkA=9,
+                shrinkB=9,
+                connectionstyle="arc3,rad=0.07",
+            ),
+        )
+
+    ax_net.scatter(
+        [pos[p][0] for p in top_players],
+        [pos[p][1] for p in top_players],
+        s=node_sizes,
+        c=node_colors,
+        zorder=5,
+        edgecolors="#0b0b0b",
+        linewidths=0.8,
+    )
+
+    short_names = {
+        "Nadal R.": "Nadal",
+        "Djokovic N.": "Djokovic",
+        "Federer R.": "Federer",
+        "Murray A.": "Murray",
+        "Ferrer D.": "Ferrer",
+        "Davydenko N.": "Davydenko",
+        "Roddick A.": "Roddick",
+        "Tsonga J.W.": "Tsonga",
+        "Berdych T.": "Berdych",
+        "Del Potro J.M.": "Del Potro",
+        "Verdasco F.": "Verdasco",
+        "Soderling R.": "Soderling",
+    }
+    for p in top_players:
+        x, y = pos[p]
+        ha = "center"
+        if x > 0.3:
+            ha = "left"
+        elif x < -0.3:
+            ha = "right"
+        va = "center"
+        if y > 0.5:
+            va = "bottom"
+        elif y < -0.5:
+            va = "top"
+        ax_net.text(
+            1.22 * x,
+            1.22 * y,
+            short_names.get(p, p),
+            fontsize=6.5,
+            ha=ha,
+            va=va,
+            weight="bold" if p in big4 else "normal",
+            color="#0b0b0b",
+        )
+
+    # Legend for Big Four vs Contenders
+    ax_net.scatter([], [], c="#2a78d6", s=50, edgecolors="#0b0b0b", lw=0.6, label="Big Four")
+    ax_net.scatter([], [], c="#eb6834", s=50, edgecolors="#0b0b0b", lw=0.6, label="Contenders")
+    ax_net.legend(loc="lower left", fontsize=6.5, frameon=False, bbox_to_anchor=(-0.05, -0.05))
+
+    ax_net.set_xlim(-1.6, 1.6)
+    ax_net.set_ylim(-1.6, 1.6)
+    ax_net.axis("off")
+    ax_net.set_title("(a) 2007-2012 elite core (N = 12)", loc="left", fontsize=8.5)
+
+    # (b) Triad census spectrum
+    spec_file = TABLES / "triads_spectrum_2007_2012.csv"
+    if spec_file.exists():
+        df_spec = pd.read_csv(spec_file)
+    else:
+        df_spec = triad_census_spectrum(g, samples=15, seed=20261115)
+        spec_file.parent.mkdir(parents=True, exist_ok=True)
+        df_spec.to_csv(spec_file, index=False, encoding="utf-8")
+
+    triad_types = list(df_spec["triad"])
+    zs = df_spec["z"].fillna(0.0).to_numpy()
+    y_pos = np.arange(len(triad_types))
+    colors = ["#2a78d6" if z >= 0 else "#eb6834" for z in zs]
+
+    ax_triad.barh(y_pos, zs, color=colors, height=0.6, edgecolor="none", zorder=3)
+    ax_triad.axvline(0, color="#0b0b0b", linewidth=0.8, zorder=4)
+    ax_triad.axvline(1.96, color="#52514e", linestyle="--", linewidth=0.6, zorder=2)
+    ax_triad.axvline(-1.96, color="#52514e", linestyle="--", linewidth=0.6, zorder=2)
+    ax_triad.set_yticks(y_pos)
+    ax_triad.set_yticklabels(triad_types, fontsize=6.5)
+    ax_triad.set_xlabel("z-score vs configuration null", fontsize=7.5)
+    ax_triad.set_title("(b) 16-class triad z-score spectrum", loc="left", fontsize=8.5)
+    ax_triad.tick_params(axis="both", which="major", labelsize=6.5)
+    ax_triad.grid(True, linestyle=":", alpha=0.6, color="#e4e3df", zorder=0)
+
+    fig.tight_layout()
+    save(fig, "fig_network_core_2007_2012")
+
+
 def main():
     table_networks()
     table_reproduction()
@@ -552,6 +675,7 @@ def main():
     figure_degree()
     figure_robustness()
     figure_yearly()
+    figure_network_core()
     print(f"Tables in {OUT_TAB}, figures in {OUT_FIG} (null models: {samples} samples)")
 
 
