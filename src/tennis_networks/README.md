@@ -2,6 +2,9 @@
 
 Core Python package implementing the end-to-end network analysis pipeline for professional tennis match networks.
 
+See the [Python API reference](../../docs/API.md) for parameters, return values and examples, and
+[architecture guide](../../docs/architecture.md) for pipeline flow and generated-file ownership.
+
 ## Architecture and Modules
 
 Every pipeline stage is encapsulated in a dedicated module:
@@ -14,7 +17,7 @@ Every pipeline stage is encapsulated in a dedicated module:
 | `tennisdata.py` | Cleans spreadsheets and constructs comparative networks | `data/raw/tennisdata/*.xlsx` | `data/processed/td_*.csv` |
 | `loaders.py` | NetworkX graph loaders (directed, undirected, weighted) | `data/processed/*.csv` | `nx.DiGraph`, `nx.Graph` |
 | `measures.py` | Graph metrics: density, SCC, PageRank, k-cores, modularity | Graphs | Node and summary statistics |
-| `nullmodels.py` | Fast degree-preserving edge swaps (Maslov-Sneppen) | Graphs | Randomized null distributions |
+| `nullmodels.py` | Degree-preserving edge swaps, Erdős-Rényi baselines and optional parallel sampling | Graphs | Randomized null distributions and comparisons |
 | `analysis.py` | Executes full topological and null-model suite | Graphs | `results/tables/global_measures.csv` |
 | `reproduce.py` | Validates replication against Michieli (2018) | M1, M3, M4 | `results/tables/michieli_reproduction.csv` |
 | `hypotheses.py` | Tests hypotheses H1 to H4 using permutation models | Comparative networks | `results/tables/hypothesis_tests.csv` |

@@ -21,7 +21,7 @@ graph rewards wins against players who themselves win often.
 | Source | Networks | Use |
 |---|---|---|
 | Michieli (2018), arXiv:1804.08138 | M1 wins, M2 points, M3 undirected, M4 extended (1968 to 2017/18, no dates) | Historical baseline, reproduction of the paper |
-| [tennis-data.co.uk](http://www.tennis-data.co.uk/) | 4 ATP eras (2000-2025), 3 ATP surfaces, ATP and WTA 2007-2025 | Comparative study, hypotheses H1-H4 |
+| [tennis-data.co.uk](http://www.tennis-data.co.uk/) | 4 ATP eras (2000-2025), 3 ATP surfaces, ATP and WTA 2007-2025 | Comparative study, hypotheses H1-H8 |
 
 ## Main results (draft)
 
@@ -90,6 +90,14 @@ results/                 tables (CSV) and figures produced by the pipeline
 report/                  LaTeX report: main.tex, generated tables/ and figures/
 docs/                    data provenance, methodology and design decisions
 ```
+
+## Documentation and orientation
+
+- [Architecture and artifact flow](docs/architecture.md): where each stage reads and writes,
+  configuration boundaries and safe reruns.
+- [Python API reference](docs/API.md): reusable functions, parameters, return values and examples.
+- [Documentation index](docs/README.md): provenance, methodology, design decisions and author briefings.
+- [Test guide](tests/README.md): quality checks and generated-artifact side effects.
 
 ## Report
 

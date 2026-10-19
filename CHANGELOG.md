@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.5] - 2026-10-19
+
 ### Added
 
+- Python API reference with function contracts and a read-only example, plus an architecture guide covering pipeline stages, artifact ownership and safe reruns.
 - Continuous core-periphery model (Borgatti & Everett 1999) in `src/tennis_networks/structure.py` (`continuous_core_periphery`), maximizing Pearson correlation $\rho(A, c c^T)$ via exact analytical gradient optimization under L-BFGS-B with bounds, support for weighted graphs, input validation, and full table integration in `results/tables/structure_summary.csv` and `report/tables/tab_structure.tex`.
 - 16-class Holland-Leinhardt triad census z-score spectrum against the configuration model in `src/tennis_networks/triads.py` (`triad_census_spectrum`), with empirical p-values and comprehensive test coverage in `tests/test_triads.py`.
 - Dual null model comparison engine in `src/tennis_networks/nullmodels.py` (`compare_dual_null_models` and `erdos_renyi_null`), evaluating topological metrics against both degree-preserving configuration models and Erdős-Rényi $G(n, m)$ baselines, with test coverage in `tests/test_nullmodels.py`.
@@ -18,11 +21,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Linked the new guides from the README, documentation index and package guide; aligned configuration IDs and methodology with the implemented helpers.
+- Replaced stale fixed test and word counts with live-check commands, documented report-test side effects, refreshed the report asset index and corrected release comparison links.
 - Polished narrative, structural rigor, and mathematical definitions in Part B (Sections 3, 4, and 5) of `report/main.tex`:
   - Formalized directed graph model $G = (V, E, W)$, in/out-strength formulas, tournament bracket constraints ($N \in \{32, 48, 64, 96, 128\}$), and seeding separation rules in Section 3.
   - Articulated construct validity, error classification (omission/commission), baseline reproduction fidelity against Michieli (2018), and clustering metric discrepancy resolution in Section 4.
   - Enhanced Section 5 with explicit PageRank formulation, domain mechanics linking negative degree assortativity in null models to tournament bracket seeding, core-periphery dynamics (both discrete $\phi$ and continuous $\rho$), and multi-level hypothesis evaluations (H1-H8).
   - Maintained word budget at exactly 3,016 words out of 5,000 (1,984 words reserved for Roles A and C) with zero AI punctuation artifacts (no em/en-dashes).
+
+### Fixed
+
+- Aligned `tennis_networks.__version__` with the project metadata and added a regression test to detect future drift.
 
 ## [0.2.4] - 2026-10-18
 
@@ -94,7 +103,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tests, word limit and PDF build.
 - Contributing guide, issue and pull request templates, data provenance and methodology notes.
 
-[Unreleased]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.3...HEAD
+[Unreleased]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.5...HEAD
+[0.2.5]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.4...v0.2.5
+[0.2.4]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/FrancescoCastaldi/tennis-network-analysis/compare/v0.2.0...v0.2.1
