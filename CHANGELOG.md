@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `run_analysis.py` null models now reuse `tennis_networks.nullmodels`: no 15,000-swap cap (large networks were barely randomised), two-sided p-values with the +1 correction (they could be 0), each null graph generated once for all metrics, and statistics computed on the undirected projection used in the report. Density is no longer tested, since edge swaps keep it constant.
+
 ## [0.2.7] - 2026-10-19
 
 ### Added

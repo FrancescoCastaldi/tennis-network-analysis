@@ -10,7 +10,6 @@ Run with: python run_analysis.py
 """
 
 import argparse
-import contextlib
 import sys
 from pathlib import Path
 
@@ -18,13 +17,19 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 
+REPO_ROOT = Path(__file__).resolve().parent
+if str(REPO_ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT / "src"))
+
+from tennis_networks import nullmodels as nm  # noqa: E402
+from tennis_networks.config import load_config  # noqa: E402
+
 # ==============================================================================
 # CONFIGURATION
 # ==============================================================================
-SEED = 20261115
+SEED = load_config()["seed"]
 np.random.seed(SEED)
 
-REPO_ROOT = Path(__file__).resolve().parent
 DATA_DIR = REPO_ROOT / "data"
 OUTPUT_DIR = REPO_ROOT / "output"
 
@@ -165,99 +170,81 @@ def load_all_networks(processed_dir=None, selected_networks=None):
 # ==============================================================================
 # 2. NULL MODEL STATISTICAL VALIDATION (Bonifazi - B2)
 # ==============================================================================
-def compute_null_model_stats(G, metric_func, num_samples=50, nswaps_factor=10, max_swaps=15000, seed=SEED):
-    """Compute Z-score and p-value of a metric against the Configuration Model.
+# The statistics are computed on the undirected, unweighted projection (two players linked if they
+# ever met), the same graph used for Table "null" and hypothesis H2 in the report.
+# Density is not tested: degree-preserving swaps keep the number of edges, so it never changes.
+NULL_METRICS = {
+    "avg_clustering": nx.average_clustering,
+    "transitivity": nx.transitivity,
+    "degree_assortativity": nx.degree_assortativity_coefficient,
+}
 
-    Preserves the degree sequence (in-degree and out-degree for directed graphs).
+
+def undirected_projection(G):
+    """Simple undirected, unweighted graph: two players are linked if they met at least once."""
+    und = nx.Graph()
+    und.add_nodes_from(G.nodes())
+    und.add_edges_from(G.edges())
+    und.remove_edges_from(list(nx.selfloop_edges(und)))
+    return und
+
+
+def compute_null_model_stats(G, metrics=None, num_samples=50, nswaps_factor=10, seed=SEED):
+    """Observed metrics against the configuration model, one row per metric.
+
+    Null graphs come from `tennis_networks.nullmodels.degree_preserving_null` with
+    `nswaps_factor` swap attempts per edge (no upper cap, so large networks are fully
+    randomised). Every null graph is generated once and all metrics are computed on it.
+    p-values are two-sided with the +1 correction, so they are never 0.
     """
-    np.random.seed(seed)
-    m_real = metric_func(G)
+    metrics = metrics or NULL_METRICS
+    und = undirected_projection(G)
 
-    if G.number_of_edges() < 2:
-        return {"m_real": m_real, "mu_null": m_real, "std_null": 0.0, "z_score": 0.0, "p_value": 1.0}
+    def null_model(g, rng):
+        return nm.degree_preserving_null(g, rng, swaps_per_edge=nswaps_factor)
 
-    null_metrics = []
-    is_directed = G.is_directed()
-    n_swaps = min(nswaps_factor * G.number_of_edges(), max_swaps)
-
-    for i in range(num_samples):
-        G_null = G.copy()
-        if is_directed:
-            with contextlib.suppress(Exception):
-                nx.directed_edge_swap(G_null, nswap=n_swaps, max_tries=n_swaps * 5, seed=seed + i)
-        else:
-            with contextlib.suppress(Exception):
-                nx.double_edge_swap(G_null, nswap=n_swaps, max_tries=n_swaps * 5, seed=seed + i)
-
-        null_metrics.append(metric_func(G_null))
-
-    null_metrics = np.array(null_metrics)
-    mu_null = float(np.mean(null_metrics)) if len(null_metrics) > 0 else 0.0
-    std_null = float(np.std(null_metrics, ddof=1)) if len(null_metrics) > 1 else 0.0
-
-    z_score = (m_real - mu_null) / std_null if std_null > 0 else 0.0
-    p_value = float(np.sum(null_metrics >= m_real) / num_samples) if num_samples > 0 else 1.0
-
-    return {"m_real": m_real, "mu_null": mu_null, "std_null": std_null, "z_score": z_score, "p_value": p_value}
+    null = nm.null_statistics(und, metrics, num_samples, seed, model=null_model)
+    rows = []
+    for name, fn in metrics.items():
+        res = nm.compare_to_null(fn(und), null[name])
+        rows.append(
+            {
+                "metric": name,
+                "m_real": res["observed"],
+                "mu_null": res["null_mean"],
+                "std_null": res["null_sd"],
+                "z_score": res["z"],
+                "p_value": res["p_empirical"],
+                "samples": num_samples,
+            }
+        )
+    return rows
 
 
-def safe_metric(metric_func, default=0.0):
-    """Wrap a metric function to handle empty graphs gracefully."""
-
-    def wrapper(G):
-        if G.number_of_edges() == 0 or G.number_of_nodes() == 0:
-            return default
-        try:
-            return metric_func(G)
-        except Exception:
-            return default
-
-    return wrapper
-
-
-def analyze_null_models(networks, output_path=None, num_samples=50, nswaps_factor=10):
-    """Run null model validation across all networks for key metrics.
-
-    Saves results to CSV.
-    """
+def analyze_null_models(networks, output_path=None, num_samples=50, nswaps_factor=10, seed=SEED):
+    """Run null model validation across all networks and save the results to CSV."""
     dest_path = Path(output_path) if output_path else OUTPUT_DIR / "null_model_results.csv"
     dest_path.parent.mkdir(parents=True, exist_ok=True)
-
-    results = []
-
-    metrics_to_test = {
-        "clustering": safe_metric(nx.average_clustering),
-        "assortativity": safe_metric(nx.degree_assortativity_coefficient),
-        "density": safe_metric(nx.density),
-    }
 
     print("\n" + "=" * 70)
     print("NULL MODEL VALIDATION (Configuration Model)")
     print("=" * 70 + "\n")
 
-    for era, G in networks.items():
-        print(f"\n--- Network: {era} ({G.number_of_nodes()} nodes, {G.number_of_edges()} edges) ---")
+    results = []
+    for name, G in networks.items():
+        print(f"\n--- Network: {name} ({G.number_of_nodes()} nodes, {G.number_of_edges()} edges) ---")
+        for row in compute_null_model_stats(G, num_samples=num_samples, nswaps_factor=nswaps_factor, seed=seed):
+            row["network"] = name
+            row["significant"] = row["p_value"] < 0.05
+            results.append(row)
+            print(
+                f"  {row['metric']:22s} | real={row['m_real']:.4f} | null={row['mu_null']:.4f} | "
+                f"z={row['z_score']:7.2f} | p={row['p_value']:.3f}"
+            )
 
-        for metric_name, metric_func in metrics_to_test.items():
-            try:
-                stats = compute_null_model_stats(G, metric_func, num_samples=num_samples, nswaps_factor=nswaps_factor)
-                stats["network"] = era
-                stats["metric"] = metric_name
-                stats["significant"] = stats["p_value"] < 0.05
-                results.append(stats)
-
-                sig = "✅" if stats["significant"] else "❌"
-                print(
-                    f"  {sig} {metric_name:20s} | real={stats['m_real']:.4f} | "
-                    f"μ_null={stats['mu_null']:.4f} | Z={stats['z_score']:6.2f} | p={stats['p_value']:.3f}"
-                )
-            except Exception as e:
-                print(f"  ⚠️  Error in {metric_name}: {e}")
-
-    df_results = pd.DataFrame(results)
+    cols = ["network", "metric", "m_real", "mu_null", "std_null", "z_score", "p_value", "samples", "significant"]
+    df_results = pd.DataFrame(results, columns=cols)
     if not df_results.empty:
-        cols = ["network", "metric", "m_real", "mu_null", "std_null", "z_score", "p_value", "significant"]
-        df_results = df_results[cols]
         df_results.to_csv(dest_path, index=False)
         print(f"\n✓ Null model results saved to: {dest_path}")
 
