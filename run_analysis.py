@@ -5,12 +5,18 @@ A Comparative Study Across Eras, Surfaces, and Genders
 Network Analysis, A.Y. 2026/2027, UniBo
 Authors: Castaldi, Fusco, Bonifazi, Kumar, Muscarello
 
-Single entry-point script for the entire analysis pipeline.
-Run with: python run_analysis.py
+Quick overview of every network in one run: basic measures, centralities, HITS, k-cores,
+core-periphery, small-world and configuration-model tests. Results go to output/ (not tracked).
+It reuses the functions of the tennis_networks package, so its numbers agree with the report.
+
+The report tables, figures and the hypothesis tests H1-H8 come from `make all`, not from this script.
+
+Run with:
+    python run_analysis.py                      # all networks, 50 null graphs each
+    python run_analysis.py --quick --network ATP_grass
 """
 
 import argparse
-import contextlib
 import sys
 from pathlib import Path
 
@@ -18,248 +24,161 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 
+REPO_ROOT = Path(__file__).resolve().parent
+if str(REPO_ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT / "src"))
+
+from tennis_networks import nullmodels as nm  # noqa: E402
+from tennis_networks.config import load_config  # noqa: E402
+from tennis_networks.structure import core_periphery  # noqa: E402
+
 # ==============================================================================
 # CONFIGURATION
 # ==============================================================================
-SEED = 20261115
-np.random.seed(SEED)
+SEED = load_config()["seed"]  # every random draw below takes this seed explicitly
 
-REPO_ROOT = Path(__file__).resolve().parent
 DATA_DIR = REPO_ROOT / "data"
 OUTPUT_DIR = REPO_ROOT / "output"
+
+# The 12 networks of the study, built by `make networks` (edge lists with source, target[, weight]).
+# Michieli network 2 (ATP points) is left out: its weights are symmetric and carry no winner.
+NETWORK_FILES = {
+    "M1_wins": ("michieli_1_wins.csv", True),
+    "M3_undirected": ("michieli_3_undirected.csv", False),
+    "M4_extended": ("michieli_4_extended.csv", False),
+    "ATP_2000-2006": ("td_atp_2000_2006.csv", True),
+    "ATP_2007-2012": ("td_atp_2007_2012.csv", True),
+    "ATP_2013-2018": ("td_atp_2013_2018.csv", True),
+    "ATP_2019-2025": ("td_atp_2019_2025.csv", True),
+    "ATP_clay": ("td_atp_clay.csv", True),
+    "ATP_grass": ("td_atp_grass.csv", True),
+    "ATP_hard": ("td_atp_hard.csv", True),
+    "ATP_2007-2025": ("td_atp_2007_2025.csv", True),
+    "WTA_2007-2025": ("td_wta_2007_2025.csv", True),
+}
 
 
 # ==============================================================================
 # 1. DATA LOADING
 # ==============================================================================
-def load_michieli_networks():
-    """
-    Load the 4 Michieli (2018) ATP networks from MATLAB files.
-    Returns dict with keys: M1, M2, M3, M4
-    """
-    try:
-        from scipy.io import loadmat
-    except ImportError:
-        print("⚠️  scipy not installed. Skipping Michieli networks.")
-        return {}
-
-    networks = {}
-    michieli_files = {
-        "M1": "1_direct_wins.mat",
-        "M2": "2_direct_points.mat",
-        "M3": "3_undirect_unweighted.mat",
-        "M4": "4_extended_undirect_unweighted.mat",
-    }
-
-    for key, filename in michieli_files.items():
-        filepath = DATA_DIR / "michieli" / filename
-        if filepath.exists():
-            mat = loadmat(filepath)
-            # The matrix key is typically the filename without extension
-            matrix_key = filename.replace(".mat", "")
-            if matrix_key in mat:
-                A = mat[matrix_key]
-                G = nx.from_numpy_array(A, create_using=nx.DiGraph) if key in ["M1", "M2"] else nx.from_numpy_array(A)
-                networks[key] = G
-                print(f"✓ Loaded {key}: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
-
-    return networks
-
-
-def load_tennis_data_networks():
-    """
-    Load the 9 tennis-data.co.uk networks (ATP by era/surface + WTA).
-    Returns dict with network names as keys.
-    """
-    networks = {}
-    network_files = {
-        "ATP_2000-2006": "ATP_2000-2006.edgelist",
-        "ATP_2007-2012": "ATP_2007-2012.edgelist",
-        "ATP_2013-2018": "ATP_2013-2018.edgelist",
-        "ATP_2019-2025": "ATP_2019-2025.edgelist",
-        "ATP_clay": "ATP_clay.edgelist",
-        "ATP_grass": "ATP_grass.edgelist",
-        "ATP_hard": "ATP_hard.edgelist",
-        "ATP_2007-2025": "ATP_2007-2025.edgelist",
-        "WTA_2007-2025": "WTA_2007-2025.edgelist",
-    }
-
-    for name, filename in network_files.items():
-        filepath = DATA_DIR / "tennis_data" / filename
-        if filepath.exists():
-            G = nx.read_edgelist(filepath, create_using=nx.DiGraph(), data=[("weight", float)])
-            networks[name] = G
-            print(f"✓ Loaded {name}: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
-
-    return networks
-
-
 def load_all_networks(processed_dir=None, selected_networks=None):
-    """Carica tutte o una selezione mirata di reti dai file CSV processati."""
+    """Load all networks, or the selected ones, from the processed edge lists.
+
+    Directed networks have an edge from the loser to the winner, weighted by the number of wins.
+    A missing file is reported and skipped; a malformed one raises an error.
+    """
     print("\n" + "=" * 70)
     print("LOADING NETWORKS")
     print("=" * 70 + "\n")
 
-    networks = {}
     target_dir = Path(processed_dir) if processed_dir else DATA_DIR / "processed"
-
-    # Mappatura esatta dei nomi delle reti ai file CSV presenti nella tua cartella
-    network_files = {
-        "M1_wins": "michieli_1_wins.csv",
-        "M2_points": "michieli_2_points.csv",
-        "M3_undirected": "michieli_3_undirected.csv",
-        "M4_extended": "michieli_4_extended.csv",
-        "ATP_2000-2006": "td_atp_2000_2006.csv",
-        "ATP_2007-2012": "td_atp_2007_2012.csv",
-        "ATP_2013-2018": "td_atp_2013_2018.csv",
-        "ATP_2019-2025": "td_atp_2019_2025.csv",
-        "ATP_clay": "td_atp_clay.csv",
-        "ATP_grass": "td_atp_grass.csv",
-        "ATP_hard": "td_atp_hard.csv",
-        "ATP_2007-2025": "td_atp_2007_2025.csv",
-        "WTA_2007-2025": "td_wta_2007_2025.csv",
-    }
-
+    files = NETWORK_FILES
     if selected_networks:
         if isinstance(selected_networks, str):
             selected_networks = [selected_networks]
-        network_files = {k: v for k, v in network_files.items() if k in selected_networks}
+        files = {k: v for k, v in NETWORK_FILES.items() if k in selected_networks}
 
-    for name, filename in network_files.items():
+    networks = {}
+    for name, (filename, directed) in files.items():
         filepath = target_dir / filename
-        if filepath.exists():
-            try:
-                # Leggiamo il CSV. Assumiamo che abbia header (es. source, target, weight)
-                df = pd.read_csv(filepath)
-                cols = df.columns.tolist()
+        if not filepath.exists():
+            print(f"WARNING: {filepath} not found, run `make networks` first")
+            continue
+        df = pd.read_csv(filepath, dtype={"source": str, "target": str})
+        G = nx.from_pandas_edgelist(
+            df,
+            source="source",
+            target="target",
+            edge_attr="weight" if "weight" in df.columns else None,
+            create_using=nx.DiGraph if directed else nx.Graph,
+        )
+        networks[name] = G
+        print(f"Loaded {name:20s} | {G.number_of_nodes():5d} nodes, {G.number_of_edges():6d} edges")
 
-                if len(cols) >= 2:
-                    source, target = cols[0], cols[1]
-
-                    # Se c'è una terza colonna, la usiamo come peso
-                    if len(cols) >= 3:
-                        weight = cols[2]
-                        G = nx.from_pandas_edgelist(
-                            df, source=source, target=target, edge_attr=weight, create_using=nx.DiGraph
-                        )
-                    else:
-                        G = nx.from_pandas_edgelist(df, source=source, target=target, create_using=nx.DiGraph)
-
-                    # M3 e M4 sono definiti come non diretti nel paper di Michieli
-                    if "undirected" in filename or "extended" in filename:
-                        G = G.to_undirected()
-
-                    networks[name] = G
-                    print(f"✓ Loaded {name:20s} | {G.number_of_nodes():5d} nodes, {G.number_of_edges():6d} edges")
-                else:
-                    print(f"⚠️  Skipped {name}: Il CSV ha meno di 2 colonne.")
-            except Exception as e:
-                print(f"⚠️  Error loading {name}: {e}")
-        else:
-            print(f"⚠️  File non trovato: {filepath}")
-
-    print(f"\n✓ Total networks loaded: {len(networks)}/13")
+    print(f"\nNetworks loaded: {len(networks)}/{len(files)}")
     return networks
 
 
 # ==============================================================================
-# 2. NULL MODEL STATISTICAL VALIDATION (Bonifazi - B2)
+# 2. NULL MODEL STATISTICAL VALIDATION
 # ==============================================================================
-def compute_null_model_stats(G, metric_func, num_samples=50, nswaps_factor=10, max_swaps=15000, seed=SEED):
-    """Compute Z-score and p-value of a metric against the Configuration Model.
+# The statistics are computed on the undirected, unweighted projection (two players linked if they
+# ever met), the same graph used for Table "null" and hypothesis H2 in the report.
+# Density is not tested: degree-preserving swaps keep the number of edges, so it never changes.
+NULL_METRICS = {
+    "avg_clustering": nx.average_clustering,
+    "transitivity": nx.transitivity,
+    "degree_assortativity": nx.degree_assortativity_coefficient,
+}
 
-    Preserves the degree sequence (in-degree and out-degree for directed graphs).
+
+def undirected_projection(G):
+    """Simple undirected, unweighted graph: two players are linked if they met at least once."""
+    und = nx.Graph()
+    und.add_nodes_from(G.nodes())
+    und.add_edges_from(G.edges())
+    und.remove_edges_from(list(nx.selfloop_edges(und)))
+    return und
+
+
+def compute_null_model_stats(G, metrics=None, num_samples=50, nswaps_factor=10, seed=SEED):
+    """Observed metrics against the configuration model, one row per metric.
+
+    Null graphs come from `tennis_networks.nullmodels.degree_preserving_null` with
+    `nswaps_factor` swap attempts per edge (no upper cap, so large networks are fully
+    randomised). Every null graph is generated once and all metrics are computed on it.
+    p-values are two-sided with the +1 correction, so they are never 0.
     """
-    np.random.seed(seed)
-    m_real = metric_func(G)
+    metrics = metrics or NULL_METRICS
+    und = undirected_projection(G)
 
-    if G.number_of_edges() < 2:
-        return {"m_real": m_real, "mu_null": m_real, "std_null": 0.0, "z_score": 0.0, "p_value": 1.0}
+    def null_model(g, rng):
+        return nm.degree_preserving_null(g, rng, swaps_per_edge=nswaps_factor)
 
-    null_metrics = []
-    is_directed = G.is_directed()
-    n_swaps = min(nswaps_factor * G.number_of_edges(), max_swaps)
-
-    for i in range(num_samples):
-        G_null = G.copy()
-        if is_directed:
-            with contextlib.suppress(Exception):
-                nx.directed_edge_swap(G_null, nswap=n_swaps, max_tries=n_swaps * 5, seed=seed + i)
-        else:
-            with contextlib.suppress(Exception):
-                nx.double_edge_swap(G_null, nswap=n_swaps, max_tries=n_swaps * 5, seed=seed + i)
-
-        null_metrics.append(metric_func(G_null))
-
-    null_metrics = np.array(null_metrics)
-    mu_null = float(np.mean(null_metrics)) if len(null_metrics) > 0 else 0.0
-    std_null = float(np.std(null_metrics, ddof=1)) if len(null_metrics) > 1 else 0.0
-
-    z_score = (m_real - mu_null) / std_null if std_null > 0 else 0.0
-    p_value = float(np.sum(null_metrics >= m_real) / num_samples) if num_samples > 0 else 1.0
-
-    return {"m_real": m_real, "mu_null": mu_null, "std_null": std_null, "z_score": z_score, "p_value": p_value}
+    null = nm.null_statistics(und, metrics, num_samples, seed, model=null_model)
+    rows = []
+    for name, fn in metrics.items():
+        res = nm.compare_to_null(fn(und), null[name])
+        rows.append(
+            {
+                "metric": name,
+                "m_real": res["observed"],
+                "mu_null": res["null_mean"],
+                "std_null": res["null_sd"],
+                "z_score": res["z"],
+                "p_value": res["p_empirical"],
+                "samples": num_samples,
+            }
+        )
+    return rows
 
 
-def safe_metric(metric_func, default=0.0):
-    """Wrap a metric function to handle empty graphs gracefully."""
-
-    def wrapper(G):
-        if G.number_of_edges() == 0 or G.number_of_nodes() == 0:
-            return default
-        try:
-            return metric_func(G)
-        except Exception:
-            return default
-
-    return wrapper
-
-
-def analyze_null_models(networks, output_path=None, num_samples=50, nswaps_factor=10):
-    """Run null model validation across all networks for key metrics.
-
-    Saves results to CSV.
-    """
+def analyze_null_models(networks, output_path=None, num_samples=50, nswaps_factor=10, seed=SEED):
+    """Run null model validation across all networks and save the results to CSV."""
     dest_path = Path(output_path) if output_path else OUTPUT_DIR / "null_model_results.csv"
     dest_path.parent.mkdir(parents=True, exist_ok=True)
-
-    results = []
-
-    metrics_to_test = {
-        "clustering": safe_metric(nx.average_clustering),
-        "assortativity": safe_metric(nx.degree_assortativity_coefficient),
-        "density": safe_metric(nx.density),
-    }
 
     print("\n" + "=" * 70)
     print("NULL MODEL VALIDATION (Configuration Model)")
     print("=" * 70 + "\n")
 
-    for era, G in networks.items():
-        print(f"\n--- Network: {era} ({G.number_of_nodes()} nodes, {G.number_of_edges()} edges) ---")
+    results = []
+    for name, G in networks.items():
+        print(f"\n--- Network: {name} ({G.number_of_nodes()} nodes, {G.number_of_edges()} edges) ---")
+        for row in compute_null_model_stats(G, num_samples=num_samples, nswaps_factor=nswaps_factor, seed=seed):
+            row["network"] = name
+            row["significant"] = row["p_value"] < 0.05
+            results.append(row)
+            print(
+                f"  {row['metric']:22s} | real={row['m_real']:.4f} | null={row['mu_null']:.4f} | "
+                f"z={row['z_score']:7.2f} | p={row['p_value']:.3f}"
+            )
 
-        for metric_name, metric_func in metrics_to_test.items():
-            try:
-                stats = compute_null_model_stats(G, metric_func, num_samples=num_samples, nswaps_factor=nswaps_factor)
-                stats["network"] = era
-                stats["metric"] = metric_name
-                stats["significant"] = stats["p_value"] < 0.05
-                results.append(stats)
-
-                sig = "✅" if stats["significant"] else "❌"
-                print(
-                    f"  {sig} {metric_name:20s} | real={stats['m_real']:.4f} | "
-                    f"μ_null={stats['mu_null']:.4f} | Z={stats['z_score']:6.2f} | p={stats['p_value']:.3f}"
-                )
-            except Exception as e:
-                print(f"  ⚠️  Error in {metric_name}: {e}")
-
-    df_results = pd.DataFrame(results)
+    cols = ["network", "metric", "m_real", "mu_null", "std_null", "z_score", "p_value", "samples", "significant"]
+    df_results = pd.DataFrame(results, columns=cols)
     if not df_results.empty:
-        cols = ["network", "metric", "m_real", "mu_null", "std_null", "z_score", "p_value", "significant"]
-        df_results = df_results[cols]
         df_results.to_csv(dest_path, index=False)
-        print(f"\n✓ Null model results saved to: {dest_path}")
+        print(f"\nNull model results saved to: {dest_path}")
 
     return df_results
 
@@ -267,130 +186,86 @@ def analyze_null_models(networks, output_path=None, num_samples=50, nswaps_facto
 # ==============================================================================
 # 3. BASIC NETWORK MEASURES
 # ==============================================================================
-def compute_basic_measures(G):
-    """Compute standard structural metrics for a single network."""
-    measures = {
-        "n_nodes": G.number_of_nodes(),
-        "n_edges": G.number_of_edges(),
-        "density": nx.density(G),
-    }
+EXACT_PATHS_MAX_NODES = 1500  # above this, average distance is estimated from sampled sources
+PATH_SAMPLE_SIZE = 300
+SMALL_WORLD_MAX_NODES = 2000  # sigma needs exact distances on every null graph
 
-    # Connected components (use weakly connected for directed)
+
+def _warn(name, err):
+    print(f"  WARNING: {name} not computed ({type(err).__name__}: {err})")
+
+
+def compute_basic_measures(G, seed=SEED):
+    """Size, components, distances and clustering of one network.
+
+    Distances are measured on the undirected giant component. Above EXACT_PATHS_MAX_NODES nodes they
+    are estimated from PATH_SAMPLE_SIZE random sources (the distance of a source to itself is left
+    out), and `diameter` is then a lower bound: `paths_sampled` says which case applies.
+    Values that cannot be computed are NaN, never 0.
+    """
+    measures = {"n_nodes": G.number_of_nodes(), "n_edges": G.number_of_edges(), "density": nx.density(G)}
     components = list(nx.weakly_connected_components(G)) if G.is_directed() else list(nx.connected_components(G))
     measures["n_components"] = len(components)
+    measures.update({"avg_path_length": np.nan, "diameter": np.nan, "paths_sampled": False})
 
     if components:
-        largest_cc = max(components, key=len)
-        G_cc = G.subgraph(largest_cc)
-        G_cc_undir = G_cc.to_undirected() if G.is_directed() else G_cc
+        giant = undirected_projection(G.subgraph(max(components, key=len)))
+        n_cc = giant.number_of_nodes()
+        try:
+            if 1 < n_cc <= EXACT_PATHS_MAX_NODES:
+                measures["avg_path_length"] = nx.average_shortest_path_length(giant)
+                measures["diameter"] = nx.diameter(giant)
+            elif n_cc > EXACT_PATHS_MAX_NODES:
+                rng = np.random.default_rng(seed)
+                sources = rng.choice(list(giant.nodes()), size=min(PATH_SAMPLE_SIZE, n_cc), replace=False)
+                lengths = []
+                for s in sources:
+                    lengths.extend(d for t, d in nx.single_source_shortest_path_length(giant, s).items() if t != s)
+                measures["avg_path_length"] = float(np.mean(lengths))
+                measures["diameter"] = int(max(lengths))
+                measures["paths_sampled"] = True
+        except (nx.NetworkXError, ValueError) as err:
+            _warn("distances", err)
 
-        n_cc = G_cc_undir.number_of_nodes()
-        if n_cc > 1:
-            if n_cc <= 1500:
-                try:
-                    measures["avg_path_length"] = nx.average_shortest_path_length(G_cc_undir)
-                    measures["diameter"] = nx.diameter(G_cc_undir)
-                except Exception:
-                    measures["avg_path_length"] = 0.0
-                    measures["diameter"] = 0
-            else:
-                try:
-                    sample_nodes = np.random.choice(list(G_cc_undir.nodes()), size=min(300, n_cc), replace=False)
-                    lengths = []
-                    for s in sample_nodes:
-                        lengths.extend(nx.single_source_shortest_path_length(G_cc_undir, s).values())
-                    measures["avg_path_length"] = float(np.mean(lengths)) if lengths else 0.0
-                    measures["diameter"] = int(max(lengths)) if lengths else 0
-                except Exception:
-                    measures["avg_path_length"] = 0.0
-                    measures["diameter"] = 0
-        else:
-            measures["avg_path_length"] = 0.0
-            measures["diameter"] = 0
-
-    # Clustering (use undirected version for directed graphs)
-    G_undir = G.to_undirected() if G.is_directed() else G
-    try:
-        measures["avg_clustering"] = nx.average_clustering(G_undir)
-    except Exception:
-        measures["avg_clustering"] = 0.0
-
+    measures["avg_clustering"] = nx.average_clustering(undirected_projection(G))
     return measures
 
 
 # ==============================================================================
 # 4. CENTRALITY MEASURES
 # ==============================================================================
-def compute_centralities(G, top_n=10, k_sample=500):
-    """Compute centrality metrics and return top-n nodes for each."""
+def compute_centralities(G, top_n=10, k_sample=500, seed=SEED):
+    """Centrality scores and the top-n players for each.
+
+    Betweenness and closeness ignore the weights: a weight is a number of wins, and NetworkX would
+    read it as a distance (more wins, longer path). Betweenness is sampled with k_sample sources above
+    k_sample nodes. Closeness is exact and is skipped above EXACT_PATHS_MAX_NODES * 4 nodes, because
+    a top 10 drawn from a random sample of players would be meaningless.
+    """
     n_nodes = G.number_of_nodes()
-
-    # Degree
-    degree_cent = nx.degree_centrality(G)
-
-    # Betweenness with sampling for scalability on large graphs
-    if n_nodes > k_sample:
-        betweenness_cent = nx.betweenness_centrality(G, k=k_sample, seed=SEED, weight="weight")
-    else:
-        betweenness_cent = nx.betweenness_centrality(G, weight="weight")
-
-    # Closeness
-    try:
-        if n_nodes > 1500:
-            closeness_cent = {}
-            nodes = list(G.nodes())
-            sample = np.random.choice(nodes, size=min(300, n_nodes), replace=False)
-            for u in sample:
-                sp = nx.single_source_shortest_path_length(G, u)
-                if len(sp) > 1:
-                    closeness_cent[u] = (len(sp) - 1) / sum(sp.values())
-                else:
-                    closeness_cent[u] = 0.0
-        else:
-            closeness_cent = nx.closeness_centrality(G)
-    except Exception:
-        closeness_cent = {}
-
-    # Eigenvector with fallback
-    try:
-        eigenvector_cent = nx.eigenvector_centrality(G, max_iter=1000)
-    except Exception:
-        try:
-            G_undir = G.to_undirected()
-            eigenvector_cent = nx.eigenvector_centrality(G_undir, max_iter=1000)
-        except Exception:
-            eigenvector_cent = {}
-
-    # PageRank
-    try:
-        pagerank_cent = nx.pagerank(G, alpha=0.85)
-    except Exception:
-        pagerank_cent = {}
-
+    k = k_sample if n_nodes > k_sample else None
     centralities = {
-        "degree": degree_cent,
-        "betweenness": betweenness_cent,
-        "closeness": closeness_cent,
-        "eigenvector": eigenvector_cent,
-        "pagerank": pagerank_cent,
+        "degree": nx.degree_centrality(G),
+        "betweenness": nx.betweenness_centrality(G, k=k, seed=seed, weight=None),
+        "pagerank": nx.pagerank(G, alpha=0.85, weight="weight"),
     }
-
-    # Directed degree centralities
+    if n_nodes <= EXACT_PATHS_MAX_NODES * 4:
+        centralities["closeness"] = nx.closeness_centrality(G)
+    else:
+        print(f"  closeness skipped ({n_nodes} nodes)")
+    try:
+        centralities["eigenvector"] = nx.eigenvector_centrality(G, max_iter=1000, weight="weight")
+    except nx.PowerIterationFailedConvergence as err:
+        # Common on directed match networks (no strongly connected structure): no undirected fallback,
+        # which would silently change the meaning of the score.
+        _warn("eigenvector centrality", err)
     if G.is_directed():
-        try:
-            centralities["in_degree"] = nx.in_degree_centrality(G)
-            centralities["out_degree"] = nx.out_degree_centrality(G)
-        except Exception:
-            pass
+        centralities["in_degree"] = nx.in_degree_centrality(G)
+        centralities["out_degree"] = nx.out_degree_centrality(G)
 
-    top_nodes = {}
-    for metric_name, values in centralities.items():
-        if values:
-            sorted_nodes = sorted(values.items(), key=lambda x: x[1], reverse=True)[:top_n]
-            top_nodes[metric_name] = sorted_nodes
-        else:
-            top_nodes[metric_name] = []
-
+    top_nodes = {
+        name: sorted(values.items(), key=lambda x: x[1], reverse=True)[:top_n] for name, values in centralities.items()
+    }
     return centralities, top_nodes
 
 
@@ -402,8 +277,8 @@ def compute_hits(G, max_iter=1000):
     try:
         hubs, authorities = nx.hits(G, max_iter=max_iter)
         return {"hubs": hubs, "authorities": authorities}
-    except nx.PowerIterationFailedConvergence:
-        print("  ⚠️  HITS did not converge")
+    except nx.PowerIterationFailedConvergence as err:
+        _warn("HITS", err)
         return {"hubs": {}, "authorities": {}}
 
 
@@ -412,13 +287,9 @@ def compute_hits(G, max_iter=1000):
 # ==============================================================================
 def compute_kcore(G):
     """Compute k-core decomposition and return core numbers."""
-    G_undir = G.to_undirected() if G.is_directed() else G
-    core_numbers = nx.core_number(G_undir)
+    core_numbers = nx.core_number(undirected_projection(G))
     max_k = max(core_numbers.values()) if core_numbers else 0
-
-    # Extract the main k-core
     main_core_nodes = [n for n, k in core_numbers.items() if k == max_k]
-
     return {
         "core_numbers": core_numbers,
         "max_k": max_k,
@@ -431,139 +302,33 @@ def compute_kcore(G):
 # 7. CORE-PERIPHERY ANALYSIS
 # ==============================================================================
 def compute_core_periphery(G):
-    """
-    Simple core-periphery classification based on degree quantiles.
-    Core: top 20% by degree; Periphery: bottom 20%.
-    """
-    degrees = dict(G.degree())
-    sorted_nodes = sorted(degrees.items(), key=lambda x: x[1], reverse=True)
-    n = len(sorted_nodes)
-
-    core_size = max(1, int(0.2 * n))
-    periphery_size = max(1, int(0.2 * n))
-
-    core = [node for node, _ in sorted_nodes[:core_size]]
-    periphery = [node for node, _ in sorted_nodes[-periphery_size:]]
-
-    return {"core": core, "periphery": periphery}
+    """Borgatti-Everett discrete core-periphery, the same model as the report (structure.core_periphery)."""
+    core, stats = core_periphery(undirected_projection(G))
+    return {"core": sorted(core), **stats}
 
 
 # ==============================================================================
 # 8. SMALL-WORLD ANALYSIS
 # ==============================================================================
-def compute_small_world(G, sample_size=500):
+def compute_small_world(G, samples=5, seed=SEED):
+    """Small-world sigma against the configuration model, as in the report (nullmodels.small_world_sigma).
+
+    Skipped (NaN) when the giant component has more than SMALL_WORLD_MAX_NODES nodes, because every null
+    graph needs exact shortest paths.
     """
-    Compute Watts-Strogatz small-world coefficients using node sampling
-    for computational feasibility on large networks (N > 2000).
-
-    For small networks: exact computation.
-    For large networks: random sampling of source nodes (standard practice).
-    """
-    G_undir = G.to_undirected() if G.is_directed() else G
-    n = G_undir.number_of_nodes()
-
-    if n < 10:
-        return {"sigma": 0.0, "C_ratio": 0.0, "L_ratio": 0.0, "method": "skipped"}
-
-    # Largest connected component
-    largest_cc = max(nx.connected_components(G_undir), key=len)
-    G_cc = G_undir.subgraph(largest_cc)
-    n_cc = G_cc.number_of_nodes()
-
-    # 1. REAL clustering (always fast to compute)
-    C_real = nx.average_clustering(G_cc)
-
-    # 2. REAL path length: exact for small, sampled for large
-    if n_cc <= 2000:
-        try:
-            L_real = nx.average_shortest_path_length(G_cc)
-            method = "exact"
-        except Exception:
-            return {"sigma": 0.0, "C_ratio": 0.0, "L_ratio": 0.0, "method": "failed"}
-    else:
-        # Sample random source nodes and compute their average path length
-        nodes_list = list(G_cc.nodes())
-        sample_nodes = np.random.choice(nodes_list, size=min(sample_size, n_cc), replace=False)
-        path_lengths = []
-        for source in sample_nodes:
-            lengths = nx.single_source_shortest_path_length(G_cc, source)
-            path_lengths.extend(lengths.values())
-        L_real = np.mean(path_lengths) if path_lengths else 0.0
-        method = f"sampled_{sample_size}"
-
-    # 3. RANDOM baseline (analytical Erdős-Rényi approximation)
-    p = nx.density(G_cc)
-    C_rand = p  # Expected clustering in ER graph
-    k_mean = np.mean([d for _, d in G_cc.degree()])
-    L_rand = np.log(n_cc) / np.log(k_mean) if k_mean > 1 else float("inf")
-
-    # 4. Compute ratios and sigma
-    C_ratio = C_real / C_rand if C_rand > 0 else 0.0
-    L_ratio = L_real / L_rand if L_rand > 0 and L_rand != float("inf") else 1.0
-    sigma = C_ratio / L_ratio if L_ratio > 0 else 0.0
-
-    return {"sigma": round(sigma, 4), "C_ratio": round(C_ratio, 4), "L_ratio": round(L_ratio, 4), "method": method}
+    und = undirected_projection(G)
+    n_cc = len(max(nx.connected_components(und), key=len)) if und.number_of_nodes() else 0
+    empty = {"sigma": np.nan, "C": np.nan, "L": np.nan, "C_null": np.nan, "L_null": np.nan}
+    if n_cc < 10 or n_cc > SMALL_WORLD_MAX_NODES:
+        return {**empty, "samples": 0, "method": f"skipped ({n_cc} nodes in the giant component)"}
+    sw = nm.small_world_sigma(und, samples, seed)
+    return {**{k: sw[k] for k in empty}, "samples": samples, "method": "configuration model"}
 
 
 # ==============================================================================
-# 9. HYPOTHESIS TESTING
+# 9. MASTER ANALYSIS PIPELINE
 # ==============================================================================
-def test_hypotheses(networks, output_path=None):
-    """
-    Run the 8 project hypotheses (H1-H8) using permutation tests and null models.
-    Results saved to output/hypotheses_results.csv
-    """
-    print("\n" + "=" * 70)
-    print("HYPOTHESIS TESTING (H1-H8)")
-    print("=" * 70 + "\n")
-
-    results = []
-
-    # H1: Assortativity changes across eras
-    if all(k in networks for k in ["ATP_2000-2006", "ATP_2007-2012", "ATP_2013-2018", "ATP_2019-2025"]):
-        assort_by_era = {}
-        for era in ["ATP_2000-2006", "ATP_2007-2012", "ATP_2013-2018", "ATP_2019-2025"]:
-            assort_by_era[era] = nx.degree_assortativity_coefficient(networks[era])
-        results.append(
-            {
-                "hypothesis": "H1",
-                "description": "Assortativity varies across ATP eras",
-                "values": assort_by_era,
-                "supported": "partial",
-            }
-        )
-
-    # H3, H4, H7, H8: Surface and gender comparisons
-    # (Placeholder - implement specific tests as needed)
-
-    # H5: Stricter hierarchy in 2007-2012 (Big 3 era)
-    if "ATP_2007-2012" in networks:
-        G = networks["ATP_2007-2012"]
-        core = compute_kcore(G)
-        results.append(
-            {
-                "hypothesis": "H5",
-                "description": "Hierarchy stricter in 2007-2012 (Big 3 era)",
-                "max_k": core["max_k"],
-                "core_size": core["main_core_size"],
-                "supported": "yes",
-            }
-        )
-
-    # Save results
-    dest_path = Path(output_path) if output_path else OUTPUT_DIR / "hypotheses_results.csv"
-    dest_path.parent.mkdir(parents=True, exist_ok=True)
-    df_hyp = pd.DataFrame(results)
-    df_hyp.to_csv(dest_path, index=False)
-    print(f"\n✓ Hypothesis results saved to: {dest_path}")
-
-    return results
-
-
-# ==============================================================================
-# 10. MASTER ANALYSIS PIPELINE
-# ==============================================================================
-def run_full_analysis(networks, output_dir=None):
+def run_full_analysis(networks, output_dir=None, sw_samples=5):
     """
     Run the complete analysis pipeline on all networks.
     Saves all results to the output directory.
@@ -574,6 +339,7 @@ def run_full_analysis(networks, output_dir=None):
     all_basic = []
     all_centralities = []
     all_kcore = []
+    all_core_periphery = []
     all_small_world = []
 
     print("\n" + "=" * 70)
@@ -610,21 +376,22 @@ def run_full_analysis(networks, output_dir=None):
 
         # Core-periphery
         cp = compute_core_periphery(G)
-        print(f"  Core-periphery: {len(cp['core'])} core, {len(cp['periphery'])} periphery")
+        all_core_periphery.append({"network": name, **{k: v for k, v in cp.items() if k != "core"}})
+        print(f"  Core-periphery: {cp['core_size']} core players, fit {cp['core_fit']:.3f}")
 
         # Small-world
-        sw = compute_small_world(G)
-        sw_record = {"network": name, **sw}
-        all_small_world.append(sw_record)
-        print(f"  Small-world: σ={sw['sigma']:.3f}, C_ratio={sw['C_ratio']:.3f}, L_ratio={sw['L_ratio']:.3f}")
+        sw = compute_small_world(G, samples=sw_samples)
+        all_small_world.append({"network": name, **sw})
+        print(f"  Small-world: sigma={sw['sigma']:.3f} ({sw['method']})")
 
     # Save all results
     pd.DataFrame(all_basic).to_csv(dest_dir / "basic_measures.csv", index=False)
     pd.DataFrame(all_centralities).to_csv(dest_dir / "centralities_top10.csv", index=False)
     pd.DataFrame(all_kcore).to_csv(dest_dir / "kcore_decomposition.csv", index=False)
+    pd.DataFrame(all_core_periphery).to_csv(dest_dir / "core_periphery.csv", index=False)
     pd.DataFrame(all_small_world).to_csv(dest_dir / "small_world.csv", index=False)
 
-    print(f"\n✓ All results saved to: {dest_dir}/")
+    print(f"\nAll results saved to: {dest_dir}/")
 
 
 # ==============================================================================
@@ -688,18 +455,18 @@ def main(argv=None):
 
     if not networks:
         if args.network:
-            print(f"⚠️  Network '{args.network}' not found.")
+            print(f"WARNING: network '{args.network}' not found. Choose one of: {', '.join(NETWORK_FILES)}")
         else:
-            print("\n⚠️  No networks loaded. Check data/ directory.")
+            print("\nWARNING: no networks loaded. Check data/processed.")
         return 1
 
     if args.network:
-        print(f"✓ Target network selected: {args.network}")
+        print(f"Target network selected: {args.network}")
 
     # 2. Run full analysis
-    run_full_analysis(networks, output_dir=output_dir)
+    run_full_analysis(networks, output_dir=output_dir, sw_samples=2 if args.quick else 5)
 
-    # 3. Null model validation (Bonifazi - B2)
+    # 3. Null model validation
     if not args.skip_null:
         analyze_null_models(
             networks,
@@ -708,13 +475,13 @@ def main(argv=None):
             nswaps_factor=nswaps_factor,
         )
     else:
-        print("\nℹ️  Skipping null model validation (--skip-null)")
+        print("\nSkipping null model validation (--skip-null)")
 
-    # 4. Hypothesis testing
-    test_hypotheses(networks, output_path=output_dir / "hypotheses_results.csv")
+    # Hypotheses H1-H8 are tested by their own modules, not here:
+    print("\nHypotheses H1-H8: run `make hypotheses triads levels` (results in results/tables).")
 
     print("\n" + "=" * 70)
-    print("✅ ANALYSIS COMPLETE")
+    print("ANALYSIS COMPLETE")
     print("=" * 70)
     print(f"\nResults available in: {output_dir.resolve()}")
     print("\nGenerated files:")
