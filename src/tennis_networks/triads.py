@@ -36,10 +36,38 @@ RANDOM_RATIO = 1 / 3
 PEAK = (2007, 2012)
 
 
+def cyclic_transitive_counts(g):
+    """Number of 030C and 030T triads of a directed graph, without the full triad census.
+
+    Both classes are triangles in which every pair has exactly one directed edge (no reciprocal
+    pair). Such a triangle is cyclic when every player beats exactly one of the other two, and
+    transitive otherwise. Counting only these triangles gives the same numbers as
+    `nx.triads.triadic_census` and is much faster, which matters on hundreds of null graphs.
+    """
+    asym = nx.Graph()
+    asym.add_edges_from((u, v) for u, v in g.edges() if u != v and not g.has_edge(v, u))
+    order = {v: i for i, v in enumerate(asym.nodes())}
+    cyclic = transitive = 0
+    for u in asym:
+        later = {w for w in asym[u] if order[w] > order[u]}
+        for v in later:
+            for w in later & set(asym[v]):
+                if order[w] <= order[v]:
+                    continue
+                # Out-degrees inside the triangle: cyclic iff all three are 1.
+                out_u = g.has_edge(u, v) + g.has_edge(u, w)
+                out_v = g.has_edge(v, u) + g.has_edge(v, w)
+                if out_u == 1 and out_v == 1:
+                    cyclic += 1
+                else:
+                    transitive += 1
+    return cyclic, transitive
+
+
 def cyclic_ratio(g):
     """030C / 030T of a directed graph (reciprocal pairs, where both players won, are not counted)."""
-    census = nx.triads.triadic_census(g)
-    return census["030C"] / census["030T"] if census["030T"] else float("nan")
+    cyclic, transitive = cyclic_transitive_counts(g)
+    return cyclic / transitive if transitive else float("nan")
 
 
 def _triad_census_worker(args):

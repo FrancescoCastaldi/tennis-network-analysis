@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - One null-graph count for every significance test in the report: `test_null_samples` in `config/networks.json` (200) is now the default of `hypotheses` (H2) and `triads` (triad ratios and the triad spectrum, which used 20 by default and 5 and 15 in the saved results). `make triads JOBS=n` runs the triad null graphs on n cores.
 
+### Performance
+
+- `triads.cyclic_ratio` counts the 030C and 030T triads directly from the asymmetric triangles instead of running the full 16-class census, with identical counts and about 45 times faster (0.15 s against 6.8 s on the hard-court network). This makes 200 null graphs per network practical.
+
 ### Fixed
 
 - `nullmodels.null_statistics` and `triads.triad_census_spectrum` give the same result for any `n_jobs`: every null graph now draws from its own child of the configuration seed, in serial runs too (serial and parallel runs used different random streams).

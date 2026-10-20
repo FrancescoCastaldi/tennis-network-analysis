@@ -92,3 +92,12 @@ def test_triad_census_spectrum_small_graph():
     df = triad_census_spectrum(g2, samples=3, seed=42)
     assert len(df) == 16
     assert (df["observed"] == 0).all()
+
+
+def test_cyclic_transitive_counts_match_networkx_census():
+    from tennis_networks.triads import cyclic_transitive_counts
+
+    for seed in range(5):
+        g = nx.gnm_random_graph(60, 500, seed=seed, directed=True)
+        census = nx.triads.triadic_census(g)
+        assert cyclic_transitive_counts(g) == (census["030C"], census["030T"])
