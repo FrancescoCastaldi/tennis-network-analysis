@@ -1,7 +1,7 @@
 """Tests of hypotheses H1-H4 on the tennis-data.co.uk networks (course slide L04).
 
 Run (after `python -m tennis_networks.tennisdata`):
-    python -m tennis_networks.hypotheses --null 200
+    python -m tennis_networks.hypotheses
 
 Three kinds of test, all with the seed of config/networks.json:
 * permutation of matches between two groups (H3, surfaces): group labels are shuffled keeping the
@@ -97,9 +97,11 @@ def yearly(matches, tour, years, stat):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--perm", type=int, default=999, help="permutations per test")
-    parser.add_argument("--null", type=int, default=200, help="null graphs for H2")
+    parser.add_argument("--null", type=int, default=None, help="null graphs for H2 (default: test_null_samples)")
     args = parser.parse_args()
-    seed = load_config()["seed"]
+    cfg = load_config()
+    seed = cfg["seed"]
+    args.null = args.null or cfg["test_null_samples"]
     matches = pd.read_csv(PROCESSED / "td_matches.csv", parse_dates=["date"])
     TABLES.mkdir(parents=True, exist_ok=True)
     rows = []

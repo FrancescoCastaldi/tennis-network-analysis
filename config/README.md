@@ -22,6 +22,7 @@ Network IDs and processed filenames are different fields. Use the ID with
 |---|---|
 | `seed` | Canonical random seed, currently `20261115` |
 | `null_model_samples` | Default analysis null-sample count |
+| `test_null_samples` | Null graphs behind every significance test in the report (H2, triad ratios, triad spectrum); one value so that all z-scores and p-values rest on the same number of draws |
 | `betweenness_sample_threshold`, `betweenness_sample_size` | Node-count threshold and sample size for approximate betweenness |
 | `networks[].id` | Unique identifier used in results and CLI selection |
 | `networks[].file` | CSV or GraphML path relative to `data/processed/` |

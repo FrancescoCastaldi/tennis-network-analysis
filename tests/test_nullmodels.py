@@ -2,6 +2,7 @@ import math
 
 import networkx as nx
 import numpy as np
+import pandas as pd
 
 from tennis_networks import nullmodels as nm
 
@@ -71,6 +72,8 @@ def test_null_statistics_parallel_n_jobs(karate):
     assert len(df_par) == 4
     assert len(df_seq) == 4
     assert not df_par.isna().any().any()
+    # Each null graph has its own child seed: the number of workers does not change the result.
+    pd.testing.assert_frame_equal(df_seq, df_par)
 
 
 def test_compare_dual_null_models(karate):

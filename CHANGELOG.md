@@ -7,8 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- One null-graph count for every significance test in the report: `test_null_samples` in `config/networks.json` (200) is now the default of `hypotheses` (H2) and `triads` (triad ratios and the triad spectrum, which used 20 by default and 5 and 15 in the saved results). `make triads JOBS=n` runs the triad null graphs on n cores.
+
 ### Fixed
 
+- `nullmodels.null_statistics` and `triads.triad_census_spectrum` give the same result for any `n_jobs`: every null graph now draws from its own child of the configuration seed, in serial runs too (serial and parallel runs used different random streams).
+- The `triads` docstring said the directed null model keeps each player's wins and losses; it keeps the number of distinct opponents beaten and lost to.
 - `run_analysis.py` null models now reuse `tennis_networks.nullmodels`: no 15,000-swap cap (large networks were barely randomised), two-sided p-values with the +1 correction (they could be 0), each null graph generated once for all metrics, and statistics computed on the undirected projection used in the report. Density is no longer tested, since edge swaps keep it constant.
 - `run_analysis.py` measures now match the report: betweenness ignores weights (wins were read as distances), core-periphery uses the Borgatti-Everett model of `structure.core_periphery` (was the top 20% by degree, now saved to `core_periphery.csv`), and small-world sigma uses `nullmodels.small_world_sigma` against the configuration model (was an analytical Erdos-Renyi baseline). Sampled distances leave out the distance of each source to itself and are flagged in `paths_sampled`; closeness is exact or skipped, never ranked on a random sample. Failed measures are reported as NaN with a warning instead of 0.
 

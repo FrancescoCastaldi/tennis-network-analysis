@@ -96,30 +96,24 @@ def null_statistics(g, statistics, samples, seed, model="configuration", n_jobs=
     Each null graph is generated once, which is the expensive part on large networks.
     Supports model='configuration' (default) or model='erdos_renyi', and parallelization
     via n_jobs (default 1, -1 for all available CPU cores).
+
+    Every null graph draws from its own child of `SeedSequence(seed)`, so the result is the
+    same whatever the number of workers. In parallel, statistics and a callable model must be
+    picklable (module-level functions, not lambdas).
     """
-    if n_jobs is None or n_jobs == 1:
-        rng = np.random.default_rng(seed)
-        rows = []
-        for _ in range(samples):
-            if model == "erdos_renyi":
-                h = erdos_renyi_null(g, rng)
-            elif callable(model):
-                h = model(g, rng)
-            else:
-                h = degree_preserving_null(g, rng)
-            rows.append({name: fn(h) for name, fn in statistics.items()})
-        return pd.DataFrame(rows, columns=list(statistics))
-
-    import os
-    from concurrent.futures import ProcessPoolExecutor
-
-    max_workers = os.cpu_count() if n_jobs == -1 else max(1, int(n_jobs))
     seeds = np.random.SeedSequence(seed).spawn(samples)
     stat_items = list(statistics.items())
     worker_args = [(g, stat_items, model, s) for s in seeds]
 
-    with ProcessPoolExecutor(max_workers=max_workers) as executor:
-        rows = list(executor.map(_sample_null_worker, worker_args))
+    if n_jobs is None or n_jobs == 1:
+        rows = [_sample_null_worker(a) for a in worker_args]
+    else:
+        import os
+        from concurrent.futures import ProcessPoolExecutor
+
+        max_workers = os.cpu_count() if n_jobs == -1 else max(1, int(n_jobs))
+        with ProcessPoolExecutor(max_workers=max_workers) as executor:
+            rows = list(executor.map(_sample_null_worker, worker_args))
 
     return pd.DataFrame(rows, columns=list(statistics))
 

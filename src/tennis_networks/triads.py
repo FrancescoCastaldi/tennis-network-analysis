@@ -2,7 +2,7 @@
 
 Run:
     python -m tennis_networks.triads
-    python -m tennis_networks.triads --null 20 --perm 999
+    python -m tennis_networks.triads --null 20 --jobs 2      # quicker, fewer null graphs
 
 In a triangle of matches between three players, either one player beats both others and the
 results are consistent (transitive triad 030T: A beats B, B beats C, A beats C), or the results go
@@ -10,8 +10,9 @@ round in a circle (cyclic triad 030C: A beats B, B beats C, C beats A). With ran
 triangle is cyclic with probability 2/8, so the ratio 030C / 030T is 1/3. A lower ratio means a more
 consistent hierarchy.
 
-* For every network the ratio is compared with directed configuration-model graphs (same number of
-  wins and losses for every player): is the hierarchy more consistent than the win counts imply?
+* For every network the ratio is compared with directed configuration-model graphs (every player keeps
+  the number of distinct opponents beaten and lost to; repeated wins over the same opponent are not
+  kept): is the hierarchy more consistent than these degrees imply?
 * H5: the ATP hierarchy was more rigid in the 2007-2012 seasons, at the peak of the Big Three, than
   in the other seasons. One ratio per season, then a permutation test of the season labels.
 
@@ -62,16 +63,15 @@ def triad_census_spectrum(g, samples=20, seed=None, n_jobs=1):
     observed = nx.triads.triadic_census(g)
     triad_names = list(observed.keys())
 
+    # One child seed per null graph, as in nullmodels.null_statistics: same result for any n_jobs.
+    worker_args = [(g, s) for s in np.random.SeedSequence(seed).spawn(samples)]
     if n_jobs is None or n_jobs == 1:
-        rng = np.random.default_rng(seed)
-        null_rows = [nx.triads.triadic_census(nm.degree_preserving_null(g, rng)) for _ in range(samples)]
+        null_rows = [_triad_census_worker(a) for a in worker_args]
     else:
         import os
         from concurrent.futures import ProcessPoolExecutor
 
         max_workers = os.cpu_count() if n_jobs == -1 else max(1, int(n_jobs))
-        seeds = np.random.SeedSequence(seed).spawn(samples)
-        worker_args = [(g, s) for s in seeds]
         with ProcessPoolExecutor(max_workers=max_workers) as executor:
             null_rows = list(executor.map(_triad_census_worker, worker_args))
 
@@ -90,11 +90,13 @@ def season_ratios(matches, tour, years):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--null", type=int, default=20, help="configuration-model graphs per network")
+    parser.add_argument("--null", type=int, default=None, help="null graphs per network (default: test_null_samples)")
     parser.add_argument("--perm", type=int, default=999, help="permutations for H5")
+    parser.add_argument("--jobs", type=int, default=1, help="worker processes for the null graphs (-1 = all cores)")
     args = parser.parse_args()
     cfg = load_config()
     seed = cfg["seed"]
+    args.null = args.null or cfg["test_null_samples"]
     specs = {s["id"]: s for s in cfg["networks"]}
     TABLES.mkdir(parents=True, exist_ok=True)
 
@@ -102,13 +104,15 @@ def main():
     for name in NETWORKS:
         g = load_network(specs[name])
         observed = cyclic_ratio(g)
-        null = nm.null_statistics(g, {"ratio": cyclic_ratio}, args.null, seed)["ratio"]
+        null = nm.null_statistics(g, {"ratio": cyclic_ratio}, args.null, seed, n_jobs=args.jobs)["ratio"]
         res = nm.compare_to_null(observed, null)
         rows.append({"network": name, "cyclic_ratio": observed, "random_outcomes": RANDOM_RATIO, **res})
         print(f"[{name}] 030C/030T = {observed:.3f}, configuration model {res['null_mean']:.3f}, z = {res['z']:.1f}")
     pd.DataFrame(rows).assign(samples=args.null).to_csv(TABLES / "triads_networks.csv", index=False, encoding="utf-8")
 
-    spectrum_2007_2012 = triad_census_spectrum(load_network(specs["td_atp_2007_2012"]), samples=args.null, seed=seed)
+    spectrum_2007_2012 = triad_census_spectrum(
+        load_network(specs["td_atp_2007_2012"]), samples=args.null, seed=seed, n_jobs=args.jobs
+    )
     spectrum_2007_2012.to_csv(TABLES / "triads_spectrum_2007_2012.csv", index=False, encoding="utf-8")
 
     matches = pd.read_csv(PROCESSED / "td_matches.csv", parse_dates=["date"])

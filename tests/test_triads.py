@@ -1,6 +1,7 @@
 import math
 
 import networkx as nx
+import pandas as pd
 import pytest
 
 from tennis_networks.triads import cyclic_ratio
@@ -68,8 +69,10 @@ def test_triad_census_spectrum_parallel_n_jobs():
 
     g = nx.DiGraph([("a", "b"), ("b", "c"), ("a", "c"), ("d", "a"), ("d", "b")])
     df_par = triad_census_spectrum(g, samples=4, seed=42, n_jobs=2)
+    df_seq = triad_census_spectrum(g, samples=4, seed=42, n_jobs=1)
     assert len(df_par) == 16
     assert not df_par["observed"].isna().any()
+    pd.testing.assert_frame_equal(df_seq, df_par)
 
 
 def test_triad_census_spectrum_undirected_raises():
