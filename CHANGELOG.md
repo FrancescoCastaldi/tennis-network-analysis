@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - One null-graph count for every significance test in the report: `test_null_samples` in `config/networks.json` (200) is now the default of `hypotheses` (H2) and `triads` (triad ratios and the triad spectrum, which used 20 by default and 5 and 15 in the saved results). `make triads JOBS=n` runs the triad null graphs on n cores.
+- Results regenerated with 200 null graphs per test and the report numbers updated: H5 p = 0.010 (was 0.020 from an older run) and 0.100 for the tours, triad-ratio z from -7.0 to -36.7, null-model and small-world ranges in Section 5, and H5 in the Critique.
 
 ### Performance
 
