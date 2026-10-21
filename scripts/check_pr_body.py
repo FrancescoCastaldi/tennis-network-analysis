@@ -31,7 +31,7 @@ SECTIONS = {
 ROLES = {"A", "B1", "B2", "B3", "C"}
 PHASES = {"setup", "analysis", "writing", "delivery"}
 MILESTONES = {"Setup", "Analysis", "Writing", "Delivery"}
-TYPES = {"feat", "fix", "perf", "refactor", "test", "docs", "report", "chore", "ci"}
+TYPES = {"feat", "fix", "perf", "refactor", "test", "docs", "report", "chore", "ci", "build", "style"}
 
 # Choices of the template that the author must replace with one value.
 MENUS = (

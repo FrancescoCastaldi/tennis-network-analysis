@@ -182,7 +182,9 @@ def test_not_applicable_section_is_accepted():
 
 
 def test_every_title_type_has_a_matching_type_row():
-    for kind in ("feat", "fix", "perf", "refactor", "test", "docs", "report", "chore", "ci"):
+    title_types = check_pr_body.TITLE.pattern.split("(")[1].rstrip(")").split("|")
+    assert set(title_types) == check_pr_body.TYPES
+    for kind in title_types:
         assert problems(title=f"{kind}: change", body=BODY.replace("| Type | fix |", f"| Type | {kind} |")) == []
 
 

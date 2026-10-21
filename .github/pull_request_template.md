@@ -23,7 +23,7 @@ Replace each choice such as "yes / no" with one value.
 | Role | A / B1 / B2 / B3 / C |
 | Phase | setup / analysis / writing / delivery |
 | Milestone | Setup / Analysis / Writing / Delivery |
-| Type | feat / fix / perf / refactor / test / docs / report / chore / ci |
+| Type | feat / fix / perf / refactor / test / docs / report / chore / ci / build / style |
 | Breaking for results or commands | yes / no |
 
 ## 3. Stages touched

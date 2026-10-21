@@ -1,12 +1,14 @@
 name: PR check
 
+# pull_request_target runs the workflow and the script from the base branch, so a pull request cannot
+# change the check that judges it. Nothing from the pull request is checked out or executed: the
+# checker only reads the title and the body, passed through environment variables.
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, edited, synchronize, reopened, ready_for_review]
-  workflow_dispatch:
 
 concurrency:
-  group: pr-check-${{ github.ref }}
+  group: pr-check-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 permissions:
@@ -15,7 +17,7 @@ permissions:
 jobs:
   pr-body:
     name: Title and body follow the template
-    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
