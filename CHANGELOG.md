@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- A fixed pull request template with nine sections (summary, classification, stages touched, effect on results, reproducibility, checks, report impact, credit, review) and the `PR check` workflow: `scripts/check_pr_body.py` rejects a title that is not a Conventional Commit, unresolved choices, empty fields, unticked checks and a CI result other than green. Tests in `tests/test_check_pr_body.py`.
+- `CLAUDE.md`, which imports `AGENTS.md`, and a `Pull requests` section in `AGENTS.md`: fixes go on the branch of the open PR, every PR action gets a context comment, merges are squash with CI green.
+
 ### Changed
 
 - One null-graph count for every significance test in the report: `test_null_samples` in `config/networks.json` (200) is now the default of `hypotheses` (H2) and `triads` (triad ratios and the triad spectrum, which used 20 by default and 5 and 15 in the saved results). `make triads JOBS=n` runs the triad null graphs on n cores.

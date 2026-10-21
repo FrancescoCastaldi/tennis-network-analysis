@@ -30,7 +30,9 @@ ownership to revise, rewrite, or condense this text to balance the overall group
 2. Branch from `main`: `feat/<topic>`, `fix/<topic>`, `docs/<topic>` or `report/<section>`.
 3. Commit with [Conventional Commits](https://www.conventionalcommits.org/):
    `feat(hypotheses): add size-corrected grass test`, `docs(report): draft Validity section`.
-4. Open a pull request using the template; CI must be green and one other member must approve.
+4. Open a pull request and fill every section of the template. The `PR check` workflow fails on an
+   incomplete body or a title that is not a Conventional Commit; CI must be green and one other member
+   must approve. Fixes after a review go on the same branch, with a reply to each review thread.
 5. Squash-merge into `main`. Never push directly to `main`.
 
 ## Rules for results
