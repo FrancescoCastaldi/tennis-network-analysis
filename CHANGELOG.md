@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- A fixed pull request template with nine sections (summary, classification, stages touched, effect on results, reproducibility, checks, report impact, credit, review) and the `PR check` workflow: `scripts/check_pr_body.py` rejects a title that is not a Conventional Commit, unresolved choices, empty fields, unticked checks and a CI result other than green. Tests in `tests/test_check_pr_body.py`.
+- `CLAUDE.md`, which imports `AGENTS.md`, and a `Pull requests` section in `AGENTS.md`: fixes go on the branch of the open PR, every PR action gets a context comment, merges are squash with CI green and an approval from another member.
+- Approval policy that GitHub cannot enforce on a private repository without a paid plan: the `Approval gate` workflow shows a check `Approved by another reviewer` (an approval of the latest commit by someone other than the author, no change requested), and the `Main audit` workflow opens an issue when a commit reaches `main` without an approved PR. Both run `scripts/pr_policy.py`, tested in `tests/test_pr_policy.py`.
+
 ### Changed
 
 - One null-graph count for every significance test in the report: `test_null_samples` in `config/networks.json` (200) is now the default of `hypotheses` (H2) and `triads` (triad ratios and the triad spectrum, which used 20 by default and 5 and 15 in the saved results). `make triads JOBS=n` runs the triad null graphs on n cores.

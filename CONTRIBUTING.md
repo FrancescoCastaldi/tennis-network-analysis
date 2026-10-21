@@ -27,11 +27,18 @@ ownership to revise, rewrite, or condense this text to balance the overall group
 ## Workflow
 
 1. Open or pick an issue, set its role and phase labels and its milestone.
-2. Branch from `main`: `feat/<topic>`, `fix/<topic>`, `docs/<topic>` or `report/<section>`.
+2. Every change to the repository goes through a pull request. Create one branch per piece of work,
+   from `main`: `feat/<topic>`, `fix/<topic>`, `docs/<topic>` or `report/<section>`. Do not create a
+   branch without opening its PR, and do not create a second branch for a fix: add it to the first.
 3. Commit with [Conventional Commits](https://www.conventionalcommits.org/):
    `feat(hypotheses): add size-corrected grass test`, `docs(report): draft Validity section`.
-4. Open a pull request using the template; CI must be green and one other member must approve.
-5. Squash-merge into `main`. Never push directly to `main`.
+4. Open a pull request and fill every section of the template. The `PR check` workflow fails on an
+   incomplete body or a title that is not a Conventional Commit. Request a review from another member.
+   Fixes after a review go on the same branch, with a reply to each review thread.
+5. Merge only when CI is green and another member has approved the latest commit: the `Approved by
+   another reviewer` check shows it. The author never approves their own PR. Squash-merge into `main`;
+   never push directly to `main`. The `Main audit` workflow opens an issue if a commit reaches `main`
+   without an approved PR.
 
 ## Rules for results
 
