@@ -181,6 +181,11 @@ def test_not_applicable_section_is_accepted():
     assert problems(body=body) == []
 
 
+def test_every_title_type_has_a_matching_type_row():
+    for kind in ("feat", "fix", "perf", "refactor", "test", "docs", "report", "chore", "ci"):
+        assert problems(title=f"{kind}: change", body=BODY.replace("| Type | fix |", f"| Type | {kind} |")) == []
+
+
 def test_reviewer_section_is_not_checked():
     body = BODY.replace("- [ ] I read the diff", "- [ ] I read the diff\n- [ ] Another box")
     assert problems(body=body) == []
