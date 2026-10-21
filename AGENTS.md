@@ -28,7 +28,13 @@ Guidance for coding assistants working in this repository. Humans: see CONTRIBUT
   4. `Open points`: what is left, who acts next, and whether the PR is ready to merge.
 - Answer each inline review thread separately, citing the commit that fixes it.
 - Credit the author of the change in the comment and keep them as author of the squashed commit.
-- Merge with squash only when CI is green and the PR body is complete. If the `CI` workflow is
-  disabled, say so in the comment and ask before enabling it.
+- Every change to the repository goes through a pull request: no push to `main`, no branch without a
+  PR, one branch per PR named `<type>/<topic>`. Fixes after a review go on the same branch.
+- Merge with squash only when all of these hold: CI is green, the PR body is complete (`PR check`) and
+  another member has approved the latest commit (`Approved by another reviewer` is green; check
+  `gh pr view <number> --json reviewDecision,reviews`). The author cannot approve their own PR, and an
+  assistant never approves or merges on behalf of the reviewer. If the owner waives the approval,
+  record it in the context comment.
+- If the `CI` workflow or GitHub Actions is disabled, say so in the comment and ask before enabling it.
 - No AI signature, `Co-Authored-By` trailer for an assistant, em dash or local file path in commits,
   comments or logs.
