@@ -49,10 +49,9 @@ python -m tennis_networks.wordcount
 
 ## Generated-artifact side effects
 
-`test_report_assets.py` calls report generators and rewrites some files in `report/tables/` and
-`report/figures/`. Figure rendering can produce a Git diff even when the tests pass. Check
-`git status` after running the suite; do not include incidental regenerated artifacts in an
-unrelated documentation change.
+`test_report_assets.py` redirects the report generators to a temporary folder, so running the suite
+leaves `report/tables/` and `report/figures/` untouched. Check `git status` after the suite anyway:
+a changed file there means a test is writing outside its temporary folder.
 
 Raw input files must remain unchanged. See [architecture.md](../docs/architecture.md#file-ownership-and-safe-reruns)
 for the distinction between immutable inputs, generated outputs and report prose.

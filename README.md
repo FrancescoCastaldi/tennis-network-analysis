@@ -68,7 +68,7 @@ make all                           # or the python -m commands below, one by one
 | Build the comparative networks | `python -m tennis_networks.tennisdata` | `data/processed/td_*.csv` |
 | Reproduce the paper | `python -m tennis_networks.reproduce` | `results/tables/michieli_reproduction.csv` |
 | Measures and null models | `python -m tennis_networks.analysis` | `results/` |
-| Hypotheses H1-H4 | `python -m tennis_networks.hypotheses --null 200` | `results/tables/hypothesis_tests.csv` |
+| Hypotheses H1-H4 | `python -m tennis_networks.hypotheses` | `results/tables/hypothesis_tests.csv` |
 | Structure: HITS, equivalence, core-periphery, small-world | `python -m tennis_networks.structure` | `results/tables/structure_summary.csv` |
 | Triad census and H5 | `python -m tennis_networks.triads` | `results/tables/triads_*.csv` |
 | Hypotheses H6-H8 (monadic, dyadic, mixed) | `python -m tennis_networks.levels` | `results/tables/levels_tests.csv` |

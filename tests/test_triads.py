@@ -1,6 +1,7 @@
 import math
 
 import networkx as nx
+import pandas as pd
 import pytest
 
 from tennis_networks.triads import cyclic_ratio
@@ -68,8 +69,10 @@ def test_triad_census_spectrum_parallel_n_jobs():
 
     g = nx.DiGraph([("a", "b"), ("b", "c"), ("a", "c"), ("d", "a"), ("d", "b")])
     df_par = triad_census_spectrum(g, samples=4, seed=42, n_jobs=2)
+    df_seq = triad_census_spectrum(g, samples=4, seed=42, n_jobs=1)
     assert len(df_par) == 16
     assert not df_par["observed"].isna().any()
+    pd.testing.assert_frame_equal(df_seq, df_par)
 
 
 def test_triad_census_spectrum_undirected_raises():
@@ -89,3 +92,12 @@ def test_triad_census_spectrum_small_graph():
     df = triad_census_spectrum(g2, samples=3, seed=42)
     assert len(df) == 16
     assert (df["observed"] == 0).all()
+
+
+def test_cyclic_transitive_counts_match_networkx_census():
+    from tennis_networks.triads import cyclic_transitive_counts
+
+    for seed in range(5):
+        g = nx.gnm_random_graph(60, 500, seed=seed, directed=True)
+        census = nx.triads.triadic_census(g)
+        assert cyclic_transitive_counts(g) == (census["030C"], census["030T"])

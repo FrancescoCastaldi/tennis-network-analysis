@@ -34,7 +34,7 @@ Run any step as an executable module:
 
 ```bash
 python -m tennis_networks.analysis
-python -m tennis_networks.hypotheses --null 200
+python -m tennis_networks.hypotheses
 python -m tennis_networks.structure
 python -m tennis_networks.triads
 python -m tennis_networks.levels

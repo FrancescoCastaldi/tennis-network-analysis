@@ -7,8 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- One null-graph count for every significance test in the report: `test_null_samples` in `config/networks.json` (200) is now the default of `hypotheses` (H2) and `triads` (triad ratios and the triad spectrum, which used 20 by default and 5 and 15 in the saved results). `make triads JOBS=n` runs the triad null graphs on n cores.
+- Results regenerated with 200 null graphs per test and the report numbers updated: H5 p = 0.010 (was 0.020 from an older run) and 0.100 for the tours, triad-ratio z from -7.0 to -36.7, null-model and small-world ranges in Section 5, and H5 in the Critique.
+
+### Performance
+
+- `triads.cyclic_ratio` counts the 030C and 030T triads directly from the asymmetric triangles instead of running the full 16-class census, with identical counts and about 45 times faster (0.15 s against 6.8 s on the hard-court network). This makes 200 null graphs per network practical.
+
 ### Fixed
 
+- `nullmodels.null_statistics` and `triads.triad_census_spectrum` give the same result for any `n_jobs`: every null graph now draws from its own child of the configuration seed, in serial runs too (serial and parallel runs used different random streams).
+- The `triads` docstring said the directed null model keeps each player's wins and losses; it keeps the number of distinct opponents beaten and lost to.
+- `tests/test_report_assets.py` writes the generated tables and figures to a temporary folder: running `pytest` no longer rewrites `report/figures/fig_network_core_2007_2012.*` and the committed copy is the one from the analysis run.
 - `run_analysis.py` null models now reuse `tennis_networks.nullmodels`: no 15,000-swap cap (large networks were barely randomised), two-sided p-values with the +1 correction (they could be 0), each null graph generated once for all metrics, and statistics computed on the undirected projection used in the report. Density is no longer tested, since edge swaps keep it constant.
 - `run_analysis.py` measures now match the report: betweenness ignores weights (wins were read as distances), core-periphery uses the Borgatti-Everett model of `structure.core_periphery` (was the top 20% by degree, now saved to `core_periphery.csv`), and small-world sigma uses `nullmodels.small_world_sigma` against the configuration model (was an analytical Erdos-Renyi baseline). Sampled distances leave out the distance of each source to itself and are flagged in `paths_sampled`; closeness is exact or skipped, never ranked on a random sample. Failed measures are reported as NaN with a warning instead of 0.
 

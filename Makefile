@@ -1,5 +1,6 @@
 # Reproducible pipeline. Each target can also be run as `python -m tennis_networks.<module>`.
 PY ?= python
+JOBS ?= 1
 
 .PHONY: help install data networks analysis hypotheses structure triads levels reproduce report-assets report wordcount test lint all
 
@@ -24,13 +25,13 @@ analysis:  ## Measures, null models and robustness for every configured network
 	$(PY) -m tennis_networks.analysis
 
 hypotheses:  ## Tests of H1-H4
-	$(PY) -m tennis_networks.hypotheses --null 200
+	$(PY) -m tennis_networks.hypotheses
 
 structure:  ## HITS, structural equivalence, core-periphery, small-world
 	$(PY) -m tennis_networks.structure
 
-triads:  ## Triad census and hypothesis H5
-	$(PY) -m tennis_networks.triads
+triads:  ## Triad census and hypothesis H5 (JOBS=n to use n cores)
+	$(PY) -m tennis_networks.triads --jobs $(JOBS)
 
 levels:  ## Monadic, dyadic (QAP) and mixed hypotheses H6-H8
 	$(PY) -m tennis_networks.levels
