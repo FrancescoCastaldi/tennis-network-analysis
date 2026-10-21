@@ -1,12 +1,21 @@
 import re
 
+import pytest
+
 from tennis_networks import report_assets as ra
-from tennis_networks.config import REPORT
 
 
-def test_table_structure_generates_file():
+@pytest.fixture(autouse=True)
+def out_dirs(tmp_path, monkeypatch):
+    """Write the generated tables and figures to a temporary folder, not to report/."""
+    monkeypatch.setattr(ra, "OUT_TAB", tmp_path / "tables")
+    monkeypatch.setattr(ra, "OUT_FIG", tmp_path / "figures")
+    return tmp_path
+
+
+def test_table_structure_generates_file(out_dirs):
     ra.table_structure()
-    path = REPORT / "tables" / "tab_structure.tex"
+    path = out_dirs / "tables" / "tab_structure.tex"
     assert path.exists()
     content = path.read_text(encoding="utf-8")
     assert r"\begin{tabular}" in content
@@ -22,9 +31,9 @@ def test_table_structure_generates_file():
     assert re.search(r"\bnan\b", content, re.IGNORECASE) is None
 
 
-def test_table_levels_generates_file():
+def test_table_levels_generates_file(out_dirs):
     ra.table_levels()
-    path = REPORT / "tables" / "tab_levels.tex"
+    path = out_dirs / "tables" / "tab_levels.tex"
     assert path.exists()
     content = path.read_text(encoding="utf-8")
     assert r"\begin{tabular}" in content
@@ -42,9 +51,9 @@ def test_table_levels_generates_file():
     assert re.search(r"\bnan\b", content, re.IGNORECASE) is None
 
 
-def test_table_tests_includes_h1_to_h5():
+def test_table_tests_includes_h1_to_h5(out_dirs):
     ra.table_tests()
-    path = REPORT / "tables" / "tab_tests.tex"
+    path = out_dirs / "tables" / "tab_tests.tex"
     assert path.exists()
     content = path.read_text(encoding="utf-8")
     assert "H1" in content
@@ -56,10 +65,10 @@ def test_table_tests_includes_h1_to_h5():
     assert re.search(r"\bnan\b", content, re.IGNORECASE) is None
 
 
-def test_figure_network_core_generates_pdf_and_png():
+def test_figure_network_core_generates_pdf_and_png(out_dirs):
     ra.style()
     ra.figure_network_core()
-    fig_pdf = REPORT / "figures" / "fig_network_core_2007_2012.pdf"
-    fig_png = REPORT / "figures" / "fig_network_core_2007_2012.png"
+    fig_pdf = out_dirs / "figures" / "fig_network_core_2007_2012.pdf"
+    fig_png = out_dirs / "figures" / "fig_network_core_2007_2012.png"
     assert fig_pdf.exists() and fig_pdf.stat().st_size > 10000
     assert fig_png.exists() and fig_png.stat().st_size > 20000
