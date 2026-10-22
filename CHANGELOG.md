@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Pre-rendered execution outputs in `notebooks/full_pipeline.ipynb` with all tables, rich-club metrics, charts, and embedded figures saved in place for instant interactive viewing directly on GitHub.
 - Rich-club coefficient and elite closure analysis module in `src/tennis_networks/rich_club.py`, measuring normalized rich-club coefficients against configuration null models to explain tournament seeding constraints and Hypothesis H2 positive assortativity. Tests in `tests/test_rich_club.py` with 5 unit tests.
 - Peak threshold degree $k^*$, elite club size $N_{>k^*}$, normalized coefficient $\rho_{\text{rich}}$, and peak $z$-scores integrated into `tab_structure.tex` via `src/tennis_networks/report_assets.py`.
 - Makefile target `rich-club` to compute normalized rich-club profiles across all 9 comparative networks with multiprocessing support.
