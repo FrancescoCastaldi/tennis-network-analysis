@@ -120,6 +120,10 @@ The report is co-authored by the five group members based on the three course gr
 
 The preliminary text in Section 5 (*Measures and Results*) is an initial technical working draft generated to summarize pipeline outputs. Roles B2 and B3 hold full editorial ownership to revise, reorganize, or condense this section as needed to balance the overall 5,000-word limit.
 
+## Releases and citation
+
+Each release is a version tag `vX.Y.Z` on `main` with its own page under Releases: a summary of what it is about, the changes grouped as in the [changelog](CHANGELOG.md), the report PDF compiled at that tag, the results of the pipeline and a `SHA256SUMS.txt` to check the downloads. The process is in [CONTRIBUTING.md](CONTRIBUTING.md#releases) and is driven by `scripts/release.py`. Cite the work with [`CITATION.cff`](CITATION.cff).
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for roles, branches, commits and the review checklist.

@@ -42,6 +42,18 @@ ownership to revise, rewrite, or condense this text to balance the overall group
    never push directly to `main`. The `Main audit` workflow opens an issue if a commit reaches `main`
    without an approved PR.
 
+## Releases
+
+A release is a version tag on `main`, published by the `Release` workflow. Never create a release or a tag by hand in the web page or with a plain `git tag`.
+
+1. Decide the version (SemVer): a minor step when a change moves a result, the report content or the pipeline, a patch step for fixes that move nothing. `1.0.0` is the report as submitted.
+2. On a branch `chore/release-vX.Y.Z` run `python scripts/release.py prepare X.Y.Z --summary "..."`. The summary is one or two sentences on what the release is about, for a reader who has not followed the work. It moves `Unreleased` under the new version and bumps `pyproject.toml`, `__init__.py` and `CITATION.cff`.
+3. Open the PR `chore(release): vX.Y.Z` like any other PR and merge it.
+4. On the updated `main` run `python scripts/release.py check vX.Y.Z`, then `python scripts/release.py tag vX.Y.Z --push`. The tag is annotated and its message repeats the summary and the changes.
+5. The workflow checks the tag, reruns the tests, builds the PDF and publishes the release with notes, `report-vX.Y.Z.pdf`, `results-vX.Y.Z.tar.gz` and `SHA256SUMS.txt`. Read the release page afterwards.
+
+A published tag is never moved or deleted: fix forward with a patch release. `make release-notes TAG=vX.Y.Z` previews the notes.
+
 ## Rules for results
 
 - Every number in the report comes from a file in `results/`. If it is not there, add it to the
