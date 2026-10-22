@@ -69,6 +69,8 @@ make all                           # or the python -m commands below, one by one
 | Reproduce the paper | `python -m tennis_networks.reproduce` | `results/tables/michieli_reproduction.csv` |
 | Measures and null models | `python -m tennis_networks.analysis` | `results/` |
 | Hypotheses H1-H4 | `python -m tennis_networks.hypotheses` | `results/tables/hypothesis_tests.csv` |
+| Source agreement with Michieli | `python -m tennis_networks.source_check` | `results/tables/td_michieli_*.csv` |
+| Sensitivity of H1, H3, H4 to the cleaning choices | `python -m tennis_networks.sensitivity` | `results/tables/sensitivity_*.csv` |
 | Structure: HITS, equivalence, core-periphery, small-world | `python -m tennis_networks.structure` | `results/tables/structure_summary.csv` |
 | Triad census and H5 | `python -m tennis_networks.triads` | `results/tables/triads_*.csv` |
 | Hypotheses H6-H8 (monadic, dyadic, mixed) | `python -m tennis_networks.levels` | `results/tables/levels_tests.csv` |

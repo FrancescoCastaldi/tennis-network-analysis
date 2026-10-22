@@ -21,6 +21,8 @@ Every pipeline stage is encapsulated in a dedicated module:
 | `analysis.py` | Executes full topological and null-model suite | Graphs | `results/tables/global_measures.csv` |
 | `reproduce.py` | Validates replication against Michieli (2018) | M1, M3, M4 | `results/tables/michieli_reproduction.csv` |
 | `hypotheses.py` | Tests hypotheses H1 to H4 using permutation models | Comparative networks | `results/tables/hypothesis_tests.csv` |
+| `source_check.py` | Agreement of tennis-data.co.uk with Michieli network 1 (pairs and player wins) | Processed networks | `results/tables/td_michieli_*.csv` |
+| `sensitivity.py` | Reruns H1, H3, H4 with retirements dropped, walkovers kept, carpet as hard | Raw matches | `results/tables/sensitivity_*.csv` |
 | `structure.py` | HITS, core-periphery (Borgatti-Everett), small-world sigma | Comparative networks | `results/tables/structure_summary.csv` |
 | `triads.py` | Triad census and H5 hierarchy rigidity analysis | Comparative networks | `results/tables/triads_*.csv` |
 | `qap.py` | Quadratic Assignment Procedure and permutation regression | Dyadic matrices | Correlation, p-values |

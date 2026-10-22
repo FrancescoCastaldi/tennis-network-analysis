@@ -2,7 +2,7 @@
 PY ?= python
 JOBS ?= 1
 
-.PHONY: help install data networks analysis hypotheses structure triads levels reproduce report-assets report wordcount test lint all
+.PHONY: help install data networks analysis hypotheses source-check sensitivity structure triads levels reproduce report-assets report wordcount test lint all
 
 help:  ## List the targets
 	@grep -E '^[a-z-]+:.*##' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-15s %s\n", $$1, $$2}'
@@ -26,6 +26,12 @@ analysis:  ## Measures, null models and robustness for every configured network
 
 hypotheses:  ## Tests of H1-H4
 	$(PY) -m tennis_networks.hypotheses
+
+source-check:  ## Agreement of tennis-data.co.uk with Michieli network 1
+	$(PY) -m tennis_networks.source_check
+
+sensitivity:  ## H1, H3, H4 under each cleaning choice (JOBS=n runs n variants at once)
+	$(PY) -m tennis_networks.sensitivity --jobs $(JOBS)
 
 structure:  ## HITS, structural equivalence, core-periphery, small-world
 	$(PY) -m tennis_networks.structure
@@ -55,4 +61,4 @@ lint:  ## Lint and format check
 	ruff check .
 	ruff format --check .
 
-all: networks reproduce analysis hypotheses structure triads levels report  ## Everything from the raw data to the PDF
+all: networks reproduce analysis hypotheses source-check sensitivity structure triads levels report  ## Everything from the raw data to the PDF

@@ -1,6 +1,6 @@
 """LaTeX tables and figures of the report, built only from results/ and data/processed/.
 
-Run (after analysis, hypotheses and reproduce):
+Run (after analysis, hypotheses, reproduce, source_check and sensitivity):
     python -m tennis_networks.report_assets
 
 Outputs:
@@ -19,6 +19,7 @@ import pandas as pd
 from tennis_networks.config import PROCESSED, REPORT, TABLES
 from tennis_networks.loaders import load_network
 from tennis_networks.loaders import load_undirected as undirected
+from tennis_networks.sensitivity import same_verdict
 from tennis_networks.triads import triad_census_spectrum
 
 OUT_TAB = REPORT / "tables"
@@ -463,6 +464,40 @@ def table_top10():
 # Figures
 
 
+def table_sensitivity():
+    """H1, H3 and H4 under each cleaning variant: difference and two-sided p-value, and whether the verdict holds."""
+    d = pd.read_csv(TABLES / "sensitivity_tests.csv")
+    variants = pd.read_csv(TABLES / "sensitivity_variants.csv")["variant"].tolist()
+    stat = {"top10_pagerank_share": "top-10 share", "degree_centralization": "centralization"}
+    comp = {
+        "ATP 2007-2018 vs 2019-2025 (season means)": "2007-18 vs 2019-25",
+        "WTA vs ATP, paired season differences 2007-2025": "WTA vs ATP",
+    }
+    rows = []
+    for key, g in d.groupby(["hypothesis", "statistic", "comparison"], sort=False):
+        h, s, c = key
+        cells = " & ".join(
+            f"{num(g[g['variant'] == v]['diff'].iloc[0], 3)} ({num(g[g['variant'] == v]['p_value'].iloc[0], 3)})"
+            for v in variants
+        )
+        verdict = "yes" if same_verdict(g["p_value"]) else "no"
+        rows.append(f"{h} & {stat[s]}, {comp.get(c, c.replace('ATP ', ''))} & {cells} & {verdict} \\\\")
+    write(
+        "tab_sensitivity.tex",
+        "\n".join(
+            [
+                r"\begin{tabular}{@{}ll" + "r" * len(variants) + r"c@{}}",
+                r"\toprule",
+                r"H & Test & Baseline & No retire. & Walkovers & Carpet=hard & Same verdict \\",
+                r"\midrule",
+                *rows,
+                r"\bottomrule",
+                r"\end{tabular}",
+            ]
+        ),
+    )
+
+
 def style():
     plt.rcParams.update(
         {
@@ -556,6 +591,49 @@ def figure_yearly():
     axes[0].text(2012.5, axes[0].get_ylim()[0], "2007-2018", ha="center", va="bottom", fontsize=7.5, color=MUTED)
     fig.tight_layout()
     save(fig, "fig_yearly")
+
+
+def figure_sources():
+    """tennis-data.co.uk against network 1 of Michieli: wins of whole-career players and loser-winner pairs."""
+    players = pd.read_csv(TABLES / "td_michieli_players.csv")
+    pairs = pd.read_csv(TABLES / "td_michieli_pairs.csv")
+    fig, (ax_wins, ax_pairs) = plt.subplots(1, 2, figsize=(6.3, 2.5), gridspec_kw={"width_ratios": [1, 1.25]})
+
+    x, y = players["wins_michieli"], players["wins_tennis_data"]
+    top = max(x.max(), y.max()) * 1.05
+    ax_wins.plot([0, top], [0, top], color=MUTED, linewidth=0.9, linestyle="--", zorder=1)
+    ax_wins.scatter(x, y, s=9, color=COLORS[0], alpha=0.6, edgecolors="none", zorder=2)
+    r = np.corrcoef(x, y)[0, 1]
+    ax_wins.text(0.04, 0.96, f"$n$ = {len(players)}, $r$ = {r:.2f}", transform=ax_wins.transAxes, va="top", color=MUTED)
+    ax_wins.set_xlim(0, top)
+    ax_wins.set_ylim(0, top)
+    ax_wins.set_xlabel("wins in Michieli network 1")
+    ax_wins.set_ylabel("wins in tennis-data.co.uk")
+    ax_wins.set_title("(a) players who debut after 2002", loc="left")
+
+    shares = pairs.set_index("outcome")["share"]
+    colors = {
+        "identical": COLORS[2],
+        "Michieli higher": COLORS[0],
+        "tennis-data higher": COLORS[3],
+        "absent in Michieli": COLORS[1],
+    }
+    left = 0.0
+    for outcome, share in shares.items():
+        ax_pairs.barh(0, share, left=left, color=colors[outcome], edgecolor="white", linewidth=0.6, height=0.5)
+        left += share
+    ax_pairs.set_xlim(0, 1)
+    ax_pairs.set_ylim(-0.9, 0.5)
+    ax_pairs.set_yticks([])
+    ax_pairs.set_xlabel("share of loser-winner pairs")
+    ax_pairs.grid(False)
+    ax_pairs.spines["left"].set_visible(False)
+    handles = [plt.Rectangle((0, 0), 1, 1, color=colors[o]) for o in shares.index]
+    labels = [f"{o} ({100 * s:.1f}%)" for o, s in shares.items()]
+    ax_pairs.legend(handles, labels, loc="lower left", ncol=2, fontsize=7, columnspacing=0.8, handlelength=1)
+    ax_pairs.set_title("(b) weight of each pair, 2000 to Aug 2017", loc="left")
+    fig.tight_layout()
+    save(fig, "fig_sources")
 
 
 def figure_network_core():
@@ -687,11 +765,13 @@ def main():
     table_top10()
     table_structure()
     table_levels()
+    table_sensitivity()
     style()
     figure_degree()
     figure_robustness()
     figure_yearly()
     figure_network_core()
+    figure_sources()
     print(f"Tables in {OUT_TAB}, figures in {OUT_FIG} (null models: {samples} samples)")
 
 
