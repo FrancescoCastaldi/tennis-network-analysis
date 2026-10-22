@@ -11,6 +11,9 @@ repos:
       - id: check-added-large-files
         args: ["--maxkb=20000"]
       - id: fix-byte-order-marker
+      - id: detect-private-key
+      - id: check-merge-conflict
+      - id: check-case-conflict
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.6.9
     hooks:

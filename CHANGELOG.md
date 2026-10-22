@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Automated repository security, privacy, and anti-leak test suite in `tests/test_security_privacy.py`, verifying absence of student ID numbers (AGENTS.md rule 12), absence of `.env` files and private keys, hardcoded API tokens, mandatory `.gitignore` exclusions, and zero unescaped em-dash artifacts in LaTeX report text.
+- Security audit step running `pip-audit` against the PyPA/OSV vulnerability database in `.github/workflows/ci.yml`, with `pip-audit>=2.7` added to `dev` dependencies in `pyproject.toml`.
+- Pre-commit security hooks in `.pre-commit-config.yaml`: `detect-private-key`, `check-merge-conflict`, and `check-case-conflict`.
 - A fixed pull request template with nine sections (summary, classification, stages touched, effect on results, reproducibility, checks, report impact, credit, review) and the `PR check` workflow: `scripts/check_pr_body.py` rejects a title that is not a Conventional Commit, unresolved choices, empty fields, unticked checks and a CI result other than green. Tests in `tests/test_check_pr_body.py`.
 - `CLAUDE.md`, which imports `AGENTS.md`, and a `Pull requests` section in `AGENTS.md`: fixes go on the branch of the open PR, every PR action gets a context comment, merges are squash with CI green and an approval from another member.
 - Approval policy that GitHub cannot enforce on a private repository without a paid plan: the `Approval gate` workflow shows a check `Approved by another reviewer` (an approval of the latest commit by someone other than the author, no change requested), and the `Main audit` workflow opens an issue when a commit reaches `main` without an approved PR. Both run `scripts/pr_policy.py`, tested in `tests/test_pr_policy.py`.
@@ -24,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Redacted student ID number from author metadata in `report/main.tex` to strictly uphold AGENTS.md rule 12 and academic privacy before final delivery.
 - `nullmodels.null_statistics` and `triads.triad_census_spectrum` give the same result for any `n_jobs`: every null graph now draws from its own child of the configuration seed, in serial runs too (serial and parallel runs used different random streams).
 - The `triads` docstring said the directed null model keeps each player's wins and losses; it keeps the number of distinct opponents beaten and lost to.
 - `tests/test_report_assets.py` writes the generated tables and figures to a temporary folder: running `pytest` no longer rewrites `report/figures/fig_network_core_2007_2012.*` and the committed copy is the one from the analysis run.
