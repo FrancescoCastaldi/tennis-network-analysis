@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- GitHub project `SNA Tennis` (private, linked to the repository) with the fields `Role`, `Phase`, `Area`, `Words` and `Target` next to `Status`; `AGENTS.md`, `CONTRIBUTING.md` and `README.md` say that every PR and issue belongs to it.
 - Pre-rendered execution outputs in `notebooks/full_pipeline.ipynb` with all tables, rich-club metrics, charts, and embedded figures saved in place for instant interactive viewing directly on GitHub.
 - Rich-club coefficient and elite closure analysis module in `src/tennis_networks/rich_club.py`, measuring normalized rich-club coefficients against configuration null models to explain tournament seeding constraints and Hypothesis H2 positive assortativity. Tests in `tests/test_rich_club.py` with 5 unit tests.
 - Peak threshold degree $k^*$, elite club size $N_{>k^*}$, normalized coefficient $\rho_{\text{rich}}$, and peak $z$-scores integrated into `tab_structure.tex` via `src/tennis_networks/report_assets.py`.

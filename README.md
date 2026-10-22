@@ -122,7 +122,8 @@ The preliminary text in Section 5 (*Measures and Results*) is an initial technic
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for roles, branches, commits and the review checklist.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for roles, branches, commits and the review checklist. Work is tracked in
+the private [`SNA Tennis` project](https://github.com/users/FrancescoCastaldi/projects/3).
 
 ## Authors
 
