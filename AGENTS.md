@@ -19,6 +19,20 @@ Guidance for coding assistants working in this repository. Humans: see CONTRIBUT
   worktrees for a fix. One piece of work, one PR.
 - Fill every section of `.github/pull_request_template.md`. The `PR check` workflow fails on an
   incomplete body or a title that is not a Conventional Commit.
+- Set the metadata of every PR when you open it, not later:
+  - labels: one `role: <A|B1|B2|B3|C>` (the role of the author), one `phase: <setup|analysis|writing|delivery>`
+    and one `type: <task|bug|report>` (`report` for changes to `report/main.tex`, `bug` for a wrong number
+    or a pipeline failure, `task` otherwise), plus `documentation`, `maintenance` or `dependencies` when
+    they apply;
+  - assignee: the member who wrote the change, never an assistant;
+  - milestone: the one of the phase (`Setup`, `Analysis`, `Writing` or `Delivery`), the same as the
+    Milestone row of the PR body;
+  - reviewers: request a review from the group B members other than the author (roles B1, B2, B3), and
+    from the owner of any section of another role that the PR edits;
+  - description: the whole template, the issue number in **Closes:** when an issue exists, and the context
+    comment below.
+  Check with `gh pr view <number> --json labels,assignees,milestone,reviewRequests` before saying a PR is
+  ready: a PR without labels, assignee, milestone or reviewers is not ready.
 - Every time you act on a PR (review, fix, answer, merge), post one context comment on it with
   `gh pr comment <number> --body-file <file>`. It has these headings, in this order:
   1. `Context`: what the PR does and what was asked, in two or three sentences.
