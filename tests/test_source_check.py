@@ -13,6 +13,9 @@ def atp_matches():
         ("Ddd D.", "Aaa A.", "2007-03-01"),
         ("Ddd D.", "Aaa A.", "2008-03-01"),
         ("Eee E.", "Ccc C.", "2009-03-01"),
+        # Old has a match before 2003: their pairs have a Michieli weight from earlier years and are left out.
+        ("Old O.", "Zzz Z.", "2001-03-01"),
+        ("Old O.", "Bbb B.", "2008-03-01"),
     ]
     df = pd.DataFrame(rows, columns=["winner", "loser", "date"])
     df["date"] = pd.to_datetime(df["date"])
@@ -31,7 +34,7 @@ def michieli_wins():
     )
 
 
-def test_pair_agreement_classifies_every_pair():
+def test_pair_agreement_classifies_pairs_between_whole_career_players():
     out = pair_agreement(atp_matches(), michieli_wins()).set_index("outcome")
     assert out["pairs"].to_dict() == {
         "identical": 1,

@@ -631,7 +631,7 @@ def figure_sources():
     handles = [plt.Rectangle((0, 0), 1, 1, color=colors[o]) for o in shares.index]
     labels = [f"{o} ({100 * s:.1f}%)" for o, s in shares.items()]
     ax_pairs.legend(handles, labels, loc="lower left", ncol=2, fontsize=7, columnspacing=0.8, handlelength=1)
-    ax_pairs.set_title("(b) weight of each pair, 2000 to Aug 2017", loc="left")
+    ax_pairs.set_title("(b) pairs between those players", loc="left")
     fig.tight_layout()
     save(fig, "fig_sources")
 

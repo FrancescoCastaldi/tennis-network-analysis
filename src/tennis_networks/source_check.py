@@ -8,7 +8,7 @@ The two sources overlap on ATP main-draw matches from January 2000 to August 201
 their whole career lies inside the window.
 
 Outputs:
-    results/tables/td_michieli_pairs.csv     agreement on the loser-winner pairs of tennis-data
+    results/tables/td_michieli_pairs.csv     agreement on the loser-winner pairs between whole-career players
     results/tables/td_michieli_players.csv   wins of each such player in the two sources
 """
 
@@ -25,9 +25,28 @@ def common_window(matches):
     return matches[(matches["tour"] == "ATP") & (matches["date"] <= WINDOW_END)]
 
 
+def whole_career_players(atp):
+    """Lower-case names of the players whose first match in tennis-data is on or after DEBUT_AFTER."""
+    names = pd.concat(
+        [
+            atp[["winner", "date"]].set_axis(["player", "date"], axis=1),
+            atp[["loser", "date"]].set_axis(["player", "date"], axis=1),
+        ]
+    )
+    names["player"] = names["player"].str.lower()
+    debut = names.groupby("player")["date"].min()
+    return debut[debut >= DEBUT_AFTER].index
+
+
 def pair_agreement(atp, michieli):
-    """Loser-winner pairs of tennis-data by how their number of wins compares with network 1."""
+    """Loser-winner pairs between whole-career players, by how their wins in tennis-data compare with network 1.
+
+    Network 1 has no dates and starts in 1968: weights are comparable only when both players
+    have no match before the window.
+    """
+    career = whole_career_players(atp)
     ours = atp.assign(source=atp["loser"].str.lower(), target=atp["winner"].str.lower())
+    ours = ours[ours["source"].isin(career) & ours["target"].isin(career)]
     ours = ours.groupby(["source", "target"]).size().rename("tennis_data").reset_index()
     ref = michieli.assign(source=michieli["source"].str.lower(), target=michieli["target"].str.lower())
     ref = ref.groupby(["source", "target"], as_index=False)["weight"].sum()  # names that differ only in case
@@ -44,19 +63,11 @@ def pair_agreement(atp, michieli):
 
 
 def player_wins(atp, michieli):
-    """Wins of the players who debut after DEBUT_AFTER, in tennis-data and in network 1."""
-    names = pd.concat(
-        [
-            atp[["winner", "date"]].set_axis(["player", "date"], axis=1),
-            atp[["loser", "date"]].set_axis(["player", "date"], axis=1),
-        ]
-    )
-    names["player"] = names["player"].str.lower()
-    debut = names.groupby("player")["date"].min()
+    """Wins of the whole-career players, in tennis-data and in network 1."""
     wins_td = atp.groupby(atp["winner"].str.lower()).size().rename("wins_tennis_data")
     wins_m = michieli.groupby(michieli["target"].str.lower())["weight"].sum().rename("wins_michieli")
-    both = pd.concat([wins_td, wins_m], axis=1).join(debut.rename("debut"), how="inner").dropna()
-    both = both[both["debut"] >= DEBUT_AFTER].drop(columns="debut")
+    both = pd.concat([wins_td, wins_m], axis=1).dropna()
+    both = both[both.index.isin(whole_career_players(atp))]
     return both.rename_axis("player").reset_index()
 
 
