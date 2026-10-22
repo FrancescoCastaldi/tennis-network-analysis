@@ -33,7 +33,9 @@ ownership to revise, rewrite, or condense this text to balance the overall group
 3. Commit with [Conventional Commits](https://www.conventionalcommits.org/):
    `feat(hypotheses): add size-corrected grass test`, `docs(report): draft Validity section`.
 4. Open a pull request and fill every section of the template. The `PR check` workflow fails on an
-   incomplete body or a title that is not a Conventional Commit. Request a review from another member.
+   incomplete body or a title that is not a Conventional Commit. When you open it, set its labels (role,
+   phase, type), assignee and milestone, and request a review from the other group B members (see
+   `AGENTS.md`).
    Fixes after a review go on the same branch, with a reply to each review thread.
 5. Merge only when CI is green and another member has approved the latest commit: the `Approved by
    another reviewer` check shows it. The author never approves their own PR. Squash-merge into `main`;
