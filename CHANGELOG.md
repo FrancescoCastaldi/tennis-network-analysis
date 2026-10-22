@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `clustering_variants` in `src/tennis_networks/reproduce.py` and `results/tables/michieli_clustering_variants.csv`: eight definitions of the average clustering of the reference network M3 (0.010 to 0.477), none of which gives the 0.07 of Michieli (2018). Test in `tests/test_reproduce.py`.
 - Pre-rendered execution outputs in `notebooks/full_pipeline.ipynb` with all tables, rich-club metrics, charts, and embedded figures saved in place for instant interactive viewing directly on GitHub.
 - Rich-club coefficient and elite closure analysis module in `src/tennis_networks/rich_club.py`, measuring normalized rich-club coefficients against configuration null models to explain tournament seeding constraints and Hypothesis H2 positive assortativity. Tests in `tests/test_rich_club.py` with 5 unit tests.
 - Peak threshold degree $k^*$, elite club size $N_{>k^*}$, normalized coefficient $\rho_{\text{rich}}$, and peak $z$-scores integrated into `tab_structure.tex` via `src/tennis_networks/report_assets.py`.
@@ -32,6 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Report, Datasets and Validity sections: the test count (47) is now 129, the unsourced reason for the end of ATP carpet in 2009 is removed, the clustering discrepancy with Michieli (2018) cites the eight definitions tried instead of a guess about the original scripts, and the PageRank top ten is described as the same set with the first five in the same order.
+- Report typography: page ranges and year ranges in the Conclusion, the Critique and the bibliography use a single hyphen like the rest of the text.
 - Redacted student ID number from author metadata in `report/main.tex` to strictly uphold AGENTS.md rule 12 and academic privacy before final delivery.
 - `nullmodels.null_statistics` and `triads.triad_census_spectrum` give the same result for any `n_jobs`: every null graph now draws from its own child of the configuration seed, in serial runs too (serial and parallel runs used different random streams).
 - The `triads` docstring said the directed null model keeps each player's wins and losses; it keeps the number of distinct opponents beaten and lost to.

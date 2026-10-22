@@ -1,0 +1,9 @@
+definition,value
+mean over all nodes (isolated count as 0),0.311
+mean over nodes with at least one triangle,0.477
+mean over nodes with degree of at least 2,0.419
+global transitivity,0.355
+square clustering,0.147
+"directed, unweighted (M1)",0.217
+"directed, weighted (M1)",0.011
+"undirected, weighted by wins (M1)",0.01
