@@ -12,6 +12,17 @@ surfaces and the men's (ATP) and women's (WTA) tours. Group project for the Netw
 > eras, surfaces and tours, and what do these differences reveal about competitive balance and
 > dominance in the sport?
 
+## At a glance
+
+| | |
+|---|---|
+| Networks | 13: 4 reference networks (Michieli) and 9 comparative networks built from 114,084 played matches (68,972 ATP, 45,112 WTA) |
+| Hypotheses | 8 tested: 6 supported, 1 not supported (H1), 1 rejected in the opposite direction (H2) |
+| Reproducibility | one seed (`20261115`), 128 tests, CI on every push, every table and figure generated from `results/` |
+| Report | `report/main.tex`, 3,978 of 5,000 words; Introduction and Problem and Motivation still to be written |
+| Deadline | 27 November 2026, 23:59 (course exam session) |
+| Version | 0.2.7, see the [changelog](CHANGELOG.md) |
+
 ## The model
 
 A **node** is a player. A **directed edge** goes from the loser to the winner of at least one
@@ -23,20 +34,33 @@ graph rewards wins against players who themselves win often.
 | Michieli (2018), arXiv:1804.08138 | M1 wins, M2 points, M3 undirected, M4 extended (1968 to 2017/18, no dates) | Historical baseline, reproduction of the paper |
 | [tennis-data.co.uk](http://www.tennis-data.co.uk/) | 4 ATP eras (2000-2025), 3 ATP surfaces, ATP and WTA 2007-2025 | Comparative study, hypotheses H1-H8 |
 
-## Main results (draft)
+## Main results
+
+Hypotheses, tested on the nine comparative networks:
 
 | Hypothesis | Test | Outcome |
 |---|---|---|
-| H1: prestige more concentrated in 2007-2018 (Big Three) than 2019-2025 | season permutation | not supported (p = 0.06) |
-| H2: networks more disassortative than the configuration model | 200 degree-preserving nulls | rejected in the opposite direction (z = 15 to 38) |
-| H3: grass is smaller and more centralized than clay and hard | match permutation, size-corrected | supported (p ≤ 0.015) |
-| H4: WTA prestige less concentrated than ATP | paired sign-flip over seasons | supported for PageRank (p = 0.016) |
-| H5: more rigid hierarchy (fewer cyclic triads) in 2007-2012 | season permutation of 030C/030T | supported (p = 0.020) |
-| H6 (monadic): PageRank explains the ranking beyond wins | permutation regression | supported (p = 0.001) |
-| H7 (dyadic): head-to-head dominance carries over between surfaces | QAP | supported (p = 0.001) |
-| H8 (mixed): players with the same surface profile meet more often | QAP | supported (p = 0.001) |
+| H1: prestige more concentrated in 2007-2018 (Big Three) than 2019-2025 | season permutation | not supported (top-10 PageRank share 0.265 against 0.234, p = 0.060) |
+| H2: networks more disassortative than the configuration model | 200 degree-preserving nulls | rejected in the opposite direction: observed assortativity is higher than the null in all nine networks (z = 16 to 35), as expected if seeding keeps strong players apart until the late rounds |
+| H3: grass is smaller and more centralized than clay and hard | match permutation, size-corrected | supported (p = 0.005 to 0.015) |
+| H4: WTA prestige less concentrated than ATP | paired sign-flip over seasons | supported for PageRank (p = 0.016), not for centralization (p = 0.17) |
+| H5: more rigid hierarchy (fewer cyclic triads) in 2007-2012 | season permutation of 030C/030T | supported (cyclic ratio 0.184 against 0.211, p = 0.010) |
+| H6 (monadic): PageRank explains the ranking beyond wins | permutation regression | supported (p = 0.001 in every era, wins add nothing) |
+| H7 (dyadic): head-to-head dominance carries over between surfaces | QAP | supported (r = 0.12 to 0.15, p = 0.001) |
+| H8 (mixed): players with the same surface profile meet more often | QAP | supported (r = 0.06, p = 0.001) |
 
-Every number above is in [`results/tables/hypothesis_tests.csv`](results/tables/hypothesis_tests.csv), [`results/tables/triads_h5.csv`](results/tables/triads_h5.csv) and [`results/tables/levels_tests.csv`](results/tables/levels_tests.csv).
+Structure of the networks:
+
+- All nine are sparse but compact: 62% to 70% of the players are in the giant strongly connected component and two players are 2.4 to 3.3 wins apart on average.
+- None is scale-free: bracket sizes and calendars cap how many opponents a player can meet.
+- A dense core of 16% to 20% of the players, almost all in the official top 100, holds most of the matches, and the rich-club coefficient shows elite closure in every network (peak 1.05 to 1.22, z = 13 to 27).
+
+Validity of the data:
+
+- The pipeline reproduces the figures of Michieli (2018) on M1, M3 and M4, with one exception: the average clustering of M3 is 0.311 here against 0.07 in the paper, and no standard definition gives the published value.
+- tennis-data.co.uk and Michieli agree on 97.6% of the loser-winner pairs and 99.3% of the players over their common window (2000 to August 2017).
+
+Every number above is in [`results/tables/hypothesis_tests.csv`](results/tables/hypothesis_tests.csv), [`results/tables/triads_h5.csv`](results/tables/triads_h5.csv), [`results/tables/levels_tests.csv`](results/tables/levels_tests.csv), [`results/tables/rich_club_summary.csv`](results/tables/rich_club_summary.csv), [`results/tables/michieli_reproduction.csv`](results/tables/michieli_reproduction.csv) and [`results/tables/td_validity_michieli.csv`](results/tables/td_validity_michieli.csv).
 
 ## Quick start
 
@@ -44,7 +68,7 @@ Every number above is in [`results/tables/hypothesis_tests.csv`](results/tables/
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
-pytest                             # unit tests and checks on the committed data
+pytest                             # 128 unit tests and checks on the committed data
 ```
 
 The processed networks and the results are committed, so the report can be rebuilt without
@@ -71,6 +95,7 @@ make all                           # or the python -m commands below, one by one
 | Hypotheses H1-H4 | `python -m tennis_networks.hypotheses` | `results/tables/hypothesis_tests.csv` |
 | Structure: HITS, equivalence, core-periphery, small-world | `python -m tennis_networks.structure` | `results/tables/structure_summary.csv` |
 | Triad census and H5 | `python -m tennis_networks.triads` | `results/tables/triads_*.csv` |
+| Rich-club coefficient and elite closure | `python -m tennis_networks.rich_club` | `results/tables/rich_club_summary.csv` |
 | Hypotheses H6-H8 (monadic, dyadic, mixed) | `python -m tennis_networks.levels` | `results/tables/levels_tests.csv` |
 | Report tables and figures | `python -m tennis_networks.report_assets` | `report/tables/`, `report/figures/` |
 | Word limit | `python -m tennis_networks.wordcount` | exit code 1 above 5,000 words |
@@ -85,10 +110,14 @@ config/networks.json     networks of the study, seed and null-model sizes
 data/raw/                original files, never edited (provenance in docs/data.md)
 data/processed/          CSV edge lists: source, target[, weight]
 src/tennis_networks/     the Python package (one module per pipeline step)
+notebooks/               the full pipeline as a notebook, with outputs rendered
+scripts/                 checks run by the pull request workflows
 tests/                   unit tests and data checks (pytest)
 results/                 tables (CSV) and figures produced by the pipeline
 report/                  LaTeX report: main.tex, generated tables/ and figures/
 docs/                    data provenance, methodology and design decisions
+.github/                 CI, pull request template and checks, issue templates
+CHANGELOG.md             changes by version (Keep a Changelog); CITATION.cff to cite the work
 ```
 
 ## Documentation and orientation
@@ -103,8 +132,8 @@ docs/                    data provenance, methodology and design decisions
 
 `report/main.tex` follows the official course template (A4, 12 pt, 3 cm margins, at most 5,000
 words). Tables and figures are generated: never edit `report/tables/` or `report/figures/` by hand,
-change the code and run `make report-assets`. CI builds the PDF on every push and attaches it to
-the run as an artifact.
+change the code and run `make report-assets`. The report has eight tables and four figures, all
+generated. CI builds the PDF on every push and attaches it to the run as an artifact.
 
 ## Group project structure and report authoring
 
@@ -112,13 +141,13 @@ The report is co-authored by the five group members based on the three course gr
 
 | Area | Weight | Lead | Report Sections | Status |
 |---|---|---|---|---|
-| Context & Problem | 20% | Shivam Kumar (Role A) | Introduction, Problem and Motivation | To be written (~950 words) |
-| Datasets & Validity | 60% (part 1) | Francesco Castaldi (Role B1) | Datasets, Validity and Reliability | Drafted; pipeline and CI active |
-| Measures | 60% (part 2) | Jacopo Bonifazi (Role B2) | Measures and Results (measures) | Initial technical scaffold provided |
-| Hypotheses & Tests | 60% (part 3) | Gaetano Muscarello (Role B3) | Measures and Results (tests) | Initial technical scaffold provided |
-| Interpretation & Critique | 20% | Paolo Fusco (Role C) | Conclusion, Critique | To be written (~950 words) |
+| Context & Problem | 20% | Shivam Kumar (Role A) | Introduction, Problem and Motivation | To be written (~950 words, briefing in `docs/`) |
+| Datasets & Validity | 60% (part 1) | Francesco Castaldi (Role B1) | Datasets, Validity and Reliability | Written; pipeline, tests and CI active |
+| Measures | 60% (part 2) | Jacopo Bonifazi (Role B2) | Measures and Results (measures) | Written; rich-club extension integrated |
+| Hypotheses & Tests | 60% (part 3) | Gaetano Muscarello (Role B3) | Measures and Results (tests) | Written; H1 to H8 tested and in the report |
+| Interpretation & Critique | 20% | Paolo Fusco (Role C) | Conclusion, Critique | Drafted; to align with the research questions of Role A |
 
-The preliminary text in Section 5 (*Measures and Results*) is an initial technical working draft generated to summarize pipeline outputs. Roles B2 and B3 hold full editorial ownership to revise, reorganize, or condense this section as needed to balance the overall 5,000-word limit.
+Roles B2 and B3 hold the editorial ownership of Section 5 (*Measures and Results*) and decide how to revise or condense it within the overall 5,000-word limit. About 1,000 words remain for Role A.
 
 ## Contributing
 
