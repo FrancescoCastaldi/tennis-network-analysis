@@ -199,3 +199,60 @@ def test_main_exit_status(tmp_path, capsys):
     assert check_pr_body.main(["--title", TITLE, "--body-file", str(ok)]) == 0
     assert "PR check passed" in capsys.readouterr().out
     assert check_pr_body.main(["--title", "bad title", "--body-file", str(ok)]) == 1
+
+
+METADATA = {
+    "labels": ["role: B3", "phase: analysis", "type: task", "documentation"],
+    "assignees": ["alice"],
+    "milestone": "Analysis",
+}
+
+
+def metadata_problems(**changes):
+    return check_pr_body.check(TITLE, BODY, {**METADATA, **changes})
+
+
+def test_complete_metadata_passes():
+    assert metadata_problems() == []
+
+
+def test_metadata_is_optional_for_local_checks():
+    assert problems() == []
+
+
+@pytest.mark.parametrize(
+    ("changes", "fragment"),
+    [
+        ({"labels": ["phase: analysis", "type: task"]}, "'role'"),
+        ({"labels": ["role: B3", "type: task"]}, "'phase'"),
+        ({"labels": ["role: B3", "phase: analysis"]}, "'type'"),
+        ({"labels": ["role: B3", "phase: analysis", "type: task", "type: bug"]}, "'type'"),
+        ({"labels": ["role: Z", "phase: analysis", "type: task"]}, "'role'"),
+        ({"labels": ["role: B1", "phase: analysis", "type: task"]}, "differ from the Classification"),
+        ({"labels": ["role: B3", "phase: writing", "type: task"]}, "differ from the Classification"),
+        ({"assignees": []}, "Assignees"),
+        ({"milestone": ""}, "Milestone: set one of"),
+        ({"milestone": "Sprint 1"}, "Milestone: set one of"),
+        ({"milestone": "Writing"}, "differs from the Classification"),
+    ],
+)
+def test_incomplete_metadata_is_reported(changes, fragment):
+    assert any(fragment in e for e in metadata_problems(**changes))
+
+
+def test_several_roles_may_share_a_pull_request():
+    body = BODY.replace("| Role | B3 |", "| Role | B2, B3 |")
+    meta = {**METADATA, "labels": ["role: B2", "role: B3", "phase: analysis", "type: task"]}
+    assert check_pr_body.check(TITLE, body, meta) == []
+
+
+def test_main_reads_metadata_from_the_environment(tmp_path, monkeypatch, capsys):
+    ok = tmp_path / "ok.md"
+    ok.write_text(BODY, encoding="utf-8")
+    monkeypatch.setenv("PR_LABELS", '["role: B3", "phase: analysis", "type: task"]')
+    monkeypatch.setenv("PR_ASSIGNEES", '["alice"]')
+    monkeypatch.setenv("PR_MILESTONE", "Analysis")
+    assert check_pr_body.main(["--title", TITLE, "--body-file", str(ok)]) == 0
+    monkeypatch.setenv("PR_ASSIGNEES", "[]")
+    assert check_pr_body.main(["--title", TITLE, "--body-file", str(ok)]) == 1
+    assert "Assignees" in capsys.readouterr().out
