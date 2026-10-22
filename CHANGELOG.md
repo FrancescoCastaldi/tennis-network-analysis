@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `README.md` brought up to date: an At a glance table, final results of H1 to H8 with their numbers (H5 p = 0.010, H2 z = 16 to 35), network structure, rich-club and data validity, the rich-club step in the pipeline table, the layout and the status of each report section.
 - `AGENTS.md` and `CONTRIBUTING.md`: every PR must carry labels (role, phase, type), an assignee, a milestone, reviewers from the other group B members and a complete description when it is opened. `scripts/check_pr_body.py` now checks the labels, the assignee and the milestone (and that they agree with the Classification table), and the `PR check` workflow also runs on `labeled`, `assigned` and `milestoned` events. Tests in `tests/test_check_pr_body.py`.
 - One null-graph count for every significance test in the report: `test_null_samples` in `config/networks.json` (200) is now the default of `hypotheses` (H2) and `triads` (triad ratios and the triad spectrum, which used 20 by default and 5 and 15 in the saved results). `make triads JOBS=n` runs the triad null graphs on n cores.
 - Results regenerated with 200 null graphs per test and the report numbers updated: H5 p = 0.010 (was 0.020 from an older run) and 0.100 for the tours, triad-ratio z from -7.0 to -36.7, null-model and small-world ranges in Section 5, and H5 in the Critique.
