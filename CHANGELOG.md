@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Rich-club coefficient and elite closure analysis module in `src/tennis_networks/rich_club.py`, measuring normalized rich-club coefficients against configuration null models to explain tournament seeding constraints and Hypothesis H2 positive assortativity. Tests in `tests/test_rich_club.py` with 5 unit tests.
+- Peak threshold degree $k^*$, elite club size $N_{>k^*}$, normalized coefficient $\rho_{\text{rich}}$, and peak $z$-scores integrated into `tab_structure.tex` via `src/tennis_networks/report_assets.py`.
+- Makefile target `rich-club` to compute normalized rich-club profiles across all 9 comparative networks with multiprocessing support.
+- Citation and theoretical discussion for Colizza et al. (2006) rich-club ordering in Section 5 of `report/main.tex`.
 - Automated repository security, privacy, and anti-leak test suite in `tests/test_security_privacy.py`, verifying absence of student ID numbers (AGENTS.md rule 12), absence of `.env` files and private keys, hardcoded API tokens, mandatory `.gitignore` exclusions, and zero unescaped em-dash artifacts in LaTeX report text.
 - Security audit step running `pip-audit` against the PyPA/OSV vulnerability database in `.github/workflows/ci.yml`, with `pip-audit>=2.7` added to `dev` dependencies in `pyproject.toml`.
 - Pre-commit security hooks in `.pre-commit-config.yaml`: `detect-private-key`, `check-merge-conflict`, and `check-case-conflict`.

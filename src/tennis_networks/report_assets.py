@@ -316,6 +316,22 @@ def table_structure():
         ],
     )
 
+    rc_file = TABLES / "rich_club_summary.csv"
+    if rc_file.exists():
+        rc = pd.read_csv(rc_file).set_index("network")
+        for col in rc.columns:
+            s[col] = rc[col]
+        rows.append(r"\midrule")
+        rows += section(
+            r"Rich-club elite closure (configuration null model)",
+            [
+                (r"Peak threshold degree $k^*$", "peak_k", 0),
+                (r"Elite club size $N_{>k^*}$", "elite_nodes", 0),
+                (r"Normalised rich-club $\rho_{\text{rich}}$", "rho_rich_peak", 3),
+                (r"Peak $z$-score", "z_peak", 1),
+            ],
+        )
+
     write(
         "tab_structure.tex",
         "\n".join(

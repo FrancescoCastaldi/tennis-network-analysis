@@ -24,6 +24,7 @@ def test_table_structure_generates_file(out_dirs):
     assert "Borgatti-Everett discrete core-periphery model" in content
     assert "Structural equivalence" in content
     assert "Small-world topology" in content
+    assert "Rich-club elite closure" in content
     # Check that all 9 networks are present in the header
     for net_short in ["2000-06", "2007-12", "2013-18", "2019-25", "Clay", "Grass", "Hard", "ATP 07-25", "WTA 07-25"]:
         assert net_short in content

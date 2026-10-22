@@ -179,7 +179,7 @@ Table~\ref{tab:structure} summarizes advanced structural roles, core-periphery p
 
 The Borgatti-Everett discrete core-periphery model~\cite{borgatti2000} partitions each network into a dense core and sparse periphery ($\phi = 0.688$ to $0.731$), corroborated by the continuous model ($\rho = 0.618$ to $0.643$). The core contains 16\% to 20\% of players ($k = 107$ to $131$), with intra-core density ($d_{cc} \approx 0.61$ to $0.70$) nearly ten times higher than core-periphery density ($d_{cp} \approx 0.07$ to $0.08$) and seventy times higher than periphery density ($d_{pp} \approx 0.008$). Core members exhibit median rankings of 46 to 49, with 96\% to 100\% belonging to the official top 100, aligning closely with the maximum $k$-core (Jaccard $0.78$ to $0.87$). Figure~\ref{fig:network_core}(a) illustrates this dense directed sub-network among the top twelve core players during the 2007-2012 peak, highlighting the high encounter volume between the Big Four and leading contenders.
 
-Structural equivalence, measured via opponent cosine similarity among regulars ($\ge 30$ opponents, mean $0.35$ to $0.38$), correlates positively with ranking gap under QAP permutation~\cite{krackhardt1988} ($r = 0.14$ to $0.20, p \le 0.01$). This confirms that equivalence captures joint participation in premier main-draw brackets rather than ranking equality. Finally, the small-world coefficient $\sigma = (C/C_{\text{null}}) / (L/L_{\text{null}})$ ranges from 0.85 to 0.92 in eras (1.24 to 1.33 on surfaces), showing that high clustering stems from the degree sequence rather than anomalous small-world shortcuts.
+Structural equivalence, measured via opponent cosine similarity among regulars ($\ge 30$ opponents, mean $0.35$ to $0.38$), correlates positively with ranking gap under QAP permutation~\cite{krackhardt1988} ($r = 0.14$ to $0.20, p \le 0.01$). This confirms that equivalence captures joint participation in premier main-draw brackets rather than ranking equality. The small-world coefficient $\sigma = (C/C_{\text{null}}) / (L/L_{\text{null}})$ ranges from 0.85 to 0.92 in eras (1.24 to 1.33 on surfaces), showing that high clustering stems from the degree sequence rather than anomalous small-world shortcuts. Finally, testing elite closure via the normalised rich-club coefficient $\rho_{\text{rich}}(k) = \phi(k)/\langle \phi_{\text{null}}(k) \rangle$~\cite{colizza2006} reveals significant rich-club organisation across all nine networks (peak $\rho_{\text{rich}} = 1.052$ to $1.215, z \in [13.0, 27.3], p \le 0.005$; Table~\ref{tab:structure}). High-degree regulars ($N_{>k^*} \in [81, 186]$) interconnect among themselves substantially more than expected from degree sequences, formally demonstrating that tournament bracket seeding drives elite closure and accounts for the positive assortativity deviation observed in H2.
 
 \begin{figure}[t]
 \centering
@@ -193,7 +193,7 @@ Structural equivalence, measured via opponent cosine similarity among regulars (
 \scriptsize
 \setlength{\tabcolsep}{2.5pt}
 \gentable{tab_structure.tex}
-\caption{Structural properties of the nine comparative networks. HITS correlations compare authority and hub scores with PageRank and median ranking; core-periphery reports Borgatti-Everett discrete model parameters, block densities ($d_{cc}, d_{cp}, d_{pp}$) and alignment with the maximum $k$-core; structural equivalence reports mean cosine similarity and QAP correlation with ranking gap; small-world index $\sigma$ is evaluated against Maslov-Sneppen null models.}
+\caption{Structural properties of the nine comparative networks. HITS correlations compare authority and hub scores with PageRank and median ranking; core-periphery reports Borgatti-Everett discrete model parameters, block densities ($d_{cc}, d_{cp}, d_{pp}$) and alignment with the maximum $k$-core; structural equivalence reports mean cosine similarity and QAP correlation with ranking gap; small-world index $\sigma$ is evaluated against Maslov-Sneppen null models; rich-club reports peak degree threshold $k^*$, elite club size $N_{>k^*}$, normalised coefficient $\rho_{\text{rich}}$ and $z$-score against configuration null models.}
 \label{tab:structure}
 \end{table}
 
@@ -285,6 +285,7 @@ We asked how the structure of professional tennis changes across eras, surfaces 
 \bibitem{kleinberg1999} J.~Kleinberg. Authoritative sources in a hyperlinked environment. \emph{J.\ ACM}, 46(5):604--632, 1999.
 \bibitem{borgatti2000} S.~P.~Borgatti, M.~G.~Everett. Models of core/periphery structures. \emph{Social Networks}, 21(4):375--395, 2000.
 \bibitem{krackhardt1988} D.~Krackhardt. Predicting with networks: Nonparametric multiple regression analysis of dyadic data. \emph{Social Networks}, 10(4):359--381, 1988.
+\bibitem{colizza2006} V.~Colizza, A.~Flammini, M.~A.~Serrano, A.~Vespignani. Detecting rich-club ordering in complex networks. \emph{Nature Physics}, 2(2):110--115, 2006.
 \end{thebibliography}
 
 \end{document}

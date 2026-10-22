@@ -30,6 +30,9 @@ hypotheses:  ## Tests of H1-H4
 structure:  ## HITS, structural equivalence, core-periphery, small-world
 	$(PY) -m tennis_networks.structure
 
+rich-club:  ## Normalized rich-club coefficient and elite closure against null models
+	$(PY) -m tennis_networks.rich_club --jobs $(JOBS)
+
 triads:  ## Triad census and hypothesis H5 (JOBS=n to use n cores)
 	$(PY) -m tennis_networks.triads --jobs $(JOBS)
 
