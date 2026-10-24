@@ -165,7 +165,7 @@ def render_notes(version, body, previous, base, words=None, assets=None, contrib
     if assets:
         lines += ["## Downloads", "", "| File | What it is | SHA-256 |", "|---|---|---|"]
         for name, what, digest in assets:
-            lines.append(f"| `{name}` | {what} | `{digest[:16]}` |")
+            lines.append(f"| `{name}` | {what} | `{digest}` |")
         lines += ["", "Check a download with `sha256sum -c SHA256SUMS.txt`.", ""]
     if contributors:
         lines += ["## Contributors", "", ", ".join(contributors), ""]

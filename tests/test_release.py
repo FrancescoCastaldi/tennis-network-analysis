@@ -135,7 +135,7 @@ def test_notes_have_the_summary_groups_downloads_and_credits():
         "## What is new",
         "## Fixes",
         "| Words | 3,991 of 5,000 |",
-        "| `report-v0.3.0.pdf` | The report | `abababababababab` |",
+        f"| `report-v0.3.0.pdf` | The report | `{'ab' * 32}` |",
         "sha256sum -c SHA256SUMS.txt",
         "Ada Lovelace, Alan Turing",
         f"{BASE}/compare/v0.2.0...v0.3.0",
