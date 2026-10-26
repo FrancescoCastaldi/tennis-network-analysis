@@ -2,7 +2,7 @@
 PY ?= python
 JOBS ?= 1
 
-.PHONY: help install data networks analysis hypotheses structure triads levels topology reproduce report-assets report wordcount test lint all
+.PHONY: release-check release-notes help install data networks analysis hypotheses structure triads levels topology reproduce report-assets report wordcount test lint all
 
 help:  ## List the targets
 	@grep -E '^[a-z-]+:.*##' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-15s %s\n", $$1, $$2}'
@@ -47,6 +47,12 @@ report-assets:  ## LaTeX tables and PDF figures of the report
 
 report: report-assets  ## Build report/main.pdf (needs latexmk)
 	cd report && latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+
+release-check:  ## Check the files against a tag: make release-check TAG=v0.3.0
+	$(PY) scripts/release.py check $(TAG)
+
+release-notes:  ## Preview the notes of a release: make release-notes TAG=v0.3.0
+	$(PY) scripts/release.py notes $(TAG)
 
 wordcount:  ## Check the 5,000-word limit
 	$(PY) -m tennis_networks.wordcount

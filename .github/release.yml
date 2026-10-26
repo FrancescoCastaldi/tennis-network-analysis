@@ -1,0 +1,34 @@
+# Categories for the notes that GitHub generates ("Generate release notes" and `gh release create
+# --generate-notes`), grouped by the labels of the pull requests. The published releases use the
+# changelog instead (scripts/release.py notes); this file keeps generated notes tidy when they are used.
+changelog:
+  exclude:
+    labels:
+      - duplicate
+      - invalid
+      - wontfix
+    authors:
+      - dependabot
+  categories:
+    - title: Report
+      labels:
+        - "type: report"
+    - title: Pipeline and analysis
+      labels:
+        - "type: task"
+        - enhancement
+    - title: Fixes
+      labels:
+        - "type: bug"
+        - bug
+    - title: Documentation
+      labels:
+        - documentation
+    - title: Maintenance and dependencies
+      labels:
+        - maintenance
+        - dependencies
+        - github_actions
+    - title: Other changes
+      labels:
+        - "*"

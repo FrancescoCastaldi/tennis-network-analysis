@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Release process: `scripts/release.py` (`prepare`, `check`, `notes`, `tag`), the `Release` workflow that verifies an annotated `vX.Y.Z` tag, reruns tests and the PDF build and publishes a GitHub release with grouped notes, `report-vX.Y.Z.pdf`, `results-vX.Y.Z.tar.gz` and `SHA256SUMS.txt`, `.github/release.yml` for generated notes, Makefile targets `release-check` and `release-notes`, a Releases section in README, CONTRIBUTING and AGENTS. Tests in `tests/test_release.py`.
 - GitHub project `SNA Tennis` (private, linked to the repository) with the fields `Role`, `Phase`, `Area`, `Words` and `Target` next to `Status`; `AGENTS.md`, `CONTRIBUTING.md` and `README.md` say that every PR and issue belongs to it.
 - `tennis_networks.topology` (role B2): maximum-likelihood power-law fits of the degree distribution with likelihood-ratio tests against lognormal, exponential and truncated power law (package `powerlaw`, new dependency), compactness of the undirected giant component, and ranking-band homophily (top 10, 11-100, others) with 999 label permutations, over all players and among players with a similar number of opponents. Outputs `powerlaw_fits.csv`, `compactness.csv`, `homophily_bands.csv`, `homophily_mixing.csv`; `make topology`; `tests/test_topology.py`.
 - `report_assets`: `tab_topology.tex`, `tab_abc.tex` (phenomenon, measure and interpretation for every family of measures) and `fig_core_homophily` (core of the 2007-2012 network and band mixing ratios).
