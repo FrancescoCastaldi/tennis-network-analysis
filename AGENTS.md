@@ -41,6 +41,11 @@ Guidance for coding assistants working in this repository. Humans: see CONTRIBUT
   worktrees for a fix. One piece of work, one PR.
 - Fill every section of `.github/pull_request_template.md`. The `PR check` workflow fails on an
   incomplete body or a title that is not a Conventional Commit.
+- Every PR and every issue belongs to the `SNA Tennis` project (https://github.com/users/FrancescoCastaldi/projects/3), with the fields `Role`,
+  `Phase` and `Area` (`A (20%)`, `B (60%)`, `C (20%)`, `Delivery`) set to match its labels and `Status` kept
+  up to date (`In Progress` while open, `Done` when merged or closed). Add it with
+  `gh project item-add 3 --owner FrancescoCastaldi --url <PR or issue URL>`. The project mirrors the work of
+  the repository; the group's Google Sheet stays the planning source.
 - Set the metadata of every PR when you open it, not later:
   - labels: one `role: <A|B1|B2|B3|C>` (the role of the author), one `phase: <setup|analysis|writing|delivery>`
     and one `type: <task|bug|report>` (`report` for changes to `report/main.tex`, `bug` for a wrong number

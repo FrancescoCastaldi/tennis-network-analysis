@@ -42,6 +42,12 @@ ownership to revise, rewrite, or condense this text to balance the overall group
    never push directly to `main`. The `Main audit` workflow opens an issue if a commit reaches `main`
    without an approved PR.
 
+## Project board
+
+Every PR and issue is tracked in the private [`SNA Tennis` project](https://github.com/users/FrancescoCastaldi/projects/3): board by `Status`,
+fields `Role`, `Phase` and `Area` (A 20%, B 60%, C 20%, Delivery) that mirror the labels, and the milestone.
+The Google Sheet "SNA - UNIBO" stays the planning source; the project follows the code and report work.
+
 ## Releases
 
 A release is a version tag on `main`, published by the `Release` workflow. Never create a release or a tag by hand in the web page or with a plain `git tag`.
