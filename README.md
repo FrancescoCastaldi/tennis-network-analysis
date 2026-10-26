@@ -96,6 +96,7 @@ make all                           # or the python -m commands below, one by one
 | Structure: HITS, equivalence, core-periphery, small-world | `python -m tennis_networks.structure` | `results/tables/structure_summary.csv` |
 | Triad census and H5 | `python -m tennis_networks.triads` | `results/tables/triads_*.csv` |
 | Rich-club coefficient and elite closure | `python -m tennis_networks.rich_club` | `results/tables/rich_club_summary.csv` |
+| Degree-distribution fits, compactness, ranking-band homophily | `python -m tennis_networks.topology` | `results/tables/powerlaw_fits.csv`, `compactness.csv`, `homophily_bands.csv`, `homophily_mixing.csv` |
 | Hypotheses H6-H8 (monadic, dyadic, mixed) | `python -m tennis_networks.levels` | `results/tables/levels_tests.csv` |
 | Report tables and figures | `python -m tennis_networks.report_assets` | `report/tables/`, `report/figures/` |
 | Word limit | `python -m tennis_networks.wordcount` | exit code 1 above 5,000 words |

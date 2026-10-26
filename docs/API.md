@@ -177,3 +177,17 @@ Formatting and plotting helpers in `report_assets`, and stage-specific orchestra
 are implementation details. Use `python -m tennis_networks.report_assets` to regenerate all report
 assets together. This overwrites generated files; quick or partial runs must not replace the
 frozen report results unintentionally.
+
+## Topology
+
+Source: [topology.py](../src/tennis_networks/topology.py). Run `python -m tennis_networks.topology [--perm 999]`.
+Directed graphs are projected on the undirected graph in which two players are linked if they ever met.
+
+| Function | Parameters | Returns |
+|---|---|---|
+| `degree_fit(g)` | Graph | `dict` with `alpha`, `xmin`, `ks_distance`, `n_tail`, `tail_share`, the ratio `R_vs_*` and p-value `p_vs_*` against lognormal, exponential and truncated power law, and a `verdict` |
+| `power_law_verdict(row)` | One `degree_fit` result | `"plausible"`, `"not supported (alternative fits better)"` or `"inconclusive (short tail)"` |
+| `compactness(g)` | Graph | `dict` with giant-component size, `avg_distance`, `diameter`, `global_efficiency`, `distance_ratio` to ln(N) / ln(k) |
+| `band_homophily(g, ranks, n_perm, seed)` | Player-keyed ranking `Series`, permutations, seed | `(summary dict, list of band-pair rows)`: observed and expected matches, ratio, z and two-sided p with the +1 correction, under a null over all players (`_all`) and within degree deciles (`_deg`) |
+
+Players without a ranking count in the band `others`. The bands of a period use each player's median ranking in it.

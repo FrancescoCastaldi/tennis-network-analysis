@@ -27,6 +27,9 @@ which two players are linked if they met at least once.
 | Winners and gatekeepers | HITS: authority (beats strong players), hub (goes deep and loses to the champions) | `structure` |
 | Interchangeable players | structural equivalence: cosine similarity of opponent vectors | `structure` |
 | Core and periphery | Borgatti-Everett discrete model, continuous coreness fit and comparison with the k-core | `structure` |
+| Bounded or scale-free hubs | maximum-likelihood power-law fit (Clauset, Shalizi and Newman 2009) and likelihood-ratio tests against lognormal, exponential and truncated power law | `topology` |
+| Compactness | average distance and diameter of the undirected giant component, global efficiency, ratio to ln(N) / ln(k) | `topology` |
+| Ranking-band homophily | band mixing matrix against 999 label permutations, over all players and within degree deciles | `topology` |
 | Small world | sigma = (C / C_null) / (L / L_null) | `structure`, `nullmodels` |
 | Consistency of the hierarchy | 16-class triad spectrum against configuration nulls; ratio of cyclic (030C) to transitive (030T) triads | `triads` |
 
