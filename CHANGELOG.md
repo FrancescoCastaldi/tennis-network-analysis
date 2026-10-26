@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `sensitivity` module: H1, H3 and H4 rerun with retirements dropped, walkovers kept, or carpet merged with hard courts, with the seed and permutations of `hypotheses`; the baseline must reproduce `hypothesis_tests.csv`. Outputs `results/tables/sensitivity_*.csv`, `tab_sensitivity.tex`, new paragraph and Table 3 in the report. Tests in `tests/test_sensitivity.py`.
+- `source_check` module and `fig_sources`: agreement of tennis-data.co.uk with Michieli network 1 on loser-winner pairs and on the wins of players whose career lies in the common window. Tests in `tests/test_source_check.py`.
+- Makefile targets `source-check` and `sensitivity`, both part of `make all`.
 - Release process: `scripts/release.py` (`prepare`, `check`, `notes`, `tag`), the `Release` workflow that verifies an annotated `vX.Y.Z` tag, reruns tests and the PDF build and publishes a GitHub release with grouped notes, `report-vX.Y.Z.pdf`, `results-vX.Y.Z.tar.gz` and `SHA256SUMS.txt`, `.github/release.yml` for generated notes, Makefile targets `release-check` and `release-notes`, a Releases section in README, CONTRIBUTING and AGENTS. Tests in `tests/test_release.py`.
 - GitHub project `SNA Tennis` (private, linked to the repository) with the fields `Role`, `Phase`, `Area`, `Words` and `Target` next to `Status`; `AGENTS.md`, `CONTRIBUTING.md` and `README.md` say that every PR and issue belongs to it.
 - `tennis_networks.topology` (role B2): maximum-likelihood power-law fits of the degree distribution with likelihood-ratio tests against lognormal, exponential and truncated power law (package `powerlaw`, new dependency), compactness of the undirected giant component, and ranking-band homophily (top 10, 11-100, others) with 999 label permutations, over all players and among players with a similar number of opponents. Outputs `powerlaw_fits.csv`, `compactness.csv`, `homophily_bands.csv`, `homophily_mixing.csv`; `make topology`; `tests/test_topology.py`.
@@ -29,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `hypotheses` exposes `season_series`, `h1_rows`, `h3_rows` and `h4_rows` so that `sensitivity` reuses the same tests; `tennisdata.played` takes `keep_walkovers`. Saved results are unchanged.
+- Report, Validity and Reliability: the cross-source paragraph cites the new figure, and the Tools, construct validity and Datasets prose is shortened (about 100 words) to make room for the sensitivity paragraph.
 - `README.md` brought up to date: an At a glance table, final results of H1 to H8 with their numbers (H5 p = 0.010, H2 z = 16 to 35), network structure, rich-club and data validity, the rich-club step in the pipeline table, the layout and the status of each report section.
 - `AGENTS.md` and `CONTRIBUTING.md`: every PR must carry labels (role, phase, type), an assignee, a milestone, reviewers from the other group B members and a complete description when it is opened. `scripts/check_pr_body.py` now checks the labels, the assignee and the milestone (and that they agree with the Classification table), and the `PR check` workflow also runs on `labeled`, `assigned` and `milestoned` events. Tests in `tests/test_check_pr_body.py`.
 - One null-graph count for every significance test in the report: `test_null_samples` in `config/networks.json` (200) is now the default of `hypotheses` (H2) and `triads` (triad ratios and the triad spectrum, which used 20 by default and 5 and 15 in the saved results). `make triads JOBS=n` runs the triad null graphs on n cores.

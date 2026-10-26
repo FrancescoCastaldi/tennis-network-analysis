@@ -18,8 +18,8 @@ surfaces and the men's (ATP) and women's (WTA) tours. Group project for the Netw
 |---|---|
 | Networks | 13: 4 reference networks (Michieli) and 9 comparative networks built from 114,084 played matches (68,972 ATP, 45,112 WTA) |
 | Hypotheses | 8 tested: 6 supported, 1 not supported (H1), 1 rejected in the opposite direction (H2) |
-| Reproducibility | one seed (`20261115`), 128 tests, CI on every push, every table and figure generated from `results/` |
-| Report | `report/main.tex`, 3,978 of 5,000 words; Introduction and Problem and Motivation still to be written |
+| Reproducibility | one seed (`20261115`), 132 tests, CI on every push, every table and figure generated from `results/` |
+| Report | `report/main.tex`, 4,014 of 5,000 words; Introduction and Problem and Motivation still to be written |
 | Deadline | 27 November 2026, 23:59 (course exam session) |
 | Version | 0.2.7, see the [changelog](CHANGELOG.md) |
 
@@ -58,7 +58,8 @@ Structure of the networks:
 Validity of the data:
 
 - The pipeline reproduces the figures of Michieli (2018) on M1, M3 and M4, with one exception: the average clustering of M3 is 0.311 here against 0.07 in the paper, and no standard definition gives the published value.
-- tennis-data.co.uk and Michieli agree on 97.6% of the loser-winner pairs and 99.3% of the players over their common window (2000 to August 2017).
+- tennis-data.co.uk and Michieli agree on 97.6% of the loser-winner pairs and 99.3% of the players over their common window (2000 to August 2017). For players whose whole career falls in the window, wins in the two sources correlate at r = 0.94 and 90.9% of the pairs between them have the same number of wins.
+- Sensitivity to the cleaning choices (retirements dropped, walkovers kept, carpet counted as hard): every H3 and H4 verdict holds at the 5% level, while H1 is borderline (p = 0.036 without retirements, 0.053 with walkovers, 0.060 in the report). See `results/tables/sensitivity_tests.csv`.
 
 Every number above is in [`results/tables/hypothesis_tests.csv`](results/tables/hypothesis_tests.csv), [`results/tables/triads_h5.csv`](results/tables/triads_h5.csv), [`results/tables/levels_tests.csv`](results/tables/levels_tests.csv), [`results/tables/rich_club_summary.csv`](results/tables/rich_club_summary.csv), [`results/tables/michieli_reproduction.csv`](results/tables/michieli_reproduction.csv) and [`results/tables/td_validity_michieli.csv`](results/tables/td_validity_michieli.csv).
 
@@ -68,7 +69,7 @@ Every number above is in [`results/tables/hypothesis_tests.csv`](results/tables/
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
-pytest                             # 128 unit tests and checks on the committed data
+pytest                             # 132 unit tests and checks on the committed data
 ```
 
 The processed networks and the results are committed, so the report can be rebuilt without
@@ -93,6 +94,8 @@ make all                           # or the python -m commands below, one by one
 | Reproduce the paper | `python -m tennis_networks.reproduce` | `results/tables/michieli_reproduction.csv` |
 | Measures and null models | `python -m tennis_networks.analysis` | `results/` |
 | Hypotheses H1-H4 | `python -m tennis_networks.hypotheses` | `results/tables/hypothesis_tests.csv` |
+| Source agreement with Michieli | `python -m tennis_networks.source_check` | `results/tables/td_michieli_*.csv` |
+| Sensitivity of H1, H3, H4 to the cleaning choices | `python -m tennis_networks.sensitivity` | `results/tables/sensitivity_*.csv` |
 | Structure: HITS, equivalence, core-periphery, small-world | `python -m tennis_networks.structure` | `results/tables/structure_summary.csv` |
 | Triad census and H5 | `python -m tennis_networks.triads` | `results/tables/triads_*.csv` |
 | Rich-club coefficient and elite closure | `python -m tennis_networks.rich_club` | `results/tables/rich_club_summary.csv` |

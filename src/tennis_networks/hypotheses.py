@@ -94,29 +94,23 @@ def yearly(matches, tour, years, stat):
     return pd.Series({y: MATCH_STATS[stat](m[m["year"] == y]) for y in years}, name=f"{tour}_{stat}")
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--perm", type=int, default=999, help="permutations per test")
-    parser.add_argument("--null", type=int, default=None, help="null graphs for H2 (default: test_null_samples)")
-    args = parser.parse_args()
-    cfg = load_config()
-    seed = cfg["seed"]
-    args.null = args.null or cfg["test_null_samples"]
-    matches = pd.read_csv(PROCESSED / "td_matches.csv", parse_dates=["date"])
-    TABLES.mkdir(parents=True, exist_ok=True)
-    rows = []
-
-    # H1: concentration of prestige in the Big Three seasons (2007-2018) against 2019-2025.
+def season_series(matches):
+    """Season statistics of the ATP (2000-2025) and the WTA (2007-2025): players, PageRank share, centralization."""
     ys = {}
     for stat in ("top10_pagerank_share", "degree_centralization", "players"):
         ys[f"ATP_{stat}"] = yearly(matches, "ATP", range(2000, 2026), stat)
         ys[f"WTA_{stat}"] = yearly(matches, "WTA", range(2007, 2026), stat)
     series = pd.DataFrame(ys)
     series.index.name = "season"
-    series.to_csv(TABLES / "yearly_statistics.csv", encoding="utf-8")
+    return series
+
+
+def h1_rows(series, n_perm, seed):
+    """H1: concentration of prestige in the Big Three seasons (2007-2018) against 2019-2025."""
+    rows = []
     for stat in ("top10_pagerank_share", "degree_centralization"):
         s = series[f"ATP_{stat}"]
-        res = group_permutation_test(s.loc[2007:2018], s.loc[2019:2025], args.perm, seed)
+        res = group_permutation_test(s.loc[2007:2018], s.loc[2019:2025], n_perm, seed)
         rows.append(
             {
                 "hypothesis": "H1",
@@ -127,6 +121,65 @@ def main():
                 **res,
             }
         )
+    return rows
+
+
+def h3_rows(matches, n_perm, seed):
+    """H3: grass against clay and hard, permuting matches (same players, same period)."""
+    rows = []
+    atp = matches[matches["tour"] == "ATP"]
+    grass = atp[atp["surface"] == "Grass"]
+    for other in ("Clay", "Hard"):
+        rest = atp[atp["surface"] == other]
+        for stat in ("degree_centralization", "top10_pagerank_share"):
+            res = permutation_test(grass, rest, MATCH_STATS[stat], max(n_perm // 5, 99), seed)
+            rows.append(
+                {
+                    "hypothesis": "H3",
+                    "statistic": stat,
+                    "comparison": f"ATP Grass vs {other}",
+                    "value_a": MATCH_STATS[stat](grass),
+                    "value_b": MATCH_STATS[stat](rest),
+                    **res,
+                }
+            )
+    return rows
+
+
+def h4_rows(series, n_perm, seed):
+    """H4: concentration of PageRank in the WTA against the ATP, season by season (2007-2025)."""
+    rows = []
+    for stat in ("top10_pagerank_share", "degree_centralization"):
+        a, w = series[f"ATP_{stat}"].loc[2007:2025], series[f"WTA_{stat}"].loc[2007:2025]
+        res = paired_signflip_test(w - a, 10 * n_perm, seed)
+        rows.append(
+            {
+                "hypothesis": "H4",
+                "statistic": stat,
+                "comparison": "WTA vs ATP, paired season differences 2007-2025",
+                "value_a": w.mean(),
+                "value_b": a.mean(),
+                "diff": res["mean_diff"],
+                "p_value": res["p_value"],
+            }
+        )
+    return rows
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--perm", type=int, default=999, help="permutations per test")
+    parser.add_argument("--null", type=int, default=None, help="null graphs for H2 (default: test_null_samples)")
+    args = parser.parse_args()
+    cfg = load_config()
+    seed = cfg["seed"]
+    args.null = args.null or cfg["test_null_samples"]
+    matches = pd.read_csv(PROCESSED / "td_matches.csv", parse_dates=["date"])
+    TABLES.mkdir(parents=True, exist_ok=True)
+
+    series = season_series(matches)
+    series.to_csv(TABLES / "yearly_statistics.csv", encoding="utf-8")
+    rows = h1_rows(series, args.perm, seed)
 
     # H2: disassortativity against the configuration model, plus clustering on the same null graphs.
     null_rows = []
@@ -152,39 +205,8 @@ def main():
         )
     pd.DataFrame(null_rows).to_csv(TABLES / "null_undirected.csv", index=False, encoding="utf-8")
 
-    # H3: grass against clay and hard, permuting matches (same players, same period).
-    atp = matches[matches["tour"] == "ATP"]
-    grass = atp[atp["surface"] == "Grass"]
-    for other in ("Clay", "Hard"):
-        rest = atp[atp["surface"] == other]
-        for stat in ("degree_centralization", "top10_pagerank_share"):
-            res = permutation_test(grass, rest, MATCH_STATS[stat], max(args.perm // 5, 99), seed)
-            rows.append(
-                {
-                    "hypothesis": "H3",
-                    "statistic": stat,
-                    "comparison": f"ATP Grass vs {other}",
-                    "value_a": MATCH_STATS[stat](grass),
-                    "value_b": MATCH_STATS[stat](rest),
-                    **res,
-                }
-            )
-
-    # H4: concentration of PageRank in the WTA against the ATP, season by season (2007-2025).
-    for stat in ("top10_pagerank_share", "degree_centralization"):
-        a, w = series[f"ATP_{stat}"].loc[2007:2025], series[f"WTA_{stat}"].loc[2007:2025]
-        res = paired_signflip_test(w - a, 10 * args.perm, seed)
-        rows.append(
-            {
-                "hypothesis": "H4",
-                "statistic": stat,
-                "comparison": "WTA vs ATP, paired season differences 2007-2025",
-                "value_a": w.mean(),
-                "value_b": a.mean(),
-                "diff": res["mean_diff"],
-                "p_value": res["p_value"],
-            }
-        )
+    rows += h3_rows(matches, args.perm, seed)
+    rows += h4_rows(series, args.perm, seed)
 
     out = pd.DataFrame(rows)
     out.to_csv(TABLES / "hypothesis_tests.csv", index=False, encoding="utf-8")

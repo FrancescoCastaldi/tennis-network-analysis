@@ -71,10 +71,11 @@ def load_matches(tours=("atp", "wta")):
     return pd.concat(frames, ignore_index=True)
 
 
-def played(matches):
+def played(matches, keep_walkovers=False):
     """Matches actually played: walkovers and rows without names are dropped, retirements are kept."""
-    ok = ~matches["comment"].str.lower().str.startswith("walkover")
-    ok &= matches["winner"].ne("") & matches["loser"].ne("") & matches["winner"].ne(matches["loser"])
+    ok = matches["winner"].ne("") & matches["loser"].ne("") & matches["winner"].ne(matches["loser"])
+    if not keep_walkovers:
+        ok &= ~matches["comment"].str.lower().str.startswith("walkover")
     return matches[ok]
 
 

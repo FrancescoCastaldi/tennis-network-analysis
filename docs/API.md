@@ -168,7 +168,7 @@ undirected graphs and covers all 16 Holland-Leinhardt triad classes.
 ## Executable stages
 
 The `main()` functions in `download`, `michieli`, `tennisdata`, `reproduce`, `analysis`,
-`hypotheses`, `structure`, `triads`, `levels`, `report_assets` and `wordcount` are command-line
+`hypotheses`, `source_check`, `sensitivity`, `structure`, `triads`, `levels`, `report_assets` and `wordcount` are command-line
 entry points, not separate service endpoints. Run stages with `python -m tennis_networks.<module>`;
 see the [pipeline command table](../README.md#quick-start) and
 [artifact flow](architecture.md#pipeline-and-artifacts).
