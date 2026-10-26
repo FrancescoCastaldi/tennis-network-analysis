@@ -2,7 +2,7 @@
 PY ?= python
 JOBS ?= 1
 
-.PHONY: help install data networks analysis hypotheses source-check sensitivity structure triads levels reproduce report-assets report wordcount test lint all
+.PHONY: help install data networks analysis hypotheses source-check sensitivity structure triads levels topology reproduce report-assets report wordcount test lint all
 
 help:  ## List the targets
 	@grep -E '^[a-z-]+:.*##' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-15s %s\n", $$1, $$2}'
@@ -39,6 +39,9 @@ structure:  ## HITS, structural equivalence, core-periphery, small-world
 rich-club:  ## Normalized rich-club coefficient and elite closure against null models
 	$(PY) -m tennis_networks.rich_club --jobs $(JOBS)
 
+topology:  ## Degree-distribution fits, compactness and ranking-band homophily
+	$(PY) -m tennis_networks.topology
+
 triads:  ## Triad census and hypothesis H5 (JOBS=n to use n cores)
 	$(PY) -m tennis_networks.triads --jobs $(JOBS)
 
@@ -61,4 +64,4 @@ lint:  ## Lint and format check
 	ruff check .
 	ruff format --check .
 
-all: networks reproduce analysis hypotheses source-check sensitivity structure triads levels report  ## Everything from the raw data to the PDF
+all: networks reproduce analysis hypotheses source-check sensitivity structure triads levels topology report  ## Everything from the raw data to the PDF

@@ -24,6 +24,7 @@ Every pipeline stage is encapsulated in a dedicated module:
 | `source_check.py` | Agreement of tennis-data.co.uk with Michieli network 1 (pairs and player wins) | Processed networks | `results/tables/td_michieli_*.csv` |
 | `sensitivity.py` | Reruns H1, H3, H4 with retirements dropped, walkovers kept, carpet as hard | Raw matches | `results/tables/sensitivity_*.csv` |
 | `structure.py` | HITS, core-periphery (Borgatti-Everett), small-world sigma | Comparative networks | `results/tables/structure_summary.csv` |
+| `topology.py` | Power-law fits of the degree distribution, compactness, ranking-band homophily with permutation nulls | Comparative networks and rankings | `results/tables/powerlaw_fits.csv`, `compactness.csv`, `homophily_*.csv` |
 | `triads.py` | Triad census and H5 hierarchy rigidity analysis | Comparative networks | `results/tables/triads_*.csv` |
 | `qap.py` | Quadratic Assignment Procedure and permutation regression | Dyadic matrices | Correlation, p-values |
 | `levels.py` | Multi-level hypothesis tests (H6 monadic, H7 dyadic, H8 mixed) | Networks and profiles | `results/tables/levels_tests.csv` |

@@ -26,7 +26,7 @@ data/processed/michieli_*.csv  data/processed/td_*.csv and *_ranks.csv
           +----------+------------------+
                      | config/networks.json
                      v
-  reproduce / analysis / hypotheses / structure / triads / levels
+  reproduce / analysis / hypotheses / structure / triads / levels / topology
                      |
                      v
              results/tables/ and related analysis outputs
@@ -52,6 +52,7 @@ data/processed/michieli_*.csv  data/processed/td_*.csv and *_ranks.csv
 | `source_check` | Agreement of the two sources on loser-winner pairs and on player wins |
 | `sensitivity` | H1, H3 and H4 rerun under each cleaning choice; the baseline must reproduce `hypothesis_tests.csv` |
 | `structure` | HITS, discrete/continuous core-periphery and other structural comparisons |
+| `topology` | Power-law fits, compactness and ranking-band homophily |
 | `triads` | Network and season triad statistics, 16-class spectrum and H5 |
 | `levels` | Monadic H6, dyadic H7 and mixed H8 |
 | `report_assets` | Reads analysis tables and generates LaTeX tables and PDF/PNG figures |
