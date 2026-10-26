@@ -73,3 +73,29 @@ def test_figure_network_core_generates_pdf_and_png(out_dirs):
     fig_png = out_dirs / "figures" / "fig_network_core_2007_2012.png"
     assert fig_pdf.exists() and fig_pdf.stat().st_size > 10000
     assert fig_png.exists() and fig_png.stat().st_size > 20000
+
+
+def test_table_topology_generates_file(out_dirs):
+    ra.table_topology()
+    content = (out_dirs / "tables" / "tab_topology.tex").read_text(encoding="utf-8")
+    assert r"\begin{tabular}" in content and r"\end{tabular}" in content
+    for block in ("Degree distribution", "Compactness", "Homophily by ranking band"):
+        assert block in content
+    for net_short in ["2000-06", "2007-12", "Clay", "Grass", "WTA 07-25"]:
+        assert net_short in content
+    assert re.search(r"\bnan\b", content, re.IGNORECASE) is None
+
+
+def test_table_abc_has_one_row_per_measure_and_three_columns(out_dirs):
+    ra.table_abc()
+    content = (out_dirs / "tables" / "tab_abc.tex").read_text(encoding="utf-8")
+    assert "Phenomenon (A) & Measure (B) & Interpretation in tennis (C)" in content
+    rows = [line for line in content.splitlines() if line.endswith(r"\\") and line.count(" & ") == 2]
+    assert len(rows) == len(ra.ABC_ROWS) + 1  # header plus one row per phenomenon
+
+
+def test_figure_core_homophily_generates_pdf_and_png(out_dirs):
+    ra.style()
+    ra.figure_core_homophily()
+    assert (out_dirs / "figures" / "fig_core_homophily.pdf").stat().st_size > 5000
+    assert (out_dirs / "figures" / "fig_core_homophily.png").stat().st_size > 10000
