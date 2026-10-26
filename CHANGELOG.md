@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- `rich_club`: the peak threshold k* is chosen among 88 to 282 candidates per network, so its pointwise p-value did not account for the choice. The summary now adds a max-statistic test (largest z of each null graph over the same thresholds, one-sided, +1 correction): new columns `thresholds_tested`, `z_max_null_95`, `p_max`, `p_pointwise` and `null_samples`. Seed and null graphs are read from `config/networks.json`; the null sd uses ddof=1 like the rest of the package (peak z changes by at most 0.07). Every network keeps p = 0.005 (z 13.0 to 27.3 against 95% null maxima of 2.8 to 3.1). New row in `tab_structure.tex`; report text updated.
 - Redacted student ID number from author metadata in `report/main.tex` to strictly uphold AGENTS.md rule 12 and academic privacy before final delivery.
 - `nullmodels.null_statistics` and `triads.triad_census_spectrum` give the same result for any `n_jobs`: every null graph now draws from its own child of the configuration seed, in serial runs too (serial and parallel runs used different random streams).
 - The `triads` docstring said the directed null model keeps each player's wins and losses; it keeps the number of distinct opponents beaten and lost to.

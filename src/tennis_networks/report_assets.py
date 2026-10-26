@@ -329,6 +329,7 @@ def table_structure():
                 (r"Elite club size $N_{>k^*}$", "elite_nodes", 0),
                 (r"Normalised rich-club $\rho_{\text{rich}}$", "rho_rich_peak", 3),
                 (r"Peak $z$-score", "z_peak", 1),
+                (r"95\% of null maxima of $z$ (max test)", "z_max_null_95", 1),
             ],
         )
 
