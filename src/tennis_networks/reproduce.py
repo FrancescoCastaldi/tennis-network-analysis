@@ -50,6 +50,26 @@ def sampled_distances(g, seed, k=1000):
     return total / count, longest
 
 
+def clustering_variants(g_undirected, g_directed):
+    """Average clustering of the paper network under the usual definitions (the paper reports 0.07 on M3)."""
+    degree = dict(g_undirected.degree())
+    local = nx.clustering(g_undirected)
+    summed = nx.Graph()
+    for u, v, w in g_directed.edges(data="weight", default=1):
+        previous = summed[u][v]["weight"] if summed.has_edge(u, v) else 0
+        summed.add_edge(u, v, weight=previous + w)
+    return {
+        "mean over all nodes (isolated count as 0)": nx.average_clustering(g_undirected),
+        "mean over nodes with at least one triangle": nx.average_clustering(g_undirected, count_zeros=False),
+        "mean over nodes with degree of at least 2": float(np.mean([local[n] for n in local if degree[n] >= 2])),
+        "global transitivity": nx.transitivity(g_undirected),
+        "square clustering": float(np.mean(list(nx.square_clustering(g_undirected).values()))),
+        "directed, unweighted (M1)": nx.average_clustering(g_directed),
+        "directed, weighted (M1)": nx.average_clustering(g_directed, weight="weight"),
+        "undirected, weighted by wins (M1)": nx.average_clustering(summed, weight="weight"),
+    }
+
+
 def main():
     seed = load_config()["seed"]
     rows = []
@@ -98,6 +118,10 @@ def main():
     TABLES.mkdir(parents=True, exist_ok=True)
     out.to_csv(TABLES / "michieli_reproduction.csv", index=False, encoding="utf-8")
     print(out.to_string(index=False))
+
+    variants = pd.DataFrame([{"definition": k, "value": round(v, 3)} for k, v in clustering_variants(g3, g1).items()])
+    variants.to_csv(TABLES / "michieli_clustering_variants.csv", index=False, encoding="utf-8")
+    print(variants.to_string(index=False))
 
 
 if __name__ == "__main__":

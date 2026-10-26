@@ -1,14 +1,18 @@
 """Check that a pull request title and body follow .github/pull_request_template.md.
 
 Run by the `PR check` workflow, which passes the title and body in the PR_TITLE and PR_BODY
-environment variables. Locally:
+environment variables, and the labels, assignees and milestone in PR_LABELS and PR_ASSIGNEES (JSON
+lists) and PR_MILESTONE. Locally:
 
     python scripts/check_pr_body.py --title "fix(triads): speed up the census" --body-file body.md
+    python scripts/check_pr_body.py ... --labels "role: B3,phase: analysis,type: task" --milestone Analysis
 
-The exit status is 1 when anything is missing. Only the standard library is used.
+Without labels, assignees and milestone only the title and the body are checked. The exit status is 1
+when anything is missing. Only the standard library is used.
 """
 
 import argparse
+import json
 import os
 import re
 import sys
@@ -32,6 +36,7 @@ ROLES = {"A", "B1", "B2", "B3", "C"}
 PHASES = {"setup", "analysis", "writing", "delivery"}
 MILESTONES = {"Setup", "Analysis", "Writing", "Delivery"}
 TYPES = {"feat", "fix", "perf", "refactor", "test", "docs", "report", "chore", "ci", "build", "style"}
+LABEL_TYPES = {"task", "bug", "report"}
 
 # Choices of the template that the author must replace with one value.
 MENUS = (
@@ -217,8 +222,46 @@ CHECKS = {
 }
 
 
-def check(title, body):
-    """Return the list of problems; an empty list means the pull request is complete."""
+def labels_of(labels, group):
+    """Values of the labels named '<group>: <value>'."""
+    prefix = f"{group}: "
+    return [label[len(prefix) :] for label in labels if label.startswith(prefix)]
+
+
+def check_metadata(errors, metadata, classification):
+    """Labels, assignee and milestone of the pull request, consistent with the Classification table."""
+    labels = metadata["labels"]
+    for group, allowed, several in (("role", ROLES, True), ("phase", PHASES, True), ("type", LABEL_TYPES, False)):
+        found = labels_of(labels, group)
+        if not found or (not several and len(found) > 1) or not set(found) <= allowed:
+            how = "at least one" if several else "exactly one"
+            errors.append(
+                f"Labels: set {how} label 'role: ...', 'phase: ...' or 'type: ...' for '{group}' ({sorted(allowed)})."
+            )
+            continue
+        value = classification.get(group.capitalize())
+        if group != "type" and value is not None:
+            in_body = {token.strip().lower() for token in value.split(",")}
+            if in_body != {f.lower() for f in found}:
+                errors.append(
+                    f"Labels: the '{group}' labels {sorted(found)} differ from the Classification table '{value}'."
+                )
+    if not metadata["assignees"]:
+        errors.append("Assignees: assign the member who wrote the change.")
+    milestone = metadata["milestone"]
+    if milestone not in MILESTONES:
+        errors.append(f"Milestone: set one of {sorted(MILESTONES)}, found '{milestone or 'none'}'.")
+    elif classification.get("Milestone") not in (None, milestone):
+        errors.append(
+            f"Milestone: '{milestone}' differs from the Classification table '{classification['Milestone']}'."
+        )
+
+
+def check(title, body, metadata=None):
+    """Return the list of problems; an empty list means the pull request is complete.
+
+    `metadata` is None (title and body only) or a dict with `labels`, `assignees` and `milestone`.
+    """
     errors = []
     if not TITLE.match(title.strip()):
         errors.append(
@@ -242,16 +285,41 @@ def check(title, body):
             if menu in text:
                 errors.append(f"Section {number}: replace the choice '{menu}' with one value.")
         run(errors, text)
+    if metadata is not None:
+        text = sections[2][1] if 2 in sections else ""
+        check_metadata(errors, metadata, {row[0]: row[1] for row in table_rows(text) if len(row) >= 2})
     return errors
+
+
+def read_metadata(args):
+    """Labels, assignees and milestone from the options or the environment; None when none is given."""
+    env = os.environ
+    if args.labels is None and args.assignees is None and args.milestone is None and "PR_LABELS" not in env:
+        return None
+
+    def names(option, variable):
+        if option is not None:
+            return [name.strip() for name in option.split(",") if name.strip()]
+        return json.loads(env.get(variable) or "[]")
+
+    milestone = args.milestone if args.milestone is not None else env.get("PR_MILESTONE", "")
+    return {
+        "labels": names(args.labels, "PR_LABELS"),
+        "assignees": names(args.assignees, "PR_ASSIGNEES"),
+        "milestone": milestone.strip(),
+    }
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--title", default=os.environ.get("PR_TITLE", ""))
     parser.add_argument("--body-file", default=None, help="read the body from a file instead of PR_BODY")
+    parser.add_argument("--labels", default=None, help="comma-separated labels (default: PR_LABELS, a JSON list)")
+    parser.add_argument("--assignees", default=None, help="comma-separated logins (default: PR_ASSIGNEES, JSON list)")
+    parser.add_argument("--milestone", default=None, help="milestone title (default: PR_MILESTONE)")
     args = parser.parse_args(argv)
     body = Path(args.body_file).read_text(encoding="utf-8") if args.body_file else os.environ.get("PR_BODY", "")
-    errors = check(args.title, body)
+    errors = check(args.title, body, read_metadata(args))
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
     lines = ["PR check passed."] if not errors else ["PR check found problems:", *[f"- {e}" for e in errors]]
     print("\n".join(lines))
