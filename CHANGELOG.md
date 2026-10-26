@@ -34,6 +34,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Report, Section 5 (role B3): H1 notes that the shortened 2020 season raises the 2019-2025 mean; H3 says grass is more centralized than its size implies, not in absolute terms; H5 separates the comparison with random outcomes (0.333) from the configuration model and reads the triad spectrum correctly (030T is also below the null); H6 states standardised coefficients, 999 permutations and the collinearity of PageRank and wins; p-values 0.757 (H1) and 0.167 (H4) rounded correctly; the null-model test covers eight networks, not nine.
+- Report, Section 5: the seeding explanation of the positive assortativity and of the rich-club closure is presented as plausible but untested, in line with the Critique (the configuration model has no bracket rules).
 - Redacted student ID number from author metadata in `report/main.tex` to strictly uphold AGENTS.md rule 12 and academic privacy before final delivery.
 - `nullmodels.null_statistics` and `triads.triad_census_spectrum` give the same result for any `n_jobs`: every null graph now draws from its own child of the configuration seed, in serial runs too (serial and parallel runs used different random streams).
 - The `triads` docstring said the directed null model keeps each player's wins and losses; it keeps the number of distinct opponents beaten and lost to.
