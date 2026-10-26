@@ -22,6 +22,7 @@ Every pipeline stage is encapsulated in a dedicated module:
 | `reproduce.py` | Validates replication against Michieli (2018) | M1, M3, M4 | `results/tables/michieli_reproduction.csv` |
 | `hypotheses.py` | Tests hypotheses H1 to H4 using permutation models | Comparative networks | `results/tables/hypothesis_tests.csv` |
 | `structure.py` | HITS, core-periphery (Borgatti-Everett), small-world sigma | Comparative networks | `results/tables/structure_summary.csv` |
+| `topology.py` | Power-law fits of the degree distribution, compactness, ranking-band homophily with permutation nulls | Comparative networks and rankings | `results/tables/powerlaw_fits.csv`, `compactness.csv`, `homophily_*.csv` |
 | `triads.py` | Triad census and H5 hierarchy rigidity analysis | Comparative networks | `results/tables/triads_*.csv` |
 | `qap.py` | Quadratic Assignment Procedure and permutation regression | Dyadic matrices | Correlation, p-values |
 | `levels.py` | Multi-level hypothesis tests (H6 monadic, H7 dyadic, H8 mixed) | Networks and profiles | `results/tables/levels_tests.csv` |
