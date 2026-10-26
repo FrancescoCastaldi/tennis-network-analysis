@@ -38,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Report, Section 5 (role B3): H1 notes that the shortened 2020 season raises the 2019-2025 mean; H3 says grass is more centralized than its size implies, not in absolute terms; H5 separates the comparison with random outcomes (0.333) from the configuration model and reads the triad spectrum correctly (030T is also below the null); H6 states standardised coefficients, 999 permutations and the collinearity of PageRank and wins; p-values 0.757 (H1) and 0.167 (H4) rounded correctly; the null-model test covers eight networks, not nine.
+- Report, Section 5: the seeding explanation of the positive assortativity and of the rich-club closure is presented as plausible but untested, in line with the Critique (the configuration model has no bracket rules).
 - Report, Datasets and Validity sections: the test count (47) is now 129, the unsourced reason for the end of ATP carpet in 2009 is removed, the clustering discrepancy with Michieli (2018) cites the eight definitions tried instead of a guess about the original scripts, and the PageRank top ten is described as the same set with the first five in the same order.
 - Report typography: page ranges and year ranges in the Conclusion, the Critique and the bibliography use a single hyphen like the rest of the text.
 - Redacted student ID number from author metadata in `report/main.tex` to strictly uphold AGENTS.md rule 12 and academic privacy before final delivery.
