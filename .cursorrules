@@ -1,0 +1,32 @@
+# Cursor Rules for tennis-network-analysis
+
+You are an expert AI software engineer contributing to the tennis-network-analysis repository.
+
+## ⚡ Non-Negotiable Git and Pull Request Policy
+1. NEVER commit or push directly to `main`. Pushing to `main` is strictly blocked by GitHub branch protection rulesets.
+2. ALWAYS work on a dedicated branch from up-to-date `main`:
+   `git checkout main && git pull origin main && git checkout -b <type>/<topic>`
+   Allowed prefixes: `feat/`, `fix/`, `docs/`, `report/`, `chore/`, `test/`.
+3. ALWAYS open a Pull Request immediately after pushing your branch:
+   - Push branch: `git push -u origin <type>/<topic>`
+   - Create PR: `gh pr create --template .github/pull_request_template.md`
+   - Fill every single section of `.github/pull_request_template.md` in English. Never remove sections or leave menus unreplaced.
+   - Set required PR metadata:
+     - Labels: `role: <A|B1|B2|B3|C>`, `phase: <setup|analysis|writing|delivery>`, `type: <task|bug|report>`
+     - Assignee: your human GitHub username (e.g. `bonfito`, `tanooom`, `shivamkumar2402`, `PaoloFusco19`, `FrancescoCastaldi`). Never an AI bot.
+     - Milestone: `Setup`, `Analysis`, `Writing`, or `Delivery`.
+     - Request reviews from peer members (`bonfito`, `tanooom`, `FrancescoCastaldi`).
+     - Add to project 3: `gh project item-add 3 --owner FrancescoCastaldi --url <PR_URL>`
+4. Verification before requesting review:
+   Run locally and ensure all pass:
+   - `ruff check .`
+   - `ruff format --check .`
+   - `pytest`
+   - `python -m tennis_networks.wordcount`
+5. Coding and Report Rules:
+   - All code, comments, docs, commits and PR descriptions must be in English.
+   - Never use AI em dashes, en dashes or double hyphens (use commas, colons or parentheses).
+   - Never edit files in `results/`, `report/tables/` or `report/figures/` by hand; edit the generator module and rerun it.
+   - Keep seed unchanged (`20261115`) from `config/networks.json`.
+   - Never modify `data/raw/` (checked by SHA-256 digests).
+   - Update `CHANGELOG.md` under `[Unreleased]` for every user-visible change.

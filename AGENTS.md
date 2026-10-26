@@ -37,8 +37,8 @@ Guidance for coding assistants working in this repository. Humans: see CONTRIBUT
 
 ## Pull requests
 
-- Work through pull requests. Push fixes to the branch of the open PR; do not create extra branches or
-  worktrees for a fix. One piece of work, one PR.
+- Direct push to `main` is strictly blocked by repository rulesets: every contribution must go through a pull request.
+- Work through pull requests. Create a dedicated branch from `main` (`<type>/<topic>`), push it and open a PR immediately. Push fixes to the branch of the open PR; do not create extra branches or worktrees for a fix. One piece of work, one PR.
 - Fill every section of `.github/pull_request_template.md`. The `PR check` workflow fails on an
   incomplete body or a title that is not a Conventional Commit.
 - Every PR and every issue belongs to the `SNA Tennis` project (https://github.com/users/FrancescoCastaldi/projects/3), with the fields `Role`,

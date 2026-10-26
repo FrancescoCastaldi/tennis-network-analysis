@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- AI agent configuration and rules: `.cursorrules`, `.github/copilot-instructions.md`, and updated `CLAUDE.md` and `AGENTS.md` explicitly requiring dedicated feature branches and mandatory Pull Request workflows with template compliance and metadata.
+
 - `sensitivity` module: H1, H3 and H4 rerun with retirements dropped, walkovers kept, or carpet merged with hard courts, with the seed and permutations of `hypotheses`; the baseline must reproduce `hypothesis_tests.csv`. Outputs `results/tables/sensitivity_*.csv`, `tab_sensitivity.tex`, new paragraph and Table 3 in the report. Tests in `tests/test_sensitivity.py`.
 - `source_check` module and `fig_sources`: agreement of tennis-data.co.uk with Michieli network 1 on loser-winner pairs and on the wins of players whose career lies in the common window. Tests in `tests/test_source_check.py`.
 - Makefile targets `source-check` and `sensitivity`, both part of `make all`.
