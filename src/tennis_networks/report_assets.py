@@ -19,6 +19,7 @@ import pandas as pd
 from tennis_networks.config import PROCESSED, REPORT, TABLES
 from tennis_networks.loaders import load_network
 from tennis_networks.loaders import load_undirected as undirected
+from tennis_networks.structure import core_periphery
 from tennis_networks.triads import triad_census_spectrum
 
 OUT_TAB = REPORT / "tables"
@@ -460,6 +461,154 @@ def table_top10():
     )
 
 
+def table_topology():
+    """Power-law fit, compactness and ranking-band homophily of the nine comparative networks."""
+    fits = pd.read_csv(TABLES / "powerlaw_fits.csv").set_index("network").loc[NETS]
+    comp = pd.read_csv(TABLES / "compactness.csv").set_index("network").loc[NETS]
+    hom = pd.read_csv(TABLES / "homophily_bands.csv").set_index("network").loc[NETS]
+    mix = pd.read_csv(TABLES / "homophily_mixing.csv")
+    top = mix[(mix.band_a == "top10") & (mix.band_b == "top10")].set_index("network").loc[NETS]
+
+    def line(label, series, d):
+        return f"{label} & " + " & ".join(num(series.loc[n], d) for n in NETS) + r" \\"
+
+    def section(title):
+        return rf"\multicolumn{{{len(NETS) + 1}}}{{@{{}}l}}{{\emph{{{title}}}}} \\"
+
+    verdict = fits["verdict"].map(lambda v: "yes" if v == "plausible" else "no")
+    rows = [
+        section("Degree distribution (distinct opponents, power-law fit)"),
+        line(r"Exponent $\hat{\alpha}$", fits["alpha"], 2),
+        line(r"Lower bound $\hat{k}_{\min}$", fits["xmin"], 0),
+        line(r"Players in the tail (share)", fits["tail_share"], 2),
+        line(r"Power law vs lognormal ($R$)", fits["R_vs_lognormal"], 1),
+        line(r"Power law vs truncated power law ($R$)", fits["R_vs_truncated_power_law"], 1),
+        "Power law plausible? & " + " & ".join(verdict.loc[n] for n in NETS) + r" \\",
+        r"\midrule",
+        section("Compactness (undirected, largest component)"),
+        line(r"Average distance $L$", comp["avg_distance"], 2),
+        line(r"Diameter", comp["diameter"], 0),
+        line(r"Global efficiency", comp["global_efficiency"], 3),
+        line(r"$L$ over random-graph reference", comp["distance_ratio"], 2),
+        r"\midrule",
+        section("Homophily by ranking band (top 10, 11-100, others)"),
+        line(r"Same-band share of matches", hom["same_band_share"], 3),
+        line(r"Top 10 meet top 10: observed / expected", top["ratio_all"], 1),
+        line(r"Same, controlling for number of opponents", top["ratio_deg"], 2),
+        line(r"Same-band share, $z$ controlling for activity", hom["same_band_z_deg"], 2),
+    ]
+    head = " & ".join(SHORT[n] for n in NETS)
+    write(
+        "tab_topology.tex",
+        "\n".join(
+            [
+                r"\begin{tabular}{@{}l" + "r" * len(NETS) + "@{}}",
+                r"\toprule",
+                r" & \multicolumn{4}{c}{ATP eras} & \multicolumn{3}{c}{ATP surfaces} & \multicolumn{2}{c}{Tours} \\",
+                r"\cmidrule(lr){2-5}\cmidrule(lr){6-8}\cmidrule(l){9-10}",
+                f"Property & {head} \\\\",
+                r"\midrule",
+                *rows,
+                r"\bottomrule",
+                r"\end{tabular}",
+            ]
+        ),
+    )
+
+
+# Phenomenon (A), measure (B), interpretation in tennis (C): the rule of the course, one row per measure.
+ABC_ROWS = [
+    (
+        "Who dominates, and who forms the elite of an era",
+        "In- and out-degree, PageRank, HITS authority and hub scores",
+        "In-degree counts the opponents a player has beaten; PageRank discounts wins over weak "
+        "opponents, so it rewards beating players who also win; an authority beats players who go deep.",
+    ),
+    (
+        "How unequal prestige and wins are",
+        "Share of PageRank held by the top 10, Gini coefficient of in-strength",
+        "A high share means a few players hold most of the prestige of the tour; a low one means "
+        "wins are spread over many players (competitive balance).",
+    ),
+    (
+        "Backbone of the tour: regular professionals against the periphery",
+        "$k$-core decomposition, Borgatti-Everett core-periphery model",
+        "The core is the inner circle that meets everyone; the periphery is made of qualifiers and "
+        "one-off entrants who mostly meet core players.",
+    ),
+    (
+        "Integration against fragmentation",
+        "Components, average distance, diameter, global efficiency, ratio to a random reference",
+        "Short distances mean that an upset chain connects any two players: the tour is one arena, "
+        "not a set of separate circuits.",
+    ),
+    (
+        "Robustness to losing its stars",
+        "Largest component after removing players at random and in decreasing PageRank order",
+        "A faster drop under targeted removal than under random removal shows how much of the "
+        "connectivity of the tour rests on a few high-prestige players.",
+    ),
+    (
+        "Local rivalries and hierarchy",
+        "Clustering, transitivity, triad census",
+        "Closed triads are players with common opponents; a transitive triad is a clean hierarchy "
+        "(A beats B beats C, A beats C) and a cycle is an upset loop.",
+    ),
+    (
+        "Whether the tour has mega-hubs",
+        "Power-law fit of the degree distribution and likelihood-ratio tests against lognormal, "
+        "exponential and truncated power law",
+        "A power law would mean a few players meet a very large share of the field; bracket sizes "
+        "and calendars bound the number of opponents, so a bounded tail is expected.",
+    ),
+    (
+        "Do top players meet top players",
+        "Degree and ranking-band assortativity, band mixing against permutation nulls",
+        "Positive values mean elite against elite; a hub-and-spoke tour gives negative values. "
+        "The null that keeps the number of opponents separates seeding from plain activity.",
+    ),
+    (
+        "Structural roles",
+        "Cosine similarity of opponent vectors, QAP correlation with the ranking gap",
+        "Players who face the same opponents occupy the same position in the tour; the QAP test "
+        "asks whether this position tracks ranking.",
+    ),
+    (
+        "Artefact of the degree distribution or real structure",
+        "Configuration model, $z$-scores and permutation $p$-values, small-world index $\\sigma$",
+        "A statistic far from its degree-preserving random value reflects how the tournaments "
+        "are organised, not just how many opponents each player has.",
+    ),
+    (
+        "Cohorts and surface circuits",
+        "Louvain communities and modularity",
+        "Communities in tennis are mostly career cohorts that never overlapped in time rather "
+        "than geographic or stylistic blocs.",
+    ),
+]
+
+
+def table_abc():
+    col = r">{\raggedright\arraybackslash}p{%s\linewidth}"
+    rows = []
+    for a, b, c in ABC_ROWS:
+        rows += [rf"{a} & {b} & {c} \\", r"\addlinespace[3pt]"]
+    write(
+        "tab_abc.tex",
+        "\n".join(
+            [
+                r"\begin{tabular}{@{}" + col % "0.23" + col % "0.29" + col % "0.44" + "@{}}",
+                r"\toprule",
+                r"Phenomenon (A) & Measure (B) & Interpretation in tennis (C) \\",
+                r"\midrule",
+                *rows[:-1],
+                r"\bottomrule",
+                r"\end{tabular}",
+            ]
+        ),
+    )
+
+
 # Figures
 
 
@@ -678,6 +827,59 @@ def figure_network_core():
     save(fig, "fig_network_core_2007_2012")
 
 
+def figure_core_homophily():
+    """2007-2012: block density of the adjacency by degree with the core, and ranking-band mixing ratios."""
+    name = "td_atp_2007_2012"
+    und = undirected(name)
+    _, stats = core_periphery(und)
+    order = sorted(und.nodes(), key=lambda v: (-und.degree(v), str(v)))
+    n, k = len(order), stats["core_size"]
+    adj = nx.to_numpy_array(und, nodelist=order) > 0
+    size = int(np.ceil(n / 60))  # players per block, so that the pattern is visible at print size
+    blocks = int(np.ceil(n / size))
+    padded = np.zeros((blocks * size, blocks * size))
+    padded[:n, :n] = adj
+    density = padded.reshape(blocks, size, blocks, size).mean(axis=(1, 3))
+
+    mix = pd.read_csv(TABLES / "homophily_mixing.csv")
+    mix = mix[mix.network == name]
+    bands = ["top10", "11-100", "others"]
+    labels = ["Top 10", "11-100", "Others"]
+
+    def matrix(col):
+        m = np.full((3, 3), np.nan)
+        for _, r in mix.iterrows():
+            i, j = bands.index(r.band_a), bands.index(r.band_b)
+            m[i, j] = m[j, i] = r[col]
+        return m
+
+    fig, axes = plt.subplots(1, 3, figsize=(6.3, 2.9), gridspec_kw={"width_ratios": [1.3, 1, 1]}, layout="constrained")
+    ax = axes[0]
+    ax.imshow(density, cmap="Greys", vmin=0, vmax=np.quantile(density, 0.98), interpolation="nearest")
+    edge = k / size - 0.5
+    ax.add_patch(plt.Rectangle((-0.5, -0.5), edge + 0.5, edge + 0.5, fill=False, edgecolor=COLORS[1], linewidth=1.6))
+    ax.set_title(f"(a) Core of {k} players ({stats['core_share']:.0%})", loc="left")
+    ax.set_xlabel("players by decreasing degree")
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.grid(False)
+
+    for ax, col, title in ((axes[1], "ratio_all", "(b) all players"), (axes[2], "ratio_deg", "(c) same degree")):
+        m = matrix(col)
+        im = ax.imshow(np.log2(m), cmap="RdBu_r", vmin=-4, vmax=4)
+        ax.set_xticks(range(3), labels, rotation=45, ha="right")
+        ax.set_yticks(range(3), labels if col == "ratio_all" else [""] * 3)
+        for i in range(3):
+            for j in range(3):
+                strong = abs(np.log2(m[i, j])) > 2.5
+                ax.text(j, i, f"{m[i, j]:.1f}", ha="center", va="center", fontsize=7, color="white" if strong else INK)
+        ax.set_title(title, loc="left")
+        ax.grid(False)
+    cbar = fig.colorbar(im, ax=axes[1:], shrink=0.75, pad=0.02)
+    cbar.set_label(r"$\log_2$ (observed / expected)")
+    save(fig, "fig_core_homophily")
+
+
 def main():
     table_networks()
     table_reproduction()
@@ -687,11 +889,14 @@ def main():
     table_top10()
     table_structure()
     table_levels()
+    table_topology()
+    table_abc()
     style()
     figure_degree()
     figure_robustness()
     figure_yearly()
     figure_network_core()
+    figure_core_homophily()
     print(f"Tables in {OUT_TAB}, figures in {OUT_FIG} (null models: {samples} samples)")
 
 

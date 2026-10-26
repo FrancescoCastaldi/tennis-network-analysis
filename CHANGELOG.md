@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - GitHub project `SNA Tennis` (private, linked to the repository) with the fields `Role`, `Phase`, `Area`, `Words` and `Target` next to `Status`; `AGENTS.md`, `CONTRIBUTING.md` and `README.md` say that every PR and issue belongs to it.
+- `tennis_networks.topology` (role B2): maximum-likelihood power-law fits of the degree distribution with likelihood-ratio tests against lognormal, exponential and truncated power law (package `powerlaw`, new dependency), compactness of the undirected giant component, and ranking-band homophily (top 10, 11-100, others) with 999 label permutations, over all players and among players with a similar number of opponents. Outputs `powerlaw_fits.csv`, `compactness.csv`, `homophily_bands.csv`, `homophily_mixing.csv`; `make topology`; `tests/test_topology.py`.
+- `report_assets`: `tab_topology.tex`, `tab_abc.tex` (phenomenon, measure and interpretation for every family of measures) and `fig_core_homophily` (core of the 2007-2012 network and band mixing ratios).
+- `report/main.tex`: Table 3 (A, B, C), Table 5 and Figure 2, a power-law test in the degree-distribution paragraph, a distance comparison with a random graph and a paragraph on ranking-band homophily; bibliography entry `clauset2009`.
 - `clustering_variants` in `src/tennis_networks/reproduce.py` and `results/tables/michieli_clustering_variants.csv`: eight definitions of the average clustering of the reference network M3 (0.010 to 0.477), none of which gives the 0.07 of Michieli (2018). Test in `tests/test_reproduce.py`.
 - Pre-rendered execution outputs in `notebooks/full_pipeline.ipynb` with all tables, rich-club metrics, charts, and embedded figures saved in place for instant interactive viewing directly on GitHub.
 - Rich-club coefficient and elite closure analysis module in `src/tennis_networks/rich_club.py`, measuring normalized rich-club coefficients against configuration null models to explain tournament seeding constraints and Hypothesis H2 positive assortativity. Tests in `tests/test_rich_club.py` with 5 unit tests.
@@ -36,6 +39,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Report, Section 5 (role B3): H1 notes that the shortened 2020 season raises the 2019-2025 mean; H3 says grass is more centralized than its size implies, not in absolute terms; H5 separates the comparison with random outcomes (0.333) from the configuration model and reads the triad spectrum correctly (030T is also below the null); H6 states standardised coefficients, 999 permutations and the collinearity of PageRank and wins; p-values 0.757 (H1) and 0.167 (H4) rounded correctly; the null-model test covers eight networks, not nine.
+- Report, Section 5: the seeding explanation of the positive assortativity and of the rich-club closure is presented as plausible but untested, in line with the Critique (the configuration model has no bracket rules).
 - Report, Datasets and Validity sections: the test count (47) is now 129, the unsourced reason for the end of ATP carpet in 2009 is removed, the clustering discrepancy with Michieli (2018) cites the eight definitions tried instead of a guess about the original scripts, and the PageRank top ten is described as the same set with the first five in the same order.
 - Report typography: page ranges and year ranges in the Conclusion, the Critique and the bibliography use a single hyphen like the rest of the text.
 - Redacted student ID number from author metadata in `report/main.tex` to strictly uphold AGENTS.md rule 12 and academic privacy before final delivery.
