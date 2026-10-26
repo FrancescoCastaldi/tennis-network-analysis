@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `tennis_networks.topology` (role B2): maximum-likelihood power-law fits of the degree distribution with likelihood-ratio tests against lognormal, exponential and truncated power law (package `powerlaw`, new dependency), compactness of the undirected giant component, and ranking-band homophily (top 10, 11-100, others) with 999 label permutations, over all players and among players with a similar number of opponents. Outputs `powerlaw_fits.csv`, `compactness.csv`, `homophily_bands.csv`, `homophily_mixing.csv`; `make topology`; `tests/test_topology.py`.
 - `report_assets`: `tab_topology.tex`, `tab_abc.tex` (phenomenon, measure and interpretation for every family of measures) and `fig_core_homophily` (core of the 2007-2012 network and band mixing ratios).
 - `report/main.tex`: Table 3 (A, B, C), Table 5 and Figure 2, a power-law test in the degree-distribution paragraph, a distance comparison with a random graph and a paragraph on ranking-band homophily; bibliography entry `clauset2009`.
-
+- `clustering_variants` in `src/tennis_networks/reproduce.py` and `results/tables/michieli_clustering_variants.csv`: eight definitions of the average clustering of the reference network M3 (0.010 to 0.477), none of which gives the 0.07 of Michieli (2018). Test in `tests/test_reproduce.py`.
 - Pre-rendered execution outputs in `notebooks/full_pipeline.ipynb` with all tables, rich-club metrics, charts, and embedded figures saved in place for instant interactive viewing directly on GitHub.
 - Rich-club coefficient and elite closure analysis module in `src/tennis_networks/rich_club.py`, measuring normalized rich-club coefficients against configuration null models to explain tournament seeding constraints and Hypothesis H2 positive assortativity. Tests in `tests/test_rich_club.py` with 5 unit tests.
 - Peak threshold degree $k^*$, elite club size $N_{>k^*}$, normalized coefficient $\rho_{\text{rich}}$, and peak $z$-scores integrated into `tab_structure.tex` via `src/tennis_networks/report_assets.py`.
@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `README.md` brought up to date: an At a glance table, final results of H1 to H8 with their numbers (H5 p = 0.010, H2 z = 16 to 35), network structure, rich-club and data validity, the rich-club step in the pipeline table, the layout and the status of each report section.
-- `AGENTS.md` and `CONTRIBUTING.md`: every PR must carry labels (role, phase, type), an assignee, a milestone, reviewers from the other group B members and a complete description when it is opened.
+- `AGENTS.md` and `CONTRIBUTING.md`: every PR must carry labels (role, phase, type), an assignee, a milestone, reviewers from the other group B members and a complete description when it is opened. `scripts/check_pr_body.py` now checks the labels, the assignee and the milestone (and that they agree with the Classification table), and the `PR check` workflow also runs on `labeled`, `assigned` and `milestoned` events. Tests in `tests/test_check_pr_body.py`.
 - One null-graph count for every significance test in the report: `test_null_samples` in `config/networks.json` (200) is now the default of `hypotheses` (H2) and `triads` (triad ratios and the triad spectrum, which used 20 by default and 5 and 15 in the saved results). `make triads JOBS=n` runs the triad null graphs on n cores.
 - Results regenerated with 200 null graphs per test and the report numbers updated: H5 p = 0.010 (was 0.020 from an older run) and 0.100 for the tours, triad-ratio z from -7.0 to -36.7, null-model and small-world ranges in Section 5, and H5 in the Critique.
 
@@ -38,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Report, Datasets and Validity sections: the test count (47) is now 129, the unsourced reason for the end of ATP carpet in 2009 is removed, the clustering discrepancy with Michieli (2018) cites the eight definitions tried instead of a guess about the original scripts, and the PageRank top ten is described as the same set with the first five in the same order.
+- Report typography: page ranges and year ranges in the Conclusion, the Critique and the bibliography use a single hyphen like the rest of the text.
 - Redacted student ID number from author metadata in `report/main.tex` to strictly uphold AGENTS.md rule 12 and academic privacy before final delivery.
 - `nullmodels.null_statistics` and `triads.triad_census_spectrum` give the same result for any `n_jobs`: every null graph now draws from its own child of the configuration seed, in serial runs too (serial and parallel runs used different random streams).
 - The `triads` docstring said the directed null model keeps each player's wins and losses; it keeps the number of distinct opponents beaten and lost to.
