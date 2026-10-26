@@ -31,8 +31,9 @@ Guidance for coding assistants working in this repository. Humans: see CONTRIBUT
     from the owner of any section of another role that the PR edits;
   - description: the whole template, the issue number in **Closes:** when an issue exists, and the context
     comment below.
-  Check with `gh pr view <number> --json labels,assignees,milestone,reviewRequests` before saying a PR is
-  ready: a PR without labels, assignee, milestone or reviewers is not ready.
+  The `PR check` workflow fails when a label, the assignee or the milestone is missing or disagrees with the
+  Classification table of the body (reviewers are not checked). Check all of it with
+  `gh pr view <number> --json labels,assignees,milestone,reviewRequests` before saying a PR is ready.
 - Every time you act on a PR (review, fix, answer, merge), post one context comment on it with
   `gh pr comment <number> --body-file <file>`. It has these headings, in this order:
   1. `Context`: what the PR does and what was asked, in two or three sentences.
