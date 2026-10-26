@@ -13,6 +13,28 @@ Guidance for coding assistants working in this repository. Humans: see CONTRIBUT
 - Do not use em dashes, en dashes or double hyphens to join sentences; use commas, colons or brackets.
 - No credentials are needed; never add `.env` files.
 
+## Releases
+
+- Releases follow SemVer and are made only with `scripts/release.py` and the `Release` workflow; steps in
+  `CONTRIBUTING.md`. Never create a release or a tag by hand, never use a lightweight tag, never move,
+  delete or reuse a published tag: fix forward with a patch release.
+- A release is a PR `chore(release): vX.Y.Z` from a branch `chore/release-vX.Y.Z`, with the same labels,
+  assignee, milestone and reviewers as any PR. It is merged first, then the annotated tag is pushed from `main`.
+- Release at the end of each phase (milestone Setup, Analysis, Writing, Delivery) and whenever a snapshot
+  must be shared or cited. Minor step when a change moves a result, the report or the pipeline, patch step
+  for fixes that move nothing, `1.0.0` for the report as submitted.
+- A release must be rich and explained, as for a project meant to be reused:
+  - the changelog section opens with a summary paragraph for a reader who has not followed the work, then
+    the entries grouped under Added, Changed, Fixed and so on, each one saying what changed and why it matters;
+  - the annotated tag message and the GitHub release title start with `vX.Y.Z:` and the first sentence of
+    the summary;
+  - the release carries `report-vX.Y.Z.pdf`, `results-vX.Y.Z.tar.gz` and `SHA256SUMS.txt`, and its notes list
+    the report snapshot (words), the checksums, the contributors and the compare link;
+  - `pyproject.toml`, `__init__.py`, `CITATION.cff` and the changelog link references agree with the tag;
+    `scripts/release.py check` verifies it and the workflow refuses a tag that does not pass.
+- After the workflow ends, open the release page and check the notes, the assets and the compare link. Report
+  in the PR comment what you saw. No AI signature, em dash or local file path in tags, notes or titles.
+
 ## Pull requests
 
 - Work through pull requests. Push fixes to the branch of the open PR; do not create extra branches or
