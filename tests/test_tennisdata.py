@@ -28,3 +28,7 @@ def test_subsets_split_by_surface(matches):
 
 def test_clean_name_collapses_spaces():
     assert td.clean_name("  Del  Potro J.M. ") == "Del Potro J.M."
+
+
+def test_clean_name_normalizes_source_name_aliases():
+    assert td.clean_name("Raducànu E.") == "Raducanu E."

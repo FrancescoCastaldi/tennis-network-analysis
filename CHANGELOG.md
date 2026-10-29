@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts.
+
+### Fixed
+
+- Normalize the source spelling `Raducànu E.` to `Raducanu E.` before building processed match and network files.
+
 ### Added
 
 - Run manifests record configuration, environment, and input fingerprints for analysis runs.
