@@ -8,9 +8,9 @@ on:
 
 jobs:
   gemini_review:
-    # Vincolo rigoroso: eseguibile ESCLUSIVAMENTE da FrancescoCastaldi
-    # 1. Su commento /review: l'autore del commento deve essere FrancescoCastaldi
-    # 2. Su apertura PR: l'autore della PR deve essere FrancescoCastaldi
+    # Strictly restricted: Executable EXCLUSIVELY by FrancescoCastaldi
+    # 1. On issue comment with /review: comment author must be FrancescoCastaldi
+    # 2. On PR opened: PR author must be FrancescoCastaldi
     if: >
       (github.event_name == 'issue_comment' &&
        github.event.issue.pull_request &&
@@ -33,10 +33,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Installa librerie
+      - name: Install dependencies
         run: pip install requests
 
-      - name: Esegui analisi con Gemini
+      - name: Run Gemini Review & CI Guard
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -47,12 +47,12 @@ jobs:
           python -c "
           import os, sys, requests
 
-          # Controllo di sicurezza a doppio livello: whitelist tassativa
+          # Double-layer security check: strict user whitelist
           trigger_user = os.environ.get('TRIGGER_USER', '')
           ALLOWED_USERS = ['FrancescoCastaldi']
 
           if trigger_user not in ALLOWED_USERS:
-              print(f'Accesso negato: utente \"{trigger_user}\" non autorizzato a consumare quota Gemini.')
+              print(f'Access denied: user \"{trigger_user}\" is not authorized to consume Gemini quota.')
               sys.exit(0)
 
           repo = os.environ['REPO']
@@ -60,52 +60,104 @@ jobs:
           gh_token = os.environ['GITHUB_TOKEN']
           api_key = os.environ['GEMINI_API_KEY']
 
-          # 1. Recupera il diff della PR
-          diff_url = f'https://api.github.com/repos/{repo}/pulls/{pr_num}'
+          # 1. Fetch PR metadata and diff
+          pr_url = f'https://api.github.com/repos/{repo}/pulls/{pr_num}'
           headers = {
+              'Authorization': f'token {gh_token}',
+              'Accept': 'application/vnd.github.v3+json'
+          }
+          pr_meta = requests.get(pr_url, headers=headers).json()
+          pr_title = pr_meta.get('title', '')
+          pr_body = pr_meta.get('body', '')
+
+          diff_headers = {
               'Authorization': f'token {gh_token}',
               'Accept': 'application/vnd.github.v3.diff'
           }
-          res = requests.get(diff_url, headers=headers)
-          diff = res.text[:80000]
+          diff_res = requests.get(pr_url, headers=diff_headers)
+          diff = diff_res.text[:80000]
 
           if not diff.strip():
-              print('Nessun diff trovato da analizzare.')
+              print('No code changes detected in diff.')
               sys.exit(0)
 
-          # 2. Richiesta a Gemini
-          prompt = f'''Sei un Senior Principal Software Engineer e Lead Reviewer.
-          Analizza il seguente diff di codice proveniente da una Pull Request:
-          1. Sintesi del Cambiamento
-          2. Problemi Critici e Bug Potenziali (eccezioni non gestite, edge cases, regressioni)
-          3. Sicurezza e Robustezza (validazione input, memory leak, concurrency)
-          4. Performance e Ottimizzazioni
-          5. Copertura Test (mancanze e suggerimenti)
-          6. Suggerimenti di Refactoring con codice dimostrativo
-          7. Verdetto Finale (APPROVE / REQUEST_CHANGES / COMMENT)
+          # 2. English prompt with visual charts, Mermaid, tables, and CI green guard
+          prompt = f'''You are a Principal Software Engineer and Automated CI/CD Gatekeeper.
+          Conduct a comprehensive, highly rigorous, and visually structured code review in ENGLISH for the following Pull Request:
+
+          Title: {pr_title}
+          Description: {pr_body}
 
           Diff:
           \`\`\`diff
           {diff}
           \`\`\`
-          Rispondi in Markdown strutturato, tecnico e asciutto.'''
+
+          Provide your review strictly in ENGLISH using GitHub-flavored Markdown following this exact structure:
+
+          ## 📊 1. Executive Summary & Impact Scorecard
+          Summarize what the code does and its practical value. Include an impact table:
+          | Component / File | Change Type | Risk Level | CI/CD Health Impact | Verification Status |
+          | :--- | :--- | :--- | :--- | :--- |
+          | (name) | (Feature/Bugfix/Refactor/Docs) | (🟢 Low / 🟡 Medium / 🔴 High) | (Safe / Review / Breaking) | (Covered / Gap) |
+
+          Include visual metrics (Unicode progress bars):
+          - **Complexity Delta:** \`[████░░░░░░]\` (e.g. 40% - Moderate)
+          - **CI/CD Failure Risk:** \`[█░░░░░░░░░]\` (e.g. 10% - Minimal)
+          - **Test Adequacy:** \`[████████░░]\` (e.g. 80% - Strong)
+
+          ## 🗺️ 2. Architectural Flow & Impact Diagram
+          Provide a clean, valid Mermaid diagram (\`\`\`mermaid code block: flowchart TD or sequenceDiagram) representing the execution flow, error-handling logic, or data flow modifications introduced by this change. Ensure all node labels are alphanumeric and syntax is 100% valid.
+
+          ## 🚦 3. CI/CD Green Gate & Automated Verification
+          Analyze precisely what is needed to make sure all CI/CD workflows (Linting, Unit Tests, Type Checking, Formatting, Security Scans, Build Artifacts) turn 100% GREEN:
+          - **Code Style & Formatting:** Ruff, Flake8, Black, Prettier compliance (imports, line limits, trailing commas).
+          - **Static Type Safety:** MyPy, Pyright, TypeScript compliance.
+          - **Edge Cases & Failure Modes:** Boundary checks, NoneType safety, unhandled exceptions, zero-division, off-by-one errors.
+          - **Regression Prevention:** Impact on downstream modules or dependencies.
+          If any issue could cause CI to fail, provide the exact code fix immediately.
+
+          ## 🔍 4. Actionable Code & Aesthetic Suggestions
+          Offer concrete improvements for readability, aesthetic polish, idiomatic standards, and DRY architecture.
+          Provide clear before/after snippets:
+          \`\`\`python
+          # Before
+          ...
+          # Recommended Fix
+          ...
+          \`\`\`
+
+          ## ⚡ 5. Performance & Resource Footprint
+          Assess memory consumption, streaming vs full in-memory buffering, I/O latency, concurrency safety, and time complexity.
+
+          ## 🏁 6. Final Verdict & Merge Readiness
+          - **Verdict:** \`🟢 APPROVE (CI-Ready)\` | \`🟡 CONDITIONAL APPROVAL (Minor Fixes)\` | \`🔴 CHANGES REQUESTED (CI Blocker / Bug)\`
+          - **Action Checklist:** Bullet points detailing the immediate next steps for the developer.
+          '''
 
           models = ['gemini-3.5-flash', 'gemini-3.1-flash-lite', 'gemini-3.8-flash']
           review_text = None
           for m in models:
               url = f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={api_key}'
-              r = requests.post(url, json={'contents': [{'parts': [{'text': prompt}]}]}, timeout=60)
+              payload = {
+                  'contents': [{'parts': [{'text': prompt}]}],
+                  'generationConfig': {
+                      'temperature': 0.2,
+                      'maxOutputTokens': 4096
+                  }
+              }
+              r = requests.post(url, json=payload, timeout=75)
               if r.status_code == 200:
                   review_text = r.json()['candidates'][0]['content']['parts'][0]['text']
                   break
 
           if not review_text:
-              print('Impossibile ottenere risposta da Gemini.')
+              print('Failed to receive response from Gemini API.')
               sys.exit(1)
 
-          # 3. Posta commento
+          # 3. Post review comment
           comment_url = f'https://api.github.com/repos/{repo}/issues/{pr_num}/comments'
-          payload = {'body': f'### 🤖 Gemini Code Review\n\n{review_text}'}
+          payload = {'body': f'### 🤖 Gemini Pro CI & Code Review\n\n{review_text}'}
           requests.post(comment_url, headers={'Authorization': f'token {gh_token}'}, json=payload)
-          print('Review pubblicata con successo!')
+          print('Review comment successfully published to GitHub!')
           "
