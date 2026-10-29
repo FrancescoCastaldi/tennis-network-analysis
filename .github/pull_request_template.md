@@ -85,6 +85,8 @@ Replace each choice such as "yes / no" with one value.
 - [ ] `git status` is clean after `pytest` (tests do not rewrite `report/`)
 - [ ] `CHANGELOG.md` updated under `[Unreleased]`, in `Added`, `Changed`, `Fixed` or `Removed`
 - [ ] README, `docs/` or `config/README.md` updated if a command, option, output or default changed
+- [ ] The linked issue and `SNA Tennis` project item have the current role, phase, status and outputs
+- [ ] If progress or metrics changed, the matching `SNA - UNIBO` spreadsheet row was updated, or the issue explains why it was not
 - [ ] English only, no em dash, en dash or double hyphen between sentences
 - [ ] No student ID, email, private note or local file path in files, logs or comments
 
@@ -108,6 +110,8 @@ Replace each choice such as "yes / no" with one value.
 - [ ] I read the diff
 - [ ] I checked the numbers in section 4 against the files
 - [ ] I ran the commands of section 5 or the CI covers them
+- [ ] I checked the report references and generated-artifact ownership
+- [ ] I checked the linked issue, project item and spreadsheet handoff
 - [ ] Requested changes are resolved
 
 Decision: approve / request changes

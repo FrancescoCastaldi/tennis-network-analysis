@@ -29,3 +29,18 @@ body:
     attributes:
       label: Outputs
       description: Files, tables, figures or report sections affected
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Observable checks that show the task is complete, including report or word-count constraints when relevant
+    validations:
+      required: true
+  - type: textarea
+    id: reproducibility
+    attributes:
+      label: Reproducibility and handoff
+      description: Commands or pipeline stages to run, expected generated artifacts, and the Google Sheet or project item to update
+      render: shell
+    validations:
+      required: true
