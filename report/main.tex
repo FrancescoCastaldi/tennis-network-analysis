@@ -58,14 +58,12 @@
   }%
 }
 
-\author{Jacopo Bonifazi, Degree Programme, ID number
-\\Francesco Castaldi, Master's Degree in Computer Science, ID number
-\\Paolo Fusco, Master's Degree in Computer Science, ID number
-\\Shivam Kumar, Degree Programme, ID number
-\\Gaetano Muscarello, Degree Programme, ID number}
+\author{Jacopo Bonifazi \and Francesco Castaldi \and Paolo Fusco
+\\[2pt] Shivam Kumar \and Gaetano Muscarello
+\\[8pt]\small Master's Degree in Computer Science}
 \date{}
 \title{Structural Analysis of Professional Tennis Networks:\\
-A Comparative Study Across Eras, Surfaces, and Genders}
+A Comparative Study Across Eras, Surfaces, and Tours}
 
 \begin{document}
 \begin{titlepage}
@@ -90,24 +88,37 @@ Shivam Kumar \quad Gaetano Muscarello
 \end{center}
 \end{titlepage}
 \setcounter{page}{1}
+\tableofcontents
+\clearpage
 
 \section{Introduction}
 \label{introduction}
 
-% =========================================================================
-% SECTION 1: INTRODUCTION (part of 20% Context & Problem)
-% Lead Author: Shivam Kumar (Role A, ~450 words target)
-% Scope: General sport analytics, network science applied to tennis, prior literature (Radicchi 2011, Michieli 2018).
-% =========================================================================
+Professional tennis is a repeated competition system rather than a single league table:
+players meet through tournaments, surfaces and seasons, and every result changes the
+future opportunities of both athletes. A network representation makes this structure
+explicit. Nodes are players and weighted edges record repeated victories, so centrality
+captures not only how often a player wins but also whom they defeat. Earlier studies
+showed that this perspective recovers historical prestige and non-trivial topology
+\cite{radicchi2011,michieli2018}. We extend it with dated ATP and WTA observations,
+surface-specific networks, and null models that separate activity from structural
+assortativity. The aim is descriptive and comparative: the graphs do not replace
+official rankings or estimate causal effects.
 
 \section{Problem and Motivation}
 \label{problem-and-motivation}
 
-% =========================================================================
-% SECTION 2: PROBLEM AND MOTIVATION (part of 20% Context & Problem)
-% Lead Author: Shivam Kumar (Role A, ~500 words target)
-% Scope: Research questions, comparative rationale across eras, surfaces, tours, scientific contributions.
-% =========================================================================
+The motivating problem is to distinguish a stable competition architecture from changes
+in concentration and hierarchy. We ask whether the Big Three era was more centralized,
+whether grass produces a different competitive structure, whether ATP and WTA differ
+in concentration, and whether dominance carries across surfaces. H1-H4 concern
+network-level comparisons, H5 triadic hierarchy, H6 the relation between PageRank and
+official ranking, H7 cross-surface dominance, and H8 scheduling homophily. Each
+hypothesis is tested with a statistic and an explicit permutation or configuration
+null; unsupported hypotheses remain informative because they delimit what the data can
+show. Section~\ref{datasets} defines the data and graph semantics, Section~\ref{validity-and-reliability}
+checks provenance and robustness, and Section~\ref{measures} reports the measures and
+tests before the conclusion and critique.
 
 \section{Datasets}
 \label{datasets}
@@ -127,6 +138,15 @@ We work with two public sources modeled in a unified graph formalism: a weighted
 From these records, we generated nine directed, weighted networks sharing the edge semantics of M1: four ATP eras (2000-2006, 2007-2012, 2013-2018, 2019-2025), the three ATP surfaces over 2000-2025 (clay, grass, hard), and the ATP and WTA tours over 2007-2025. Eras contain balanced match volumes (15,661 to 20,265), with 2007-2018 spanning the peak supremacy of Federer, Nadal, and Djokovic. Tournaments are single-elimination brackets ($N \in \{32, 48, 64, 96, 128\}$) whose seeding keeps top players apart in the early rounds. For each network, we stored each player's median official ranking $r_i$ across their matches, defining three tiers: top 10 ($r_i \le 10$), top 100 ($10 < r_i \le 100$), and others ($r_i > 100$).
 
 \paragraph{Tools.} Networks are stored as CSV edge lists (\texttt{source}, \texttt{target}, \texttt{weight}). Measures are computed in Python with NetworkX~3.6~\cite{networkx}, pandas, and SciPy; null models use our own degree-preserving edge swap. A single JSON file fixes the paths and the random seed (20261115).
+
+\paragraph{Null model and inference.} Configuration null graphs preserve the observed
+degree sequence while rewiring edges by valid swaps; they do not encode tournament
+seeding, calendar constraints, or player attributes. Permutation tests use 200 null
+graphs for reported significance tests, 999 label or QAP permutations where stated,
+and the same seed for serial and parallel execution. Two-sided empirical $p$-values
+use the $+1$ correction. Confidence intervals are reported only where the pipeline
+already produces them; no interval or effect is added when the stored result contains
+only a point estimate.
 
 \begin{table}[t]
 \centering
@@ -180,6 +200,20 @@ Data obtained from \texttt{tennis-data.co.uk} and Google Drive are pinned by SHA
 \label{tab:sensitivity}
 \end{table}
 
+\section{Reproducibility}
+\label{reproducibility}
+
+The acquisition manifest in \texttt{data/raw/tennisdata/manifest.csv} records each
+source URL, file size and SHA-256 digest; the processed tables and figures are owned by
+the modules listed in \texttt{docs/architecture.md}. The exact source commit is
+recoverable with \texttt{git rev-parse HEAD}, and the Python environment is declared
+in \texttt{pyproject.toml}. The minimum rebuild from a clean checkout is
+\texttt{make all}, followed by
+\texttt{latexmk -pdf -interaction=nonstopmode -halt-on-error -cd report/main.tex}.
+The report uses seed 20261115 from \texttt{config/networks.json}; generated assets are
+never edited manually. This provenance is sufficient to distinguish a changed input,
+pipeline version, or rendering environment from a changed scientific result.
+
 \section{Measures and Results}
 \label{measures}
 
@@ -194,6 +228,14 @@ Data obtained from \texttt{tennis-data.co.uk} and Google Drive are pinned by SHA
 % =========================================================================
 
 Each measure answers one of the questions of Section~\ref{problem-and-motivation}; we group them by the phenomenon they capture and report the values for the nine comparative networks in Table~\ref{tab:global}. Measures that require an undirected graph (clustering, assortativity, $k$-cores) are computed on the projection in which two players are linked if they met at least once. Table~\ref{tab:abc} states, for each phenomenon (A), the measure used (B) and what it means in tennis (C).
+
+\begin{table}[!htbp]
+\centering
+\scriptsize
+\gentable{tab_hypotheses.tex}
+\caption{Summary of H1-H8. Raw $p$-values are empirical values from the stored tests; Holm values adjust the 26 primary comparisons across hypotheses. A hypothesis is supported only when all of its primary tests remain below 0.05 after correction.}
+\label{tab:hypotheses}
+\end{table}
 
 \begin{table}[!htbp]
 \centering
@@ -364,6 +406,15 @@ We asked how the structure of professional tennis changes across eras, surfaces 
 \paragraph{Aggregation and size.} Each network sums six to twenty-six seasons, and an edge only records that two players met at least once, so we cannot observe dynamics within a period. Windows differ in length (surface networks span 26 seasons, eras six or seven), which makes modularity values hard to compare, and sizes range from 602 to 1,387 players. Only H3 corrects for size by design; density, distances and reciprocity on grass should be read with this in mind.
  
 \paragraph{Statistical caution.} The raw analysis contains eight hypotheses and many related statistics, so unadjusted values are not interpreted as independent confirmations. The pipeline now reports Holm-adjusted values alongside the raw permutation values; marginal findings should therefore be described as exploratory unless they remain significant after adjustment. A value of 0.001 is the smallest that 999 permutations can return, and the QAP correlations are small (0.06 to 0.15). Our explanations (seeding, the grass calendar, the structure of women's events) are plausible but untested: the configuration model does not encode bracket rules, and the tour comparison is confounded by calendar and format differences we did not model. We also have no player attributes such as age, nationality or handedness.
+\paragraph{Statistical caution.} The raw analysis contains eight hypotheses and many related statistics, so unadjusted values are not interpreted as independent confirmations. The pipeline reports Holm-adjusted values alongside raw permutation values; marginal findings should therefore be described as exploratory unless they remain significant after adjustment. A value of 0.001 is the smallest that 999 permutations can return, and the QAP correlations are small (0.06 to 0.15). Our explanations (seeding, the grass calendar, the structure of women's events) are plausible but untested: the configuration model does not encode bracket rules, and the tour comparison is confounded by calendar and format differences we did not model. We also have no player attributes such as age, nationality or handedness.
+
+\paragraph{Sensitivity and future analyses.} The cleaning analysis shows that H1 is
+borderline, while H3 and H4 are stable under the tested alternatives. ATP and WTA
+comparisons should therefore be read as descriptive, not as evidence of gender-specific
+mechanisms. A future season-by-season multilayer model could estimate uncertainty for
+surface and calendar effects directly, add age and nationality, and test whether the
+observed elite concentration survives an independent Elo or Bradley-Terry ability
+measure.
  
 \paragraph{Alternatives.} A null model that simulates seeded draws would test the seeding explanation directly. Temporal or multilayer networks, with the surface as a layer, would keep the dynamics that aggregation removes. Elo or Bradley-Terry ratings would give an ability measure independent of PageRank, and stochastic block models or longitudinal actor-based models with player attributes could separate structural effects from individual ones. Finally, adding qualifiers and minor circuits would show how robust our conclusions are to the boundary of the network.
 

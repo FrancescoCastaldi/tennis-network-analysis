@@ -15,6 +15,7 @@ Source code, compiled output, generated tables, and vector figures for the cours
   * `tab_structure.tex`: Advanced structural properties (HITS, Borgatti-Everett, small-world).
   * `tab_tests.tex`: Empirical tests of hypotheses H1 to H5.
   * `tab_levels.tex`: Multi-level hypothesis tests H5 to H8.
+  * `tab_hypotheses.tex`: H1-H8 summary with raw and Holm-adjusted p-values.
 * `figures/`: Vector PDF figures (and companion PNG files):
   * `fig_degree_ccdf.pdf`: Degree CCDF on log-log scales across networks.
   * `fig_robustness.pdf`: Targeted vs random node removal percolation curves.

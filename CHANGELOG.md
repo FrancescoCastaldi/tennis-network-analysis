@@ -45,6 +45,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 
 ### Changed
 
+- Report structure and presentation: clarified the introduction, research questions, null-model methodology and limitations; added a reproducibility section, a sober title page with headers and table of contents, and a generated H1-H8 summary table with Holm-adjusted p-values.
 - `hypotheses` exposes `season_series`, `h1_rows`, `h3_rows` and `h4_rows` so that `sensitivity` reuses the same tests; `tennisdata.played` takes `keep_walkovers`. Saved results are unchanged.
 - Report, Validity and Reliability: the cross-source paragraph cites the new figure, and the Tools, construct validity and Datasets prose is shortened (about 100 words) to make room for the sensitivity paragraph.
 - `README.md` brought up to date: an At a glance table, final results of H1 to H8 with their numbers (H5 p = 0.010, H2 z = 16 to 35), network structure, rich-club and data validity, the rich-club step in the pipeline table, the layout and the status of each report section.

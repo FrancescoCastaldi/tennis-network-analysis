@@ -276,6 +276,67 @@ def table_tests():
     )
 
 
+def table_hypothesis_summary():
+    """Summarise H1-H8 with Holm-adjusted primary-test p-values."""
+    raw = []
+    hypotheses = pd.read_csv(TABLES / "hypothesis_tests.csv")
+    for r in hypotheses.itertuples(index=False):
+        raw.append((r.hypothesis, float(r.p_value)))
+    triads = pd.read_csv(TABLES / "triads_h5.csv")
+    for r in triads.itertuples(index=False):
+        raw.append(("H5", float(r.p_value)))
+    levels = pd.read_csv(TABLES / "levels_tests.csv")
+    for r in levels.itertuples(index=False):
+        if r.hypothesis == "H6" and r.statistic != "beta log PageRank":
+            continue
+        raw.append((r.hypothesis, float(r.p_value)))
+
+    ordered = sorted(enumerate(raw), key=lambda item: item[1][1])
+    adjusted = [0.0] * len(raw)
+    running = 0.0
+    for rank, (index, (_, p_value)) in enumerate(ordered, start=1):
+        running = max(running, min(1.0, p_value * (len(raw) - rank + 1)))
+        adjusted[index] = running
+
+    labels = {
+        "H1": "top-10 prestige and centralization, eras",
+        "H2": "degree assortativity vs configuration null",
+        "H3": "grass vs clay/hard concentration",
+        "H4": "WTA vs ATP concentration",
+        "H5": "cyclic triads, Big Three era",
+        "H6": "PageRank predicts official ranking",
+        "H7": "cross-surface dominance carry-over",
+        "H8": "surface-profile scheduling homophily",
+    }
+    rows = []
+    for hypothesis in labels:
+        values = [p for h, p in raw if h == hypothesis]
+        corrected = [adjusted[i] for i, (h, _) in enumerate(raw) if h == hypothesis]
+        supported = max(corrected) <= 0.05
+        raw_text = num(min(values), 3) if min(values) == max(values) else f"{num(min(values), 3)}-{num(max(values), 3)}"
+        holm_text = (
+            num(min(corrected), 3)
+            if min(corrected) == max(corrected)
+            else f"{num(min(corrected), 3)}-{num(max(corrected), 3)}"
+        )
+        verdict = "supported" if supported else "not supported after Holm correction"
+        rows.append(f"{hypothesis} & {labels[hypothesis]} & {raw_text} & {holm_text} & {verdict} \\\\")
+    write(
+        "tab_hypotheses.tex",
+        "\n".join(
+            [
+                r"\begin{tabular}{@{}llp{1.6cm}p{1.6cm}l@{}}",
+                r"\toprule",
+                r"H & Primary test & Raw $p$ & Holm $p$ & Conclusion \\",
+                r"\midrule",
+                *rows,
+                r"\bottomrule",
+                r"\end{tabular}",
+            ]
+        ),
+    )
+
+
 def table_structure():
     s = pd.read_csv(TABLES / "structure_summary.csv").set_index("network").loc[NETS]
     head = " & ".join(SHORT[n] for n in NETS)
@@ -979,6 +1040,7 @@ def main():
     table_global()
     samples = table_null()
     table_tests()
+    table_hypothesis_summary()
     table_top10()
     table_structure()
     table_levels()
