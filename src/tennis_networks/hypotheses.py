@@ -24,6 +24,7 @@ from tennis_networks import measures as ms
 from tennis_networks import nullmodels as nm
 from tennis_networks import tennisdata as td
 from tennis_networks.config import PROCESSED, TABLES, load_config
+from tennis_networks.inference import add_holm_correction
 from tennis_networks.loaders import load_undirected
 
 NETWORKS = [f"td_atp_{e}" for e in td.ERAS] + ["td_atp_clay", "td_atp_grass", "td_atp_hard", "td_wta_2007_2025"]
@@ -208,7 +209,7 @@ def main():
     rows += h3_rows(matches, args.perm, seed)
     rows += h4_rows(series, args.perm, seed)
 
-    out = pd.DataFrame(rows)
+    out = add_holm_correction(pd.DataFrame(rows))
     out.to_csv(TABLES / "hypothesis_tests.csv", index=False, encoding="utf-8")
     print(out.round(4).to_string(index=False))
 

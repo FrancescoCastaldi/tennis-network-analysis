@@ -22,6 +22,7 @@ import numpy as np
 import pandas as pd
 
 from tennis_networks.config import PROCESSED, TABLES, load_config
+from tennis_networks.inference import add_holm_correction
 from tennis_networks.qap import permutation_regression, qap_correlation
 from tennis_networks.tennisdata import ERAS
 
@@ -167,7 +168,7 @@ def main():
     mixed_rows, profile, gap = mixed(atp, args.perm, seed)
     rows += mixed_rows
     TABLES.mkdir(parents=True, exist_ok=True)
-    out = pd.DataFrame(rows)
+    out = add_holm_correction(pd.DataFrame(rows))
     out.to_csv(TABLES / "levels_tests.csv", index=False, encoding="utf-8")
     pd.DataFrame({"clay_minus_hard_win_rate": gap, "profile": profile}).rename_axis("player").to_csv(
         TABLES / "surface_profiles.csv", encoding="utf-8"

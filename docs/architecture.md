@@ -89,6 +89,10 @@ does not download or copy data. See [config/README.md](../config/README.md).
 The [raw-data tests](../tests/test_data.py) check SHA-256 digests and dataset invariants.
 Randomized calculations receive explicit seeds. Parallel null sampling has deterministic worker
 streams for a fixed execution mode, but is not sample-for-sample identical to sequential sampling.
+Each analysis run writes `results/run_manifest.json` with the configuration hash, Git commit,
+Python/platform versions, and SHA-256 fingerprints of the processed inputs. The raw p-values in
+the hypothesis tables remain unchanged; each table also contains `p_value_holm` and
+`significant_holm`, computed with a Holm step-down correction across the tests in that table.
 
 ## File ownership and safe reruns
 

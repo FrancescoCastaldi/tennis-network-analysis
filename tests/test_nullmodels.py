@@ -76,6 +76,13 @@ def test_null_statistics_parallel_n_jobs(karate):
     pd.testing.assert_frame_equal(df_seq, df_par)
 
 
+def test_null_statistics_reproducible_across_worker_counts(karate):
+    stats = {"c": nx.average_clustering, "t": nx.transitivity}
+    serial = nm.null_statistics(karate, stats, 6, seed=91, n_jobs=1)
+    parallel = nm.null_statistics(karate, stats, 6, seed=91, n_jobs=2)
+    pd.testing.assert_frame_equal(serial, parallel)
+
+
 def test_compare_dual_null_models(karate):
     stats = {"clustering": nx.average_clustering, "transitivity": nx.transitivity}
     res = nm.compare_dual_null_models(karate, stats, samples=5, seed=123, n_jobs=1)

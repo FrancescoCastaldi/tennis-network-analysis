@@ -1,5 +1,6 @@
 """Unit tests and regression tests for run_analysis.py pipeline entry-point."""
 
+import json
 import sys
 from pathlib import Path
 
@@ -68,6 +69,10 @@ def test_run_analysis_smoke_pipeline(tmp_path):
     assert (out_dir / "centralities_top10.csv").exists()
     assert (out_dir / "kcore_decomposition.csv").exists()
     assert (out_dir / "small_world.csv").exists()
+    manifest = json.loads((out_dir / "run_manifest.json").read_text(encoding="utf-8"))
+    assert manifest["stage"] == "analysis"
+    assert manifest["config"]["sha256"]
+    assert manifest["inputs"]
 
 
 def test_betweenness_ignores_win_counts():

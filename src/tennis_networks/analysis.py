@@ -17,7 +17,15 @@ import pandas as pd
 
 from tennis_networks import measures as ms
 from tennis_networks import nullmodels as nm
-from tennis_networks.config import FIGURES, NULL_MODELS, PROCESSED, TABLES, load_config, seed_everything
+from tennis_networks.config import (
+    FIGURES,
+    NULL_MODELS,
+    PROCESSED,
+    TABLES,
+    load_config,
+    seed_everything,
+    write_run_manifest,
+)
 from tennis_networks.loaders import load_network
 
 NULL_STATS = {
@@ -108,6 +116,14 @@ def main():
         folder.mkdir(parents=True, exist_ok=True)
 
     specs = [s for s in cfg["networks"] if not args.only or s["id"] == args.only]
+    input_paths = [PROCESSED / spec["file"] for spec in specs]
+    input_paths.extend(PROCESSED / spec["ranks"] for spec in specs if spec.get("ranks"))
+    write_run_manifest(
+        "analysis",
+        config_path=args.config,
+        input_paths=input_paths,
+        extra={"samples": samples, "only": args.only, "seed": cfg["seed"]},
+    )
     rows = [analyse(s, cfg, samples, args.samples is not None) for s in specs]
     pd.DataFrame(rows).to_csv(TABLES / "global_measures.csv", index=False, encoding="utf-8")
     print(f"Results in {TABLES.parent}")

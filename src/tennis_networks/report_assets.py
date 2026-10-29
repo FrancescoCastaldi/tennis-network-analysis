@@ -58,6 +58,13 @@ def num(x, digits=3):
     return "$-$" + text[1:] if text.startswith("-") else text
 
 
+def p_value(row):
+    """Prefer Holm-adjusted p-values when a result table provides them."""
+    if "p_value_holm" in row and not pd.isna(row["p_value_holm"]):
+        return row["p_value_holm"]
+    return row["p_value"]
+
+
 def write(name, body):
     OUT_TAB.mkdir(parents=True, exist_ok=True)
     (OUT_TAB / name).write_text(body.strip() + "\n", encoding="utf-8")
@@ -228,7 +235,7 @@ def table_tests():
                 f"H2 & degree assortativity & each of the 8 networks vs null & "
                 f"{num(h2['value_a'].min(), 3)} to {num(h2['value_a'].max(), 3)} & "
                 f"{num(h2['value_b'].min(), 3)} to {num(h2['value_b'].max(), 3)} & "
-                f"$>0$ in all & 0 & $\\le${num(h2['p_value'].max(), 3)} \\\\"
+                f"$>0$ in all & 0 & $\\le${num(h2.get('p_value_holm', h2['p_value']).max(), 3)} \\\\"
             )
             continue
         for r in d[d["hypothesis"] == h].itertuples(index=False):
@@ -238,7 +245,7 @@ def table_tests():
             expected = num(r.perm_mean_diff, 3) if not pd.isna(r.perm_mean_diff) else "0"
             rows.append(
                 f"{h} & {stat[r.statistic]} & {comp} & {num(r.value_a, 3)} & {num(r.value_b, 3)} & "
-                f"{num(r.diff, 3)} & {expected} & {num(r.p_value, 3)} \\\\"
+                f"{num(r.diff, 3)} & {expected} & {num(p_value(r._asdict()), 3)} \\\\"
             )
     if (TABLES / "triads_h5.csv").exists():
         h5 = pd.read_csv(TABLES / "triads_h5.csv")
@@ -247,7 +254,7 @@ def table_tests():
             comp = "2007-12 vs other eras" if r.hypothesis == "H5" else "WTA vs ATP (paired seasons)"
             rows.append(
                 f"{label} & cyclic triad ratio & {comp} & {num(r.value_a, 3)} & {num(r.value_b, 3)} & "
-                f"{num(r.diff, 3)} & 0 & {num(r.p_value, 3)} \\\\"
+                f"{num(r.diff, 3)} & 0 & {num(p_value(r._asdict()), 3)} \\\\"
             )
     write(
         "tab_tests.tex",
@@ -255,7 +262,7 @@ def table_tests():
             [
                 r"\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{3.1cm}rrrrr@{}}",
                 r"\toprule",
-                r"H & Statistic & Comparison & A & B & A$-$B & $E_0$[A$-$B] & $p$ \\",
+                r"H & Statistic & Comparison & A & B & A$-$B & $E_0$[A$-$B] & $p_{\mathrm{Holm}}$ \\",
                 r"\midrule",
                 *rows,
                 r"\bottomrule",
@@ -365,7 +372,7 @@ def table_levels():
             label = "H5" if r.hypothesis == "H5" else "H5 (tours)"
             comp = "ATP 2007-12 vs other eras" if r.hypothesis == "H5" else "WTA vs ATP (paired seasons)"
             note = f"{num(r.value_a, 3)} vs {num(r.value_b, 3)}"
-            diff_str, p_str = num(r.diff, 3), num(r.p_value, 3)
+            diff_str, p_str = num(r.diff, 3), num(p_value(r._asdict()), 3)
             rows.append(f"{label} & Network & {comp} & cyclic triad ratio & {diff_str} & {p_str} & {note} \\\\")
         rows.append(r"\midrule")
 
@@ -390,11 +397,11 @@ def table_levels():
             w_row = sub[sub["statistic"] == "beta log wins"].iloc[0]
             n_val = pr_row["n"]
             r2_val = pr_row["note"].replace("R2", "$R^2$")
-            pr_val, pr_p = num(pr_row["value"], 3), num(pr_row["p_value"], 3)
+            pr_val, pr_p = num(pr_row["value"], 3), num(p_value(pr_row), 3)
             rows.append(
                 f"H6 & Monadic & {era_name} ($n={n_val}$) & $\\beta$ log PageRank & {pr_val} & {pr_p} & {r2_val} \\\\"
             )
-            w_val, w_p = num(w_row["value"], 3), num(w_row["p_value"], 3)
+            w_val, w_p = num(w_row["value"], 3), num(p_value(w_row), 3)
             rows.append(f"   &         &                      & $\\beta$ log wins     & {w_val} & {w_p} & \\\\")
         rows.append(r"\midrule")
 
@@ -407,7 +414,8 @@ def table_levels():
             comp = "Clay vs Hard balance" if "Clay" in r.comparison else "Grass vs Hard balance"
             note = f"$n={r.n}$, $E_0[r]=0.000$"
             rows.append(
-                f"H7 & Dyadic & {comp} & QAP Pearson $r$ & {num(r.value, 3)} & {num(r.p_value, 3)} & {note} \\\\"
+                f"H7 & Dyadic & {comp} & QAP Pearson $r$ & {num(r.value, 3)} & "
+                f"{num(p_value(r._asdict()), 3)} & {note} \\\\"
             )
         rows.append(r"\midrule")
 
@@ -420,14 +428,15 @@ def table_levels():
             comp = "Same surface profile vs meetings" if "profile" in r.comparison else "Specialisation gap vs meetings"
             note = "$n=328$, 3 classes" if "profile" in r.comparison else "$n=328$, Euclidean diff"
             rows.append(
-                f"H8 & Mixed & {comp} & QAP Pearson $r$ & {num(r.value, 3)} & {num(r.p_value, 3)} & {note} \\\\"
+                f"H8 & Mixed & {comp} & QAP Pearson $r$ & {num(r.value, 3)} & "
+                f"{num(p_value(r._asdict()), 3)} & {note} \\\\"
             )
 
     body = "\n".join(
         [
             r"\begin{tabular}{@{}llp{3.6cm}lrrr@{}}",
             r"\toprule",
-            r"Hyp. & Level & Comparison / Target & Predictor / Stat & Coeff. / $r$ & $p$ & Notes \\",
+            r"Hyp. & Level & Comparison / Target & Predictor / Stat & Coeff. / $r$ & $p_{\mathrm{Holm}}$ & Notes \\",
             r"\midrule",
             *rows,
             r"\bottomrule",

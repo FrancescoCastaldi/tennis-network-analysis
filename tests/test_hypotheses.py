@@ -1,8 +1,10 @@
 import numpy as np
+import pandas as pd
 import pytest
 
 from tennis_networks import hypotheses as hy
 from tennis_networks import tennisdata as td
+from tennis_networks.inference import add_holm_correction
 
 
 def test_permutation_test_finds_no_difference_between_identical_groups(matches):
@@ -21,3 +23,9 @@ def test_signflip_test_on_constant_positive_differences():
 def test_group_permutation_test_separates_distinct_groups():
     res = hy.group_permutation_test(np.arange(10) + 100, np.arange(10), n_perm=999, seed=1)
     assert res["p_value"] < 0.01
+
+
+def test_holm_correction_is_monotone_and_bounded():
+    frame = add_holm_correction(pd.DataFrame({"p_value": [0.01, 0.04, 0.8]}))
+    assert frame["p_value_holm"].tolist() == pytest.approx([0.03, 0.08, 0.8])
+    assert frame["significant_holm"].tolist() == [True, False, False]
