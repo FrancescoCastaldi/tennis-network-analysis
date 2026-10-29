@@ -65,6 +65,10 @@ def p_value(row):
     return row["p_value"]
 
 
+def p_heading(frame):
+    return r"$p_{\mathrm{Holm}}$" if "p_value_holm" in frame.columns else r"$p$"
+
+
 def write(name, body):
     OUT_TAB.mkdir(parents=True, exist_ok=True)
     (OUT_TAB / name).write_text(body.strip() + "\n", encoding="utf-8")
@@ -262,7 +266,7 @@ def table_tests():
             [
                 r"\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{3.1cm}rrrrr@{}}",
                 r"\toprule",
-                r"H & Statistic & Comparison & A & B & A$-$B & $E_0$[A$-$B] & $p_{\mathrm{Holm}}$ \\",
+                rf"H & Statistic & Comparison & A & B & A$-$B & $E_0$[A$-$B] & {p_heading(d)} \\",
                 r"\midrule",
                 *rows,
                 r"\bottomrule",
@@ -436,7 +440,8 @@ def table_levels():
         [
             r"\begin{tabular}{@{}llp{3.6cm}lrrr@{}}",
             r"\toprule",
-            r"Hyp. & Level & Comparison / Target & Predictor / Stat & Coeff. / $r$ & $p_{\mathrm{Holm}}$ & Notes \\",
+            rf"Hyp. & Level & Comparison / Target & Predictor / Stat & Coeff. / $r$ & "
+            rf"{p_heading(lt) if 'lt' in locals() else '$p$'} & Notes \\",
             r"\midrule",
             *rows,
             r"\bottomrule",
