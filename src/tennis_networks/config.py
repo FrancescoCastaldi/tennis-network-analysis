@@ -39,15 +39,20 @@ def seed_everything(seed):
 
 def write_run_manifest(stage, config_path=None, input_paths=(), output_path=None, extra=None):
     """Write configuration, environment, and input fingerprints for one pipeline stage."""
-    config_file = Path(config_path) if config_path else ROOT / "config" / "networks.json"
+    config_file = (Path(config_path) if config_path else ROOT / "config" / "networks.json").resolve()
     config_bytes = config_file.read_bytes()
+    root_resolved = ROOT.resolve()
     inputs = []
     for path in input_paths:
-        path = Path(path)
+        path = Path(path).resolve()
         if path.exists() and path.is_file():
+            try:
+                rel_path = str(path.relative_to(root_resolved))
+            except ValueError:
+                rel_path = str(path)
             inputs.append(
                 {
-                    "path": str(path.relative_to(ROOT)),
+                    "path": rel_path,
                     "size": path.stat().st_size,
                     "sha256": sha256(path.read_bytes()).hexdigest(),
                 }
@@ -65,6 +70,11 @@ def write_run_manifest(stage, config_path=None, input_paths=(), output_path=None
         except PackageNotFoundError:
             return None
 
+    try:
+        config_rel_path = str(config_file.relative_to(root_resolved))
+    except ValueError:
+        config_rel_path = str(config_file)
+
     manifest = {
         "stage": stage,
         "git_commit": commit,
@@ -74,7 +84,7 @@ def write_run_manifest(stage, config_path=None, input_paths=(), output_path=None
             name: package_version(name) for name in ("networkx", "numpy", "scipy", "pandas", "matplotlib", "powerlaw")
         },
         "config": {
-            "path": str(config_file.relative_to(ROOT)),
+            "path": config_rel_path,
             "sha256": sha256(config_bytes).hexdigest(),
         },
         "inputs": inputs,

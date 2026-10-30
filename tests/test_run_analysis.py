@@ -121,3 +121,18 @@ def test_network_list_leaves_out_points_network():
 
 def test_unknown_network_returns_error_code(tmp_path):
     assert run_analysis.main(["--quick", "--skip-null", "--network", "nope", "--output-dir", str(tmp_path)]) == 1
+
+
+def test_write_run_manifest_custom_config_path(tmp_path):
+    import json
+
+    from tennis_networks.config import write_run_manifest
+
+    cfg = tmp_path / "custom_config.json"
+    cfg.write_text("{}", encoding="utf-8")
+    out = tmp_path / "manifest.json"
+    dest = write_run_manifest(stage="test", config_path=str(cfg), output_path=str(out))
+    assert dest.exists()
+    data = json.loads(dest.read_text(encoding="utf-8"))
+    assert data["stage"] == "test"
+    assert "config" in data
