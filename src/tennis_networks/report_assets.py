@@ -58,15 +58,27 @@ def num(x, digits=3):
     return "$-$" + text[1:] if text.startswith("-") else text
 
 
-def p_value(row):
-    """Prefer Holm-adjusted p-values when a result table provides them."""
-    if "p_value_holm" in row and not pd.isna(row["p_value_holm"]):
-        return row["p_value_holm"]
-    return row["p_value"]
+def holm_ready(*frames):
+    """True when every frame has a Holm column filled wherever the raw p-value exists.
+
+    A table mixes rows from several result files, so adjusted values are shown only when all
+    of them carry the correction; otherwise the whole table shows the raw values under a raw
+    heading, never raw values under an adjusted one.
+    """
+    return all(
+        "p_value_holm" in frame.columns and frame.loc[frame["p_value"].notna(), "p_value_holm"].notna().all()
+        for frame in frames
+        if frame is not None
+    )
 
 
-def p_heading(frame):
-    return r"$p_{\mathrm{Holm}}$" if "p_value_holm" in frame.columns else r"$p$"
+def p_value(row, adjusted):
+    """Holm-adjusted p-value of a result row when `adjusted`, the raw one otherwise."""
+    return row["p_value_holm"] if adjusted else row["p_value"]
+
+
+def p_heading(adjusted):
+    return r"$p_{\mathrm{Holm}}$" if adjusted else r"$p$"
 
 
 def write(name, body):
@@ -230,6 +242,8 @@ def table_null():
 
 def table_tests():
     d = pd.read_csv(TABLES / "hypothesis_tests.csv")
+    h5 = pd.read_csv(TABLES / "triads_h5.csv") if (TABLES / "triads_h5.csv").exists() else None
+    adjusted = holm_ready(d, h5)
     stat = {"top10_pagerank_share": "top-10 PageRank share", "degree_centralization": "degree centralization"}
     rows = []
     for h in ("H1", "H2", "H3", "H4"):
@@ -239,7 +253,7 @@ def table_tests():
                 f"H2 & degree assortativity & each of the 8 networks vs null & "
                 f"{num(h2['value_a'].min(), 3)} to {num(h2['value_a'].max(), 3)} & "
                 f"{num(h2['value_b'].min(), 3)} to {num(h2['value_b'].max(), 3)} & "
-                f"$>0$ in all & 0 & $\\le${num(h2.get('p_value_holm', h2['p_value']).max(), 3)} \\\\"
+                f"$>0$ in all & 0 & $\\le${num(h2['p_value_holm' if adjusted else 'p_value'].max(), 3)} \\\\"
             )
             continue
         for r in d[d["hypothesis"] == h].itertuples(index=False):
@@ -249,16 +263,15 @@ def table_tests():
             expected = num(r.perm_mean_diff, 3) if not pd.isna(r.perm_mean_diff) else "0"
             rows.append(
                 f"{h} & {stat[r.statistic]} & {comp} & {num(r.value_a, 3)} & {num(r.value_b, 3)} & "
-                f"{num(r.diff, 3)} & {expected} & {num(p_value(r._asdict()), 3)} \\\\"
+                f"{num(r.diff, 3)} & {expected} & {num(p_value(r._asdict(), adjusted), 3)} \\\\"
             )
-    if (TABLES / "triads_h5.csv").exists():
-        h5 = pd.read_csv(TABLES / "triads_h5.csv")
+    if h5 is not None:
         for r in h5.itertuples(index=False):
             label = "H5" if r.hypothesis == "H5" else "H5 (tours)"
             comp = "2007-12 vs other eras" if r.hypothesis == "H5" else "WTA vs ATP (paired seasons)"
             rows.append(
                 f"{label} & cyclic triad ratio & {comp} & {num(r.value_a, 3)} & {num(r.value_b, 3)} & "
-                f"{num(r.diff, 3)} & 0 & {num(p_value(r._asdict()), 3)} \\\\"
+                f"{num(r.diff, 3)} & 0 & {num(p_value(r._asdict(), adjusted), 3)} \\\\"
             )
     write(
         "tab_tests.tex",
@@ -266,7 +279,7 @@ def table_tests():
             [
                 r"\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{3.1cm}rrrrr@{}}",
                 r"\toprule",
-                rf"H & Statistic & Comparison & A & B & A$-$B & $E_0$[A$-$B] & {p_heading(d)} \\",
+                rf"H & Statistic & Comparison & A & B & A$-$B & $E_0$[A$-$B] & {p_heading(adjusted)} \\",
                 r"\midrule",
                 *rows,
                 r"\bottomrule",
@@ -427,8 +440,10 @@ def table_structure():
 
 def table_levels():
     rows = []
-    if (TABLES / "triads_h5.csv").exists():
-        h5 = pd.read_csv(TABLES / "triads_h5.csv")
+    h5 = pd.read_csv(TABLES / "triads_h5.csv") if (TABLES / "triads_h5.csv").exists() else None
+    lt = pd.read_csv(TABLES / "levels_tests.csv") if (TABLES / "levels_tests.csv").exists() else None
+    adjusted = holm_ready(h5, lt)
+    if h5 is not None:
         rows.append(
             r"\multicolumn{7}{@{}l}{\emph{Network level: "
             r"Triad hierarchy (cyclic ratio $030C/030T$, random baseline $= 1/3$)}} \\"
@@ -437,12 +452,11 @@ def table_levels():
             label = "H5" if r.hypothesis == "H5" else "H5 (tours)"
             comp = "ATP 2007-12 vs other eras" if r.hypothesis == "H5" else "WTA vs ATP (paired seasons)"
             note = f"{num(r.value_a, 3)} vs {num(r.value_b, 3)}"
-            diff_str, p_str = num(r.diff, 3), num(p_value(r._asdict()), 3)
+            diff_str, p_str = num(r.diff, 3), num(p_value(r._asdict(), adjusted), 3)
             rows.append(f"{label} & Network & {comp} & cyclic triad ratio & {diff_str} & {p_str} & {note} \\\\")
         rows.append(r"\midrule")
 
-    if (TABLES / "levels_tests.csv").exists():
-        lt = pd.read_csv(TABLES / "levels_tests.csv")
+    if lt is not None:
         rows.append(
             r"\multicolumn{7}{@{}l}{\emph{Monadic level: "
             r"Permutation regression of $\log(\text{ranking})$ on PageRank and wins}} \\"
@@ -462,11 +476,11 @@ def table_levels():
             w_row = sub[sub["statistic"] == "beta log wins"].iloc[0]
             n_val = pr_row["n"]
             r2_val = pr_row["note"].replace("R2", "$R^2$")
-            pr_val, pr_p = num(pr_row["value"], 3), num(p_value(pr_row), 3)
+            pr_val, pr_p = num(pr_row["value"], 3), num(p_value(pr_row, adjusted), 3)
             rows.append(
                 f"H6 & Monadic & {era_name} ($n={n_val}$) & $\\beta$ log PageRank & {pr_val} & {pr_p} & {r2_val} \\\\"
             )
-            w_val, w_p = num(w_row["value"], 3), num(p_value(w_row), 3)
+            w_val, w_p = num(w_row["value"], 3), num(p_value(w_row, adjusted), 3)
             rows.append(f"   &         &                      & $\\beta$ log wins     & {w_val} & {w_p} & \\\\")
         rows.append(r"\midrule")
 
@@ -480,7 +494,7 @@ def table_levels():
             note = f"$n={r.n}$, $E_0[r]=0.000$"
             rows.append(
                 f"H7 & Dyadic & {comp} & QAP Pearson $r$ & {num(r.value, 3)} & "
-                f"{num(p_value(r._asdict()), 3)} & {note} \\\\"
+                f"{num(p_value(r._asdict(), adjusted), 3)} & {note} \\\\"
             )
         rows.append(r"\midrule")
 
@@ -494,7 +508,7 @@ def table_levels():
             note = "$n=328$, 3 classes" if "profile" in r.comparison else "$n=328$, Euclidean diff"
             rows.append(
                 f"H8 & Mixed & {comp} & QAP Pearson $r$ & {num(r.value, 3)} & "
-                f"{num(p_value(r._asdict()), 3)} & {note} \\\\"
+                f"{num(p_value(r._asdict(), adjusted), 3)} & {note} \\\\"
             )
 
     body = "\n".join(
@@ -502,7 +516,7 @@ def table_levels():
             r"\begin{tabular}{@{}llp{3.6cm}lrrr@{}}",
             r"\toprule",
             rf"Hyp. & Level & Comparison / Target & Predictor / Stat & Coeff. / $r$ & "
-            rf"{p_heading(lt) if 'lt' in locals() else '$p$'} & Notes \\",
+            rf"{p_heading(adjusted)} & Notes \\",
             r"\midrule",
             *rows,
             r"\bottomrule",

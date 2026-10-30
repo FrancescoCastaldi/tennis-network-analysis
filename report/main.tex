@@ -203,16 +203,10 @@ Data obtained from \texttt{tennis-data.co.uk} and Google Drive are pinned by SHA
 \section{Reproducibility}
 \label{reproducibility}
 
-The acquisition manifest in \texttt{data/raw/tennisdata/manifest.csv} records each
-source URL, file size and SHA-256 digest; the processed tables and figures are owned by
-the modules listed in \texttt{docs/architecture.md}. The exact source commit is
-recoverable with \texttt{git rev-parse HEAD}, and the Python environment is declared
-in \texttt{pyproject.toml}. The minimum rebuild from a clean checkout is
-\texttt{make all}, followed by
-\texttt{latexmk -pdf -interaction=nonstopmode -halt-on-error -cd report/main.tex}.
-The report uses seed 20261115 from \texttt{config/networks.json}; generated assets are
-never edited manually. This provenance is sufficient to distinguish a changed input,
-pipeline version, or rendering environment from a changed scientific result.
+Source files are pinned by the SHA-256 digests in
+\texttt{data/raw/tennisdata/manifest.csv}, the Python environment by \texttt{pyproject.toml},
+and the seed (20261115) by \texttt{config/networks.json}. The whole report rebuilds from a
+clean checkout with \texttt{make all}; generated assets are never edited by hand.
 
 \section{Measures and Results}
 \label{measures}

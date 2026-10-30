@@ -1,5 +1,7 @@
 import re
 
+import numpy as np
+import pandas as pd
 import pytest
 
 from tennis_networks import report_assets as ra
@@ -64,6 +66,33 @@ def test_table_tests_includes_h1_to_h5(out_dirs):
     assert "H5" in content
     assert r">{\raggedright\arraybackslash}" in content
     assert re.search(r"\bnan\b", content, re.IGNORECASE) is None
+
+
+def test_holm_values_are_shown_only_when_every_frame_carries_them():
+    raw = pd.DataFrame({"p_value": [0.01, 0.04]})
+    adjusted = pd.DataFrame({"p_value": [0.01, 0.04], "p_value_holm": [0.02, 0.04]})
+    partial = pd.DataFrame({"p_value": [0.01, 0.04], "p_value_holm": [0.02, np.nan]})
+    missing_raw = pd.DataFrame({"p_value": [np.nan, 0.04], "p_value_holm": [np.nan, 0.04]})
+    assert ra.holm_ready(adjusted, missing_raw, None)
+    assert not ra.holm_ready(raw)
+    assert not ra.holm_ready(partial)
+    assert not ra.holm_ready(adjusted, raw)
+    row = {"p_value": 0.01, "p_value_holm": 0.02}
+    assert ra.p_value(row, True) == 0.02
+    assert ra.p_value(row, False) == 0.01
+    assert ra.p_heading(False) == r"$p$"
+    assert "Holm" in ra.p_heading(True)
+
+
+def test_tables_call_values_adjusted_only_if_the_stored_results_are_adjusted(out_dirs):
+    """Stored result files from before the Holm correction must not end up under an adjusted heading."""
+    ra.table_tests()
+    ra.table_levels()
+    names = ("hypothesis_tests", "triads_h5", "levels_tests")
+    frames = [pd.read_csv(ra.TABLES / f"{name}.csv") for name in names]
+    for table, used in (("tab_tests.tex", frames[:2]), ("tab_levels.tex", frames[1:])):
+        content = (out_dirs / "tables" / table).read_text(encoding="utf-8")
+        assert ("Holm" in content) == ra.holm_ready(*used)
 
 
 def test_figure_network_core_generates_pdf_and_png(out_dirs):

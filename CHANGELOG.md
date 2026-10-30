@@ -12,6 +12,8 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 ### Fixed
 
 - Normalize the source spelling `Raducànu E.` to `Raducanu E.` before building processed match and network files.
+- `report_assets`: a table shows Holm-adjusted p-values only when every result file it draws from carries them, and otherwise shows the raw values under a raw heading, so stored results from before the correction are never labelled as adjusted. Tests in `tests/test_report_assets.py`.
+- Report: the Reproducibility section is shortened from 108 to about 40 words so that the report with all open pull requests stays under 5,000 words.
 
 ### Added
 
