@@ -42,32 +42,23 @@ A Comparative Study Across Eras, Surfaces, and Genders}
 \section{Introduction}
 \label{introduction}
 
-Social Network Analysis (SNA) offers a relational perspective on sports that complements conventional statistics such as wins and ranking points. Rather than treating each player in isolation, it represents players as nodes and matches as ties, then examines how repeated outcomes organize a competitive field \cite{newman2018}. Tennis is particularly suitable for this approach because every singles match connects two players through a clear outcome. We model a directed, weighted tie from the loser to the winner, with the weight recording how many times the winner defeated that opponent during the observation period. This direction treats prestige as flowing from defeated opponents to winners. The project applies this model to thirteen professional tennis networks, comparing ATP and WTA tours, historical eras, and court surfaces. The comparative networks draw on 114,084 matches, providing a consistent basis for examining how the structure of competition varies across time and sporting contexts.
+Social Network Analysis (SNA) offers a relational view of sports that complements wins and ranking points: players are nodes, matches are ties, and repeated outcomes organize a competitive field \cite{newman2018}. Every singles match in tennis links two players through a clear outcome. We model a directed, weighted tie from the loser to the winner, weighted by the number of victories over that opponent, so that prestige flows from defeated opponents to winners. The project applies this model to thirteen professional networks, comparing the ATP and WTA tours, historical eras, and court surfaces, on 114,084 matches.
 
 \section{Problem and Motivation}
 \label{problem-and-motivation}
 
-Radicchi \cite{radicchi2011} applied PageRank to historical professional tennis results to compare players across eras, weighting victories by the prominence of the defeated opponent, and Michieli \cite{michieli2018} reported short paths and prominent authorities in long-run ATP networks. Networks aggregated across many seasons, however, conceal changes in the competitive hierarchy over time, and they offer limited grounds for comparing court surfaces or the ATP and WTA over the same modern period. They also leave open how whole-network patterns relate to player-level prestige, pairwise dominance, and match scheduling.
+Radicchi \cite{radicchi2011} applied PageRank to historical tennis results to compare players across eras, and Michieli \cite{michieli2018} reported short paths and prominent authorities in long-run ATP networks. Aggregating many seasons, however, conceals changes in the competitive hierarchy and offers limited grounds for comparing surfaces, or the ATP and WTA, over the same modern period.
 
-Network analysis separates a player's centrality from the centralization of the whole graph \cite{freeman1978}. PageRank captures player-level prestige, whereas the top-ten PageRank share and degree centralization summarize how it is distributed: a network may contain a prestigious champion without being centralized overall.
-
-This project addresses how the organization of professional tennis shapes its competitive hierarchy. Knockout draws with seeding, surface calendars of different length, players' choice of events, and the separate ATP and WTA circuits all shape the observed matches, so a match network reflects the rules and schedules of competition as well as player ability. We ask whether prestige is concentrated in a small group, whether outcomes form a stable hierarchy, and whether this differs by era, surface, or tour, without equating structural position with intrinsic skill.
+Network analysis also separates a player's centrality from the centralization of the whole graph \cite{freeman1978}: a network may contain a prestigious champion without being centralized overall. We therefore compare PageRank-based prestige with graph-level concentration. Knockout draws with seeding, surface calendars of different length, players' choice of events, and the separate circuits all shape the observed matches, so a match network reflects the rules of competition as well as player ability, and we do not equate structural position with intrinsic skill.
 
 Three research questions guide the analysis:
 \begin{enumerate}
-    \item \textbf{RQ1, historical evolution:} How have prestige concentration and the hierarchy of match outcomes changed across eras, including the peak of the Big Three and the contemporary period?
-    \item \textbf{RQ2, surface ecology:} How do clay, hard, and grass networks differ in size, reciprocity, and prestige centralization?
-    \item \textbf{RQ3, tour comparison:} Over the common 2007-2025 observation window, how do network structure and prestige concentration compare between the ATP and WTA?
+    \item \textbf{RQ1, historical evolution:} How have prestige concentration and hierarchy changed across eras, including the Big Three peak?
+    \item \textbf{RQ2, surface ecology:} How do clay, hard, and grass networks differ in size, reciprocity, and centralization?
+    \item \textbf{RQ3, tour comparison:} Over 2007-2025, how do the ATP and WTA compare in structure and prestige concentration?
 \end{enumerate}
 
-The eight hypotheses, defined in Section~\ref{measures}, follow the four levels of the course framework: network-level comparisons of concentration, assortativity, surfaces, tours, and triadic hierarchy (H1 to H5); the monadic relation between PageRank and official ranking (H6); the dyadic carry-over of head-to-head dominance across surfaces (H7); and the mixed-level link between surface profiles and match frequency (H8). H7 and H8 use the Quadratic Assignment Procedure \cite{krackhardt1988}. Permutation tests and null models establish whether patterns exceed what degree, group size, or random relations produce; explanations based on seeding, calendars, or player choices remain interpretations, not established causes.
-
-The project makes three contributions:
-\begin{enumerate}
-    \item It compares eras, surfaces, and tours within a shared network framework.
-    \item It combines structural measures with tests at the network, monadic, dyadic, and mixed levels.
-    \item It treats the match network as a collective competitive system, complementing player statistics.
-\end{enumerate}
+The eight hypotheses of Section~\ref{measures} test these questions at the network (H1 to H5), monadic (H6), dyadic (H7), and mixed (H8) levels, the last two with the Quadratic Assignment Procedure \cite{krackhardt1988}. Permutation tests and null models establish whether patterns exceed what degree or group size alone would produce. The project contributes a comparison of eras, surfaces, and tours within one network framework, combined with tests at four relational levels.
 
 \section{Datasets}
 \label{datasets}
