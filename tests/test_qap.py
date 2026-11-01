@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from tennis_networks.qap import permutation_regression, qap_correlation
+from tennis_networks.qap import collinearity_diagnostics, permutation_regression, qap_correlation
 
 
 def _random_matrix(n, seed):
@@ -37,3 +37,10 @@ def test_permutation_regression_finds_the_true_predictor():
     assert by_name["signal"]["p_value"] < 0.01
     assert by_name["noise"]["p_value"] > 0.05
     assert by_name["signal"]["r2"] > 0.8
+
+
+def test_collinearity_diagnostics_exposes_predictor_dependence():
+    x = np.column_stack([np.arange(10), np.arange(10) * 2])
+    res = collinearity_diagnostics(x, ["pagerank", "wins"])
+    assert res["max_abs_correlation"] == pytest.approx(1.0)
+    assert res["condition_number"] > 1e10

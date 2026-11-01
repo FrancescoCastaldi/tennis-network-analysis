@@ -61,7 +61,10 @@ def monadic(n_perm, seed):
                     r["beta"],
                     r["p_value"],
                     len(df),
-                    f"R2 = {r['r2']:.3f}",
+                    (
+                        f"R2 = {r['r2']:.3f}; max |r| = {r['max_abs_correlation']:.3f}; "
+                        f"condition number = {r['condition_number']:.1f}"
+                    ),
                 )
             )
     return rows
