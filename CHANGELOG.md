@@ -49,6 +49,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 
 ### Changed
 
+- Report, Area B (Datasets, Validity and Reliability, Measures and Results): hypotheses are run-in headings with one verdict line each, spelling is harmonized to British forms, claims stated more strongly than the evidence are hedged, and one duplicated word is removed. No number, test or figure changes.
 - Report wording: removed stylised phrasing (rhetorical contrasts, inflated adjectives, participle tails) in favour of plain academic sentences. No number, result or claim changes.
 - The submission PDF of the report, named as the exam rules require, is kept in `report/submission/` (force-added despite the ignore rule for `report/main.pdf`).
 - Report layout follows the course template (`Network_Analysis_Project_Template.tex`): the template title block and section order, plain black headings, run-in paragraph headings, page numbers only. The custom title page and table of contents are removed, and the Reproducibility section is merged into Validity and Reliability. The 3 cm margins required by the course page stay, where the template uses 1 in.
