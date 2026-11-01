@@ -49,6 +49,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 
 ### Changed
 
+- The submission PDF of the report, named as the exam rules require, is kept in `report/submission/` (force-added despite the ignore rule for `report/main.pdf`).
 - Report layout follows the course template (`Network_Analysis_Project_Template.tex`): the template title block and section order, plain black headings, run-in paragraph headings, page numbers only. The custom title page and table of contents are removed, and the Reproducibility section is merged into Validity and Reliability. The 3 cm margins required by the course page stay, where the template uses 1 in.
 - Report structure and presentation: clarified the introduction, research questions, null-model methodology and limitations; added a reproducibility section, a sober title page with headers and table of contents, and a generated H1-H8 summary table with Holm-adjusted p-values.
 - `hypotheses` exposes `season_series`, `h1_rows`, `h3_rows` and `h4_rows` so that `sensitivity` reuses the same tests; `tennisdata.played` takes `keep_walkovers`. Saved results are unchanged.
