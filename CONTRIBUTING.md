@@ -42,11 +42,30 @@ ownership to revise, rewrite, or condense this text to balance the overall group
    never push directly to `main`. The `Main audit` workflow opens an issue if a commit reaches `main`
    without an approved PR.
 
+## Review handoff
+
+The author keeps the PR description current while the work changes. Before requesting review, provide
+the exact commands and results for linting, tests, word count and any pipeline stage that regenerated
+artifacts. The reviewer checks the result rows against the generated CSV or report assets, verifies
+that raw data was untouched, and replies to every requested change on the same PR thread. A review is
+not complete until the reviewer records a decision in section 9 of the PR template.
+
 ## Project board
 
 Every PR and issue is tracked in the private [`SNA Tennis` project](https://github.com/users/FrancescoCastaldi/projects/3): board by `Status`,
 fields `Role`, `Phase` and `Area` (A 20%, B 60%, C 20%, Delivery) that mirror the labels, and the milestone.
 The Google Sheet "SNA - UNIBO" stays the planning source; the project follows the code and report work.
+
+When opening an issue, complete the role, phase, goal and affected outputs before assigning work. When
+opening a PR, link the issue in `Closes:` and update the matching project item to `In Progress`.
+After merge or closure, set the project item to `Done` and record the result in the Google Sheet rather
+than creating a second tracking row. The sheet is the planning source, while issues and PRs are the
+auditable record of implementation and review.
+
+The optional `scripts/sync_sheet.py` helper updates the shared dashboard with the current word count,
+test count and one fixed task row. Run it with `--dry-run` first, never put credentials in the
+repository, and do not use it to overwrite planning decisions made by the group. If the helper is not
+available on your machine, update the sheet manually and mention the changed row in the issue or PR.
 
 ## Releases
 

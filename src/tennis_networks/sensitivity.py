@@ -10,6 +10,7 @@ difference comes from the data alone. The baseline must reproduce results/tables
 Outputs:
     results/tables/sensitivity_variants.csv   matches in each variant and change against the baseline
     results/tables/sensitivity_tests.csv      difference and p-value of each test in each variant
+    results/tables/sensitivity_scopes.csv     season and surface scope diagnostics
 """
 
 import argparse
@@ -43,6 +44,21 @@ def build_variants(raw):
     }
 
 
+def build_scope_variants(matches):
+    """Return pre-specified season and surface subsets for robustness checks."""
+    atp = matches[matches["tour"] == "ATP"]
+    return {
+        "all_matches": matches,
+        "atp_2000_2006": atp[atp["year"].between(2000, 2006)],
+        "atp_2007_2012": atp[atp["year"].between(2007, 2012)],
+        "atp_2013_2018": atp[atp["year"].between(2013, 2018)],
+        "atp_2019_2025": atp[atp["year"].between(2019, 2025)],
+        "atp_clay": atp[atp["surface"] == "Clay"],
+        "atp_hard": atp[atp["surface"] == "Hard"],
+        "atp_grass": atp[atp["surface"] == "Grass"],
+    }
+
+
 def run_tests(matches, n_perm, seed):
     """H1, H3 and H4 on one set of matches, as in `hypotheses`."""
     series = season_series(matches)
@@ -63,6 +79,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--perm", type=int, default=999, help="permutations per test (as in hypotheses)")
     parser.add_argument("--jobs", type=int, default=1, help="variants run in parallel")
+    parser.add_argument("--scopes", action="store_true", help="also write season and surface scope diagnostics")
     args = parser.parse_args()
     seed = load_config()["seed"]
     variants = build_variants(td.load_matches())
@@ -96,6 +113,18 @@ def main():
         ignore_index=True,
     )
     long.to_csv(TABLES / "sensitivity_tests.csv", index=False, encoding="utf-8")
+    if args.scopes:
+        scope_rows = [
+            {
+                "scope": name,
+                "matches": len(scope),
+                "seasons": scope["year"].nunique(),
+                "surfaces": ",".join(sorted(scope["surface"].dropna().unique())),
+                "tours": ",".join(sorted(scope["tour"].dropna().unique())),
+            }
+            for name, scope in build_scope_variants(variants["baseline"]).items()
+        ]
+        pd.DataFrame(scope_rows).to_csv(TABLES / "sensitivity_scopes.csv", index=False, encoding="utf-8")
     print(pd.read_csv(TABLES / "sensitivity_variants.csv").to_string(index=False))
     print(long.round(4).to_string(index=False))
 

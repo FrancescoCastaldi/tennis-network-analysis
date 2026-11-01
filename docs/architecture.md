@@ -50,7 +50,7 @@ data/processed/michieli_*.csv  data/processed/td_*.csv and *_ranks.csv
 | `analysis` | Computes configured network/node measures, null distributions and robustness outputs |
 | `hypotheses` | H1-H4, yearly statistics and undirected null comparisons |
 | `source_check` | Agreement of the two sources on loser-winner pairs and on player wins |
-| `sensitivity` | H1, H3 and H4 rerun under each cleaning choice; the baseline must reproduce `hypothesis_tests.csv` |
+| `sensitivity` | H1, H3 and H4 rerun under each cleaning choice; optional season and surface scope diagnostics; the baseline must reproduce `hypothesis_tests.csv` |
 | `structure` | HITS, discrete/continuous core-periphery and other structural comparisons |
 | `topology` | Power-law fits, compactness and ranking-band homophily |
 | `triads` | Network and season triad statistics, 16-class spectrum and H5 |

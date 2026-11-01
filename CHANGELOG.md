@@ -21,7 +21,9 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 - Hypothesis result tables now include Holm-adjusted p-values alongside the raw permutation values.
 - End-to-end and cross-worker reproducibility checks cover the analysis entry point and null models.
 
+- QAP regression collinearity diagnostics: predictor correlations and design-matrix condition numbers are recorded for H6, and the report qualifies the interpretation of PageRank and wins when they are not independently identified. Optional `sensitivity --scopes` diagnostics summarize season and surface subsets without changing the baseline sensitivity results.
 - Horizontal project banner: SVG vector graphic (`docs/assets/banner.svg`) with glowing court geometry and network player nodes, plus AI-rendered widescreen artwork (`docs/assets/banner.png`), embedded in `README.md` alongside updated test suite (178/178) and report word count (4,425/5,000) metrics.
+- Report Part A (Introduction, Problem and Motivation) from the draft by Shivam Kumar, condensed to about 355 words so that the whole report, with the open PRs, stays under the 5,000 word ceiling: the paragraphs listing H1 to H8 became one pointer to Section 5, and the prior-work and rationale paragraphs were shortened.
 - AI agent configuration and rules: `.cursorrules`, `.github/copilot-instructions.md`, and updated `CLAUDE.md` and `AGENTS.md` explicitly requiring dedicated feature branches and mandatory Pull Request workflows with template compliance and metadata.
 
 - `sensitivity` module: H1, H3 and H4 rerun with retirements dropped, walkovers kept, or carpet merged with hard courts, with the seed and permutations of `hypotheses`; the baseline must reproduce `hypothesis_tests.csv`. Outputs `results/tables/sensitivity_*.csv`, `tab_sensitivity.tex`, new paragraph and Table 3 in the report. Tests in `tests/test_sensitivity.py`.

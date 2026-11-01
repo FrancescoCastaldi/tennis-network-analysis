@@ -94,31 +94,23 @@ Shivam Kumar \quad Gaetano Muscarello
 \section{Introduction}
 \label{introduction}
 
-Professional tennis is a repeated competition system rather than a single league table:
-players meet through tournaments, surfaces and seasons, and every result changes the
-future opportunities of both athletes. A network representation makes this structure
-explicit. Nodes are players and weighted edges record repeated victories, so centrality
-captures not only how often a player wins but also whom they defeat. Earlier studies
-showed that this perspective recovers historical prestige and non-trivial topology
-\cite{radicchi2011,michieli2018}. We extend it with dated ATP and WTA observations,
-surface-specific networks, and null models that separate activity from structural
-assortativity. The aim is descriptive and comparative: the graphs do not replace
-official rankings or estimate causal effects.
+Social Network Analysis (SNA) offers a relational view of sports that complements wins and ranking points: players are nodes, matches are ties, and repeated outcomes organize a competitive field \cite{newman2018}. Every singles match in tennis links two players through a clear outcome. We model a directed, weighted tie from the loser to the winner, weighted by the number of victories over that opponent, so that prestige flows from defeated opponents to winners. The project applies this model to thirteen professional networks, comparing the ATP and WTA tours, historical eras, and court surfaces, on 114,084 matches.
 
 \section{Problem and Motivation}
 \label{problem-and-motivation}
 
-The motivating problem is to distinguish a stable competition architecture from changes
-in concentration and hierarchy. We ask whether the Big Three era was more centralized,
-whether grass produces a different competitive structure, whether ATP and WTA differ
-in concentration, and whether dominance carries across surfaces. H1-H4 concern
-network-level comparisons, H5 triadic hierarchy, H6 the relation between PageRank and
-official ranking, H7 cross-surface dominance, and H8 scheduling homophily. Each
-hypothesis is tested with a statistic and an explicit permutation or configuration
-null; unsupported hypotheses remain informative because they delimit what the data can
-show. Section~\ref{datasets} defines the data and graph semantics, Section~\ref{validity-and-reliability}
-checks provenance and robustness, and Section~\ref{measures} reports the measures and
-tests before the conclusion and critique.
+Radicchi \cite{radicchi2011} applied PageRank to historical tennis results to compare players across eras, and Michieli \cite{michieli2018} reported short paths and prominent authorities in long-run ATP networks. Aggregating many seasons, however, conceals changes in the competitive hierarchy and offers limited grounds for comparing surfaces, or the ATP and WTA, over the same modern period.
+
+Network analysis also separates a player's centrality from the centralization of the whole graph \cite{freeman1978}: a network may contain a prestigious champion without being centralized overall. We therefore compare PageRank-based prestige with graph-level concentration. Knockout draws with seeding, surface calendars of different length, players' choice of events, and the separate circuits all shape the observed matches, so a match network reflects the rules of competition as well as player ability, and we do not equate structural position with intrinsic skill.
+
+Three research questions guide the analysis:
+\begin{enumerate}
+    \item \textbf{RQ1, historical evolution:} How have prestige concentration and hierarchy changed across eras, including the Big Three peak?
+    \item \textbf{RQ2, surface ecology:} How do clay, hard, and grass networks differ in size, reciprocity, and centralization?
+    \item \textbf{RQ3, tour comparison:} Over 2007-2025, how do the ATP and WTA compare in structure and prestige concentration?
+\end{enumerate}
+
+The eight hypotheses of Section~\ref{measures} test these questions at the network (H1 to H5), monadic (H6), dyadic (H7), and mixed (H8) levels, the last two with the Quadratic Assignment Procedure \cite{krackhardt1988}. Permutation tests and null models establish whether patterns exceed what degree or group size alone would produce. The project contributes a comparison of eras, surfaces, and tours within one network framework, combined with tests at four relational levels.
 
 \section{Datasets}
 \label{datasets}
@@ -345,7 +337,7 @@ Structural equivalence, measured via opponent cosine similarity among regulars (
 \paragraph{Multi-level hypothesis testing.}
 Guided by the multi-level testing framework of course slide L04, we test relational dependencies across monadic, dyadic, and mixed attribute levels (Table~\ref{tab:levels}).
 
-\emph{H6 (monadic level, prestige versus win volume).} Across ATP eras we fitted log-log regressions $\log(\text{ranking}) = \alpha + \beta_1 \log(\text{PageRank}) + \beta_2 \log(\text{wins}) + \epsilon$ on standardised variables with 999 permutations ($R^2 = 0.611$ to $0.758$). In all eras $\beta_1$ is strongly negative and significant ($\beta_1 = -0.631$ to $-0.859, p = 0.001$), while wins add no explanatory power beyond PageRank ($\beta_2 = -0.012$ to $-0.154, p \ge 0.415$); the two are highly collinear, so PageRank carries the information of win counts. H6 is supported.
+\emph{H6 (monadic level, prestige versus win volume).} Across ATP eras we fitted log-log regressions $\log(\text{ranking}) = \alpha + \beta_1 \log(\text{PageRank}) + \beta_2 \log(\text{wins}) + \epsilon$ on standardised variables with 999 permutations ($R^2 = 0.611$ to $0.758$). In all eras $\beta_1$ is strongly negative and significant ($\beta_1 = -0.631$ to $-0.859, p = 0.001$), while wins add no explanatory power beyond PageRank ($\beta_2 = -0.012$ to $-0.154, p \ge 0.415$). The levels output now records pairwise predictor correlations and the design-matrix condition number; these diagnostics document the severe PageRank-wins collinearity, so the apparent lack of an incremental wins effect is not evidence that the two constructs are independently identified. H6 is supported with this qualification.
 
 \emph{H7 (dyadic level, cross-surface dominance carry-over).} Pairwise dominance was evaluated using anti-symmetric head-to-head balance matrices ($M_{ij} = w_{ij} - w_{ji}$) on clay, hard, and grass for shared regular players. QAP matrix permutation (999 permutations)~\cite{krackhardt1988} reveals significant positive correlation between hard-court balance and clay ($r = 0.149, p = 0.001, N = 328$) as well as grass ($r = 0.123, p = 0.001, N = 306$). Pairwise mastery transcends surface variations. H7 is supported.
 
