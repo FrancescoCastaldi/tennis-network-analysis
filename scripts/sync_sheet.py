@@ -1,69 +1,75 @@
-"""Automated synchronization of project metrics and status to Google Sheets.
+"""Synchronize the project dashboard with the group's Google Sheet.
 
 Usage:
-    python scripts/sync_sheet.py [--sheet-id ID] [--dry-run] [--skip-tests]
+    python scripts/sync_sheet.py [--sheet-id ID] [--dry-run]
+
+Environment:
+    SNA_SHEET_ID   Google Sheet ID, used when --sheet-id is not given.
+    GSHEETS_CMD    Command of the gsheets CLI (default: gsheets).
 
 This script:
-1. Runs automated pytest suite and collects passed / total test counts.
-2. Computes the current report word count against the 5,000-word limit.
-3. Updates the tracking dashboard (Panoramica) and task progress (Attivita)
-   in the exam Google Sheet using the gsheets skill.
+1. Runs the pytest suite and reads the passed and total test counts.
+2. Computes the report word count against the 5,000-word limit.
+3. Writes both figures into the dashboard (Panoramica) of the Google Sheet.
+
+Task rows in Attivita are updated by hand: a fixed row number would overwrite
+whatever task holds that row after the sheet is next edited.
 """
 
 from __future__ import annotations
 
 import argparse
+import os
+import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
-# Paths
 REPO_ROOT = Path(__file__).resolve().parent.parent
 REPORT_TEX = REPO_ROOT / "report" / "main.tex"
-GSHEETS_CMD = Path(r"D:\Actual\.agents\skills\gsheets\scripts\gsheets.cmd")
-DEFAULT_SHEET_ID = "1dP7wSrawDRVBZ_0TUiQTd1p2IdShwmcEY7R-W1mpBec"
+DEFAULT_GSHEETS_CMD = "gsheets"
 
 
 def get_word_count() -> int:
-    """Computes LaTeX report word count."""
+    """Computes the LaTeX report word count."""
     sys.path.insert(0, str(REPO_ROOT / "src"))
     from tennis_networks.wordcount import count
 
     if not REPORT_TEX.exists():
         raise FileNotFoundError(f"Report file not found: {REPORT_TEX}")
-    content = REPORT_TEX.read_text(encoding="utf-8")
-    return count(content)
+    return count(REPORT_TEX.read_text(encoding="utf-8"))
+
+
+def parse_pytest_summary(output: str) -> tuple[int, int]:
+    """Reads (passed, total) from the summary line of a pytest run, such as '186 passed in 30s'."""
+    passed_match = re.search(r"(\d+)\s+passed", output)
+    failed_match = re.search(r"(\d+)\s+failed", output)
+    if passed_match is None and failed_match is None:
+        raise ValueError("pytest printed no passed or failed count; the test suite did not run")
+    passed = int(passed_match.group(1)) if passed_match else 0
+    failed = int(failed_match.group(1)) if failed_match else 0
+    return passed, passed + failed
 
 
 def get_test_counts() -> tuple[int, int]:
-    """Runs pytest in the repo and extracts (passed, total) test count."""
+    """Runs pytest in the repo and returns (passed, total)."""
     pytest_exe = REPO_ROOT / ".venv" / "Scripts" / "pytest.exe"
     cmd = [str(pytest_exe) if pytest_exe.exists() else "pytest", "-q"]
     proc = subprocess.run(cmd, cwd=str(REPO_ROOT), capture_output=True, text=True, check=False)
-    output = proc.stdout + proc.stderr
-
-    # Pattern: '55 passed in 3.45s' or 'X passed, Y failed'
-    import re
-
-    passed_match = re.search(r"(\d+)\s+passed", output)
-    failed_match = re.search(r"(\d+)\s+failed", output)
-    passed = int(passed_match.group(1)) if passed_match else 0
-    failed = int(failed_match.group(1)) if failed_match else 0
-    total = passed + failed
-    if total == 0:
-        # Fallback to counting collected tests
-        collected_match = re.search(r"collected\s+(\d+)\s+items", output)
-        total = int(collected_match.group(1)) if collected_match else 56
-        passed = total
-    return passed, total
+    return parse_pytest_summary(proc.stdout + proc.stderr)
 
 
 def run_gsheets_command(args: list[str], dry_run: bool = False) -> str:
-    """Executes a gsheets command via gsheets.cmd."""
-    cmd = [str(GSHEETS_CMD), *args]
+    """Executes a gsheets command, resolving the CLI from GSHEETS_CMD or the PATH."""
+    name = os.environ.get("GSHEETS_CMD", DEFAULT_GSHEETS_CMD)
     if dry_run:
-        print(f"[DRY-RUN] Would execute: {' '.join(cmd)}")
+        print(f"[DRY-RUN] Would execute: {' '.join([name, *args])}")
         return "OK (dry-run)"
+    executable = shutil.which(name)
+    if executable is None:
+        raise SystemExit(f"gsheets CLI not found: set GSHEETS_CMD to its path (looked for '{name}')")
+    cmd = [executable, *args]
     proc = subprocess.run(cmd, cwd=str(REPO_ROOT), capture_output=True, text=True, encoding="utf-8", check=False)
     if proc.returncode != 0:
         print(f"Error running gsheets command: {proc.stderr}", file=sys.stderr)
@@ -72,7 +78,7 @@ def run_gsheets_command(args: list[str], dry_run: bool = False) -> str:
 
 
 def sync_to_sheets(sheet_id: str, words: int, passed: int, total: int, dry_run: bool = False) -> None:
-    """Updates Panoramica and Attivita in the target Google Sheet."""
+    """Writes the word count (Panoramica B5) and the test status (Panoramica F5)."""
     formatted_words = f"{words:,}".replace(",", ".")
     test_str = f"{passed}/{total} Test OK"
 
@@ -80,33 +86,23 @@ def sync_to_sheets(sheet_id: str, words: int, passed: int, total: int, dry_run: 
     print(f"  - Word Count: {formatted_words} (Limit: 5.000 max)")
     print(f"  - Test Suite: {test_str}")
 
-    # 1. Update Panoramica metrics: Word count in B5, Suite test in F5
+    # The leading apostrophe keeps the word count as text, so the locale does not parse it as a date.
     run_gsheets_command(["mutate", "write", sheet_id, "Panoramica!B5", f"'{formatted_words}"], dry_run=dry_run)
     run_gsheets_command(["mutate", "write", sheet_id, "Panoramica!F5", test_str], dry_run=dry_run)
-
-    # 2. Update Attivita row 19 for network core figure:
-    # Row 19 is 'B | Misure | Figura della rete: nucleo del 2007-2012 | B2 | Da fare | ...'
-    # E19 is Stato ('Completato'), F19 is Note ('Generata figura report/figures/fig_network_core_2007_2012.pdf')
-    note_text = "Generata figura report/figures/fig_network_core_2007_2012.pdf"
-    update_val = f"Completato,{note_text}"
-    run_gsheets_command(["mutate", "write", sheet_id, "Attività!E19:F19", update_val], dry_run=dry_run)
     print("Google Sheet sync completed successfully.")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--sheet-id", default=DEFAULT_SHEET_ID, help="Google Sheet ID")
+    parser.add_argument("--sheet-id", default=os.environ.get("SNA_SHEET_ID"), help="Google Sheet ID")
     parser.add_argument("--dry-run", action="store_true", help="Print operations without modifying sheet")
-    parser.add_argument("--skip-tests", action="store_true", help="Skip running pytest (use default count)")
     args = parser.parse_args()
+    if not args.sheet_id:
+        parser.error("give --sheet-id or set SNA_SHEET_ID")
 
     words = get_word_count()
-    if args.skip_tests:
-        passed, total = 56, 56
-    else:
-        print("Running pytest to verify test suite status...")
-        passed, total = get_test_counts()
-
+    print("Running pytest to verify test suite status...")
+    passed, total = get_test_counts()
     sync_to_sheets(args.sheet_id, words, passed, total, dry_run=args.dry_run)
 
 

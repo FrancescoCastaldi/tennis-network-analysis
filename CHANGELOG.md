@@ -11,6 +11,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 
 ### Fixed
 
+- `scripts/sync_sheet.py` no longer overwrites a fixed Attivita row with a hard-coded task, and fails instead of guessing the test count when pytest prints no summary.
 - Normalize the source spelling `Raducànu E.` to `Raducanu E.` before building processed match and network files.
 - `report_assets`: a table shows Holm-adjusted p-values only when every result file it draws from carries them, and otherwise shows the raw values under a raw heading, so stored results from before the correction are never labelled as adjusted. Tests in `tests/test_report_assets.py`.
 - Report: the Reproducibility section is shortened from 108 to about 40 words so that the report with all open pull requests stays under 5,000 words.
@@ -48,6 +49,9 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 - Approval policy that GitHub cannot enforce on a private repository without a paid plan: the `Approval gate` workflow shows a check `Approved by another reviewer` (an approval of the latest commit by someone other than the author, no change requested), and the `Main audit` workflow opens an issue when a commit reaches `main` without an approved PR. Both run `scripts/pr_policy.py`, tested in `tests/test_pr_policy.py`.
 
 ### Changed
+
+- `scripts/sync_sheet.py` reads the sheet ID from `SNA_SHEET_ID` and the gsheets CLI from `GSHEETS_CMD`: the local Windows path and the sheet ID are no longer in the source. Its `--skip-tests` option is removed.
+- Test count in the README and the report updated from 186 to 190 (the suite now includes `tests/test_sync_sheet.py`).
 
 - Report quality: the reference list has a `References` heading, ATP and WTA are defined at first use, the Introduction ends with a roadmap of the sections, and Measures and Results is split into five subsections. No number, result or figure changes.
 - Report, Area B (Datasets, Validity and Reliability, Measures and Results): hypotheses are run-in headings with one verdict line each, spelling is harmonized to British forms, claims stated more strongly than the evidence are hedged, and one duplicated word is removed. No number, test or figure changes.
