@@ -1,5 +1,4 @@
-# Source Code (`src/`)
+# Source code
 
-Root source directory containing the `tennis_networks` Python package.
-
-See [`tennis_networks/README.md`](tennis_networks/README.md) for full module documentation and architecture.
+The `tennis_networks` package is in [`tennis_networks/`](tennis_networks/README.md), which lists every module,
+what it reads and what it writes.

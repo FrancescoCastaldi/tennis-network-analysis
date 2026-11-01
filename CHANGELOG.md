@@ -50,6 +50,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 
 ### Changed
 
+- READMEs across the repository rewritten for structure and layout: consistent sections, tables and contents, and facts checked against the code. Corrected stale counts (tests, report tables and figures, word count), the list of test files, the modules and the files each stage produces, and the report status.
 - `scripts/sync_sheet.py` reads the sheet ID from `SNA_SHEET_ID` and the gsheets CLI from `GSHEETS_CMD`: the local Windows path and the sheet ID are no longer in the source. Its `--skip-tests` option is removed.
 - Test count in the README and the report updated from 186 to 190 (the suite now includes `tests/test_sync_sheet.py`).
 
