@@ -7,7 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts.
+
+### Fixed
+
+- Normalize the source spelling `Raducànu E.` to `Raducanu E.` before building processed match and network files.
+- `report_assets`: a table shows Holm-adjusted p-values only when every result file it draws from carries them, and otherwise shows the raw values under a raw heading, so stored results from before the correction are never labelled as adjusted. Tests in `tests/test_report_assets.py`.
+- Report: the Reproducibility section is shortened from 108 to about 40 words so that the report with all open pull requests stays under 5,000 words.
+
 ### Added
+
+- Run manifests record configuration, environment, and input fingerprints for analysis runs.
+- Hypothesis result tables now include Holm-adjusted p-values alongside the raw permutation values.
+- End-to-end and cross-worker reproducibility checks cover the analysis entry point and null models.
 
 - QAP regression collinearity diagnostics: predictor correlations and design-matrix condition numbers are recorded for H6, and the report qualifies the interpretation of PageRank and wins when they are not independently identified. Optional `sensitivity --scopes` diagnostics summarize season and surface subsets without changing the baseline sensitivity results.
 - Horizontal project banner: SVG vector graphic (`docs/assets/banner.svg`) with glowing court geometry and network player nodes, plus AI-rendered widescreen artwork (`docs/assets/banner.png`), embedded in `README.md` alongside updated test suite (178/178) and report word count (4,425/5,000) metrics.
@@ -37,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Report structure and presentation: clarified the introduction, research questions, null-model methodology and limitations; added a reproducibility section, a sober title page with headers and table of contents, and a generated H1-H8 summary table with Holm-adjusted p-values.
 - `hypotheses` exposes `season_series`, `h1_rows`, `h3_rows` and `h4_rows` so that `sensitivity` reuses the same tests; `tennisdata.played` takes `keep_walkovers`. Saved results are unchanged.
 - Report, Validity and Reliability: the cross-source paragraph cites the new figure, and the Tools, construct validity and Datasets prose is shortened (about 100 words) to make room for the sensitivity paragraph.
 - `README.md` brought up to date: an At a glance table, final results of H1 to H8 with their numbers (H5 p = 0.010, H2 z = 16 to 35), network structure, rich-club and data validity, the rich-club step in the pipeline table, the layout and the status of each report section.

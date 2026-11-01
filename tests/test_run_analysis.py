@@ -1,5 +1,6 @@
 """Unit tests and regression tests for run_analysis.py pipeline entry-point."""
 
+import json
 import sys
 from pathlib import Path
 
@@ -68,6 +69,10 @@ def test_run_analysis_smoke_pipeline(tmp_path):
     assert (out_dir / "centralities_top10.csv").exists()
     assert (out_dir / "kcore_decomposition.csv").exists()
     assert (out_dir / "small_world.csv").exists()
+    manifest = json.loads((out_dir / "run_manifest.json").read_text(encoding="utf-8"))
+    assert manifest["stage"] == "analysis"
+    assert manifest["config"]["sha256"]
+    assert manifest["inputs"]
 
 
 def test_betweenness_ignores_win_counts():
@@ -116,3 +121,18 @@ def test_network_list_leaves_out_points_network():
 
 def test_unknown_network_returns_error_code(tmp_path):
     assert run_analysis.main(["--quick", "--skip-null", "--network", "nope", "--output-dir", str(tmp_path)]) == 1
+
+
+def test_write_run_manifest_custom_config_path(tmp_path):
+    import json
+
+    from tennis_networks.config import write_run_manifest
+
+    cfg = tmp_path / "custom_config.json"
+    cfg.write_text("{}", encoding="utf-8")
+    out = tmp_path / "manifest.json"
+    dest = write_run_manifest(stage="test", config_path=str(cfg), output_path=str(out))
+    assert dest.exists()
+    data = json.loads(dest.read_text(encoding="utf-8"))
+    assert data["stage"] == "test"
+    assert "config" in data

@@ -110,6 +110,9 @@ make all                           # or the python -m commands below, one by one
 
 All random draws use the seed in [`config/networks.json`](config/networks.json) (`20261115`).
 Most of the running time goes into the null models; `--samples` and `--null` lower it for quick checks.
+Analysis runs also write `results/run_manifest.json`, recording the configuration hash, execution
+environment, Git commit, and SHA-256 fingerprints of the processed inputs. Hypothesis tables retain
+raw permutation p-values and add Holm-adjusted values in `p_value_holm`.
 
 ## Repository layout
 

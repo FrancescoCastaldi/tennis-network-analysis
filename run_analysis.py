@@ -29,7 +29,7 @@ if str(REPO_ROOT / "src") not in sys.path:
     sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from tennis_networks import nullmodels as nm  # noqa: E402
-from tennis_networks.config import load_config  # noqa: E402
+from tennis_networks.config import load_config, write_run_manifest  # noqa: E402
 from tennis_networks.structure import core_periphery  # noqa: E402
 
 # ==============================================================================
@@ -462,6 +462,24 @@ def main(argv=None):
 
     if args.network:
         print(f"Target network selected: {args.network}")
+
+    input_paths = [
+        DATA_DIR / "processed" / filename
+        for name, (filename, _directed) in NETWORK_FILES.items()
+        if not args.network or name == args.network
+    ]
+    write_run_manifest(
+        "analysis",
+        input_paths=input_paths,
+        output_path=output_dir / "run_manifest.json",
+        extra={
+            "quick": args.quick,
+            "network": args.network,
+            "num_samples": num_samples,
+            "nswaps_factor": nswaps_factor,
+            "skip_null": args.skip_null,
+        },
+    )
 
     # 2. Run full analysis
     run_full_analysis(networks, output_dir=output_dir, sw_samples=2 if args.quick else 5)

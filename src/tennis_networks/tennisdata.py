@@ -35,10 +35,15 @@ ERAS = {
     "2019_2025": (2019, 2025),
 }
 
+NAME_ALIASES = {
+    "Raducànu E.": "Raducanu E.",
+}
+
 
 def clean_name(name):
     """Collapse white space; the 'Surname I.' format is the same in both sources."""
-    return re.sub(r"\s+", " ", str(name)).strip()
+    cleaned = re.sub(r"\s+", " ", str(name)).strip()
+    return NAME_ALIASES.get(cleaned, cleaned)
 
 
 def load_matches(tours=("atp", "wta")):

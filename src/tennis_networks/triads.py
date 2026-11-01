@@ -29,6 +29,7 @@ from tennis_networks import nullmodels as nm
 from tennis_networks import tennisdata as td
 from tennis_networks.config import PROCESSED, TABLES, load_config
 from tennis_networks.hypotheses import group_permutation_test
+from tennis_networks.inference import add_holm_correction
 from tennis_networks.loaders import load_network
 from tennis_networks.structure import NETWORKS
 
@@ -175,7 +176,7 @@ def main():
         "diff": paired.mean(),
         "p_value": (extreme + 1) / (10 * args.perm + 1),
     }
-    out = pd.DataFrame([h5, tours])
+    out = add_holm_correction(pd.DataFrame([h5, tours]))
     out.to_csv(TABLES / "triads_h5.csv", index=False, encoding="utf-8")
     print(out.round(4).to_string(index=False))
 

@@ -15,6 +15,7 @@ Source code, compiled output, generated tables, and vector figures for the cours
   * `tab_structure.tex`: Advanced structural properties (HITS, Borgatti-Everett, small-world).
   * `tab_tests.tex`: Empirical tests of hypotheses H1 to H5.
   * `tab_levels.tex`: Multi-level hypothesis tests H5 to H8.
+  * `tab_hypotheses.tex`: H1-H8 summary with raw and Holm-adjusted p-values.
 * `figures/`: Vector PDF figures (and companion PNG files):
   * `fig_degree_ccdf.pdf`: Degree CCDF on log-log scales across networks.
   * `fig_robustness.pdf`: Targeted vs random node removal percolation curves.
@@ -32,6 +33,9 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error -cd report/main.tex
 The tables and figures already present can be compiled without rerunning the statistical pipeline.
 To regenerate those assets deliberately, run `python -m tennis_networks.report_assets`; never edit
 them by hand.
+The title page uses an optional official black University of Bologna wordmark at
+`figures/unibo-logo-black.pdf` when supplied. No logo file is committed currently, so the PDF falls
+back to a typographic institutional label rather than embedding an unverified asset.
 
 Check the current word count and remaining budget from the repository root:
 
