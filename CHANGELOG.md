@@ -49,6 +49,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 
 ### Changed
 
+- Report quality: the reference list has a `References` heading, ATP and WTA are defined at first use, the Introduction ends with a roadmap of the sections, and Measures and Results is split into five subsections. No number, result or figure changes.
 - Report, Area B (Datasets, Validity and Reliability, Measures and Results): hypotheses are run-in headings with one verdict line each, spelling is harmonized to British forms, claims stated more strongly than the evidence are hedged, and one duplicated word is removed. No number, test or figure changes.
 - Report wording: removed stylised phrasing (rhetorical contrasts, inflated adjectives, participle tails) in favour of plain academic sentences. No number, result or claim changes.
 - The submission PDF of the report, named as the exam rules require, is kept in `report/submission/` (force-added despite the ignore rule for `report/main.pdf`).

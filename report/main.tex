@@ -44,7 +44,7 @@
 \section{Introduction}
 \label{introduction}
 
-Social Network Analysis (SNA) offers a relational view of sports that complements wins and ranking points: players are nodes, matches are ties, and repeated outcomes organize a competitive field \cite{newman2018}. Every singles match in tennis links two players through a clear outcome. We model a directed, weighted tie from the loser to the winner, weighted by the number of victories over that opponent, so that prestige flows from defeated opponents to winners. The project applies this model to thirteen professional networks, comparing the ATP and WTA tours, historical eras, and court surfaces, on 114,084 matches.
+Social Network Analysis (SNA) offers a relational view of sports that complements wins and ranking points: players are nodes, matches are ties, and repeated outcomes organize a competitive field \cite{newman2018}. Every singles match in tennis links two players through a clear outcome. We model a directed, weighted tie from the loser to the winner, weighted by the number of victories over that opponent, so that prestige flows from defeated opponents to winners. The project applies this model to thirteen professional networks, comparing the men's (ATP) and women's (WTA) tours, historical eras, and court surfaces, on 114,084 matches. Section~\ref{problem-and-motivation} states the problem and the research questions, Section~\ref{datasets} describes the data, Section~\ref{validity-and-reliability} checks their validity, Section~\ref{measures} presents the measures and results, and Sections~\ref{conclusion} and~\ref{critique} interpret and critique them.
 
 \section{Problem and Motivation}
 \label{problem-and-motivation}
@@ -166,6 +166,8 @@ Each measure answers one of the questions of Section~\ref{problem-and-motivation
 \label{tab:global}
 \end{table}
 
+\subsection{Network structure}
+
 \paragraph{Size, cohesion and distances.} As Table~\ref{tab:global} reports, all networks are sparse (density $D = m / (n(n-1))$ from 0.009 to 0.032) yet compact: inside the largest strongly connected component (SCC, 62.2\% to 69.5\% of players), average geodesic distance spans 2.4 to 3.3 wins (diameter $\le 9$). Any two SCC players are linked by a directed victory chain, so upsets connect the entire tour. On the undirected projection the average distance is 2.5 to 3.1 steps, only 24\% to 42\% longer than in a random graph of the same size and mean degree (Table~\ref{tab:topology}). Peripheral nodes outside the SCC are mostly qualifiers with no wins. Reciprocity $\rho$ is approximately 0.30 across all networks except grass (0.086), where the short five-week calendar window limits rematches between the same opponents. Modularity $Q$ under Louvain community detection~\cite{blondel2008} is higher on the 26-season surface networks (0.38) than within eras (0.11 to 0.15), separating career cohorts who never overlapped in time (early 2000s veterans versus Big Three contemporaries versus recent debutants) rather than surface silos. Within any single era, the tour forms a single cohesive arena without geographical or stylistic enclaves.
 
 \paragraph{Degree distribution.} Figure~\ref{fig:degree} reports the log-log complementary cumulative distribution function (CCDF) of distinct opponents $k$. All curves show downward concavity, dropping steeply above 100 opponents. A maximum-likelihood fit with the method of Clauset, Shalizi and Newman~\cite{clauset2009} confirms that the tail is not a power law ($P(k) \sim k^{-\gamma}$): in every network a lognormal or a truncated power law fits the number of distinct opponents significantly better ($R < 0$, $p < 0.001$, Table~\ref{tab:topology}), and on clay and grass the exponential does too. In professional tennis, tournament bracket sizes (32 to 128 players) and annual schedules (18 to 25 events, maximum ~80 matches yearly) impose physical limits on encounters. Even durable champions cannot play more than 250 to 300 distinct opponents across a six-year era. Curves for ATP eras and WTA overlap closely, which points to shared institutional limits, whereas grass truncates earlier because its season is short.
@@ -195,6 +197,8 @@ Each measure answers one of the questions of Section~\ref{problem-and-motivation
 \label{fig:core_homophily}
 \end{figure}
 
+\subsection{Prestige and inequality}
+
 \paragraph{Dominance and prestige.} Following Radicchi~\cite{radicchi2011}, we compute directed PageRank~\cite{newman2018} on the loser-to-winner graph via $P_i = (1 - d)/n + d \sum_{j \in \mathcal{N}^{in}(i)} (w_{ji}/s_j^{out}) P_j$, with damping factor $d = 0.85$. PageRank provides a recursive prestige formulation: defeating an elite champion who rarely loses transfers vast prestige, whereas defeating an unranked wildcard transfers negligible prestige. PageRank correlates strongly with official median ranking (Spearman $\rho$ between $-0.80$ and $-0.85$, with grass at $-0.652$ reflecting surface specialization where big servers disrupt standard rankings). Win distribution is highly unequal, with in-strength Gini coefficients spanning 0.73 to 0.83 and Freeman degree centralization~\cite{freeman1978} between 0.08 and 0.17. Table~\ref{tab:top10} displays the top ten players by PageRank in each era and tour, aligning closely with official leaders (Federer in 2000-2006; Federer, Nadal, Djokovic, and Murray in 2007-2018; Medvedev, Djokovic, Zverev, Sinner, and Alcaraz in 2019-2025; Serena Williams, Halep, Kvitova, and Azarenka in WTA).
 
 \begin{table}[t]
@@ -206,6 +210,8 @@ Each measure answers one of the questions of Section~\ref{problem-and-motivation
 \label{tab:top10}
 \end{table}
 
+\subsection{Core and robustness}
+
 \paragraph{Core and robustness.} The $k$-core decomposition identifies a dense inner circle of regular touring professionals, with maximum core depth reaching 54 to 57 in ATP eras (19 on grass, 70 to 72 on 19-season tours). Targeted percolation by removing players in decreasing PageRank order reveals high elite vulnerability (Figure~\ref{fig:robustness}): removing the top 20\% halves the largest connected component, and removing 35\% to 40\% disconnects the network completely, whereas random removal degrades connectivity linearly. The 2019-2025 era is more resilient, retaining 60\% of its giant component at 20\% elite removal (compared to 51\% to 55\% in earlier eras), indicating a wider spread of matches among top contenders, not a small oligarchy.
 
 \begin{figure}[t]
@@ -214,6 +220,8 @@ Each measure answers one of the questions of Section~\ref{problem-and-motivation
 \caption{Robustness of the networks: relative size of the largest connected component after removing a share of the players in decreasing order of PageRank (solid) or at random (dashed, fixed seed).}
 \label{fig:robustness}
 \end{figure}
+
+\subsection{Null models and structural roles}
 
 \paragraph{Null models.} To separate tournament mechanics from pure degree effects, we compare empirical values against a configuration null model generated via 200 degree-preserving edge-swap realizations~\cite{maslov2002} (Table~\ref{tab:null}). Degree assortativity $r$ is significantly higher than null expectations in all eight networks of Table~\ref{tab:null} ($z$ between 16.1 and 35.4, empirical $p \le 0.01$). In random configuration graphs with skewed degrees, high-degree nodes combinatorially connect with low-degree nodes, producing strong negative assortativity ($-0.187$ to $-0.061$). Seeding, which keeps top seeds apart until the late rounds where they meet, is a plausible but untested reason: the configuration model has no bracket rules. Transitivity $T$ is much higher than null baselines ($z$ between 21.6 and 111.4), driven by recurring cliques among tournament finalists. Conversely, unweighted average clustering $C$ is slightly below null in ATP eras ($z$ between $-6.5$ and $-3.3$), so triadic closure is concentrated around the elite core, while peripheral qualifiers face disparate opponents who rarely play each other.
 
@@ -247,6 +255,8 @@ Structural equivalence, measured via opponent cosine similarity among regulars (
 \caption{Structural properties of the nine comparative networks. HITS correlations compare authority and hub scores with PageRank and median ranking; core-periphery reports Borgatti-Everett discrete model parameters, block densities ($d_{cc}, d_{cp}, d_{pp}$) and alignment with the maximum $k$-core; structural equivalence reports mean cosine similarity and QAP correlation with ranking gap; small-world index $\sigma$ is evaluated against Maslov-Sneppen null models; rich-club reports peak degree threshold $k^*$, elite club size $N_{>k^*}$, normalized coefficient $\rho_{\text{rich}}$, $z$-score against configuration null models and the 95th percentile of the largest null $z$ over all candidate thresholds.}
 \label{tab:structure}
 \end{table}
+
+\subsection{Hypotheses}
 
 \paragraph{Hypotheses and tests.} We evaluated eight hypotheses across network, monadic, dyadic, and mixed relational levels (Tables~\ref{tab:tests} and~\ref{tab:levels}). Size-dependent metrics are tested via season-level resampling or permutation methods preserving group dimensions. Alongside each raw permutation or null-model $p$-value, the pipeline computes a Holm step-down adjustment within the corresponding result table; the raw value remains available for transparent comparison.
 
@@ -328,6 +338,7 @@ measure.
 
 
 
+\section*{References}
 \begin{thebibliography}{99}\small
 \bibitem{michieli2018} U.~Michieli. Complex network analysis of men single ATP tennis matches. arXiv:1804.08138, 2018.
 \bibitem{tennisdata} tennis-data.co.uk. Historical tennis results and betting odds data. \url{http://www.tennis-data.co.uk/}, accessed 16 October 2026.
