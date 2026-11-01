@@ -1,19 +1,24 @@
-# Interactive Notebooks
+# Notebooks
 
-Interactive walkthroughs and visual inspection pipelines for team presentations and oral exam demonstrations.
+Walkthrough of the full pipeline, for reading, for presentations and for the oral exam.
 
-## Files
+## `full_pipeline.ipynb`
 
-* `full_pipeline.ipynb`: Sequential, executable demonstration of the entire pipeline from raw data parsing to hypothesis testing and figure generation.
-  * Features a `QUICK` switch:
-    * `QUICK = True`: Executes with lightweight null-model samples (~5 iterations) in under 2 minutes for live demos.
-    * `QUICK = False`: Executes full Monte Carlo simulation replicating all frozen report tables.
+Runs the pipeline from the processed data to the hypothesis tests and the figures. Each step shows its
+main table or figure. The outputs are saved in the notebook, so it can be read without running it.
+
+The `QUICK` switch at the top controls how long the null models run:
+
+| Setting | Use |
+|---|---|
+| `QUICK = True` | Short run for a live demonstration. The numbers are not the ones in the report |
+| `QUICK = False` | Full run. Reproduces the tables in the report |
 
 ## Setup
-
-Install optional notebook dependencies:
 
 ```bash
 pip install -e ".[dev,notebook]"
 jupyter lab notebooks/full_pipeline.ipynb
 ```
+
+Open the notebook on the `.venv` kernel and choose *Run All*.

@@ -1,42 +1,43 @@
 # Configuration
 
-`networks.json` is the canonical configuration for network selection, random seeds and sampling.
+`networks.json` is the single source of truth for which networks exist, how they are loaded, and the
+seed and sample sizes used by the statistics.
 
 ## Network identifiers
 
-The file contains 12 specifications:
+The file lists 12 networks. The identifier is what the command line uses (`--only <id>`, `--network <id>`);
+the file name is where the data lives in `data/processed/`. They are different fields.
 
-- Test fixture: `example_karate`, loaded from NetworkX.
-- Reference networks: `atp_wins_direct` and `atp_matches_undirect`, loading
-  `michieli_1_wins.csv` and `michieli_3_undirected.csv` respectively.
-- ATP eras: `td_atp_2000_2006`, `td_atp_2007_2012`, `td_atp_2013_2018`, `td_atp_2019_2025`.
-- ATP surfaces: `td_atp_clay`, `td_atp_grass`, `td_atp_hard`.
-- Tour comparison: `td_atp_2007_2025`, `td_wta_2007_2025`.
-
-Network IDs and processed filenames are different fields. Use the ID with
-`python -m tennis_networks.analysis --only <id>`.
+| Group | Identifiers |
+|---|---|
+| Test fixture | `example_karate` (loaded from NetworkX) |
+| Reference networks | `atp_wins_direct` (`michieli_1_wins.csv`), `atp_matches_undirect` (`michieli_3_undirected.csv`) |
+| ATP eras | `td_atp_2000_2006`, `td_atp_2007_2012`, `td_atp_2013_2018`, `td_atp_2019_2025` |
+| ATP surfaces | `td_atp_clay`, `td_atp_grass`, `td_atp_hard` |
+| Tours | `td_atp_2007_2025`, `td_wta_2007_2025` |
 
 ## Fields
 
 | Field | Meaning |
 |---|---|
-| `seed` | Canonical random seed, currently `20261115` |
-| `null_model_samples` | Default analysis null-sample count |
-| `test_null_samples` | Null graphs behind every significance test in the report (H2, triad ratios, triad spectrum); one value so that all z-scores and p-values rest on the same number of draws |
-| `betweenness_sample_threshold`, `betweenness_sample_size` | Node-count threshold and sample size for approximate betweenness |
-| `networks[].id` | Unique identifier used in results and CLI selection |
-| `networks[].file` | CSV or GraphML path relative to `data/processed/` |
-| `networks[].builtin` | Alternative to a file, currently `karate_club` |
-| `networks[].directed`, `networks[].weighted` | Graph description; the loader reads weights when the CSV column exists |
-| `networks[].ranks` | Optional CSV with `player,rank` columns |
-| `networks[].null_samples`, `networks[].small_world_samples` | Per-network sample settings used by the relevant stage |
+| `seed` | Random seed of every stochastic step, `20261115` |
+| `null_model_samples` | Default number of null graphs for an analysis run |
+| `test_null_samples` | Null graphs behind each significance test in the report (H2, triad ratios and spectrum). One value, so that all reported z-scores and p-values rest on the same number of draws |
+| `betweenness_sample_threshold`, `betweenness_sample_size` | Node count above which betweenness is estimated on a sample, and the sample size |
+| `networks[].id` | Unique identifier used in results and on the command line |
+| `networks[].file` | Path of the CSV or GraphML file, relative to `data/processed/` |
+| `networks[].builtin` | Use a built-in graph instead of a file (currently `karate_club`) |
+| `networks[].directed`, `networks[].weighted` | Graph type. The loader reads the weight column when the CSV has one |
+| `networks[].ranks` | Optional rank table with `player,rank` columns |
+| `networks[].null_samples`, `networks[].small_world_samples` | Per-network sample sizes for the stages that use them |
 
-## Workspace paths
+## Changing the workspace
 
-Paths are defined by `tennis_networks.config`. The optional `TENNIS_NETWORKS_ROOT` process
-environment variable overrides the repository root and must be set before importing the package.
-The alternate root must contain the configuration and input files required by the chosen stage.
-It does not copy data or isolate a run automatically. No credentials or `.env` file are needed.
+`tennis_networks.config` defines the paths. The optional environment variable `TENNIS_NETWORKS_ROOT`
+replaces the repository root. Set it before importing the package. The new root must contain the
+configuration and the input files that the stage needs. It does not copy data or isolate a run.
 
-See [architecture.md](../docs/architecture.md) for output ownership and
-[API.md](../docs/API.md#configuration-and-graph-loading) for the configuration loader.
+No credentials and no `.env` file are needed.
+
+See [architecture](../docs/architecture.md) for which stage writes which output, and
+[the configuration loader](../docs/API.md#configuration-and-graph-loading) in the API reference.
