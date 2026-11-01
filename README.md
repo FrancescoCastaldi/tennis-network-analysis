@@ -22,7 +22,7 @@ surfaces and the men's (ATP) and women's (WTA) tours. Group project for the Netw
 |---|---|
 | Networks | 13: 4 reference networks (Michieli) and 9 comparative networks built from 114,084 played matches (68,972 ATP, 45,112 WTA) |
 | Hypotheses | 8 tested: 6 supported, 1 not supported (H1), 1 rejected in the opposite direction (H2) |
-| Reproducibility | one seed (`20261115`), 178 tests, CI on every push, every table and figure generated from `results/` |
+| Reproducibility | one seed (`20261115`), 190 tests, CI on every push, every table and figure generated from `results/` |
 | Report | `report/main.tex`, 4,425 of 5,000 words; Introduction and Problem and Motivation still to be written |
 | Deadline | 27 November 2026, 23:59 (course exam session) |
 | Version | 0.2.7, see the [changelog](CHANGELOG.md) |
