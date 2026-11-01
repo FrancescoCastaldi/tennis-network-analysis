@@ -2,11 +2,26 @@ name: Bug or wrong number
 description: The pipeline fails, or a result looks wrong
 labels: ["type: bug"]
 body:
+  - type: dropdown
+    id: role
+    attributes:
+      label: Role
+      description: Who should lead the fix (see CONTRIBUTING.md)
+      options: ["A: context and motivation", "B1: datasets and validity", "B2: measures", "B3: hypotheses and tests", "C: interpretation and critique"]
+    validations:
+      required: true
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Phase
+      options: [setup, analysis, writing, delivery]
+    validations:
+      required: true
   - type: textarea
     id: what
     attributes:
       label: What happens
-      description: Command run, output or number observed
+      description: Command run, output or number observed. Include the affected file or report table.
       render: shell
     validations:
       required: true
@@ -16,6 +31,23 @@ body:
       label: What you expected, and why
     validations:
       required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction and environment
+      description: Smallest reproducible command, Python version, and whether the configured seed was used
+      render: shell
+    validations:
+      required: true
+  - type: checkboxes
+    id: integrity
+    attributes:
+      label: Integrity checks
+      options:
+        - label: I did not modify `data/raw/`.
+          required: true
+        - label: I checked whether `results/`, `report/tables/` or `report/figures/` changed.
+          required: true
   - type: input
     id: commit
     attributes:
