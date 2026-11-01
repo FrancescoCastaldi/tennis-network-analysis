@@ -50,6 +50,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 
 ### Changed
 
+- Report tightened from 19 to 17 pages (layout and two redundant tables), with the analysis unchanged: compact paragraph and section spacing, figures at 0.68 of the text width, two-column references, and smaller float separation. Every table and figure is now referenced in the text.
 - READMEs across the repository rewritten for structure and layout: consistent sections, tables and contents, and facts checked against the code. Corrected stale counts (tests, report tables and figures, word count), the list of test files, the modules and the files each stage produces, and the report status.
 - `scripts/sync_sheet.py` reads the sheet ID from `SNA_SHEET_ID` and the gsheets CLI from `GSHEETS_CMD`: the local Windows path and the sheet ID are no longer in the source. Its `--skip-tests` option is removed.
 - Test count in the README and the report updated from 186 to 190 (the suite now includes `tests/test_sync_sheet.py`).
@@ -87,6 +88,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 
 ### Removed
 
+- Report: the unreferenced H1-H8 summary table (its data is in the detailed test tables) and the top-10 PageRank table (the leaders are named in the text), to shorten the report. No test or result changes.
 - `run_analysis.py` no longer writes `hypotheses_results.csv`: its placeholder marked H5 as supported without a test and measured H1 on the wrong statistic. H1-H8 come from `make hypotheses triads levels`.
 - Unused loaders for `.mat` and `.edgelist` files, Michieli network 2 (symmetric weights, no winner) and the global NumPy seed in `run_analysis.py`; messages and comments are now in English.
 
