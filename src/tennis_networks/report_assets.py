@@ -735,10 +735,12 @@ def style():
             "font.family": "serif",
             "font.serif": ["Times New Roman", "Times", "DejaVu Serif"],
             "mathtext.fontset": "stix",
-            "font.size": 9,
-            "axes.labelsize": 9,
-            "axes.titlesize": 9,
-            "legend.fontsize": 8,
+            "font.size": 9.5,
+            "axes.labelsize": 10,
+            "axes.titlesize": 10.5,
+            "legend.fontsize": 8.5,
+            "xtick.labelsize": 8.5,
+            "ytick.labelsize": 8.5,
             "axes.edgecolor": MUTED,
             "axes.labelcolor": INK,
             "xtick.color": MUTED,
@@ -749,7 +751,7 @@ def style():
             "grid.color": GRID,
             "grid.linewidth": 0.6,
             "lines.linewidth": 1.6,
-            "lines.markersize": 4,
+            "lines.markersize": 4.5,
             "legend.frameon": False,
             "savefig.bbox": "tight",
         }
@@ -767,30 +769,30 @@ GROUPS = [("(a) ATP eras", ERAS), ("(b) ATP surfaces, 2000-2025", SURFACES), ("(
 
 
 def figure_degree():
-    fig, axes = plt.subplots(1, 3, figsize=(6.3, 2.3), sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(6.5, 2.7), sharey=True)
     for ax, (title, nets) in zip(axes, GROUPS, strict=True):
         for i, n in enumerate(nets):
             deg = np.sort(np.array([d for _, d in undirected(n).degree()]))
             ccdf = 1 - np.arange(len(deg)) / len(deg)
-            ax.loglog(deg, ccdf, color=COLORS[i], label=PLAIN[n], marker=MARKERS[i], markevery=0.12, markersize=3.5)
-        ax.set_title(title, loc="left")
+            ax.loglog(deg, ccdf, color=COLORS[i], label=PLAIN[n], marker=MARKERS[i], markevery=0.12, markersize=4)
+        ax.set_title(title, loc="left", fontsize=10)
         ax.set_xlabel("distinct opponents $k$")
-        ax.legend(loc="lower left")
+        ax.legend(loc="lower left", fontsize=8)
     axes[0].set_ylabel(r"$P(K \geq k)$")
     fig.tight_layout()
     save(fig, "fig_degree_ccdf")
 
 
 def figure_robustness():
-    fig, axes = plt.subplots(1, 3, figsize=(6.3, 2.4), sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(6.5, 2.85), sharey=True)
     for ax, (title, nets) in zip(axes, GROUPS, strict=True):
         for i, n in enumerate(nets):
             c = pd.read_csv(TABLES / f"{n}_robustness.csv")
-            ax.plot(c["fraction"], c["attack"], color=COLORS[i], marker=MARKERS[i], markersize=3, label=PLAIN[n])
-            ax.plot(c["fraction"], c["random"], color=COLORS[i], linestyle="--", linewidth=1.1)
-        ax.set_title(title, loc="left")
+            ax.plot(c["fraction"], c["attack"], color=COLORS[i], marker=MARKERS[i], markersize=3.5, label=PLAIN[n])
+            ax.plot(c["fraction"], c["random"], color=COLORS[i], linestyle="--", linewidth=1.2)
+        ax.set_title(title, loc="left", fontsize=10)
         ax.set_xlabel("share of players removed")
-        ax.legend(loc="lower left")
+        ax.legend(loc="lower left", fontsize=8)
     axes[0].set_ylabel("relative largest component")
     axes[2].text(
         0.98,
@@ -799,7 +801,7 @@ def figure_robustness():
         transform=axes[2].transAxes,
         ha="right",
         va="top",
-        fontsize=7.5,
+        fontsize=8,
         color=MUTED,
     )
     fig.tight_layout()
@@ -808,18 +810,18 @@ def figure_robustness():
 
 def figure_yearly():
     y = pd.read_csv(TABLES / "yearly_statistics.csv").set_index("season")
-    fig, axes = plt.subplots(1, 2, figsize=(6.3, 2.4))
+    fig, axes = plt.subplots(1, 2, figsize=(6.5, 2.85))
     stats = ("top10_pagerank_share", "degree_centralization")
     labels = ("(a) top-10 PageRank share", "(b) degree centralization")
     for ax, stat, label in zip(axes, stats, labels, strict=True):
         ax.axvspan(2006.5, 2018.5, color=GRID, alpha=0.6, linewidth=0)
         for i, tour in enumerate(("ATP", "WTA")):
             s = y[f"{tour}_{stat}"].dropna()
-            ax.plot(s.index, s.values, color=COLORS[i], marker=MARKERS[i], label=tour)
-        ax.set_title(label, loc="left")
+            ax.plot(s.index, s.values, color=COLORS[i], marker=MARKERS[i], markersize=4.5, linewidth=1.6, label=tour)
+        ax.set_title(label, loc="left", fontsize=10)
         ax.set_xlabel("season")
-        ax.legend(loc="upper right")
-    axes[0].text(2012.5, axes[0].get_ylim()[0], "2007-2018", ha="center", va="bottom", fontsize=7.5, color=MUTED)
+        ax.legend(loc="upper right", fontsize=8.5)
+    axes[0].text(2012.5, axes[0].get_ylim()[0], "2007-2018", ha="center", va="bottom", fontsize=8, color=MUTED)
     fig.tight_layout()
     save(fig, "fig_yearly")
 
@@ -828,19 +830,19 @@ def figure_sources():
     """tennis-data.co.uk against network 1 of Michieli: wins of whole-career players and loser-winner pairs."""
     players = pd.read_csv(TABLES / "td_michieli_players.csv")
     pairs = pd.read_csv(TABLES / "td_michieli_pairs.csv")
-    fig, (ax_wins, ax_pairs) = plt.subplots(1, 2, figsize=(6.3, 2.5), gridspec_kw={"width_ratios": [1, 1.25]})
+    fig, (ax_wins, ax_pairs) = plt.subplots(1, 2, figsize=(6.5, 2.8), gridspec_kw={"width_ratios": [1, 1.25]})
 
     x, y = players["wins_michieli"], players["wins_tennis_data"]
     top = max(x.max(), y.max()) * 1.05
     ax_wins.plot([0, top], [0, top], color=MUTED, linewidth=0.9, linestyle="--", zorder=1)
-    ax_wins.scatter(x, y, s=9, color=COLORS[0], alpha=0.6, edgecolors="none", zorder=2)
+    ax_wins.scatter(x, y, s=12, color=COLORS[0], alpha=0.6, edgecolors="none", zorder=2)
     r = np.corrcoef(x, y)[0, 1]
     ax_wins.text(0.04, 0.96, f"$n$ = {len(players)}, $r$ = {r:.2f}", transform=ax_wins.transAxes, va="top", color=MUTED)
     ax_wins.set_xlim(0, top)
     ax_wins.set_ylim(0, top)
     ax_wins.set_xlabel("wins in Michieli network 1")
     ax_wins.set_ylabel("wins in tennis-data.co.uk")
-    ax_wins.set_title("(a) players who debut after 2002", loc="left")
+    ax_wins.set_title("(a) players who debut after 2002", loc="left", fontsize=10)
 
     shares = pairs.set_index("outcome")["share"]
     colors = {
@@ -861,14 +863,14 @@ def figure_sources():
     ax_pairs.spines["left"].set_visible(False)
     handles = [plt.Rectangle((0, 0), 1, 1, color=colors[o]) for o in shares.index]
     labels = [f"{o} ({100 * s:.1f}%)" for o, s in shares.items()]
-    ax_pairs.legend(handles, labels, loc="lower left", ncol=2, fontsize=7, columnspacing=0.8, handlelength=1)
-    ax_pairs.set_title("(b) pairs between those players", loc="left")
+    ax_pairs.legend(handles, labels, loc="lower left", ncol=2, fontsize=7.5, columnspacing=0.8, handlelength=1)
+    ax_pairs.set_title("(b) pairs between those players", loc="left", fontsize=10)
     fig.tight_layout()
     save(fig, "fig_sources")
 
 
 def figure_network_core():
-    fig, (ax_net, ax_triad) = plt.subplots(1, 2, figsize=(6.3, 3.0), gridspec_kw={"width_ratios": [1.15, 1.0]})
+    fig, (ax_net, ax_triad) = plt.subplots(1, 2, figsize=(6.5, 3.5), gridspec_kw={"width_ratios": [1.18, 1.0]})
 
     # (a) Network core (Top 12 players of 2007-2012)
     spec_2007 = {"id": "td_atp_2007_2012", "file": "td_atp_2007_2012.csv", "directed": True}
@@ -878,8 +880,8 @@ def figure_network_core():
     sub = g.subgraph(top_players).copy()
 
     big4 = {"Nadal R.", "Djokovic N.", "Federer R.", "Murray A."}
-    node_colors = ["#2a78d6" if p in big4 else "#eb6834" for p in top_players]
-    node_sizes = [180 + 2600 * nodes_df.loc[p, "pagerank"] for p in top_players]
+    node_colors = ["#1f77b4" if p in big4 else "#e66101" for p in top_players]
+    node_sizes = [240 + 3200 * nodes_df.loc[p, "pagerank"] for p in top_players]
 
     pos = nx.circular_layout(top_players)
 
@@ -892,12 +894,12 @@ def figure_network_core():
             xytext=pos[u],
             arrowprops=dict(
                 arrowstyle="->",
-                color="#888888",
-                lw=0.4 + 0.12 * min(w, 10),
-                alpha=0.5,
-                shrinkA=9,
-                shrinkB=9,
-                connectionstyle="arc3,rad=0.07",
+                color="#666666",
+                lw=0.5 + 0.16 * min(w, 10),
+                alpha=0.6,
+                shrinkA=10,
+                shrinkB=10,
+                connectionstyle="arc3,rad=0.08",
             ),
         )
 
@@ -908,7 +910,7 @@ def figure_network_core():
         c=node_colors,
         zorder=5,
         edgecolors="#0b0b0b",
-        linewidths=0.8,
+        linewidths=0.9,
     )
 
     short_names = {
@@ -938,10 +940,10 @@ def figure_network_core():
         elif y < -0.5:
             va = "top"
         ax_net.text(
-            1.22 * x,
-            1.22 * y,
+            1.23 * x,
+            1.23 * y,
             short_names.get(p, p),
-            fontsize=6.5,
+            fontsize=7.5,
             ha=ha,
             va=va,
             weight="bold" if p in big4 else "normal",
@@ -949,14 +951,14 @@ def figure_network_core():
         )
 
     # Legend for Big Four vs Contenders
-    ax_net.scatter([], [], c="#2a78d6", s=50, edgecolors="#0b0b0b", lw=0.6, label="Big Four")
-    ax_net.scatter([], [], c="#eb6834", s=50, edgecolors="#0b0b0b", lw=0.6, label="Contenders")
-    ax_net.legend(loc="lower left", fontsize=6.5, frameon=False, bbox_to_anchor=(-0.05, -0.05))
+    ax_net.scatter([], [], c="#1f77b4", s=60, edgecolors="#0b0b0b", lw=0.7, label="Big Four")
+    ax_net.scatter([], [], c="#e66101", s=60, edgecolors="#0b0b0b", lw=0.7, label="Contenders")
+    ax_net.legend(loc="lower left", fontsize=7.5, frameon=False, bbox_to_anchor=(-0.05, -0.05))
 
-    ax_net.set_xlim(-1.6, 1.6)
-    ax_net.set_ylim(-1.6, 1.6)
+    ax_net.set_xlim(-1.65, 1.65)
+    ax_net.set_ylim(-1.65, 1.65)
     ax_net.axis("off")
-    ax_net.set_title("(a) 2007-2012 elite core (N = 12)", loc="left", fontsize=8.5)
+    ax_net.set_title("(a) 2007-2012 elite core tournament (N = 12)", loc="left", fontsize=9.5)
 
     # (b) Triad census spectrum
     spec_file = TABLES / "triads_spectrum_2007_2012.csv"
@@ -970,17 +972,17 @@ def figure_network_core():
     triad_types = list(df_spec["triad"])
     zs = df_spec["z"].fillna(0.0).to_numpy()
     y_pos = np.arange(len(triad_types))
-    colors = ["#2a78d6" if z >= 0 else "#eb6834" for z in zs]
+    colors = ["#1f77b4" if z >= 0 else "#e66101" for z in zs]
 
-    ax_triad.barh(y_pos, zs, color=colors, height=0.6, edgecolor="none", zorder=3)
+    ax_triad.barh(y_pos, zs, color=colors, height=0.68, edgecolor="none", zorder=3)
     ax_triad.axvline(0, color="#0b0b0b", linewidth=0.8, zorder=4)
     ax_triad.axvline(1.96, color="#52514e", linestyle="--", linewidth=0.6, zorder=2)
     ax_triad.axvline(-1.96, color="#52514e", linestyle="--", linewidth=0.6, zorder=2)
     ax_triad.set_yticks(y_pos)
-    ax_triad.set_yticklabels(triad_types, fontsize=6.5)
-    ax_triad.set_xlabel("z-score vs configuration null", fontsize=7.5)
-    ax_triad.set_title("(b) 16-class triad z-score spectrum", loc="left", fontsize=8.5)
-    ax_triad.tick_params(axis="both", which="major", labelsize=6.5)
+    ax_triad.set_yticklabels(triad_types, fontsize=7.5)
+    ax_triad.set_xlabel("z-score vs configuration null", fontsize=8.5)
+    ax_triad.set_title("(b) 16-class triad z-score spectrum", loc="left", fontsize=9.5)
+    ax_triad.tick_params(axis="both", which="major", labelsize=7.5)
     ax_triad.grid(True, linestyle=":", alpha=0.6, color="#e4e3df", zorder=0)
 
     fig.tight_layout()
@@ -1013,13 +1015,13 @@ def figure_core_homophily():
             m[i, j] = m[j, i] = r[col]
         return m
 
-    fig, axes = plt.subplots(1, 3, figsize=(6.3, 2.9), gridspec_kw={"width_ratios": [1.3, 1, 1]}, layout="constrained")
+    fig, axes = plt.subplots(1, 3, figsize=(6.5, 3.1), gridspec_kw={"width_ratios": [1.3, 1, 1]}, layout="constrained")
     ax = axes[0]
     ax.imshow(density, cmap="Greys", vmin=0, vmax=np.quantile(density, 0.98), interpolation="nearest")
     edge = k / size - 0.5
     ax.add_patch(plt.Rectangle((-0.5, -0.5), edge + 0.5, edge + 0.5, fill=False, edgecolor=COLORS[1], linewidth=1.6))
-    ax.set_title(f"(a) Core of {k} players ({stats['core_share']:.0%})", loc="left")
-    ax.set_xlabel("players by decreasing degree")
+    ax.set_title(f"(a) Core of {k} players ({stats['core_share']:.0%})", loc="left", fontsize=9.5)
+    ax.set_xlabel("players by decreasing degree", fontsize=8.5)
     ax.set_xticks([])
     ax.set_yticks([])
     ax.grid(False)
@@ -1027,34 +1029,35 @@ def figure_core_homophily():
     for ax, col, title in ((axes[1], "ratio_all", "(b) all players"), (axes[2], "ratio_deg", "(c) same degree")):
         m = matrix(col)
         im = ax.imshow(np.log2(m), cmap="RdBu_r", vmin=-4, vmax=4)
-        ax.set_xticks(range(3), labels, rotation=45, ha="right")
-        ax.set_yticks(range(3), labels if col == "ratio_all" else [""] * 3)
+        ax.set_xticks(range(3), labels, rotation=45, ha="right", fontsize=8)
+        ax.set_yticks(range(3), labels if col == "ratio_all" else [""] * 3, fontsize=8)
         for i in range(3):
             for j in range(3):
                 strong = abs(np.log2(m[i, j])) > 2.5
-                ax.text(j, i, f"{m[i, j]:.1f}", ha="center", va="center", fontsize=7, color="white" if strong else INK)
-        ax.set_title(title, loc="left")
+                ax.text(j, i, f"{m[i, j]:.1f}", ha="center", va="center", fontsize=8, color="white" if strong else INK)
+        ax.set_title(title, loc="left", fontsize=9.5)
         ax.grid(False)
     cbar = fig.colorbar(im, ax=axes[1:], shrink=0.75, pad=0.02)
-    cbar.set_label(r"$\log_2$ (observed / expected)")
+    cbar.ax.tick_params(labelsize=8)
+    cbar.set_label(r"$\log_2$ (observed / expected)", fontsize=8.5)
     save(fig, "fig_core_homophily")
 
 
 def figure_rich_club():
     """Compare peak normalized rich-club coefficients across the nine networks."""
     rc = pd.read_csv(TABLES / "rich_club_summary.csv").set_index("network").loc[NETS]
-    fig, ax = plt.subplots(figsize=(6.3, 2.65))
+    fig, ax = plt.subplots(figsize=(6.5, 2.9))
     positions = np.arange(len(NETS))
     for y, network in zip(positions, NETS, strict=True):
         value = rc.loc[network, "rho_rich_peak"]
-        ax.hlines(y, 1.0, value, color=COLORS[0], linewidth=1.2, alpha=0.65)
-        ax.scatter(value, y, s=24, color=COLORS[0], edgecolor="white", linewidth=0.5, zorder=3)
-        ax.text(value + 0.006, y, f"{value:.3f}", va="center", ha="left", fontsize=8, color=INK)
+        ax.hlines(y, 1.0, value, color=COLORS[0], linewidth=1.3, alpha=0.7)
+        ax.scatter(value, y, s=28, color=COLORS[0], edgecolor="white", linewidth=0.6, zorder=3)
+        ax.text(value + 0.006, y, f"{value:.3f}", va="center", ha="left", fontsize=8.5, color=INK)
     ax.axvline(1.0, color=MUTED, linestyle="--", linewidth=0.9)
-    ax.set_yticks(positions, [SHORT[n] for n in NETS])
+    ax.set_yticks(positions, [SHORT[n] for n in NETS], fontsize=8.5)
     ax.invert_yaxis()
     ax.set_xlim(0.99, 1.27)
-    ax.set_xlabel(r"peak normalized rich-club coefficient $\rho_{\mathrm{rich}}(k^*)$")
+    ax.set_xlabel(r"peak normalized rich-club coefficient $\rho_{\mathrm{rich}}(k^*)$", fontsize=9)
     ax.grid(axis="y", visible=False)
     fig.tight_layout()
     save(fig, "fig_rich_club")
