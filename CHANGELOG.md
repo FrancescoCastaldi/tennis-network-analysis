@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts. Directed Freeman centralization is normalized by the maximum total-degree star, and its interpretation is explicit in the report. The main ruleset requires one review and passing CI checks without administrator bypass.
+The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts. Directed Freeman centralization is normalized by the maximum total-degree star, and its interpretation is explicit in the report. The report has also been shortened while retaining its study design, measure interpretations, results, and limitations. The main ruleset requires one review and passing CI checks without administrator bypass.
+
+### Changed
+
+- Condense repeated background, methods, results, and conclusion text while preserving the thirteen-network design, A/B/C measure explanations, key values, limitations, and course formatting.
 
 ### Fixed
 
