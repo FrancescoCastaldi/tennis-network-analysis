@@ -1048,6 +1048,26 @@ def figure_core_homophily():
     save(fig, "fig_core_homophily")
 
 
+def figure_rich_club():
+    """Compare peak normalized rich-club coefficients across the nine networks."""
+    rc = pd.read_csv(TABLES / "rich_club_summary.csv").set_index("network").loc[NETS]
+    fig, ax = plt.subplots(figsize=(6.3, 2.65))
+    positions = np.arange(len(NETS))
+    for y, network in zip(positions, NETS, strict=True):
+        value = rc.loc[network, "rho_rich_peak"]
+        ax.hlines(y, 1.0, value, color=COLORS[0], linewidth=1.2, alpha=0.65)
+        ax.scatter(value, y, s=24, color=COLORS[0], edgecolor="white", linewidth=0.5, zorder=3)
+        ax.text(value + 0.006, y, f"{value:.2f}", va="center", ha="left", fontsize=8, color=INK)
+    ax.axvline(1.0, color=MUTED, linestyle="--", linewidth=0.9)
+    ax.set_yticks(positions, [SHORT[n] for n in NETS])
+    ax.invert_yaxis()
+    ax.set_xlim(0.99, 1.27)
+    ax.set_xlabel(r"peak normalized rich-club coefficient $\rho_{\mathrm{rich}}(k^*)$")
+    ax.grid(axis="y", visible=False)
+    fig.tight_layout()
+    save(fig, "fig_rich_club")
+
+
 def main():
     table_networks()
     table_reproduction()
@@ -1068,6 +1088,7 @@ def main():
     figure_network_core()
     figure_sources()
     figure_core_homophily()
+    figure_rich_club()
     print(f"Tables in {OUT_TAB}, figures in {OUT_FIG} (null models: {samples} samples)")
 
 
