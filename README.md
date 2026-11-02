@@ -40,7 +40,7 @@
 |---|---|
 | **Networks** | 13: 4 reference networks (Michieli, 2018) and 9 comparative networks built from 114,084 played matches (68,972 ATP, 45,112 WTA) |
 | **Hypotheses** | 8 tested: 6 supported, 1 not supported (H1), 1 rejected in the opposite direction (H2) |
-| **Reproducibility** | one seed (`20261115`), 192 tests, CI on every push, every table and figure generated from `results/` |
+| **Reproducibility** | one seed (`20261115`), 195 tests, CI on every push, every table and figure generated from `results/` |
 | **Report** | `report/main.tex`, 4,958 of 5,000 words, all sections written |
 | **Deadline** | 27 November 2026, 23:59 (course exam session) |
 | **Version** | 0.2.7, see the [changelog](CHANGELOG.md) |
@@ -134,10 +134,11 @@ Set `QUICK = True` for a short demonstration run. Use `QUICK = False` to reprodu
 
 All random draws use the seed in [`config/networks.json`](config/networks.json) (`20261115`). Most of
 the running time goes into the null models. `--samples` on the analysis stage sets the number of null
-graphs, and `python run_analysis.py --quick` runs a short check on selected networks. Analysis runs also
-write `results/run_manifest.json`, which records the configuration hash, the environment, the Git commit
-and SHA-256 fingerprints of the processed inputs. Hypothesis tables keep the raw permutation p-values and
-add Holm-adjusted values in `p_value_holm`.
+graphs. `python -m tennis_networks.analysis --centralization-only` refreshes the degree centralization
+column in an existing global table without rerunning null models. `python run_analysis.py --quick` runs a
+short check on selected networks. Analysis runs also write `results/run_manifest.json`, which records the
+configuration hash, the environment, the Git commit and SHA-256 fingerprints of the processed inputs.
+Hypothesis tables keep the raw permutation p-values and add Holm-adjusted values in `p_value_holm`.
 
 ## Repository layout
 
