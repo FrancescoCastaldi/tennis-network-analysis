@@ -17,6 +17,7 @@
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage{multicol}
+\usepackage{placeins}
 \usepackage{microtype}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{xurl}
@@ -76,7 +77,7 @@ Eight hypotheses test network-level patterns (H1 to H5) and monadic, dyadic, and
 \section{Datasets}
 \label{datasets}
 
-Each of the thirteen networks is a one-mode directed graph whose nodes are official singles players. An edge $(u,v)$ exists when $v$ beat $u$ in at least one main-draw match, and its weight $w_{uv}$ counts those wins. Thus, in-strength counts wins and out-strength counts losses. Undirected measures use an unweighted projection linking any pair with at least one match. Table~\ref{tab:networks} lists the networks analyzed.
+Each of the thirteen networks is a one-mode weighted directed graph $G=(V,E,W)$. Nodes are official singles players; an edge $(u,v)\in E$ exists when $v$ beat $u$ in a main-draw match, with weight $w_{uv}$ equal to the number of such wins. In-strength $s_i^{\mathrm{in}}=\sum_j w_{ji}$ counts wins, while out-strength $s_i^{\mathrm{out}}=\sum_j w_{ij}$ counts losses. Measures requiring undirected ties use the unweighted projection $G_u=(V,E_u)$, where $\{u,v\}\in E_u$ iff $w_{uv}+w_{vu}>0$. Table~\ref{tab:networks} lists the networks analyzed.
 
 \paragraph{Reference networks (Michieli, 2018).} The reference study provides four ATP adjacency matrices from 1968 to 2018~\cite{michieli2018}. M1 records directed wins, M3 is its unweighted undirected projection, and M4 adds Davis Cup, Challenger, and Futures matches. M2 uses mostly symmetric ATP-point weights and does not identify winners, so we exclude it. Without match dates, these networks support replication checks but not comparisons by era, surface, or tour.
 
@@ -84,7 +85,7 @@ Each of the thirteen networks is a one-mode directed graph whose nodes are offic
 
 These records yield nine directed, weighted networks: four ATP eras, three ATP surfaces, and ATP and WTA networks for 2007 to 2025. Era volumes range from 15,661 to 20,265 matches; 2007 to 2012 covers the Big Three peak. Tournaments use single-elimination draws of 32 to 128 players, with seeding separating top players in early rounds. We assign ranking bands from each player's median official rank: top 10, ranks 11 to 100, and above 100.
 
-\paragraph{Tools and inference.} Analyses use CSV edge lists and Python, NetworkX 3.6~\cite{networkx}, pandas, and SciPy. We generate 200 degree-preserving configuration nulls and use 999 permutations where stated. All runs use seed 20261115; two-sided empirical $p$-values use a $+1$ correction. Nulls do not encode seeding or calendar constraints.
+\paragraph{Tools and inference.} Analyses use CSV edge lists and Python, NetworkX 3.6~\cite{networkx}, pandas, and SciPy. We generate 200 degree-preserving configuration nulls and use 999 permutations where stated. All runs use seed 20261115; two-sided permutation $p$-values use $p=(b+1)/(B+1)$, where $b$ of $B$ permuted statistics are at least as extreme as the observed value. Nulls do not encode seeding or calendar constraints.
 
 \begin{table}[htbp]
 \centering
@@ -148,6 +149,42 @@ Table~\ref{tab:abc} maps each phenomenon to its measure and interpretation in te
 \caption{Phenomenon, measure and interpretation for each family of measures (rule A, B, C of the course).}
 \label{tab:abc}
 \end{table}
+\FloatBarrier
+
+\subsection{Operational definitions}
+
+The following definitions make the principal reported statistics reproducible.
+
+\paragraph{Prestige and inequality.} Weighted directed PageRank~\cite{radicchi2011,newman2018} transfers prestige along loser-to-winner ties. Its recursive score, the share held by the top ten players, and the Gini coefficient of in-strength $x$ are:
+\begin{align}
+P_i &= \frac{1-d}{n}+d\sum_{j\in\mathcal{N}^{\mathrm{in}}(i)}\frac{w_{ji}}{s_j^{\mathrm{out}}}P_j, \qquad d=0.85, \\
+S_{10} &= \frac{\sum_{i\in T_{10}}P_i}{\sum_{j\in V}P_j}, \qquad
+G(x)=\frac{\sum_{i=1}^{n}(2i-n-1)x_{(i)}}{n\sum_{i=1}^{n}x_{(i)}}.
+\end{align}
+Here $T_{10}$ is the set of ten highest PageRank scores and $x_{(i)}$ are strengths sorted in ascending order. Freeman total-degree centralization~\cite{freeman1978} is normalized to one for a reciprocal star:
+\begin{equation}
+C_D=\frac{\sum_{i=1}^{n}(k_{\max}-k_i)}{2(n-1)(n-2)}, \qquad k_i=k_i^{\mathrm{in}}+k_i^{\mathrm{out}}.
+\end{equation}
+
+\paragraph{Cohesion, groups and robustness.} For the directed graph, density is $D=m/[n(n-1)]$. Degree assortativity on $G_u$ is the Pearson correlation of endpoint degrees. In its giant component of size $n_g$, mean distance and global efficiency are $L=[n_g(n_g-1)]^{-1}\sum_{i\ne j}d_{ij}$ and $E_{\mathrm{glob}}=[n_g(n_g-1)]^{-1}\sum_{i\ne j}d_{ij}^{-1}$. Local clustering and transitivity on $G_u$ are $C_i=2t_i/[k_i^u(k_i^u-1)]$ (zero when $k_i^u<2$), $C=n^{-1}\sum_i C_i$, and $T=3N_{\triangle}/N_{\wedge}$, where $t_i$ counts triangles through $i$, $N_{\triangle}$ counts triangles, and $N_{\wedge}$ counts connected triples. Weighted Louvain modularity is $Q=(2m_u)^{-1}\sum_{ij}(A_{ij}-s_i^u s_j^u/(2m_u))\mathbf{1}(c_i=c_j)$, where $A$ is the weighted adjacency matrix, $s_i^u$ weighted degree, and $m_u$ total edge weight. The small-world index and normalized rich-club coefficient are:
+\begin{align}
+\sigma &= \frac{C/C_{\mathrm{null}}}{L/L_{\mathrm{null}}}, \qquad
+\phi(k)=\frac{2E_{>k}}{N_{>k}(N_{>k}-1)}, \qquad
+\rho_{\mathrm{rich}}(k)=\frac{\phi(k)}{\langle\phi_{\mathrm{null}}(k)\rangle}, \\
+R_{\mathrm{triad}} &= \frac{N_{030C}}{N_{030T}}, \qquad
+R(q)=\frac{|\operatorname{LCC}(G_u\setminus A_q)|}{|\operatorname{LCC}(G_u)|}.
+\end{align}
+For $\sigma$, $C$ and $L$ are evaluated on the giant component; null values are means over degree-preserving rewires~\cite{maslov2002}. $E_{>k}$ and $N_{>k}$ count ties and players above degree threshold $k$; $R_{\mathrm{triad}}$ compares cyclic with transitive triads. $A_q$ is the set of players removed at fraction $q$, by PageRank or at random.
+
+\paragraph{Roles and relational tests.} HITS scores satisfy $\mathbf{a}\propto A^\top\mathbf{h}$ and $\mathbf{h}\propto A\mathbf{a}$~\cite{kleinberg1999}. Opponent-profile equivalence is the cosine $E_{ij}=\mathbf{x}_i^\top\mathbf{x}_j/(\|\mathbf{x}_i\|_2\|\mathbf{x}_j\|_2)$, where $\mathbf{x}_i$ records player $i$'s meetings with each opponent. H6 estimates the standardized log-log regression
+\begin{equation}
+z(\log r_i)=\alpha+\beta_1z(\log P_i)+\beta_2z(\log W_i)+\varepsilon_i,
+\end{equation}
+where $z$ denotes standardization, $r_i$ is median official rank, $P_i$ PageRank, and $W_i$ wins. For H7, $B_{ij}^{(s)}=W_{i\to j}^{(s)}-W_{j\to i}^{(s)}$ is the head-to-head balance on surface $s$. QAP~\cite{krackhardt1988} compares matrices by the correlation of their off-diagonal cells:
+\begin{equation}
+r_{\mathrm{QAP}}(X,Y)=\operatorname{corr}(\operatorname{vec}_{i\ne j}(X),\operatorname{vec}_{i\ne j}(Y)).
+\end{equation}
+Rows and columns of one matrix are permuted together, preserving its dyadic structure. For H8, $\delta_i$ is the clay-minus-hard win-rate gap, $g_i$ its surface profile, $S_{ij}=\mathbf{1}(g_i=g_j)$, and $D_{ij}=|\delta_i-\delta_j|$; both matrices are tested against the matrix of meetings.
 
 \begin{table}[htbp]
 \centering
@@ -162,7 +199,7 @@ Table~\ref{tab:abc} maps each phenomenon to its measure and interpretation in te
 
 \paragraph{Size, cohesion and distances.} All networks are sparse (density 0.009 to 0.032) yet compact: the largest strongly connected component (SCC) contains 62.2\% to 69.5\% of players, with average directed distance 2.4 to 3.3 wins (diameter at most 9). On the undirected projection, average distance is 2.5 to 3.1 steps, 24\% to 42\% above a random graph of the same size and mean degree (Table~\ref{tab:topology}). Reciprocity is about 0.30 except on grass (0.086), consistent with fewer rematches during its five-week season. Louvain modularity~\cite{blondel2008} is higher on 26-season surface networks (0.38) than in eras (0.11 to 0.15), reflecting career cohorts rather than surface silos.
 
-\paragraph{Degree distribution.} Figure~\ref{fig:degree} shows the log-log complementary distribution of distinct opponents. Likelihood-ratio tests~\cite{clauset2009} reject a power-law tail in all nine networks ($R < 0$, $p < 0.001$); lognormal or truncated power laws fit better, and the exponential also fits clay and grass (Table~\ref{tab:topology}). Draw sizes and schedules bound the number of opponents, while the similar ATP-era and WTA curves suggest shared limits. Grass truncates earlier, consistent with its shorter season.
+\paragraph{Degree distribution.} Figure~\ref{fig:degree} shows the log-log complementary distribution of distinct opponents; a scale-free tail would follow $P(k)\propto k^{-\alpha}$. Likelihood-ratio tests~\cite{clauset2009} reject a power-law tail in all nine networks ($R < 0$, $p < 0.001$); lognormal or truncated power laws fit better, and the exponential also fits clay and grass (Table~\ref{tab:topology}). Draw sizes and schedules bound the number of opponents, while the similar ATP-era and WTA curves suggest shared limits. Grass truncates earlier, consistent with its shorter season.
 
 \begin{figure}[htbp]
 \centering
@@ -306,7 +343,7 @@ Among regulars with at least 30 opponents, cosine similarity of opponent profile
 
 
 
-\section*{References}
+
 \begin{multicols}{2}
 \begin{thebibliography}{99}\footnotesize\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}
 \bibitem{michieli2018} U.~Michieli. Complex network analysis of men single ATP tennis matches. arXiv:1804.08138, 2018.

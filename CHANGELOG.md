@@ -10,10 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts. Directed Freeman centralization is normalized by the maximum total-degree star, and its interpretation is explicit in the report. The report has also been shortened while retaining its study design, measure interpretations, results, and limitations. The main ruleset requires one review and passing CI checks without administrator bypass.
 
 ### Changed
+- Restore explicit graph, centrality, cohesion, and relational-test definitions so the report presents the formulas behind its measures alongside their interpretation.
 
 - Condense repeated background, methods, results, and conclusion text while preserving the thirteen-network design, A/B/C measure explanations, key values, limitations, and course formatting.
 
 ### Fixed
+- Remove the duplicate explicit References heading so the bibliography shows one title with consistent spacing before its two-column list.
 
 - Normalize directed Freeman centralization by the maximum total-degree star, so reciprocal and one-way stars score 1 and 0.5 respectively. Clarify the measure in the API, methodology and report, and correct the reported network range.
 - Add `analysis --centralization-only` to reproduce a corrected centralization column without rerunning expensive null models or rewriting unrelated outputs.
