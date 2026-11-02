@@ -1,27 +1,27 @@
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.23\linewidth}>{\raggedright\arraybackslash}p{0.29\linewidth}>{\raggedright\arraybackslash}p{0.44\linewidth}@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.22\linewidth}>{\raggedright\arraybackslash}p{0.28\linewidth}>{\raggedright\arraybackslash}p{0.43\linewidth}@{}}
 \toprule
 Phenomenon (A) & Measure (B) & Interpretation in tennis (C) \\
 \midrule
-Who dominates, and who forms the elite of an era & In- and out-degree, PageRank, HITS authority and hub scores & In-degree counts the opponents a player has beaten; PageRank discounts wins over weak opponents, so it rewards beating players who also win; an authority beats players who go deep. \\
+Who wins, and who holds prestige & In- and out-degree, PageRank, HITS authority and hub scores & In-degree counts distinct opponents defeated; out-degree counts distinct opponents lost to. PageRank weights wins by opponent prestige; an authority beats players who also score highly, while a hub beats authorities. \\
 \addlinespace[3pt]
-How unequal prestige and wins are & Share of PageRank held by the top 10, Gini coefficient of in-strength & A high share means a few players hold most of the prestige of the tour; a low one means wins are spread over many players (competitive balance). \\
+How concentrated prestige and wins are & Share of PageRank held by the top 10, Gini coefficient of in-strength & A high top-10 share concentrates prestige. A high Gini means wins are unevenly distributed. \\
 \addlinespace[3pt]
-Backbone of the tour: regular professionals against the periphery & $k$-core decomposition, Borgatti-Everett core-periphery model & The core is the inner circle that meets everyone; the periphery is made of qualifiers and one-off entrants who mostly meet core players. \\
+Core players and the wider field & $k$-core decomposition, Borgatti-Everett core-periphery model & A $k$-core keeps players with at least $k$ ties inside the set. The fitted model compares within-core and between-group densities; neither requires every core pair to have played. \\
 \addlinespace[3pt]
-Integration against fragmentation & Components, average distance, diameter, global efficiency, ratio to a random reference & Short distances mean that an upset chain connects any two players: the tour is one arena, not a set of separate circuits. \\
+How connected the tour is & Components, average distance, diameter, global efficiency, ratio to a random reference & Components count separate groups; distances count steps between players. Short paths and high efficiency indicate a more connected field. \\
 \addlinespace[3pt]
-Robustness to losing its stars & Largest component after removing players at random and in decreasing PageRank order & A faster drop under targeted removal than under random removal shows how much of the connectivity of the tour rests on a few high-prestige players. \\
+Dependence on top players & Largest component after removing players at random and in decreasing PageRank order & A faster loss of connectivity after removing high-PageRank players shows greater reliance on leading players. \\
 \addlinespace[3pt]
-Local rivalries and hierarchy & Clustering, transitivity, triad census & Closed triads are players with common opponents; a transitive triad is a clean hierarchy (A beats B beats C, A beats C) and a cycle is an upset loop. \\
+Closed rivalries and win hierarchy & Clustering, transitivity, triad census & Clustering measures closed opponent ties locally; transitivity measures closed triples overall. Triads distinguish transitive results from cycles of wins. \\
 \addlinespace[3pt]
-Whether the tour has mega-hubs & Power-law fit of the degree distribution and likelihood-ratio tests against lognormal, exponential and truncated power law & A power law would mean a few players meet a very large share of the field; bracket sizes and calendars bound the number of opponents, so a bounded tail is expected. \\
+Whether opponent counts have a heavy tail & Power-law fit of the degree distribution and likelihood-ratio tests against lognormal, exponential and truncated power law & A power-law tail would mean a few players face many more opponents. Tournament draws and season length set a practical upper bound, so alternatives are compared as well. \\
 \addlinespace[3pt]
-Do top players meet top players & Degree and ranking-band assortativity, band mixing against permutation nulls & Positive values mean elite against elite; a hub-and-spoke tour gives negative values. The null that keeps the number of opponents separates seeding from plain activity. \\
+Do highly ranked or active players meet each other & Degree and ranking-band assortativity, band mixing against permutation nulls & Positive assortativity means similar-degree players meet. Band-mixing ratios compare observed matches with shuffled ranks, including a shuffle that controls opponent counts. \\
 \addlinespace[3pt]
-Structural roles & Cosine similarity of opponent vectors, QAP correlation with the ranking gap & Players who face the same opponents occupy the same position in the tour; the QAP test asks whether this position tracks ranking. \\
+Whether players occupy similar positions & Cosine similarity of opponent vectors, QAP correlation with the ranking gap & Cosine similarity compares opponent profiles. QAP tests whether profile similarity tracks the gap in official ranking. \\
 \addlinespace[3pt]
-Artefact of the degree distribution or real structure & Configuration model, $z$-scores and permutation $p$-values, small-world index $\sigma$ & A statistic far from its degree-preserving random value reflects how the tournaments are organised, not just how many opponents each player has. \\
+Structure beyond opponent counts & Configuration model, $z$-scores and permutation $p$-values, small-world index $\sigma$ & Degree-preserving nulls keep each player's opponent count. Differences from them show patterns not explained by those counts alone. \\
 \addlinespace[3pt]
-Cohorts and surface circuits & Louvain communities and modularity & Communities in tennis are mostly career cohorts that never overlapped in time rather than geographic or stylistic blocs. \\
+Groups and career cohorts & Louvain communities and modularity & Modularity measures how strongly matches fall within detected groups. Here, groups can reflect players whose careers overlapped in time. \\
 \bottomrule
 \end{tabular}

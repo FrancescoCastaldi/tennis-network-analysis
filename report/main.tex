@@ -135,14 +135,14 @@ Source files are pinned by SHA-256 digests, and all stochastic analyses use seed
 \scriptsize
 \setlength{\tabcolsep}{2.5pt}
 \gentable{tab_sensitivity.tex}
-\caption{Difference between the groups of each test, with the two-sided $p$ in brackets, under each cleaning choice (same seed and permutations as in Section~\ref{measures}). The last column says whether $p$ stays on the same side of 0.05.}
+\caption{Difference and two-sided raw $p$ in brackets under each cleaning choice, using the seed and permutations in Section~\ref{measures}. The last column reports whether $p$ stays on the same side of 0.05; H1 remains borderline.}
 \label{tab:sensitivity}
 \end{table}
 
 \section{Measures and Results}
 \label{measures}
 
-Table~\ref{tab:abc} maps each phenomenon to its measure and interpretation in tennis. Table~\ref{tab:global} reports results for the nine comparative networks; clustering, assortativity, and $k$-cores use the unweighted undirected projection.
+Table~\ref{tab:abc} links phenomena to their measures and tennis meanings; Table~\ref{tab:global} compares the nine networks.
 
 \begin{table}[htbp]
 \centering
@@ -155,50 +155,26 @@ Table~\ref{tab:abc} maps each phenomenon to its measure and interpretation in te
 
 \subsection{Operational definitions}
 
-The following definitions make the principal reported statistics reproducible.
+The following definitions formalize the core network metrics evaluated across the comparative datasets.
 
-\paragraph{Prestige and inequality.} Weighted directed PageRank~\cite{radicchi2011,newman2018} transfers prestige along loser-to-winner ties. Its recursive score, the share held by the top ten players, and the Gini coefficient of in-strength $x$ are:
-\begin{align}
-P_i &= \frac{1-d}{n}+d\sum_{j\in\mathcal{N}^{\mathrm{in}}(i)}\frac{w_{ji}}{s_j^{\mathrm{out}}}P_j, \qquad d=0.85, \\
-S_{10} &= \frac{\sum_{i\in T_{10}}P_i}{\sum_{j\in V}P_j}, \qquad
-G(x)=\frac{\sum_{i=1}^{n}(2i-n-1)x_{(i)}}{n\sum_{i=1}^{n}x_{(i)}}.
-\end{align}
-Here $T_{10}$ is the set of ten highest PageRank scores and $x_{(i)}$ are strengths sorted in ascending order.\par\smallskip
-Freeman total-degree centralization~\cite{freeman1978} is normalized to one for a reciprocal star:
+\paragraph{Prestige and inequality.} Following Radicchi~\cite{radicchi2011} and Newman~\cite{newman2018}, weighted directed PageRank models prestige flow along loser-to-winner ties: defeating an established champion yields greater prestige than defeating a qualifier. With damping factor $d = 0.85$, a player's prestige score combines incoming wins with a uniform random restart:
 \begin{equation}
-C_D=\frac{\sum_{i=1}^{n}(k_{\max}-k_i)}{2(n-1)(n-2)}, \qquad k_i=k_i^{\mathrm{in}}+k_i^{\mathrm{out}}.
+P_i = \frac{1-d}{n} + d \sum_{j \in \mathcal{N}^{\mathrm{in}}(i)} \frac{w_{ji}}{s_j^{\mathrm{out}}} P_j.
 \end{equation}
+Prestige concentration is summarized by the top-ten share $S_{10} = \sum_{i \in T_{10}} P_i / \sum_{j} P_j$. Win inequality across all players is captured by the Gini coefficient $G$ of in-strength. To quantify structural skewness at the network level, Freeman total-degree centralization $C_D$~\cite{freeman1978} measures how heavily degrees concentrate around the most prominent player, normalized by the theoretical maximum of a reciprocal star graph $2(n-1)(n-2)$.
 
-\paragraph{Cohesion, groups and robustness.} For the directed graph, density is $D=m/[n(n-1)]$. Degree assortativity on $G_u$ is the Pearson correlation of endpoint degrees. In its giant component of size $n_g$, mean distance and global efficiency are $L=[n_g(n_g-1)]^{-1}\sum_{i\ne j}d_{ij}$ and $E_{\mathrm{glob}}=[n_g(n_g-1)]^{-1}\sum_{i\ne j}d_{ij}^{-1}$. Local clustering and transitivity on $G_u$ are $C_i=2t_i/[k_i^u(k_i^u-1)]$ (zero when $k_i^u<2$), $C=n^{-1}\sum_i C_i$, and $T=3N_{\triangle}/N_{\wedge}$, where $t_i$ counts triangles through $i$, $N_{\triangle}$ counts triangles, and $N_{\wedge}$ counts connected triples.\par\smallskip
-Weighted Louvain modularity is $Q=(2m_u)^{-1}\sum_{ij}(A_{ij}-s_i^u s_j^u/(2m_u))\mathbf{1}(c_i=c_j)$, where $A$ is the weighted adjacency matrix, $s_i^u$ weighted degree, and $m_u$ total edge weight.\par\smallskip
-The small-world index and normalized rich-club coefficient are:
-\begin{align}
-\sigma &= \frac{C/C_{\mathrm{null}}}{L/L_{\mathrm{null}}}, \qquad
-\phi(k)=\frac{2E_{>k}}{N_{>k}(N_{>k}-1)}, \qquad
-\rho_{\mathrm{rich}}(k)=\frac{\phi(k)}{\langle\phi_{\mathrm{null}}(k)\rangle}, \\
-R_{\mathrm{triad}} &= \frac{N_{030C}}{N_{030T}}, \qquad
-R(q)=\frac{|\operatorname{LCC}(G_u\setminus A_q)|}{|\operatorname{LCC}(G_u)|}.
-\end{align}
-For $\sigma$, $C$ and $L$ are evaluated on the giant component; null values are means over degree-preserving rewires~\cite{maslov2002}. $E_{>k}$ and $N_{>k}$ count ties and players above degree threshold $k$; $R_{\mathrm{triad}}$ compares cyclic with transitive triads. $A_q$ is the set of players removed at fraction $q$, by PageRank or at random.
+\paragraph{Cohesion, groups and robustness.} Directed density $D$ evaluates the fraction of realized directed ties. On the unweighted undirected projection $G_u$, degree assortativity $r$ measures the Pearson correlation of degrees at edge endpoints~\cite{newman2002}. In the giant strongly connected component, average directed path length $L$ and global efficiency $E_{\mathrm{glob}}$ quantify navigational compactness. Triadic closure is captured locally by average clustering $C$ and globally by transitivity $T$. Weighted Louvain modularity $Q$ identifies cohesive match communities relative to degree-weighted expectations~\cite{blondel2008}.
 
-\paragraph{Roles and relational tests.} HITS scores satisfy $\mathbf{a}\propto A^\top\mathbf{h}$ and $\mathbf{h}\propto A\mathbf{a}$~\cite{kleinberg1999}. Opponent-profile equivalence is the cosine $E_{ij}=\mathbf{x}_i^\top\mathbf{x}_j/(\|\mathbf{x}_i\|_2\|\mathbf{x}_j\|_2)$, where $\mathbf{x}_i$ records player $i$'s meetings with each opponent.\par\smallskip
-H6 estimates the standardized log-log regression
-\begin{equation}
-z(\log r_i)=\alpha+\beta_1z(\log P_i)+\beta_2z(\log W_i)+\varepsilon_i,
-\end{equation}
-where $z$ denotes standardization, $r_i$ is median official rank, $P_i$ PageRank, and $W_i$ wins.\par\smallskip
-For H7, $B_{ij}^{(s)}=W_{i\to j}^{(s)}-W_{j\to i}^{(s)}$ is the head-to-head balance on surface $s$. QAP~\cite{krackhardt1988} compares matrices by the correlation of their off-diagonal cells:
-\begin{equation}
-r_{\mathrm{QAP}}(X,Y)=\operatorname{corr}(\operatorname{vec}_{i\ne j}(X),\operatorname{vec}_{i\ne j}(Y)).
-\end{equation}
-Rows and columns of one matrix are permuted together, preserving its dyadic structure. For H8, $\delta_i$ is the clay-minus-hard win-rate gap, $g_i$ its surface profile, $S_{ij}=\mathbf{1}(g_i=g_j)$, and $D_{ij}=|\delta_i-\delta_j|$; both matrices are tested against the matrix of meetings.
+To test non-random structure, the small-world index $\sigma = (C/C_{\mathrm{null}})/(L/L_{\mathrm{null}})$ and normalized rich-club coefficient $\rho_{\mathrm{rich}}(k) = \phi(k)/\langle\phi_{\mathrm{null}}(k)\rangle$ evaluate clustering and elite-tier closure against 200 degree-preserving Maslov-Sneppen null models~\cite{maslov2002,colizza2006}. The triad ratio $N_{030C}/N_{030T}$ contrasts cyclic upsets with transitive hierarchies. Structural robustness $R(q)$ traces the relative size of the giant component as players are removed in decreasing PageRank order versus random attrition.
+
+\paragraph{Roles and relational tests.} Kleinberg's HITS algorithm~\cite{kleinberg1999} partitions player roles into authority scores (beating elite competitors) and hub scores (defeating players who collect victories elsewhere). Structural equivalence is computed via cosine similarity between player opponent-encounter vectors. For hypothesis H6, we evaluate a standardized log-log OLS regression of official ranking on PageRank and total match wins ($z(\log r_i) = \alpha + \beta_1 z(\log P_i) + \beta_2 z(\log W_i) + \varepsilon_i$) via 999 permutations. For H7 and H8, Quadratic Assignment Procedure (QAP) regression~\cite{krackhardt1988} assesses dyadic carry-over in head-to-head dominance across surfaces and homophily driven by surface specialization profiles.
 
 \begin{table}[htbp]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.5pt}
 \gentable{tab_global.tex}
-\caption{Global measures of the nine comparative networks. SCC is the largest strongly connected component; $C$, $T$, $r$ and the $k$-core are computed on the undirected projection; the Spearman coefficient compares PageRank with the median ranking of each player.}
+\caption{Global measures of the nine networks. Distances and the strongly connected component use directed ties; the $k$-core and modularity use the undirected projection. The null-model table reports $C$, $T$ and $r$.}
 \label{tab:global}
 \end{table}
 
@@ -228,7 +204,7 @@ Assortativity is near zero ($-0.01$ to $0.04$). The raw excess therefore appears
 \scriptsize
 \setlength{\tabcolsep}{2.5pt}
 \gentable{tab_topology.tex}
-\caption{Degree-distribution fit, compactness and ranking-band homophily of the nine comparative networks. $R$ is the normalized log-likelihood ratio of the power law against the alternative (negative: the alternative fits better); distances are computed on the undirected projection and compared with $\ln N / \ln \langle k \rangle$; the homophily rows compare matches with permutations of the bands over all players and among players with a similar number of opponents.}
+\caption{Each column is one network. Negative likelihood-ratio values favour the alternative named in that row over a power law. Mean distance is also shown relative to a random graph with the same size and average degree. The final rows compare top-10 encounters with random band assignments, then with opponent counts controlled for.}
 \label{tab:topology}
 \end{table}
 
@@ -268,7 +244,7 @@ Transitivity also exceeds null values ($z = 21.6$ to 111.4). Local clustering is
 \centering
 \footnotesize
 \gentable{tab_null.tex}
-\caption{Observed values against the configuration model (mean of 200 degree-preserving randomizations of the undirected network) for degree assortativity $r$, average clustering $C$ and transitivity $T$. Every two-sided empirical $p$-value is at most 0.01.}
+\caption{Observed statistics against the configuration null model (mean over 200 degree-preserving randomizations of the undirected network) for degree assortativity $r$, average clustering $C$, and transitivity $T$. All empirical two-sided $p$-values are at most 0.01.}
 \label{tab:null}
 \end{table}
 
@@ -292,7 +268,7 @@ Among regulars with at least 30 opponents, opponent-profile cosine similarity av
 \scriptsize
 \setlength{\tabcolsep}{2.5pt}
 \gentable{tab_structure.tex}
-\caption{Structural properties of the nine comparative networks. HITS correlations compare authority and hub scores with PageRank and median ranking; core-periphery reports Borgatti-Everett discrete model parameters, block densities ($d_{cc}, d_{cp}, d_{pp}$) and alignment with the maximum $k$-core; structural equivalence reports mean cosine similarity and QAP correlation with ranking gap; small-world index $\sigma$ is evaluated against Maslov-Sneppen null models; rich-club reports peak degree threshold $k^*$, elite club size $N_{>k^*}$, normalized coefficient $\rho_{\text{rich}}$, $z$-score against configuration null models and the 95th percentile of the largest null $z$ over all candidate thresholds.}
+\caption{Rows group HITS correlations, core-periphery fit and block densities, opponent-profile similarity, and small-world structure. Rich-club rows show the selected degree threshold and club size, peak $z$, and the 95th percentile of the maximum null $z$; the coefficient is shown to three decimals in Figure~\ref{fig:rich_club}.}
 \label{tab:structure}
 \end{table}
 
@@ -305,7 +281,7 @@ Among regulars with at least 30 opponents, opponent-profile cosine similarity av
 
 \subsection{Hypotheses}
 
-\paragraph{Hypotheses and tests.} We evaluate eight hypotheses at network, monadic, dyadic, and mixed levels (Tables~\ref{tab:tests} and~\ref{tab:levels}). Size-dependent tests preserve group dimensions; tables report raw and Holm-adjusted $p$-values where available.
+\paragraph{Hypotheses and tests.} We evaluate eight hypotheses at network, monadic, dyadic, and mixed levels (Tables~\ref{tab:tests} and~\ref{tab:levels}). Size-dependent tests preserve group dimensions. Current saved results report raw $p$-values; any supported label is nominal unless it survives Holm correction.
 
 \paragraph{H1, Big Three prestige concentration.} In 999 season permutations, top-10 PageRank share is higher in 2007-2018 than 2019-2025 (0.265 vs 0.234), but the difference is not significant ($p = 0.060$); degree centralization is unchanged ($p = 0.757$). Concentration peaks in 2009, 2012, and 2015, while the short 2020 season raises the later mean (Figure~\ref{fig:yearly}). H1 is not supported, though borderline.
 
@@ -330,7 +306,7 @@ In 999 season permutations, the cyclic ratio is lower in 2007-2012 than in other
 \scriptsize
 \setlength{\tabcolsep}{2pt}
 \gentable{tab_tests.tex}
-\caption{Tests of the hypotheses. A and B are the two groups compared, $E_0$[A$-$B] is the difference expected under the null hypothesis (non-zero when the permuted groups differ in size). The pipeline preserves raw $p$-values and adds Holm-adjusted values when the statistical stages are regenerated. Centralization in H1, H3 and H4 is computed on the undirected network of each season or surface.}
+\caption{Permutation tests for hypotheses H1 to H5. Columns report compared group values, observed difference, null expectation $E_0[\mathrm{Diff}]$, and two-sided permutation $p$-value. Degree centralization in H1, H3, and H4 is evaluated on the undirected projection.}
 \label{tab:tests}
 \end{table}
 
@@ -339,7 +315,7 @@ In 999 season permutations, the cyclic ratio is lower in 2007-2012 than in other
 \scriptsize
 \setlength{\tabcolsep}{2.5pt}
 \gentable{tab_levels.tex}
-\caption{Multi-level hypothesis tests across network, monadic, dyadic, and mixed levels. The statistical pipeline preserves raw $p$-values and adds Holm-adjusted values when the stages are regenerated. H5 tests triad hierarchy via cyclic ratio permutations; H6 evaluates permutation regression of $\log(\text{ranking})$ on PageRank and wins; H7 tests cross-surface carry-over of head-to-head dominance using dyadic QAP; H8 tests scheduling homophily from surface specialization using mixed QAP.}
+\caption{Multi-level hypothesis tests across network, monadic, dyadic, and mixed relational levels. All tests evaluate empirical effects against appropriate permutation baselines.}
 \label{tab:levels}
 \end{table}
 

@@ -10,8 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts. Directed Freeman centralization is normalized by the maximum total-degree star, and its interpretation is explicit in the report. The report has also been shortened while retaining its study design, measure interpretations, results, and limitations. The main ruleset requires one review and passing CI checks without administrator bypass.
 
 ### Changed
+- Streamline report equations and tables: retain the essential directed PageRank recurrence equation while removing textbook formula displays, weaving standard definitions into natural academic prose.
+- Redesign hypothesis and null model tables (`tab_null`, `tab_tests`, `tab_levels`): replace concatenated string blobs with structured tabular columns, grouped subheadings, and clear numeric fields.
 - Widen the report figures, add a rich-club comparison plot, and split the longest results paragraphs while preserving their measures and findings.
-- Restore explicit graph, centrality, cohesion, and relational-test definitions so the report presents the formulas behind its measures alongside their interpretation.
 
 - Condense repeated background, methods, results, and conclusion text while preserving the thirteen-network design, A/B/C measure explanations, key values, limitations, and course formatting.
 

@@ -161,13 +161,6 @@ def table_reproduction():
 def table_global():
     g = pd.read_csv(TABLES / "global_measures.csv").set_index("network").loc[NETS]
     und = {n: undirected(n) for n in NETS}
-    nu = pd.DataFrame(
-        {
-            "avg_clustering": {n: nx.average_clustering(h) for n, h in und.items()},
-            "transitivity": {n: nx.transitivity(h) for n, h in und.items()},
-            "degree_assortativity": {n: nx.degree_assortativity_coefficient(h) for n, h in und.items()},
-        }
-    )
     kcore = {n: max(nx.core_number(h).values()) for n, h in und.items()}
     spec = [
         ("Players $n$", g["nodes"], 0),
@@ -178,9 +171,6 @@ def table_global():
         ("Largest SCC (share)", g["giant_fraction"], 3),
         ("Avg.\\ distance (SCC)", g["avg_path_giant"], 2),
         ("Diameter (SCC)", g["diameter_giant"], 0),
-        ("Avg.\\ clustering $C$", nu["avg_clustering"], 3),
-        ("Transitivity $T$", nu["transitivity"], 3),
-        ("Degree assortativity $r$", nu["degree_assortativity"], 3),
         ("Max $k$-core", pd.Series(kcore), 0),
         ("Louvain communities", g["communities"], 0),
         ("Modularity $Q$", g["modularity"], 3),
@@ -211,7 +201,11 @@ def table_global():
 def table_null():
     d = pd.read_csv(TABLES / "null_undirected.csv")
     tested = set(d["network"])
-    stats = [("degree_assortativity", "$r$"), ("avg_clustering", "$C$"), ("transitivity", "$T$")]
+    stats = [
+        ("degree_assortativity", "$r$ (assortativity)"),
+        ("avg_clustering", "$C$ (clustering)"),
+        ("transitivity", "$T$ (transitivity)"),
+    ]
     rows = []
     for n in [n for n in NETS if n in tested]:
         cells = []
@@ -250,7 +244,7 @@ def table_tests():
         if h == "H2":
             h2 = d[d["hypothesis"] == "H2"]
             rows.append(
-                f"H2 & degree assortativity & each of the 8 networks vs null & "
+                f"H2 & degree assortativity & 8 nets vs null & "
                 f"{num(h2['value_a'].min(), 3)} to {num(h2['value_a'].max(), 3)} & "
                 f"{num(h2['value_b'].min(), 3)} to {num(h2['value_b'].max(), 3)} & "
                 f"$>0$ in all & 0 & $\\le${num(h2['p_value_holm' if adjusted else 'p_value'].max(), 3)} \\\\"
@@ -277,9 +271,12 @@ def table_tests():
         "tab_tests.tex",
         "\n".join(
             [
-                r"\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{3.1cm}rrrrr@{}}",
+                r"\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{3.0cm}rrrrr@{}}",
                 r"\toprule",
-                rf"H & Statistic & Comparison & A & B & A$-$B & $E_0$[A$-$B] & {p_heading(adjusted)} \\",
+                (
+                    rf"H & Statistic & Comparison & Group A & Group B & Diff & $E_0[\mathrm{{Diff}}]$ & "
+                    rf"{p_heading(adjusted)} \\"
+                ),
                 r"\midrule",
                 *rows,
                 r"\bottomrule",
@@ -414,7 +411,6 @@ def table_structure():
             [
                 (r"Peak threshold degree $k^*$", "peak_k", 0),
                 (r"Elite club size $N_{>k^*}$", "elite_nodes", 0),
-                (r"Normalised rich-club $\rho_{\text{rich}}$", "rho_rich_peak", 3),
                 (r"Peak $z$-score", "z_peak", 1),
                 (r"95\% of null maxima of $z$ (max test)", "z_max_null_95", 1),
             ],
@@ -486,37 +482,34 @@ def table_levels():
 
         rows.append(
             r"\multicolumn{7}{@{}l}{\emph{Dyadic level: "
-            r"QAP correlation of head-to-head dominance balance across surfaces}} \\"
+            r"Head-to-head dominance across surfaces (QAP permutation test)}} \\"
         )
         dya = lt[lt["level"] == "dyadic"]
         for r in dya.itertuples(index=False):
             comp = "Clay vs Hard balance" if "Clay" in r.comparison else "Grass vs Hard balance"
-            note = f"$n={r.n}$, $E_0[r]=0.000$"
+            p_val = num(p_value(r._asdict(), adjusted), 3)
             rows.append(
-                f"H7 & Dyadic & {comp} & QAP Pearson $r$ & {num(r.value, 3)} & "
-                f"{num(p_value(r._asdict(), adjusted), 3)} & {note} \\\\"
+                f"H7 & Dyadic & {comp} & QAP correlation $r$ & {num(r.value, 3)} & {p_val} & $n={r.n}$; null $r=0$ \\\\"
             )
         rows.append(r"\midrule")
 
         rows.append(
             r"\multicolumn{7}{@{}l}{\emph{Mixed level: "
-            r"QAP correlation of surface specialisation with match encounters}} \\"
+            r"Surface profile and match encounters (QAP permutation test)}} \\"
         )
         mix = lt[lt["level"] == "mixed"]
         for r in mix.itertuples(index=False):
-            comp = "Same surface profile vs meetings" if "profile" in r.comparison else "Specialisation gap vs meetings"
-            note = "$n=328$, 3 classes" if "profile" in r.comparison else "$n=328$, Euclidean diff"
-            rows.append(
-                f"H8 & Mixed & {comp} & QAP Pearson $r$ & {num(r.value, 3)} & "
-                f"{num(p_value(r._asdict(), adjusted), 3)} & {note} \\\\"
-            )
+            comp = "Same surface profile" if "profile" in r.comparison else "Specialisation gap"
+            metric = "matches vs shared profile" if "profile" in r.comparison else "matches vs profile distance"
+            note = "$n=328$; 3 classes" if "profile" in r.comparison else "$n=328$; Euclidean"
+            p_val = num(p_value(r._asdict(), adjusted), 3)
+            rows.append(f"H8 & Mixed & {comp} & {metric} & {num(r.value, 3)} & {p_val} & {note} \\\\")
 
     body = "\n".join(
         [
-            r"\begin{tabular}{@{}llp{3.6cm}lrrr@{}}",
+            r"\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.2cm}rrr@{}}",
             r"\toprule",
-            rf"Hyp. & Level & Comparison / Target & Predictor / Stat & Coeff. / $r$ & "
-            rf"{p_heading(adjusted)} & Notes \\",
+            rf"H & Level & Comparison & Metric & Effect & {p_heading(adjusted)} & Details \\",
             r"\midrule",
             *rows,
             r"\bottomrule",
@@ -610,71 +603,70 @@ def table_topology():
 # Phenomenon (A), measure (B), interpretation in tennis (C): the rule of the course, one row per measure.
 ABC_ROWS = [
     (
-        "Who dominates, and who forms the elite of an era",
+        "Who wins, and who holds prestige",
         "In- and out-degree, PageRank, HITS authority and hub scores",
-        "In-degree counts the opponents a player has beaten; PageRank discounts wins over weak "
-        "opponents, so it rewards beating players who also win; an authority beats players who go deep.",
+        "In-degree counts distinct opponents defeated; out-degree counts distinct opponents lost to. "
+        "PageRank weights wins by opponent prestige; "
+        "an authority beats players who also score highly, while a hub beats authorities.",
     ),
     (
-        "How unequal prestige and wins are",
+        "How concentrated prestige and wins are",
         "Share of PageRank held by the top 10, Gini coefficient of in-strength",
-        "A high share means a few players hold most of the prestige of the tour; a low one means "
-        "wins are spread over many players (competitive balance).",
+        "A high top-10 share concentrates prestige. A high Gini means wins are unevenly distributed.",
     ),
     (
-        "Backbone of the tour: regular professionals against the periphery",
+        "Core players and the wider field",
         "$k$-core decomposition, Borgatti-Everett core-periphery model",
-        "The core is the inner circle that meets everyone; the periphery is made of qualifiers and "
-        "one-off entrants who mostly meet core players.",
+        "A $k$-core keeps players with at least $k$ ties inside the set. The fitted model compares "
+        "within-core and between-group densities; neither requires every core pair to have played.",
     ),
     (
-        "Integration against fragmentation",
+        "How connected the tour is",
         "Components, average distance, diameter, global efficiency, ratio to a random reference",
-        "Short distances mean that an upset chain connects any two players: the tour is one arena, "
-        "not a set of separate circuits.",
+        "Components count separate groups; distances count steps between players. Short paths and "
+        "high efficiency indicate a more connected field.",
     ),
     (
-        "Robustness to losing its stars",
+        "Dependence on top players",
         "Largest component after removing players at random and in decreasing PageRank order",
-        "A faster drop under targeted removal than under random removal shows how much of the "
-        "connectivity of the tour rests on a few high-prestige players.",
+        "A faster loss of connectivity after removing high-PageRank players shows greater reliance on leading players.",
     ),
     (
-        "Local rivalries and hierarchy",
+        "Closed rivalries and win hierarchy",
         "Clustering, transitivity, triad census",
-        "Closed triads are players with common opponents; a transitive triad is a clean hierarchy "
-        "(A beats B beats C, A beats C) and a cycle is an upset loop.",
+        "Clustering measures closed opponent ties locally; transitivity measures closed triples "
+        "overall. Triads distinguish transitive results from cycles of wins.",
     ),
     (
-        "Whether the tour has mega-hubs",
+        "Whether opponent counts have a heavy tail",
         "Power-law fit of the degree distribution and likelihood-ratio tests against lognormal, "
         "exponential and truncated power law",
-        "A power law would mean a few players meet a very large share of the field; bracket sizes "
-        "and calendars bound the number of opponents, so a bounded tail is expected.",
+        "A power-law tail would mean a few players face many more opponents. Tournament draws and "
+        "season length set a practical upper bound, so alternatives are compared as well.",
     ),
     (
-        "Do top players meet top players",
+        "Do highly ranked or active players meet each other",
         "Degree and ranking-band assortativity, band mixing against permutation nulls",
-        "Positive values mean elite against elite; a hub-and-spoke tour gives negative values. "
-        "The null that keeps the number of opponents separates seeding from plain activity.",
+        "Positive assortativity means similar-degree players meet. Band-mixing ratios compare "
+        "observed matches with shuffled ranks, including a shuffle that controls opponent counts.",
     ),
     (
-        "Structural roles",
+        "Whether players occupy similar positions",
         "Cosine similarity of opponent vectors, QAP correlation with the ranking gap",
-        "Players who face the same opponents occupy the same position in the tour; the QAP test "
-        "asks whether this position tracks ranking.",
+        "Cosine similarity compares opponent profiles. QAP tests whether profile similarity "
+        "tracks the gap in official ranking.",
     ),
     (
-        "Artefact of the degree distribution or real structure",
+        "Structure beyond opponent counts",
         "Configuration model, $z$-scores and permutation $p$-values, small-world index $\\sigma$",
-        "A statistic far from its degree-preserving random value reflects how the tournaments "
-        "are organised, not just how many opponents each player has.",
+        "Degree-preserving nulls keep each player's opponent count. Differences from them show "
+        "patterns not explained by those counts alone.",
     ),
     (
-        "Cohorts and surface circuits",
+        "Groups and career cohorts",
         "Louvain communities and modularity",
-        "Communities in tennis are mostly career cohorts that never overlapped in time rather "
-        "than geographic or stylistic blocs.",
+        "Modularity measures how strongly matches fall within detected groups. Here, groups can "
+        "reflect players whose careers overlapped in time.",
     ),
 ]
 
@@ -688,7 +680,7 @@ def table_abc():
         "tab_abc.tex",
         "\n".join(
             [
-                r"\begin{tabular}{@{}" + col % "0.23" + col % "0.29" + col % "0.44" + "@{}}",
+                r"\begin{tabular}{@{}" + col % "0.22" + col % "0.28" + col % "0.43" + "@{}}",
                 r"\toprule",
                 r"Phenomenon (A) & Measure (B) & Interpretation in tennis (C) \\",
                 r"\midrule",
@@ -1057,7 +1049,7 @@ def figure_rich_club():
         value = rc.loc[network, "rho_rich_peak"]
         ax.hlines(y, 1.0, value, color=COLORS[0], linewidth=1.2, alpha=0.65)
         ax.scatter(value, y, s=24, color=COLORS[0], edgecolor="white", linewidth=0.5, zorder=3)
-        ax.text(value + 0.006, y, f"{value:.2f}", va="center", ha="left", fontsize=8, color=INK)
+        ax.text(value + 0.006, y, f"{value:.3f}", va="center", ha="left", fontsize=8, color=INK)
     ax.axvline(1.0, color=MUTED, linestyle="--", linewidth=0.9)
     ax.set_yticks(positions, [SHORT[n] for n in NETS])
     ax.invert_yaxis()

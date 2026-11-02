@@ -62,3 +62,6 @@ desktop.ini
 .vscode/*
 !.vscode/settings.json
 *.log
+
+# Local deepwork progress is not part of the repository
+.slim/deepwork/
