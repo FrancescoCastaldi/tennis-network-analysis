@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts.
+The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts. Directed Freeman centralization is normalized by the maximum total-degree star, and its interpretation is explicit in the report. The main ruleset requires one review and passing CI checks without administrator bypass.
 
 ### Fixed
 
+- Normalize directed Freeman centralization by the maximum total-degree star, so reciprocal and one-way stars score 1 and 0.5 respectively. Clarify the measure in the API, methodology and report, and correct the reported network range.
+- Require passing lint and tests, report build, PR metadata and latest-review approval checks on `main`, with no bypass actors.
 - Document verified post-merge timesheet updates without assigning hours or guessing external sheet rows.
 - `scripts/sync_sheet.py` no longer overwrites a fixed Attivita row with a hard-coded task, and fails instead of guessing the test count when pytest prints no summary.
 - Normalize the source spelling `Raducànu E.` to `Raducanu E.` before building processed match and network files.

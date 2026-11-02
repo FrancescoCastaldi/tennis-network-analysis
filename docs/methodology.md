@@ -19,7 +19,7 @@ which two players are linked if they met at least once.
 |---|---|---|
 | Size, cohesion, distances | density, reciprocity, largest SCC, average distance, diameter | `measures.global_measures` |
 | Degree distribution | CCDF of distinct opponents | `report_assets.figure_degree` |
-| Dominance and prestige | in-strength, PageRank, top-10 PageRank share, Gini, Freeman centralization, Spearman with ranking | `measures` |
+| Dominance and prestige | in-strength, PageRank, top-10 PageRank share, Gini, Freeman centralization of total degree (in-degree plus out-degree for directed graphs), Spearman with ranking | `measures` |
 | Elite core | k-core, Louvain communities and modularity | `measures` |
 | Robustness | largest component after removal by PageRank vs random | `measures.robustness_curve` |
 | Mixing | degree assortativity, ranking-band homophily | `measures` |

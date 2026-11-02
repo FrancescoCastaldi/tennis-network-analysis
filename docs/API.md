@@ -81,7 +81,7 @@ projection is not applied automatically to every function.
 
 | Function | Additional parameters | Returns |
 |---|---|---|
-| `degree_centralization(g)` | None | Freeman centralization `float`, or `NaN` for fewer than three nodes |
+| `degree_centralization(g)` | None | Freeman centralization of total degree `float`, or `NaN` for fewer than three nodes |
 | `giant_component(g)` | None | Copy of the largest strongly connected component if directed, otherwise largest connected component |
 | `path_stats(g)` | None | `(average_shortest_path, diameter)` on that component |
 | `global_measures(g)` | None | `dict` of size, cohesion, distance, degree and component statistics |
@@ -94,6 +94,8 @@ projection is not applied automatically to every function.
 | `rank_band(rank)` | Rank value instead of `g` | `"top10"`, `"11-100"` or `"others"` |
 | `rank_band_assortativity(g, ranks)` | Player-keyed ranking values | Attribute-assortativity `float` on an undirected projection |
 | `rank_correlation(scores, ranks)` | Player-keyed scores and ranking `Series`, instead of `g` | `(Spearman_correlation, matched_player_count)` |
+
+For directed graphs, total degree is in-degree plus out-degree. A reciprocal directed star scores 1, while a one-way star scores 0.5.
 
 `node_measures` includes degree/strength columns appropriate to the graph, betweenness, closeness,
 PageRank, eigenvector centrality, clustering and k-core. Failed eigenvector calculations become

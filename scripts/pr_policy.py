@@ -1,7 +1,8 @@
 """Pull request policy: approval by another reviewer, and an audit of what reaches main.
 
-GitHub cannot block a merge on this private repository (branch protection needs a paid plan),
-so two workflows run these checks and make a missing approval visible:
+The active main ruleset requires a pull request, one approval, and the CI, report, PR metadata, and
+latest-review checks, with no bypass actors. These workflows validate approval of the latest commit
+and make any exception visible:
 
     python scripts/pr_policy.py approval --repo OWNER/NAME --pr 9
     python scripts/pr_policy.py audit --repo OWNER/NAME --sha <commit on main>
