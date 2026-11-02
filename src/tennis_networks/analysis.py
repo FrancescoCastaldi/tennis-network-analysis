@@ -116,7 +116,7 @@ def main():
         folder.mkdir(parents=True, exist_ok=True)
 
     specs = [s for s in cfg["networks"] if not args.only or s["id"] == args.only]
-    input_paths = [PROCESSED / spec["file"] for spec in specs]
+    input_paths = [PROCESSED / spec["file"] for spec in specs if spec.get("file")]
     input_paths.extend(PROCESSED / spec["ranks"] for spec in specs if spec.get("ranks"))
     write_run_manifest(
         "analysis",

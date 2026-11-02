@@ -12,6 +12,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 ### Fixed
 
 - Normalize directed Freeman centralization by the maximum total-degree star, so reciprocal and one-way stars score 1 and 0.5 respectively. Clarify the measure in the API, methodology and report, and correct the reported network range.
+- Skip file fingerprinting for the configured built-in karate fixture so the analysis stage can process the full network list.
 - Require passing lint and tests, report build, PR metadata and latest-review approval checks on `main`, with no bypass actors.
 - Document verified post-merge timesheet updates without assigning hours or guessing external sheet rows.
 - `scripts/sync_sheet.py` no longer overwrites a fixed Attivita row with a hard-coded task, and fails instead of guessing the test count when pytest prints no summary.
