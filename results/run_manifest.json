@@ -1,0 +1,79 @@
+{
+  "stage": "analysis",
+  "git_commit": "c8eb462248916e4a1b1cb0e6244e90f5ebc12364",
+  "python": "3.14.3",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "packages": {
+    "networkx": "3.7",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pandas": "3.1.0",
+    "matplotlib": "3.11.2",
+    "powerlaw": "2.0.0"
+  },
+  "config": {
+    "path": "config\\networks.json",
+    "sha256": "b2896cc7c21bb324349b66e387f46f2cb824827a6ab0147ebec51bc4edd2fa07"
+  },
+  "inputs": [
+    {
+      "path": "data\\processed\\michieli_1_wins.csv",
+      "size": 2721541,
+      "sha256": "800c2bbc29f9b3e57af1876e7ecc2c0225ae012dc1d608b574babf2a865063ed"
+    },
+    {
+      "path": "data\\processed\\michieli_3_undirected.csv",
+      "size": 1941368,
+      "sha256": "2a9382633ac93a10753ff044a51a5c1471de32d585782a12b903788baa164353"
+    },
+    {
+      "path": "data\\processed\\td_atp_2000_2006.csv",
+      "size": 374620,
+      "sha256": "e44ab39202bacf9803a478bb443a2ea28f5d73a3fe4a7eaeb8949b5c0eca0274"
+    },
+    {
+      "path": "data\\processed\\td_atp_2007_2012.csv",
+      "size": 295128,
+      "sha256": "6dee7f77de25b765bef4ba4029da3c3eeb6342ec24d7b97732ec81be0c4f6072"
+    },
+    {
+      "path": "data\\processed\\td_atp_2013_2018.csv",
+      "size": 288315,
+      "sha256": "46b68ed514382890f0fa77bdfed00cfd6e66a89f8c09050465a91fbe912b24d9"
+    },
+    {
+      "path": "data\\processed\\td_atp_2019_2025.csv",
+      "size": 325912,
+      "sha256": "d469feb7cc2c74c87ef0233df55416f17a4c27674f132849f9b830a49deebe63"
+    },
+    {
+      "path": "data\\processed\\td_atp_clay.csv",
+      "size": 458858,
+      "sha256": "fbf2207cb87d46421df9d357168101c35989049a6e8a6e8fae90870112ca75a5"
+    },
+    {
+      "path": "data\\processed\\td_atp_grass.csv",
+      "size": 179863,
+      "sha256": "eaad3aa38f953ed5901f38126b5eb98e7415d894d26bf58b5385926f0cd8524f"
+    },
+    {
+      "path": "data\\processed\\td_atp_hard.csv",
+      "size": 699235,
+      "sha256": "968378758f5575eaf442b654039401c7c9895efe40d0d18215ebee6228d3bdda"
+    },
+    {
+      "path": "data\\processed\\td_atp_2007_2025.csv",
+      "size": 825508,
+      "sha256": "e8bcb512db02cd7f7e081d624cdea964e2e1144ee276ce30909ef0c6d787edf2"
+    },
+    {
+      "path": "data\\processed\\td_wta_2007_2025.csv",
+      "size": 801807,
+      "sha256": "b5b4431c0b1e6eca3f53995ca3925982757455ffe105d168bcf8d25f2e5b410e"
+    }
+  ],
+  "extra": {
+    "mode": "centralization-only",
+    "seed": 20261115
+  }
+}
