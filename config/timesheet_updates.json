@@ -1,0 +1,24 @@
+{
+  "sheet": "SNA - UNIBO",
+  "timesheet_tab": "Attivita",
+  "entries": [
+    {
+      "date": "2026-11-01",
+      "activity": "PR #36 merged",
+      "status": "Done",
+      "hours": null
+    },
+    {
+      "date": "2026-11-01",
+      "activity": "PR #40 merged",
+      "status": "Done",
+      "hours": null
+    },
+    {
+      "date": "2026-11-01",
+      "activity": "PR #41 merged",
+      "status": "Done",
+      "hours": null
+    }
+  ]
+}

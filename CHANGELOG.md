@@ -11,6 +11,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 
 ### Fixed
 
+- Document verified post-merge timesheet updates without assigning hours or guessing external sheet rows.
 - `scripts/sync_sheet.py` no longer overwrites a fixed Attivita row with a hard-coded task, and fails instead of guessing the test count when pytest prints no summary.
 - Normalize the source spelling `Raducànu E.` to `Raducanu E.` before building processed match and network files.
 - `report_assets`: a table shows Holm-adjusted p-values only when every result file it draws from carries them, and otherwise shows the raw values under a raw heading, so stored results from before the correction are never labelled as adjusted. Tests in `tests/test_report_assets.py`.
