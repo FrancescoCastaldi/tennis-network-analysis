@@ -26,3 +26,17 @@ def test_script_has_no_local_path_or_sheet_id_in_source():
     source = (ROOT / "scripts" / "sync_sheet.py").read_text(encoding="utf-8")
     assert "D:\\" not in source
     assert "1dP7wSrawDRVBZ" not in source
+
+
+def test_timesheet_manifest_contains_only_verified_updates_without_hours():
+    import json
+
+    manifest = json.loads((ROOT / "config" / "timesheet_updates.json").read_text(encoding="utf-8"))
+    assert manifest["sheet"] == "SNA - UNIBO"
+    assert manifest["timesheet_tab"] == "Attivita"
+    assert [(entry["date"], entry["activity"], entry["status"]) for entry in manifest["entries"]] == [
+        ("2026-11-01", "PR #36 merged", "Done"),
+        ("2026-11-01", "PR #40 merged", "Done"),
+        ("2026-11-01", "PR #41 merged", "Done"),
+    ]
+    assert all(entry["hours"] is None for entry in manifest["entries"])

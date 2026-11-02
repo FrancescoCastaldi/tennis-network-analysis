@@ -62,10 +62,11 @@ After merge or closure, set the project item to `Done` and record the result in 
 than creating a second tracking row. The sheet is the planning source, while issues and PRs are the
 auditable record of implementation and review.
 
-The optional `scripts/sync_sheet.py` helper updates the shared dashboard with the current word count,
-test count and one fixed task row. Run it with `--dry-run` first, never put credentials in the
-repository, and do not use it to overwrite planning decisions made by the group. If the helper is not
-available on your machine, update the sheet manually and mention the changed row in the issue or PR.
+The optional `scripts/sync_sheet.py` helper updates only the shared dashboard with the current word
+count and test count. Run it with `--dry-run` first, never put credentials in the repository, and do
+not use it to overwrite planning decisions made by the group. Timesheet updates are documented in
+[`docs/timesheet.md`](docs/timesheet.md) and must be matched to existing rows manually until the
+sheet owner provides a stable mapping.
 
 ## Releases
 
