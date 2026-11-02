@@ -45,9 +45,15 @@ def get_tracked_files() -> list[str]:
 
 
 def test_no_student_id_numbers():
-    """Asserts that no student ID numbers are committed in tracked text files."""
+    """Asserts that no student ID numbers are committed in source code or data files.
+
+    Exempts report/main.tex where student matricola numbers are mandatory
+    for formal academic grading and submission.
+    """
     hits = []
     for rel_path in get_tracked_files():
+        if rel_path == "report/main.tex":
+            continue
         path = REPO_ROOT / rel_path
         if path.suffix in BINARY_EXTENSIONS or not path.exists():
             continue
