@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts. Directed Freeman centralization is normalized by the maximum total-degree star, and its interpretation is explicit in the report. The report has also been shortened while retaining its study design, measure interpretations, results, and limitations. The main ruleset requires one review and passing CI checks without administrator bypass.
 
 ### Changed
+- Clarify that report hypothesis labels use raw permutation p-values, and
+  soften causal language about bracket seeding and grass-court reciprocity in
+  response to review feedback on report interpretation.
 - Add official student matricola numbers for all team members (Bonifazi, Castaldi, Fusco, Kumar, Muscarello) to report author metadata, submission PDF, and update security privacy check to permit academic report author attribution.
 - Enlarge analytical figures and typography (`report_assets.py`): increased plot dimensions and font hierarchy across degree CCDFs, robustness curves, yearly time-series, the 2007-2012 elite core tournament network graph, triad spectrum, and homophily heatmaps for superior visual clarity and print legibility.
 - Incorporate Top-10 Leaderboards table (`tab_top10.tex`) into the report, highlighting PageRank leaders and official rankings across all four ATP eras and the WTA tour.
