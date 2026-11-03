@@ -95,9 +95,9 @@ Our analysis examines thirteen distinct networks, summarized in Table~\ref{tab:n
 \subsection{Comparative Network Partitions}
 From this corpus, we construct nine comparative networks:
 \begin{enumerate}
-    \item \textbf{Four ATP Eras:} 2000-2006 (early millennium transition, 17,737 matches), 2007-2012 (peak Big Three emergence, 16,047 matches), 2013-2018 (Big Four maturity, 15,661 matches), and 2019-2025 (Next Gen transition, 20,265 matches).
-    \item \textbf{Three ATP Surfaces (2000-2025):} Hard courts (37,605 matches), Clay courts (22,467 matches), and Grass courts (7,215 matches).
-    \item \textbf{Two Concurrent Tours (2007-2025):} ATP Tour (51,973 matches) and WTA Tour (45,112 matches).
+    \item \textbf{Four ATP Eras:} 2000-2006 (early millennium transition, 20,265 matches), 2007-2012 (peak Big Three emergence, 16,114 matches), 2013-2018 (Big Four maturity, 15,661 matches), and 2019-2025 (Next Gen transition, 16,932 matches).
+    \item \textbf{Three ATP Surfaces (2000-2025):} Hard courts (37,477 matches), Clay courts (22,117 matches), and Grass courts (7,693 matches).
+    \item \textbf{Two Concurrent Tours (2007-2025):} ATP Tour (48,707 matches) and WTA Tour (45,112 matches).
 \end{enumerate}
 
 To incorporate player attributes, we compute each player's median official ranking within each network window, categorizing participants into three distinct tiers: Top 10, Ranks 11-100, and Beyond 100. Computations use Python, NetworkX 3.6 \cite{networkx}, pandas, and SciPy, with deterministic random seeds (20261115) across all permutations and null models.
@@ -115,7 +115,7 @@ To incorporate player attributes, we compute each player's median official ranki
 
 \paragraph{Construct validity and boundary specification.} Following course guidelines on boundary specification, we restrict our comparative corpus strictly to main-draw matches of Grand Slam, ATP Tour, and WTA Tour events. We deliberately exclude satellite, Challenger, and ITF Futures circuits. Including lower-tier events, as demonstrated by Michieli's extended network M4, artificially inflates node counts with regional semi-professionals who never encounter top-tier players, distorting degree distributions and network centralization. Official median ranking provides an external benchmark of competitive standing, though we account for its inherent endogeneity with match outcomes.
 
-\paragraph{Reproduction of the reference study.} As reported in Table~\ref{tab:reproduction}, our pipeline reproduces the structural metrics of Michieli \cite{michieli2018} with high precision across giant component shares, average path lengths, and degree assortativities. The top five players ranked by directed PageRank match the published order identically (Connors, Federer, Lendl, Nadal, McEnroe). The sole divergence occurs in clustering: our standard NetworkX computation yields $C = 0.311$ (transitivity $T = 0.355$) on M3, compared to the paper's reported 0.07. An exhaustive audit of eight alternative clustering formulations confirms that standard definitions consistently range between 0.30 and 0.48; we therefore retain the standard definition.
+\paragraph{Reproduction of the reference study.} As reported in Table~\ref{tab:reproduction}, our pipeline reproduces the structural metrics of Michieli \cite{michieli2018} with high precision across giant component shares, average path lengths, and degree assortativities. The top five players ranked by directed PageRank match the published order identically (Connors, Lendl, Federer, McEnroe, Nadal). The sole divergence occurs in clustering: our standard NetworkX computation yields $C = 0.311$ (transitivity $T = 0.355$) on M3, compared to the paper's reported 0.07. An exhaustive audit of eight alternative clustering formulations confirms that standard definitions consistently range between 0.30 and 0.48; we therefore retain the standard definition.
 
 \paragraph{Cross-source validation.} To verify data fidelity, we cross-validated the \texttt{tennis-data} archive against Michieli's M1 over their shared ATP window (January 2000 to August 2017). As illustrated in Figure~\ref{fig:sources}, 97.6\% of all loser-winner pairs appear in both repositories. Among 482 players whose entire careers fall within this window, victory totals correlate at $r = 0.94$, and 90.9\% of pairwise head-to-head counts match identically, confirming high data consistency.
 
@@ -187,7 +187,7 @@ Prestige concentration is captured by the share held by the top ten players: $S_
 
 \paragraph{Sparsity, connectivity and small worlds.} Across all nine networks, professional tennis graphs are structurally sparse, with directed densities ranging from 0.009 to 0.032. Despite this sparsity, the giant strongly connected component encompasses between 62.2\% and 69.5\% of all players, demonstrating broad global reachability. Average directed path lengths remain remarkably short, between 2.4 and 3.3 steps, with maximum diameters never exceeding 9. 
 
-Reciprocity is approximately 0.30 across hard and clay courts and all four eras, indicating that roughly one third of competitive pairings involve mutual victories over time. The striking exception occurs on grass courts, where reciprocity plummets to 0.086. This drop is a direct consequence of seasonal calendar compression: the grass swing lasts only five weeks annually, providing minimal opportunity for scheduled rematches. Louvain modularity is higher in multi-decade surface networks (0.38) than in six-year eras (0.11 to 0.15), reflecting generational career turnover rather than isolated playing cliques.
+Reciprocity averages 0.28 on hard courts and 0.21 on clay courts (ranging from 0.29 to 0.30 across the four eras), indicating that roughly one quarter to one third of competitive pairings involve mutual victories over time. The striking exception occurs on grass courts, where reciprocity plummets to 0.086. This drop is consistent with seasonal calendar compression: the grass swing lasts only five weeks annually, providing minimal opportunity for scheduled rematches. Louvain modularity is higher in multi-decade surface networks (0.38) than in six-year eras (0.11 to 0.15), reflecting generational career turnover rather than isolated playing cliques.
 
 \paragraph{Bounded opponent distributions.} Figure~\ref{fig:degree} presents the log-log complementary cumulative distribution function (CCDF) of distinct opponents. While many social graphs display scale-free power-law tails $P(k) \propto k^{-\alpha}$, Clauset-Shalizi-Newman likelihood-ratio tests \cite{clauset2009} decisively reject pure power-law distributions across all nine networks ($R < 0, p < 0.001$, Table~\ref{tab:topology}). Bounded distributions (lognormal and exponentially truncated power laws) provide vastly superior fits. This structural ceiling arises directly from tournament realities: finite draw sizes (32 to 128 players) and annual scheduling caps restrict the maximum number of unique opponents any player can encounter in a career.
 
@@ -207,7 +207,7 @@ Reciprocity is approximately 0.30 across hard and clay courts and all four eras,
 \label{tab:topology}
 \end{table}
 
-\paragraph{Ranking homophily and degree confounding.} In naive observations, Top 10 players encounter one another between 9 and 23 times more frequently than expected under random uniform band assignment. However, this apparent homophily is largely an artifact of network activity. When permutation null models control for each player's observed degree, the excess encounter ratio collapses to 1.1 to 1.5, within 2.5 standard deviations of configuration expectation (Figure~\ref{fig:core_homophily}). Degree assortativity is virtually neutral ($-0.01$ to $0.04$). Thus, elite players meet frequently because their deep tournament progressions accumulate large numbers of matches, not because of intrinsic preferential attachment outside bracket design.
+\paragraph{Ranking homophily and degree confounding.} In naive observations, Top 10 players encounter one another between 9 and 23 times more frequently than expected under random uniform band assignment. However, this apparent homophily is largely an artifact of network activity. When permutation null models control for each player's observed degree, the aggregate same-band encounter share falls within 2.5 standard deviations of configuration expectations ($|z| \le 2.44$, Table~\ref{tab:topology}), though isolated elite pairings (Top 10 vs Top 10) retain moderate positive deviations up to $z = 3.9$ (in WTA 2007-2025, Figure~\ref{fig:core_homophily}). Ranking-band assortativity is virtually neutral ($-0.01$ to $0.04$, while degree assortativity ranges from $-0.04$ to $0.10$). Thus, elite players meet frequently because their deep tournament progressions accumulate large numbers of matches, not because of intrinsic preferential attachment outside bracket design.
 
 \begin{figure}[htbp]
 \centering
@@ -271,7 +271,7 @@ Figure~\ref{fig:network_core}(b) displays the corresponding 16-class Holland-Lei
 \label{tab:structure}
 \end{table}
 
-\paragraph{Rich-club ordering.} Across all nine networks, normalized rich-club coefficients $\rho_{\mathrm{rich}}(k)$ exceed 1.0 at degree thresholds maximizing statistical significance ($z$-score peaks from 1.052 to 1.215, Figure~\ref{fig:rich_club}). Max-statistic permutation tests confirm that high-degree players play one another significantly more often than predicted by degree sequences alone ($p = 0.005$ across all graphs).
+\paragraph{Rich-club ordering.} Across all nine networks, normalized rich-club coefficients $\rho_{\mathrm{rich}}(k)$ exceed 1.0 at degree thresholds maximizing statistical significance (peak $\rho_{\mathrm{rich}}$ from 1.052 to 1.215, with peak $z$-scores ranging from 13.0 to 27.3, Figure~\ref{fig:rich_club}). Max-statistic permutation tests confirm that high-degree players play one another significantly more often than predicted by degree sequences alone ($p = 0.005$ across all graphs).
 
 \begin{figure}[htbp]
 \centering
@@ -282,7 +282,7 @@ Figure~\ref{fig:network_core}(b) displays the corresponding 16-class Holland-Lei
 
 \subsection{Null Models and Hypothesis Testing}
 
-To determine whether empirical observations reflect genuine organizational mechanisms rather than chance, we test eight pre-registered hypotheses against null models and permutation baselines (Tables~\ref{tab:null}, \ref{tab:tests}, and \ref{tab:levels}). Figure~\ref{fig:yearly} illustrates longitudinal trends across 26 ATP and 19 WTA seasons.
+To determine whether empirical observations reflect genuine organizational mechanisms rather than chance, we test eight formulated hypotheses against null models and permutation baselines (Tables~\ref{tab:null}, \ref{tab:tests}, and \ref{tab:levels}). All reported hypothesis test $p$-values are uncorrected empirical two-sided permutation probabilities at nominal $\alpha = 0.05$. Figure~\ref{fig:yearly} illustrates longitudinal trends across 26 ATP and 19 WTA seasons.
 
 \begin{table}[htbp]
 \centering
@@ -292,9 +292,9 @@ To determine whether empirical observations reflect genuine organizational mecha
 \label{tab:null}
 \end{table}
 
-\paragraph{H1 (Big Three prestige concentration): Not Supported (Borderline).} We hypothesized that top-ten PageRank share and degree centralization would be significantly higher during 2007-2018 than during 2019-2025. In 999 season permutations, top-ten share is elevated in the earlier era (0.265 vs 0.234), but the difference does not attain conventional significance ($p = 0.060$). Undirected degree centralization shows no difference ($0.126$ vs $0.125, p = 0.757$). Longitudinal inspection shows concentration peaking in individual seasons (2009, 2012, 2015) while the shortened 2020 pandemic season elevates the post-2018 baseline. H1 is nominally unsupported.
+\paragraph{H1 (Big Three prestige concentration): Not Supported (Borderline).} We hypothesized that top-ten PageRank share and degree centralization would be significantly higher during 2007-2018 than during 2019-2025. In 999 season permutations, top-ten share is elevated in the earlier era (0.265 vs 0.234), but the difference does not attain conventional significance ($p = 0.060$). Undirected degree centralization shows no difference ($0.144$ vs $0.145, p = 0.757$). Longitudinal inspection shows concentration peaking in individual seasons (2009, 2012, 2015) while the shortened 2020 pandemic season elevates the post-2018 baseline. H1 is nominally unsupported.
 
-\paragraph{H2 (Early-round disassortativity): Rejected / Reversed.} We hypothesized that tournament brackets pairing top seeds against qualifiers would induce negative degree assortativity. Observed assortativity is near neutral ($-0.04$ to $0.10$). Crucially, against degree-preserving nulls, random graphs with identical degree sequences are substantially more disassortative ($-0.19$ to $-0.06, z \ge 16, p \le 0.01$). Bracket seeding actually prevents top players from meeting low-degree qualifiers repeatedly in initial rounds, creating less disassortativity than an unconstrained random graph. H2 is formally rejected.
+\paragraph{H2 (Early-round disassortativity): Rejected / Reversed.} We hypothesized that tournament brackets pairing top seeds against qualifiers would induce negative degree assortativity. Observed assortativity is near neutral ($-0.04$ to $0.10$). Crucially, against degree-preserving nulls, random graphs with identical degree sequences are substantially more disassortative ($-0.19$ to $-0.06, z \ge 16, p \le 0.01$). This observed pattern is consistent with bracket seeding preventing top players from meeting low-degree qualifiers repeatedly in initial rounds, creating less disassortativity than an unconstrained random graph. H2 is formally rejected.
 
 \paragraph{H3 (Grass court centralization): Supported.} In 199 surface-shuffled permutations controlling for network size, grass exhibits lower absolute centralization (0.132 vs 0.162 and 0.175) but a significantly higher concentration relative to its size-matched null ($p = 0.015$). Grass also exhibits higher top-ten PageRank share ($p = 0.005$). The compressed calendar concentrates victories among top grass performers.
 
@@ -313,7 +313,7 @@ To determine whether empirical observations reflect genuine organizational mecha
 \scriptsize
 \setlength{\tabcolsep}{2pt}
 \gentable{tab_tests.tex}
-\caption{Permutation tests for network-level hypotheses H1 to H5, reporting group values, observed differences, null expectations, and two-sided $p$-values.}
+\caption{Permutation tests for network-level hypotheses H1 to H5, reporting group values, observed differences, null expectations, and two-sided $p$-values (uncorrected empirical permutation probabilities at nominal $\alpha = 0.05$).}
 \label{tab:tests}
 \end{table}
 
