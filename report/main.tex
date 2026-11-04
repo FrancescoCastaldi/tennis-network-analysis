@@ -115,7 +115,7 @@ To incorporate player attributes, we compute each player's median official ranki
 
 \paragraph{Construct validity and boundary specification.} Following course guidelines on boundary specification, we restrict our comparative corpus strictly to main-draw matches of Grand Slam, ATP Tour, and WTA Tour events. We deliberately exclude satellite, Challenger, and ITF Futures circuits. Including lower-tier events, as demonstrated by Michieli's extended network M4, artificially inflates node counts with regional semi-professionals who never encounter top-tier players, distorting degree distributions and network centralization. Official median ranking provides an external benchmark of competitive standing, though we account for its inherent endogeneity with match outcomes.
 
-\paragraph{Reproduction of the reference study.} As reported in Table~\ref{tab:reproduction}, our pipeline reproduces the structural metrics of Michieli \cite{michieli2018} with high precision across giant component shares, average path lengths, and degree assortativities. The top five players ranked by directed PageRank match the published order identically (Connors, Lendl, Federer, McEnroe, Nadal). The sole divergence occurs in clustering: our standard NetworkX computation yields $C = 0.311$ (transitivity $T = 0.355$) on M3, compared to the paper's reported 0.07. An exhaustive audit of eight alternative clustering formulations confirms that standard definitions consistently range between 0.30 and 0.48; we therefore retain the standard definition.
+\paragraph{Reproduction of the reference study.} As reported in Table~\ref{tab:reproduction}, our pipeline reproduces the structural metrics of Michieli \cite{michieli2018} with high precision across giant component shares, average path lengths, and degree assortativities. The top five players ranked by directed PageRank match the published order identically (Connors, Lendl, Federer, McEnroe, Nadal). The sole divergence occurs in clustering: our standard NetworkX computation yields $C = 0.311$ (transitivity $T = 0.355$) on M3, compared to the paper's reported 0.07. An audit of eight alternative clustering formulations (including directed, weighted, and triangle-only averages) yields values between 0.010 and 0.477 and none matches 0.07; we therefore retain the standard definition.
 
 \paragraph{Cross-source validation.} To verify data fidelity, we cross-validated the \texttt{tennis-data} archive against Michieli's M1 over their shared ATP window (January 2000 to August 2017). As illustrated in Figure~\ref{fig:sources}, 97.6\% of all loser-winner pairs appear in both repositories. Among 482 players whose entire careers fall within this window, victory totals correlate at $r = 0.94$, and 90.9\% of pairwise head-to-head counts match identically, confirming high data consistency.
 
@@ -292,8 +292,8 @@ To determine whether empirical observations reflect genuine organizational mecha
 \label{tab:null}
 \end{table}
 
-The hypothesis-test table reports raw permutation $p$-values. The current
-result files do not contain Holm-adjusted values, so the labels below do not
+The hypothesis-test table reports raw permutation $p$-values. Because
+$p$-values are uncorrected for multiple testing, the labels below do not
 claim multiplicity correction; marginal findings should therefore be
 interpreted cautiously.
 
