@@ -67,7 +67,7 @@ Gaetano Muscarello & {\small Master's Degree in Computer Science} & {\small matr
 
 Official rankings and title counts summarise individual achievement, but they treat players as isolated competitors. Social Network Analysis offers a complementary view: it models competition as a system in which players are nodes and matches form directed, weighted ties \cite{newman2018}. In tennis, every official singles match has a direction, from the loser to the winner. Read as endorsements, victories carry prestige through the network, and a win over an established champion counts for more, in structural terms, than a win over a lower-ranked qualifier.
 
-This study compares thirteen tennis networks built from 114,084 professional matches along three dimensions: historical eras from 2000 to 2025, court surfaces, and the two main circuits, the Association of Tennis Professionals (ATP) and the Women's Tennis Association (WTA). The analysis combines global topology, community and core-periphery structure, prestige measures and null-model hypothesis tests.
+This study compares thirteen tennis networks built from 114,084 professional matches along three dimensions: historical eras from 2000 to 2025, court surfaces, and the two main circuits, the Association of Tennis Professionals (ATP) and the Women's Tennis Association (WTA). The analysis combines global topology, community and core-periphery structure, prestige measures and null-model hypothesis tests. The work sits in sports analytics and applies network science to competition: a match graph records who beat whom, and its structure shows how a sport distributes prestige.
 
 \section{Problem and Motivation}
 \label{problem-and-motivation}
@@ -83,6 +83,8 @@ The study asks three research questions:
     \item \textbf{RQ3 (Tour comparison):} Over the common 2007-2025 period, how do the ATP and WTA tours compare in topological cohesion, prestige inequality and competitive balance?
 \end{enumerate}
 We test eight hypotheses: network-level properties (H1 to H5), monadic prestige (H6), dyadic dominance carry-over (H7) and mixed scheduling homophily (H8). The tests use degree-preserving configuration nulls and permutation baselines, including Quadratic Assignment Procedure (QAP) regressions \cite{krackhardt1988,maslov2002}.
+
+The contributions are threefold. First, the study compares eras, surfaces and tours with one design, so that differences can be read against the same null models. Second, it validates the data against a published reference and against a second source before drawing conclusions. Third, it tests hypotheses at four levels (network, monadic, dyadic and mixed) rather than reporting descriptive measures alone.
 
 \section{Datasets}
 \label{datasets}
@@ -169,9 +171,9 @@ where $\phi(k)$ is the edge density among the players whose degree exceeds $k$ \
 
 \subsection{Network Structure and Topology}
 
-\paragraph{Sparsity and connectivity.} The nine comparative networks are sparse, with directed densities from 0.009 to 0.032 (Figure~\ref{fig:global}). The giant strongly connected component holds 62.2\% to 69.5\% of the players, and average directed path lengths are between 2.4 and 3.3 steps, with diameters never above 9. Short paths do not make these networks small worlds. The small-world index $\sigma$ is 0.85 to 0.92 in the four ATP eras, below 1, and 1.05 to 1.33 for the surfaces and the 2007-2025 tours, so the eras do not show small-world structure in the sense of Watts and Strogatz \cite{watts1998}.
+\paragraph{Sparsity and connectivity.} The nine comparative networks are sparse, with directed densities from 0.009 to 0.032 (Figure~\ref{fig:global}). The giant strongly connected component holds 62.2\% to 69.5\% of the players, and average directed path lengths are between 2.4 and 3.3 steps, with diameters never above 9. Short paths do not make these networks small worlds. The small-world index $\sigma$ is 0.85 to 0.91 in the four ATP eras, below 1, and 1.05 to 1.33 for the surfaces and the 2007-2025 tours, so the eras do not show small-world structure in the sense of Watts and Strogatz \cite{watts1998}.
 
-\paragraph{Reciprocity and modularity.} Reciprocity is 0.28 on hard courts and 0.21 on clay, and between 0.29 and 0.30 across the eras. Grass courts are the exception at 0.086, which fits a five-week grass swing that leaves little room for rematches. Louvain modularity is 0.38 on the surfaces and 0.11 to 0.15 in the shorter eras.
+\paragraph{Reciprocity and modularity.} Reciprocity is 0.28 on hard courts and 0.21 on clay, and between 0.29 and 0.30 across the eras. Grass courts are the exception at 0.086, which fits a five-week grass swing that leaves little room for rematches. Louvain modularity is 0.38 on the surfaces and 0.11 to 0.15 in the shorter eras. Distances in the giant component are 1.24 to 1.42 times those of a random graph with the same size, and global efficiency lies between 0.36 and 0.43. Louvain finds between 3 communities (grass) and 15 (WTA): the WTA network splits into many more groups, which we read as lower cohesion, although we have not tested that reading against career cohorts.
 
 \paragraph{Degree distributions.} Figure~\ref{fig:topology} (top row) shows the distribution of distinct opponents. Clauset-Shalizi-Newman likelihood-ratio tests \cite{clauset2009} reject a pure power law in all nine networks ($R < 0$, $p < 0.001$), and a lognormal fits better in every case. The bounded tails follow from the tournament structure: draws of 32 to 128 players and annual scheduling caps limit how many different opponents a player can meet in a career.
 
@@ -204,7 +206,7 @@ where $\phi(k)$ is the edge density among the players whose degree exceeds $k$ \
 \label{fig:prestige}
 \end{figure}
 
-\paragraph{Structural roles and cores.} Figure~\ref{fig:structure} puts the role and core measures of the nine networks side by side. Authority scores track PageRank closely (Spearman between 0.96 and 0.99) and official rank (from $-0.62$ on grass courts to $-0.85$ in 2019-2025), so the top authorities are the players who beat strong opponents most often. The core holds 15\% to 20\% of the players and is far denser than the periphery. Between 93\% and 100\% of core members are in the official top 100, and the core overlaps the maximum $k$-core partition with Jaccard similarity from 0.54 to 0.87.
+\paragraph{Structural roles and cores.} Figure~\ref{fig:structure} puts the role and core measures of the nine networks side by side. Authority scores track PageRank closely (Spearman between 0.96 and 0.99) and official rank (from $-0.62$ on grass courts to $-0.85$ in 2019-2025), so the top authorities are the players who beat strong opponents most often. The core holds 15\% to 20\% of the players and is far denser than the periphery. Between 93\% and 100\% of core members are in the official top 100, and the core overlaps the maximum $k$-core partition with Jaccard similarity from 0.54 to 0.87. Hub scores follow official rank too, from $-0.61$ on grass to $-0.85$ in 2019-2025. Structural equivalence, the similarity of players' opponent profiles, averages 0.16 to 0.38 across networks, and QAP tests relate it to the rank gap ($r$ from 0.03 to 0.20), significantly in every network except clay and grass.
 
 \begin{figure}[tbp]
 \centering
@@ -230,7 +232,15 @@ where $\phi(k)$ is the edge density among the players whose degree exceeds $k$ \
 
 \subsection{Null Models and Hypothesis Testing}
 
-We test eight hypotheses against configuration nulls and permutation baselines. Table~\ref{tab:null} compares the empirical metrics with the nulls, and Figure~\ref{fig:hypotheses} gathers the tests by level. The $p$-values are raw two-sided permutation values at $\alpha = 0.05$, without correction for multiple testing, so the marginal results should be read with care. Figure~\ref{fig:yearly} shows the season-by-season trends behind H1 and H4.
+We test eight hypotheses against configuration nulls and permutation baselines. Table~\ref{tab:design} states each hypothesis with its expected direction and test, Table~\ref{tab:null} compares the empirical metrics with the nulls, and Figure~\ref{fig:hypotheses} gathers the tests by level. The $p$-values are raw two-sided permutation values at $\alpha = 0.05$. The Holm-adjusted values are in the result tables. Across the sixteen network-level tests, Holm leaves none below 0.05, so the verdicts on H1, H3 and H4 rest on the raw values and are nominal. Within their own tables, the H5 eras test and the H6 PageRank coefficients, H7 and H8 remain significant after correction. The eight H2 rows are z-scores, not independent tests, and are counted in the network family only for transparency. Figure~\ref{fig:yearly} shows the season-by-season trends behind H1 and H4.
+
+\begin{table}[tbp]
+\centering
+\footnotesize
+\gentable{tab_design.tex}
+\caption{The eight hypotheses: the expected direction, the level of the test, the statistical procedure and the research question each one addresses.}
+\label{tab:design}
+\end{table}
 
 \begin{table}[tbp]
 \centering
@@ -249,17 +259,17 @@ We test eight hypotheses against configuration nulls and permutation baselines. 
 
 \paragraph{H1 (prestige concentration): not supported, borderline.} The top-ten share is higher in 2007-2018 (0.265 against 0.234), but not significantly ($p = 0.060$). Degree centralization shows no difference ($p = 0.757$).
 
-\paragraph{H2 (early-round disassortativity): rejected.} Observed assortativity is weakly positive, between 0.03 and 0.16 \cite{newman2002}, while degree-preserving nulls are clearly disassortative ($-0.19$ to $-0.06$). Bracket seeding is a plausible explanation, since it keeps top seeds away from qualifiers in the early rounds, but our data do not test it directly.
+\paragraph{H2 (early-round disassortativity): rejected.} Observed assortativity is weakly positive, between 0.03 and 0.16 \cite{newman2002}, in each of the eight networks tested (the four ATP eras, three surfaces and the WTA tour; the aggregate ATP 2007-2025 network is left out of this test because it overlaps the eras). Degree-preserving nulls are clearly disassortative ($-0.19$ to $-0.06$). Bracket seeding is a plausible explanation, since it keeps top seeds away from qualifiers in the early rounds, but our data do not test it directly.
 
-\paragraph{H3 (grass centralization): supported.} Grass has lower absolute centralization than clay and hard courts. Once network size is controlled, however, it is more concentrated than its size-matched null ($p = 0.015$), and its top-ten share is higher ($p = 0.005$). A compressed calendar could explain this; the test does not establish the cause.
+\paragraph{H3 (grass centralization): supported on raw $p$-values.} Grass has lower absolute centralization than clay and hard courts. Once network size is controlled, however, it is more concentrated than its size-matched null ($p = 0.015$), and its top-ten share is higher ($p = 0.005$). A compressed calendar could explain this; the test does not establish the cause.
 
-\paragraph{H4 (ATP versus WTA): supported for prestige share.} The WTA top-ten share is lower than the ATP one (difference $-0.021$, $p = 0.016$, paired sign-flip test over 9,990 permutations). Degree centralization shows no significant tour difference ($p = 0.167$).
+\paragraph{H4 (ATP versus WTA): supported for prestige share on raw $p$-values.} The WTA top-ten share is lower than the ATP one (difference $-0.021$, $p = 0.016$, paired sign-flip test over 9,990 permutations). Degree centralization shows no significant tour difference ($p = 0.167$).
 
-\paragraph{H5 (triad hierarchy): supported for eras.} Cyclic triads are far rarer than the configuration null implies: the ratio to transitive triads is 0.172 to 0.221, against 0.333 under the null. In 2007-2012 the mean ratio over seasons is lower than in the other seasons (0.184 against 0.211, $p = 0.010$), while the two tours do not differ significantly ($p = 0.100$).
+\paragraph{H5 (triad hierarchy): supported for eras, also after Holm.} Cyclic triads are far rarer than the configuration null implies: the ratio to transitive triads is 0.172 to 0.221, against 0.333 under the null. In 2007-2012 the mean ratio over seasons is lower than in the other seasons (0.184 against 0.211, $p = 0.010$), while the two tours do not differ significantly ($p = 0.100$).
 
 \paragraph{H6 (monadic prestige): supported, with a collinearity caveat.} PageRank and total wins explain 61\% to 76\% of the variance in official rank. Rank is the dependent variable and 1 is the best position, so the negative PageRank coefficients ($-0.63$ to $-0.86$, $p = 0.001$) mean that higher prestige goes with a better rank. Wins add nothing once PageRank is included ($p \ge 0.415$), but the two predictors are strongly collinear, so the split between them is not causal.
 
-\paragraph{H7 and H8 (dyadic and mixed): supported.} Head-to-head balance on hard courts predicts balance on clay ($r = 0.149$) and on grass ($r = 0.123$), both with $p = 0.001$ in 999 QAP permutations. Players with similar surface profiles meet more often ($r = 0.056$), and a larger specialization distance predicts fewer meetings ($r = -0.094$).
+\paragraph{H7 and H8 (dyadic and mixed): supported.} Head-to-head balance on hard courts predicts balance on clay ($r = 0.149$) and on grass ($r = 0.123$), both with $p = 0.001$ in 999 QAP permutations. Players with similar surface profiles meet more often ($r = 0.056$), and a larger specialization distance predicts fewer meetings ($r = -0.094$). These effects are modest: a correlation of 0.06 to 0.15 explains little of the variance, so they point to a tendency rather than a strong rule.
 
 \begin{figure}[tbp]
 \centering
@@ -273,7 +283,7 @@ We test eight hypotheses against configuration nulls and permutation baselines. 
 
 The comparison gives the following picture. All nine networks are sparse, with short paths, but the four ATP eras are not small worlds by the index $\sigma$. Their degree tails are bounded, which fits the schedules and brackets that cap the number of opponents, and no network is scale-free.
 
-RQ1 asks how the ATP eras changed. The clearest change is in robustness under targeted removal: the 2019-2025 era keeps more of its giant component than the earlier eras. The top-ten prestige share is higher in 2007-2018, but not significantly so, and the 2007-2012 era has the lowest cyclic-triad ratio, which suggests a more rigid hierarchy at the Big Four peak (Figure~\ref{fig:yearly}(c)).
+RQ1 asks how the ATP eras changed. The clearest change is in robustness under targeted removal: the 2019-2025 era keeps more of its giant component than the earlier eras, a descriptive comparison that we did not test. The top-ten prestige share is higher in 2007-2018, but not significantly so, and the 2007-2012 era has the lowest cyclic-triad ratio, which suggests a more rigid hierarchy at the Big Four peak (Figure~\ref{fig:yearly}(c)).
 
 RQ2 asks how the surfaces differ. Grass networks have the lowest reciprocity and the most concentrated prestige once network size is controlled, which fits a short grass calendar that offers few rematches and compresses victories into a shorter window. Head-to-head dominance carries over from hard courts to clay and grass, while players with similar surface profiles meet more often.
 
@@ -285,7 +295,7 @@ Network measures reveal structure that win totals and point systems hide. PageRa
 \section{Critique}
 \label{critique}
 
-The study answers its research questions, but several limits matter for how far the results go.
+RQ2 is answered most fully. RQ1 is answered only in part: H5 is supported, H1 is borderline, and the robustness difference between eras is a descriptive comparison, not a tested effect. RQ3 holds for prestige but not for centralization, which does not differ significantly between tours. Several limits matter for how far these answers go.
 
 \paragraph{Boundary and tier.} Restricting the data to main draws of tour events excludes the Challenger and Futures circuits. Michieli's M4 shows what this costs: adding lower-tier events moves degree assortativity from $-0.004$ to $+0.272$ and brings in semi-professional players. Our findings describe the elite tour, not the whole tennis pyramid.
 

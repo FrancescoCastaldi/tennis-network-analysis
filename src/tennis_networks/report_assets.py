@@ -730,6 +730,37 @@ def table_sensitivity():
     )
 
 
+DESIGN_ROWS = [
+    ("H1", "Top-10 share and centralization are higher in 2007-2018 than in 2019-2025", "Network", "Season permutation", "RQ1"),
+    ("H2", "Degree assortativity is more negative than in configuration nulls (bracket seeding)", "Network", "Configuration null, $z$", "RQ1, RQ2"),
+    ("H3", "Grass is smaller and more centralized than clay and hard courts", "Network", "Match permutation, size-corrected", "RQ2"),
+    ("H4", "WTA prestige is less concentrated than ATP prestige", "Network", "Paired sign-flip over seasons", "RQ3"),
+    ("H5", "Fewer cyclic triads in 2007-2012 than in other seasons", "Network", "Season permutation of the cyclic ratio", "RQ1"),
+    ("H6", "PageRank explains official rank beyond total wins", "Monadic", "Permutation regression (OLS)", "RQ1, RQ3"),
+    ("H7", "Head-to-head dominance carries over from hard courts to clay and grass", "Dyadic", "QAP regression, 999 permutations", "RQ2"),
+    ("H8", "Players with similar surface profiles meet more often", "Mixed", "QAP regression, 999 permutations", "RQ2"),
+]
+
+
+def table_hypothesis_design():
+    """Hypotheses with their expected direction, level, test and research question (text only, no numbers)."""
+    rows = [f"{h} & {statement} & {level} & {test} & {rq} \\\\" for h, statement, level, test, rq in DESIGN_ROWS]
+    write(
+        "tab_design.tex",
+        "\n".join(
+            [
+                r"\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{5.2cm}llr@{}}",
+                r"\toprule",
+                r"H & Expected direction & Level & Test & RQ \\",
+                r"\midrule",
+                *rows,
+                r"\bottomrule",
+                r"\end{tabular}",
+            ]
+        ),
+    )
+
+
 def style():
     plt.rcParams.update(
         {
@@ -1174,7 +1205,7 @@ def figure_hypotheses():
     ax.set_yticks(range(len(h2)), [SHORT.get("td_" + n, n) for n in h2["net"]], fontsize=8)
     ax.set_xlabel("$z$-score of degree assortativity against 200 configuration nulls")
     ax.grid(axis="y", visible=False)
-    ax.set_title("(b) H2, degree assortativity above the null in all nine networks", loc="left", fontsize=10)
+    ax.set_title("(b) H2, degree assortativity above the null in all eight networks tested", loc="left", fontsize=10)
 
     ax = fig.add_subplot(gs[2])
     lev = levels.copy()
@@ -1375,6 +1406,7 @@ def main():
     table_sensitivity()
     table_topology()
     table_abc()
+    table_hypothesis_design()
     style()
     figure_topology()
     figure_yearly()
