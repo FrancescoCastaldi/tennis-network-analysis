@@ -18,7 +18,7 @@ which two players are linked if they met at least once.
 | Phenomenon | Measure | Module |
 |---|---|---|
 | Size, cohesion, distances | density, reciprocity, largest SCC, average distance, diameter | `measures.global_measures` |
-| Degree distribution | CCDF of distinct opponents | `report_assets.figure_degree` |
+| Degree distribution | CCDF of distinct opponents | `report_assets.figure_topology` |
 | Dominance and prestige | in-strength, PageRank, top-10 PageRank share, Gini, Freeman centralization of total degree (in-degree plus out-degree for directed graphs), Spearman with ranking | `measures` |
 | Elite core | k-core, Louvain communities and modularity | `measures` |
 | Robustness | largest component after removal by PageRank vs random | `measures.robustness_curve` |
@@ -45,7 +45,7 @@ helper. This does not change the configuration-model baseline specified for H2 b
 | H2 | Networks more disassortative than the configuration model | degree assortativity | 200 degree-preserving null graphs per network |
 | H3 | Grass smaller and more centralized than clay and hard | degree centralization, top-10 PageRank share | permutation of match surface labels (199), size-aware |
 | H4 | WTA prestige less concentrated than ATP | same as H1, paired by season | random sign flips (9,990) |
-| H5 | More rigid hierarchy at the peak of the Big Three (2007-2012) | 030C/030T per season | permutation of season labels (999) |
+| H5 | More rigid hierarchy at the peak of the Big Four (2007-2012) | 030C/030T per season | permutation of season labels (999) |
 | H6 | PageRank explains the ranking beyond the number of wins (monadic) | standardised betas of log PageRank and log wins | regression with permuted ranking (999) |
 | H7 | Head-to-head dominance carries over between surfaces (dyadic) | correlation of head-to-head balance matrices | QAP (999) |
 | H8 | Players with the same surface profile meet more often (mixed) | same-profile and specialisation-gap matrices vs matches played | QAP (999) |

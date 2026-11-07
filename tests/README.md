@@ -56,6 +56,7 @@ python -m tennis_networks.wordcount
 | File | Scope |
 |---|---|
 | `test_report_assets.py` | Generated tables and figures, headers, no NaN values |
+| `test_report_numbers.py` | Each number quoted in `report/main.tex` recomputed from `results/tables/` and compared with the text |
 | `test_version.py` | The package version agrees with the project metadata |
 | `test_security_privacy.py` | No student IDs, credentials, `.env` files or private keys in the repository |
 | `test_release.py` | Release script and tag checks |

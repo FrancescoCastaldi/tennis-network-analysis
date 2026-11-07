@@ -104,3 +104,19 @@ The course examination assesses three distinct conceptual pillars:
 * The preliminary narrative in Section 5 (*Measures and Results*) serves as an initial technical working scaffold assembled from pipeline outputs, providing clear empirical anchors so that Roles B2 and B3 do not start from a blank page.
 * **Roles B2 (Jacopo Bonifazi) and B3 (Gaetano Muscarello)** hold full editorial ownership of Section 5. They are expected to revise, reorganize, expand or condense this technical text to reflect their own analysis and ensure a balanced word allocation across the 5,000-word group ceiling.
 * Sections 1, 2, 6, and 7 remain reserved for Roles A and C, ensuring balanced contributions and authentic co-authoring across all five group members.
+
+## 6. Figures Instead of Tables, Raw and Holm p-values, and Verified Numbers
+
+### Context
+The report reached its word limit comfortably but read as a list of tables and values. The course asks for a report that shows what is measured and how each measure is interpreted, within 5,000 words. In the same pass, an audit found three problems: the H2 claim named nine networks where eight were tested, the small-world range was misquoted, and the Holm-adjusted p-values described in the README were not in the committed tables.
+
+### Decision
+* The result tables that repeat numbers already shown in a figure are no longer in the PDF. Their CSV and LaTeX source remain generated for the repository and the tests. The PDF shows ten figures and three tables.
+* Hypothesis p-values are reported raw, as permutation probabilities. The Holm-adjusted values are in the results tables (`p_value_holm`), computed within each table, and the report states the family used for the correction.
+* Every number quoted in `report/main.tex` is checked against `results/tables/` by `tests/test_report_numbers.py`. A change in results or text that breaks the agreement fails the test suite.
+* Student numbers appear only in the author block of `report/main.tex`, as the course template asks. The privacy test exempts that file and no other.
+
+### Rationale and Benefits
+* Figures let a reader compare groups and verdicts at a glance; the tables stay available for lookup.
+* Raw p-values with an explicit correction family avoid hiding the multiplicity question behind a single adjusted number.
+* A test that ties each claim to its source file prevents the text and the results from drifting apart again.

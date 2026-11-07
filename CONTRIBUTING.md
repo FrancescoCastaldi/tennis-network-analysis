@@ -95,7 +95,7 @@ A published tag is never moved or deleted: fix forward with a patch release. `ma
 
 - Academic English, 12 pt, at most 5,000 words in total (`python -m tennis_networks.wordcount`).
 - At most ten figures. Every figure and table is referenced in the text.
-- Report names, emails and student ID numbers only in the title block of the final PDF.
+- Report names and student ID numbers only in the author block of `report/main.tex` (the title block of the final PDF). No emails.
 
 ## Local setup
 

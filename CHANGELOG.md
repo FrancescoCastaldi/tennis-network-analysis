@@ -31,6 +31,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 - Condense repeated background, methods, results, and conclusion text while preserving the thirteen-network design, A/B/C measure explanations, key values, limitations, and course formatting.
 
 ### Fixed
+- Report fixes from an audit of text against results: H2 is tested in eight networks, not nine (the aggregate ATP 2007-2025 network is not in the test); the small-world index range is 0.85 to 0.91 in the four ATP eras; the hypothesis, triad and level tables now carry the Holm-adjusted p-values, computed from the committed raw p-values. A rerun on the current machine reproduces the raw values to three decimals but not exactly (the WTA null statistics differ by up to 1.1 in z), so the committed results are kept. Across the sixteen network-level tests Holm leaves none below 0.05; the report says so.
 - Report figures: all text in the figures is at least 8 pt at print size, figure heights are increased to fit the labels, and the two older figures are drawn at the text width.
 - Report: the leader figure skips labels that would overlap, and the paragraph spacing is raised slightly. The rendered PDF was checked page by page.
 - Report numbers and ranges now match `results/tables/`: HITS and core-periphery values, degree assortativity (0.03 to 0.16), the small-world index (below 1 in the four ATP eras), the targeted-attack resilience figures and the H1, H3 and H4 sensitivity wording.
@@ -49,6 +50,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 - Report: the Reproducibility section is shortened from 108 to about 40 words so that the report with all open pull requests stays under 5,000 words.
 
 ### Added
+- Report: a hypothesis table with expected direction, level, test and research question; contributions paragraph in the introduction; compactness, communities, hubs and structural equivalence reported in Section 5; a test (`tests/test_report_numbers.py`) that checks each quoted number against the committed results.
 
 - Run manifests record configuration, environment, and input fingerprints for analysis runs.
 - Hypothesis result tables now include Holm-adjusted p-values alongside the raw permutation values.
