@@ -11,7 +11,7 @@ Do not edit these files by hand. Change the code and rerun the stage that owns t
 
 | File | Produced by | Content |
 |---|---|---|
-| `hypothesis_tests.csv` | `hypotheses` | H1 to H4 permutation tests, raw and Holm-adjusted p-values |
+| `hypothesis_tests.csv` | `hypotheses` | H1, H3 and H4 permutation tests, H2 against the nulls in eight networks; raw and Holm-adjusted p-values |
 | `triads_h5.csv` | `triads` | H5 test on the cyclic-to-transitive ratio |
 | `levels_tests.csv` | `levels` | H6 (monadic), H7 (dyadic) and H8 (mixed) tests |
 | `sensitivity_tests.csv`, `sensitivity_variants.csv` | `sensitivity` | H1, H3, H4 under each cleaning choice |
