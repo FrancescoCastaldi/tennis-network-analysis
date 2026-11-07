@@ -32,6 +32,8 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 - Condense repeated background, methods, results, and conclusion text while preserving the thirteen-network design, A/B/C measure explanations, key values, limitations, and course formatting.
 
 ### Fixed
+- Clean macOS AppleDouble metadata (`._*`) across repository and ignore in `.gitignore`.
+- Report: harmonize H2 assortativity text between Table 3 (undirected projection range -0.036 to 0.098) and directed measures (0.03 to 0.16); eliminate overfull hbox warnings in author block, URL formatting, and Table 2 column width (`report_assets.py`); swap Table 2 and Table 3 descriptions in `report/README.md`.
 - Report fixes from an audit of text against results: H2 is tested in eight networks, not nine (the aggregate ATP 2007-2025 network is not in the test); the small-world index range is 0.85 to 0.91 in the four ATP eras; the hypothesis, triad and level tables now carry the Holm-adjusted p-values, computed from the committed raw p-values. A rerun on the current machine reproduces the raw values to three decimals but not exactly (the WTA null statistics differ by up to 1.1 in z), so the committed results are kept. Across the sixteen network-level tests Holm leaves none below 0.05; the report says so.
 - Report figures: all text in the figures is at least 8 pt at print size, figure heights are increased to fit the labels, and the two older figures are drawn at the text width.
 - Report: impersonal academic style throughout (no first-person plural), course references and process narration removed.

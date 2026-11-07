@@ -779,7 +779,7 @@ def table_hypothesis_design():
         "tab_design.tex",
         "\n".join(
             [
-                r"\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{5.2cm}llr@{}}",
+                r"\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{4.7cm}llr@{}}",
                 r"\toprule",
                 r"H & Expected direction & Level & Test & RQ \\",
                 r"\midrule",

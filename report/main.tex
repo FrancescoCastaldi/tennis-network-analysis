@@ -48,7 +48,7 @@
 \newcommand{\gentable}[1]{\input{tables/#1}}
 
 \author{%
-\begin{tabular}{@{}l@{\hspace{1.4em}}l@{\hspace{1.4em}}l@{}}
+\begin{tabular}{@{}l@{\hspace{0.9em}}l@{\hspace{0.9em}}l@{}}
 Jacopo Bonifazi & {\small Master's Degree in Computer Science} & {\small matricola 0001217841} \\[3pt]
 Francesco Castaldi & {\small Master's Degree in Computer Science} & {\small matricola 0001230662} \\[3pt]
 Paolo Fusco & {\small Master's Degree in Computer Science} & {\small matricola 0001218037} \\[3pt]
@@ -93,7 +93,7 @@ Each network is modeled as a one-mode directed, weighted graph $G = (V, E, W)$. 
 
 \paragraph{Reference networks of Michieli (2018).} The reference data are four networks (M1 to M4) from Michieli's study of ATP matches up to 2018 \cite{michieli2018}. M1 holds the directed victories, M3 is its undirected projection, and M4 adds lower-tier matches. M2 uses point weights and no direction, so it is left out of the directional comparisons. The reference matrices have no timestamps, so they serve only to validate the method.
 
-\paragraph{Comparative datasets (tennis-data.co.uk).} The match data come from \texttt{tennis-data.co.uk} \cite{tennisdata} and cover 26 ATP seasons (2000 to 2025) and 19 WTA seasons (2007 to 2025). Walkovers were removed, and retirements were kept, since the match had started. Player names were standardized. The 1,685 carpet-court matches, played up to 2008, were left out of the surface comparisons so that all surfaces cover the same period. The cleaned corpus has 114,084 matches (68,972 ATP and 45,112 WTA).
+\paragraph{Comparative datasets (tennis-data.co.uk).} The match data come from \texttt{tennis-data}\allowbreak\texttt{.co.uk} \cite{tennisdata} and cover 26 ATP seasons (2000 to 2025) and 19 WTA seasons (2007 to 2025). Walkovers were removed, and retirements were kept, since the match had started. Player names were standardized. The 1,685 carpet-court matches, played up to 2008, were left out of the surface comparisons so that all surfaces cover the same period. The cleaned corpus has 114,084 matches (68,972 ATP and 45,112 WTA).
 
 \subsection{Comparative Network Partitions}
 Figure~\ref{fig:study} shows the nine comparative networks: four ATP eras, three ATP surfaces over 2000-2025, and the ATP and WTA tours over 2007-2025. Within each network window, a player's median official ranking places the player in one of three tiers: Top 10, Ranks 11-100, or Beyond 100. Computations use Python, NetworkX 3.6 \cite{networkx} and pandas, and all random draws use the fixed seed 20261115.
@@ -183,7 +183,7 @@ where $\phi(k)$ is the edge density among the players whose degree exceeds $k$ \
 \label{fig:topology}
 \end{figure}
 
-\paragraph{Ranking homophily.} Top-ten players meet one another more often than a uniform assignment of bands predicts. Once the permutation nulls control for each player's degree, however, the same-band share falls within 2.5 standard deviations of the configuration expectation ($|z| \le 2.44$). Ranking-band assortativity is close to zero ($-0.01$ to $0.03$), while degree assortativity lies between $0.03$ and $0.16$. Elite players meet often mainly because deep runs accumulate matches. Figure~\ref{fig:core_homophily} shows the core and the band mixing for 2007-2012.
+\paragraph{Ranking homophily.} Top-ten players meet one another more often than a uniform assignment of bands predicts. Once the permutation nulls control for each player's degree, however, the same-band share falls within 2.5 standard deviations of the configuration expectation ($|z| \le 2.44$). Ranking-band assortativity is close to zero ($-0.01$ to $0.03$), while directed degree assortativity lies between $0.03$ and $0.16$ (spanning $-0.036$ to $0.098$ on the undirected projection). Elite players meet often mainly because deep runs accumulate matches. Figure~\ref{fig:core_homophily} shows the core and the band mixing for 2007-2012.
 
 \begin{figure}[tbp]
 \centering
@@ -258,7 +258,7 @@ Eight hypotheses are tested against configuration nulls and permutation baseline
 
 \paragraph{H1 (prestige concentration): not supported, borderline.} The top-ten share is higher in 2007-2018 (0.265 against 0.234), but not significantly ($p = 0.060$). Degree centralization shows no difference ($p = 0.757$).
 
-\paragraph{H2 (early-round disassortativity): rejected.} Observed assortativity is weakly positive, between 0.03 and 0.16 \cite{newman2002}, in each of the eight networks tested (the four ATP eras, three surfaces and the WTA tour; the aggregate ATP 2007-2025 network is left out of this test because it overlaps the eras). Degree-preserving nulls are clearly disassortative ($-0.19$ to $-0.06$). Bracket seeding is a plausible explanation, since it keeps top seeds away from qualifiers in the early rounds, but the data do not test it directly.
+\paragraph{H2 (early-round disassortativity): rejected.} On the undirected match projection, observed assortativity $r$ spans $-0.036$ to $0.098$ (Table~\ref{tab:null}), while directed degree assortativity ranges from $0.03$ to $0.16$ \cite{newman2002} across the eight networks tested (the four ATP eras, three surfaces and the WTA tour; the aggregate ATP 2007-2025 network is left out of this test because it overlaps the eras). Both representations lie 16 to 35 standard deviations above the degree-preserving configuration nulls, which are markedly disassortative ($-0.19$ to $-0.06$, $z \ge 16.1$, $p \le 0.01$). Bracket seeding keeps top seeds away from qualifiers in early rounds, but deep tournament runs between elite players keep empirical networks substantially more assortative than random pairings.
 
 \paragraph{H3 (grass centralization): supported on raw $p$-values.} Grass has lower absolute centralization than clay and hard courts. Once network size is controlled, however, it is more concentrated than its size-matched null ($p = 0.015$), and its top-ten share is higher ($p = 0.005$). A compressed calendar could explain this; the test does not establish the cause.
 
