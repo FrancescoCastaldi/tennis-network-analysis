@@ -769,46 +769,6 @@ def save(fig, name):
 GROUPS = [("(a) ATP eras", ERAS), ("(b) ATP surfaces, 2000-2025", SURFACES), ("(c) ATP vs WTA, 2007-2025", TOURS)]
 
 
-def figure_degree():
-    fig, axes = plt.subplots(1, 3, figsize=(6.5, 2.7), sharey=True)
-    for ax, (title, nets) in zip(axes, GROUPS, strict=True):
-        for i, n in enumerate(nets):
-            deg = np.sort(np.array([d for _, d in undirected(n).degree()]))
-            ccdf = 1 - np.arange(len(deg)) / len(deg)
-            ax.loglog(deg, ccdf, color=COLORS[i], label=PLAIN[n], marker=MARKERS[i], markevery=0.12, markersize=4)
-        ax.set_title(title, loc="left", fontsize=10)
-        ax.set_xlabel("distinct opponents $k$")
-        ax.legend(loc="lower left", fontsize=8)
-    axes[0].set_ylabel(r"$P(K \geq k)$")
-    fig.tight_layout()
-    save(fig, "fig_degree_ccdf")
-
-
-def figure_robustness():
-    fig, axes = plt.subplots(1, 3, figsize=(6.5, 2.85), sharey=True)
-    for ax, (title, nets) in zip(axes, GROUPS, strict=True):
-        for i, n in enumerate(nets):
-            c = pd.read_csv(TABLES / f"{n}_robustness.csv")
-            ax.plot(c["fraction"], c["attack"], color=COLORS[i], marker=MARKERS[i], markersize=3.5, label=PLAIN[n])
-            ax.plot(c["fraction"], c["random"], color=COLORS[i], linestyle="--", linewidth=1.2)
-        ax.set_title(title, loc="left", fontsize=10)
-        ax.set_xlabel("share of players removed")
-        ax.legend(loc="lower left", fontsize=8)
-    axes[0].set_ylabel("relative largest component")
-    axes[2].text(
-        0.98,
-        0.98,
-        "solid: by PageRank\ndashed: random",
-        transform=axes[2].transAxes,
-        ha="right",
-        va="top",
-        fontsize=8,
-        color=MUTED,
-    )
-    fig.tight_layout()
-    save(fig, "fig_robustness")
-
-
 def figure_yearly():
     y = pd.read_csv(TABLES / "yearly_statistics.csv").set_index("season")
     fig, axes = plt.subplots(1, 2, figsize=(6.5, 2.85))
@@ -1041,26 +1001,6 @@ def figure_core_homophily():
     save(fig, "fig_core_homophily")
 
 
-def figure_rich_club():
-    """Compare peak normalized rich-club coefficients across the nine networks."""
-    rc = pd.read_csv(TABLES / "rich_club_summary.csv").set_index("network").loc[NETS]
-    fig, ax = plt.subplots(figsize=(6.5, 2.9))
-    positions = np.arange(len(NETS))
-    for y, network in zip(positions, NETS, strict=True):
-        value = rc.loc[network, "rho_rich_peak"]
-        ax.hlines(y, 1.0, value, color=COLORS[0], linewidth=1.3, alpha=0.7)
-        ax.scatter(value, y, s=28, color=COLORS[0], edgecolor="white", linewidth=0.6, zorder=3)
-        ax.text(value + 0.006, y, f"{value:.3f}", va="center", ha="left", fontsize=8.5, color=INK)
-    ax.axvline(1.0, color=MUTED, linestyle="--", linewidth=0.9)
-    ax.set_yticks(positions, [SHORT[n] for n in NETS], fontsize=8.5)
-    ax.invert_yaxis()
-    ax.set_xlim(0.99, 1.27)
-    ax.set_xlabel(r"peak normalized rich-club coefficient $\rho_{\mathrm{rich}}(k^*)$", fontsize=9)
-    ax.grid(axis="y", visible=False)
-    fig.tight_layout()
-    save(fig, "fig_rich_club")
-
-
 def _draw_reproduction(ax):
     """Relative difference between our value and the paper's, per reference measure of Michieli (2018)."""
     rep = pd.read_csv(TABLES / "michieli_reproduction.csv")
@@ -1271,6 +1211,77 @@ def figure_hypotheses():
     save(fig, "fig_hypotheses")
 
 
+def figure_topology():
+    """Degree distributions (top row) and targeted versus random removal (bottom row), per group."""
+    fig, axes = plt.subplots(2, 3, figsize=(5.9, 4.6), sharey="row")
+    for col, (title, nets) in enumerate(GROUPS):
+        ax_deg, ax_rob = axes[0, col], axes[1, col]
+        for i, n in enumerate(nets):
+            deg = np.sort(np.array([d for _, d in undirected(n).degree()]))
+            ccdf = 1 - np.arange(len(deg)) / len(deg)
+            ax_deg.loglog(deg, ccdf, color=COLORS[i], label=PLAIN[n], marker=MARKERS[i], markevery=0.12, markersize=3.5)
+            c = pd.read_csv(TABLES / f"{n}_robustness.csv")
+            ax_rob.plot(c["fraction"], c["attack"], color=COLORS[i], marker=MARKERS[i], markersize=3, label=PLAIN[n])
+            ax_rob.plot(c["fraction"], c["random"], color=COLORS[i], linestyle="--", linewidth=1.0)
+        ax_deg.set_title(title, loc="left", fontsize=9)
+        ax_deg.set_xlabel("distinct opponents $k$")
+        ax_deg.legend(loc="lower left", fontsize=7)
+        ax_rob.set_xlabel("share of players removed")
+        ax_rob.legend(loc="lower left", fontsize=7)
+    axes[0, 0].set_ylabel(r"$P(K \geq k)$")
+    axes[1, 0].set_ylabel("largest component")
+    axes[1, 2].text(
+        0.98,
+        0.98,
+        "solid: by PageRank\ndashed: random",
+        transform=axes[1, 2].transAxes,
+        ha="right",
+        va="top",
+        fontsize=7,
+        color=MUTED,
+    )
+    fig.tight_layout()
+    save(fig, "fig_topology")
+
+
+def figure_structure():
+    """Core-periphery, HITS and rich-club values of the nine networks, one row per network."""
+    st = pd.read_csv(TABLES / "structure_summary.csv").set_index("network").loc[NETS]
+    rc = pd.read_csv(TABLES / "rich_club_summary.csv").set_index("network").loc[NETS]
+    ypos = np.arange(len(NETS))[::-1]
+    labels = [SHORT[n] for n in NETS]
+    fig, axes = plt.subplots(1, 4, figsize=(5.9, 3.4), sharey=True, layout="constrained")
+    ax = axes[0]
+    ax.scatter(st["authority_pagerank_spearman"], ypos, s=18, color=COLORS[0], label="vs PageRank", zorder=3)
+    ax.scatter(
+        st["authority_rank_spearman"], ypos, s=18, color=COLORS[1], marker="s", label="vs official rank", zorder=3
+    )
+    ax.axvline(0, color=MUTED, linewidth=0.8)
+    ax.set_xlim(-1, 1.05)
+    ax.set_yticks(ypos, labels, fontsize=7.5)
+    ax.set_title("(a) HITS", loc="left", fontsize=8.5)
+    ax = axes[1]
+    ax.scatter(st["core_share"], ypos, s=18, color=COLORS[0], label="core share", zorder=3)
+    ax.scatter(st["core_kcore_jaccard"], ypos, s=18, color=COLORS[2], marker="^", label="Jaccard vs k-core", zorder=3)
+    ax.set_xlim(0, 1)
+    ax.set_title("(b) core", loc="left", fontsize=8.5)
+    ax = axes[2]
+    ax.scatter(st["density_core"], ypos, s=18, color=COLORS[0], label="core", zorder=3)
+    ax.scatter(st["density_periphery"], ypos, s=18, color=COLORS[1], marker="s", label="periphery", zorder=3)
+    ax.set_xscale("log")
+    ax.set_title("(c) density", loc="left", fontsize=8.5)
+    ax = axes[3]
+    ax.hlines(ypos, 1.0, rc["rho_rich_peak"], color=COLORS[0], linewidth=1.1, alpha=0.6)
+    ax.scatter(rc["rho_rich_peak"], ypos, s=18, color=COLORS[0], zorder=3)
+    ax.axvline(1.0, color=MUTED, linestyle="--", linewidth=0.8)
+    ax.set_xlim(0.99, 1.25)
+    ax.set_title(r"(d) rich club", loc="left", fontsize=8.5)
+    for axis in axes:
+        axis.grid(axis="y", visible=False)
+        axis.tick_params(axis="x", labelsize=7)
+    save(fig, "fig_structure")
+
+
 def main():
     table_networks()
     table_reproduction()
@@ -1285,14 +1296,13 @@ def main():
     table_topology()
     table_abc()
     style()
-    figure_degree()
-    figure_robustness()
+    figure_topology()
     figure_yearly()
     figure_network_core()
     figure_validity()
     figure_global_heatmap()
     figure_core_homophily()
-    figure_rich_club()
+    figure_structure()
     figure_hypotheses()
     print(f"Tables in {OUT_TAB}, figures in {OUT_FIG} (null models: {samples} samples)")
 
