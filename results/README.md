@@ -1,7 +1,8 @@
 # Results
 
-The numbers and figures produced by the pipeline. Everything here is deterministic: the seed is
-`20261115` and the configuration is in [`config/networks.json`](../config/networks.json).
+The numbers and figures produced by the pipeline. Everything here is generated from the seed
+`20261115` and the configuration in [`config/networks.json`](../config/networks.json). A rerun on another
+environment can differ slightly; the environment of the committed results is recorded in `run_manifest.json`.
 
 Do not edit these files by hand. Change the code and rerun the stage that owns the file.
 

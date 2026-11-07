@@ -21,4 +21,4 @@ Methods, data provenance and design decisions for the project, and the briefings
 
 ## Assets
 
-`assets/` holds the repository banner used in the root README.
+`assets/` holds the repository banner used in the root README and the summary card of the report pull request.
