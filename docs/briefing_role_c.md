@@ -21,11 +21,11 @@ All empirical tables, figures, and hypothesis tests have been computed, validate
 
 ### Key Empirical Findings to Synthesize
 1. **Network Topology and Absence of Scale-Free Structure**:
-   * All degree distributions (Figure 1) are concave on a log-log scale and drop sharply after 100 opponents.
+   * All degree distributions (degree CCDF figure) are concave on a log-log scale and drop sharply after 100 opponents.
    * Professional tennis is fundamentally bounded by tournament regulations: bracket caps (32 to 128 players) and annual tournament limits (~20 to 25 events per player) prevent power-law scale-free emergence.
 2. **The Touring Core and Percolation Robustness**:
    * The Borgatti-Everett discrete core-periphery model identifies a compact core encompassing 16% to 20% of all players (107 to 131 individuals), with intra-core density (~0.65) ten times higher than core-periphery density.
-   * Targeted node removal by PageRank (Figure 2) reveals that the tour relies on this elite core for overall cohesion: removing the top 20% halves the largest connected component.
+   * Targeted node removal by PageRank (robustness figure) reveals that the tour relies on this elite core for overall cohesion: removing the top 20% halves the largest connected component.
    * Notably, the contemporary era (2019-2025) is the most resilient, retaining 60% of its giant component at 20% node removal (compared to 51% to 55% in earlier eras), indicating a broader distribution of high-level competitive volume among Next Gen contenders.
 3. **The Big Three Era: Nuanced Concentration and Triad Rigidity**:
    * In H1, annual top-10 PageRank share was higher during 2007-2018 than 2019-2025 (0.265 against 0.234), but the difference was not statistically significant ($p = 0.060$). Concentration peaked in specific dominant seasons (2009, 2012, 2015) rather than remaining uniformly elevated across twelve years.
@@ -75,7 +75,7 @@ All empirical tables, figures, and hypothesis tests have been computed, validate
 * **No AI stylistic markers**: Do not use em-dashes, en-dashes, or double hyphens to separate clauses. Use standard human punctuation such as commas, colons, parentheses, or periods.
 * **Word ceiling**: Keep Section 6 around 450 words and Section 7 around 500 words. Total word count for Role C should not exceed 950-1,000 words.
 * **File encoding**: Ensure your LaTeX text is saved in pure UTF-8 encoding without BOM.
-* **Git workflow**: Work on the `main` branch. Pull before editing, make focused commits, and run the word count check:
+* **Git workflow**: Work on a feature branch and open a pull request (see `CONTRIBUTING.md`). Pull before editing, make focused commits, and run the word count check:
   ```powershell
   .venv\Scripts\python -m tennis_networks.wordcount
   ```

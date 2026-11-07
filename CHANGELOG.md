@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts. Directed Freeman centralization is normalized by the maximum total-degree star, and its interpretation is explicit in the report. The report has also been shortened while retaining its study design, measure interpretations, results, and limitations. The main ruleset requires one review and passing CI checks without administrator bypass.
 
 ### Changed
+- Report prose tightened: emphatic wording, mechanical connectives and the bulleted lists in Sections 1, 2 and 5.1 are replaced by plain sentences. The small-world index and the normalized rich-club coefficient are shown as display equations with their symbols defined.
+- Bibliography in one column, in order of first citation. The triad census, the small-world index and degree assortativity now have references.
 - Clarify that report hypothesis labels use raw permutation p-values, and
   soften causal language about bracket seeding and grass-court reciprocity in
   response to review feedback on report interpretation.
@@ -24,6 +26,9 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 - Condense repeated background, methods, results, and conclusion text while preserving the thirteen-network design, A/B/C measure explanations, key values, limitations, and course formatting.
 
 ### Fixed
+- Report numbers and ranges now match `results/tables/`: HITS and core-periphery values, degree assortativity (0.03 to 0.16), the small-world index (below 1 in the four ATP eras), the targeted-attack resilience figures and the H1, H3 and H4 sensitivity wording.
+- Report: Freeman centralization is defined for both uses (directed total degree for Table 5, undirected projection for the hypothesis tests), the sign of the rank correlations is explained, and the dependent variable of H6 is named.
+- Report: two claims stated as fact are now hedged (the 2020 season and bracket seeding), and the claim of identical outputs across runs is reworded to the seeded, reproducible sense.
 - Remove the duplicate explicit References heading so the bibliography shows one title with consistent spacing before its two-column list.
 
 - Normalize directed Freeman centralization by the maximum total-degree star, so reciprocal and one-way stars score 1 and 0.5 respectively. Clarify the measure in the API, methodology and report, and correct the reported network range.

@@ -53,8 +53,8 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error -cd report/main.tex
 The committed tables and figures compile without rerunning the statistics. To regenerate them, run
 `python -m tennis_networks.report_assets` (or `make report-assets`). Never edit them by hand.
 
-The title page uses the University of Bologna wordmark from `figures/unibo-logo-black.pdf` when the file
-is present. No logo file is committed, so the PDF uses a typographic label instead.
+The title block is produced by `\maketitle` from the author block: the names and degree programme, with the
+student numbers read from `private/authors.tex` when that untracked file exists. No logo is used.
 
 ## Word count
 

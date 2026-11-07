@@ -73,7 +73,7 @@ Ensure the following references are cited in your draft:
 * **No AI stylistic markers**: Do not use em-dashes, en-dashes, or double hyphens to separate clauses. Use standard human punctuation such as commas, colons, parentheses, or periods.
 * **Word ceiling**: Keep Section 1 around 450 words and Section 2 around 500 words. Total word count for Role A should not exceed 950-1,000 words.
 * **File encoding**: Ensure your LaTeX text is saved in pure UTF-8 encoding without BOM.
-* **Git workflow**: Work on the `main` branch. Pull before editing, make focused commits, and run the word count check:
+* **Git workflow**: Work on a feature branch and open a pull request (see `CONTRIBUTING.md`). Pull before editing, make focused commits, and run the word count check:
   ```powershell
   .venv\Scripts\python -m tennis_networks.wordcount
   ```
