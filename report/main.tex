@@ -16,6 +16,7 @@
 \usepackage{xcolor}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
+\usepackage{needspace}
 \usepackage{multicol}
 \usepackage{placeins}
 \usepackage{microtype}
@@ -211,7 +212,7 @@ where $\phi(k)$ is the edge density among the players whose degree exceeds $k$ \
 
 \subsection{Core Structure and Robustness}
 
-\paragraph{Robustness under targeted attack.} Figure~\ref{fig:topology} (bottom row) compares the removal of players in descending PageRank order with random removal. Random removal leaves most of the giant component. Targeted removal degrades it quickly: removing the top 20\% of players leaves 51\% to 65\% of the giant component, and removing 40\% leaves 1\% to 20\%. The 2019-2025 era is the most resilient at 20\% removal (60\%, against 51\% to 55\% in the three earlier ATP eras). A more even spread of contenders after the Big Three peak is a plausible reading, but the data do not test it.
+\paragraph{Robustness under targeted attack.} Figure~\ref{fig:topology} (bottom row) compares the removal of players in descending PageRank order with random removal. Random removal leaves most of the giant component. Targeted removal degrades it quickly: removing the top 20\% of players leaves 51\% to 65\% of the giant component, and removing 40\% leaves 1\% to 20\%. The 2019-2025 era is the most resilient at 20\% removal (60\%, against 51\% to 55\% in the three earlier ATP eras). A more even spread of contenders after the Big Four peak is a plausible reading, but the data do not test it.
 
 \paragraph{Elite core and triad hierarchy.} Figure~\ref{fig:network_core}(a) shows the directed core among the top twelve players in 2007-2012, with edge widths for head-to-head encounters. The Big Four (Federer, Nadal, Djokovic, Murray) dominate contenders such as Ferrer, Berdych and Del Potro. Panel (b) gives the 16-class triad census against 200 degree-preserving nulls \cite{holland1970}. Transitive triads ($030T$) are enriched ($z > 0$), while cyclic triads ($030C$, where A beats B, B beats C and C beats A) are depleted ($z < -1.96$). Outcomes form transitive ladders rather than cycles.
 
@@ -277,6 +278,7 @@ RQ3 asks how the tours compare. The WTA shows significantly lower prestige conce
 
 Network measures reveal structure that win totals and point systems hide. PageRank tracks official rankings closely (Spearman's $\rho$ near $-0.8$) while also weighting the quality of opponents. Network metrics must, however, be read against tournament brackets and calendars, which shape competitive topology.
 
+\needspace{6\baselineskip}
 \section{Critique}
 \label{critique}
 
