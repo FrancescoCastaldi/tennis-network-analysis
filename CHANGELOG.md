@@ -29,6 +29,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 - Condense repeated background, methods, results, and conclusion text while preserving the thirteen-network design, A/B/C measure explanations, key values, limitations, and course formatting.
 
 ### Fixed
+- Report figures: all text in the figures is at least 8 pt at print size, figure heights are increased to fit the labels, and the two older figures are drawn at the text width.
 - Report: the leader figure skips labels that would overlap, and the paragraph spacing is raised slightly. The rendered PDF was checked page by page.
 - Report numbers and ranges now match `results/tables/`: HITS and core-periphery values, degree assortativity (0.03 to 0.16), the small-world index (below 1 in the four ATP eras), the targeted-attack resilience figures and the H1, H3 and H4 sensitivity wording.
 - Report: Freeman centralization is defined for both uses (directed total degree for Table 5, undirected projection for the hypothesis tests), the sign of the rank correlations is explained, and the dependent variable of H6 is named.
