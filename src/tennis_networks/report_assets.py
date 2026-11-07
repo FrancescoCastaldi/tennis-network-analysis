@@ -771,19 +771,26 @@ GROUPS = [("(a) ATP eras", ERAS), ("(b) ATP surfaces, 2000-2025", SURFACES), ("(
 
 def figure_yearly():
     y = pd.read_csv(TABLES / "yearly_statistics.csv").set_index("season")
-    fig, axes = plt.subplots(1, 2, figsize=(6.5, 2.85))
+    tri = pd.read_csv(TABLES / "triads_by_season.csv").set_index("season")
+    fig, axes = plt.subplots(1, 3, figsize=(5.9, 2.5), layout="constrained")
     stats = ("top10_pagerank_share", "degree_centralization")
     labels = ("(a) top-10 PageRank share", "(b) degree centralization")
-    for ax, stat, label in zip(axes, stats, labels, strict=True):
+    for ax, stat, label in zip(axes[:2], stats, labels, strict=True):
         ax.axvspan(2006.5, 2018.5, color=GRID, alpha=0.6, linewidth=0)
         for i, tour in enumerate(("ATP", "WTA")):
-            s = y[f"{tour}_{stat}"].dropna()
-            ax.plot(s.index, s.values, color=COLORS[i], marker=MARKERS[i], markersize=4.5, linewidth=1.6, label=tour)
-        ax.set_title(label, loc="left", fontsize=10)
+            s_ = y[f"{tour}_{stat}"].dropna()
+            ax.plot(s_.index, s_.values, color=COLORS[i], marker=MARKERS[i], markersize=3.5, linewidth=1.4, label=tour)
+        ax.set_title(label, loc="left", fontsize=8.5)
         ax.set_xlabel("season")
-        ax.legend(loc="upper right", fontsize=8.5)
-    axes[0].text(2012.5, axes[0].get_ylim()[0], "2007-2018", ha="center", va="bottom", fontsize=8, color=MUTED)
-    fig.tight_layout()
+        ax.legend(loc="upper right", fontsize=7)
+    ax = axes[2]
+    ax.axvspan(2006.5, 2018.5, color=GRID, alpha=0.6, linewidth=0)
+    for i, tour in enumerate(("ATP", "WTA")):
+        s_ = tri[f"{tour}_cyclic_ratio"].dropna()
+        ax.plot(s_.index, s_.values, color=COLORS[i], marker=MARKERS[i], markersize=3.5, linewidth=1.4, label=tour)
+    ax.set_title("(c) cyclic / transitive triads", loc="left", fontsize=8.5)
+    ax.set_xlabel("season")
+    ax.legend(loc="lower left", fontsize=7)
     save(fig, "fig_yearly")
 
 
@@ -1282,6 +1289,73 @@ def figure_structure():
     save(fig, "fig_structure")
 
 
+def figure_study_design():
+    """Span, size and surface of the nine comparative networks, from the tennis-data summary."""
+    summ = pd.read_csv(TABLES / "td_networks_summary.csv").set_index("network").loc[NETS]
+    fig, ax = plt.subplots(figsize=(5.9, 2.7), layout="constrained")
+    ypos = np.arange(len(NETS))[::-1]
+    for y, n in zip(ypos, NETS, strict=True):
+        start = pd.Timestamp(summ.loc[n, "first"]).year + (pd.Timestamp(summ.loc[n, "first"]).day_of_year / 365.25)
+        end = pd.Timestamp(summ.loc[n, "last"]).year + (pd.Timestamp(summ.loc[n, "last"]).day_of_year / 365.25)
+        color = COLORS[0] if n in ERAS else COLORS[1] if n in SURFACES else COLORS[2]
+        ax.barh(y, end - start, left=start, height=0.55, color=color, alpha=0.85)
+        ax.text(
+            end + 0.3,
+            y,
+            f"{int(summ.loc[n, 'matches']):,} matches, {int(summ.loc[n, 'players']):,} players",
+            va="center",
+            fontsize=7,
+            color=INK,
+        )
+    ax.set_yticks(ypos, [SHORT[n] for n in NETS], fontsize=7.5)
+    ax.set_xlim(1999, 2050)
+    ax.set_xticks([2000, 2007, 2013, 2019, 2025])
+    ax.set_xlabel("period covered by the matches")
+    ax.grid(axis="y", visible=False)
+    save(fig, "fig_study_design")
+
+
+def figure_prestige():
+    """PageRank against median official rank for the leaders of each network, with the top five labelled."""
+    fig, axes = plt.subplots(2, 3, figsize=(5.9, 4.0), layout="constrained")
+    cols = ERAS + ["td_wta_2007_2025"]
+    for ax, n in zip(axes.flat, cols, strict=False):
+        nodes = pd.read_csv(TABLES / f"{n}_nodes.csv").set_index("node")
+        ranks = pd.read_csv(PROCESSED / f"{n}_ranks.csv", index_col="player")["rank"]
+        pr = nodes["pagerank"]
+        common = pr.index.intersection(ranks.index)
+        x = pr[common]
+        yv = ranks[common]
+        ax.scatter(x, yv, s=8, color=COLORS[0], alpha=0.45, edgecolors="none")
+        top = x.sort_values(ascending=False).head(3).index
+        for player in top:
+            ax.annotate(
+                player.split(" ")[0],
+                (x[player], yv[player]),
+                xytext=(3, 2),
+                textcoords="offset points",
+                fontsize=6.5,
+                color=INK,
+            )
+        ax.set_xscale("log")
+        ax.set_yscale("log")
+        ax.set_title(("ATP " + SHORT[n]) if n in ERAS else SHORT[n], loc="left", fontsize=8.5)
+        ax.set_xlabel("PageRank", fontsize=7.5)
+        ax.tick_params(labelsize=7)
+    axes[0, 0].set_ylabel("official rank (median)", fontsize=7.5)
+    axes[1, 0].set_ylabel("official rank (median)", fontsize=7.5)
+    axes[1, 2].axis("off")
+    axes[1, 2].text(
+        0.0,
+        0.5,
+        "Each point is a player.\nLabels: the three highest PageRank scores.\nRank 1 is the best position.",
+        fontsize=7.5,
+        color=MUTED,
+        va="center",
+    )
+    save(fig, "fig_prestige")
+
+
 def main():
     table_networks()
     table_reproduction()
@@ -1299,7 +1373,9 @@ def main():
     figure_topology()
     figure_yearly()
     figure_network_core()
+    figure_study_design()
     figure_validity()
+    figure_prestige()
     figure_global_heatmap()
     figure_core_homophily()
     figure_structure()
