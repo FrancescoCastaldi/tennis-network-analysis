@@ -50,6 +50,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 - Normalize the source spelling `Raducànu E.` to `Raducanu E.` before building processed match and network files.
 - `report_assets`: a table shows Holm-adjusted p-values only when every result file it draws from carries them, and otherwise shows the raw values under a raw heading, so stored results from before the correction are never labelled as adjusted. Tests in `tests/test_report_assets.py`.
 - Report: the Reproducibility section is shortened from 108 to about 40 words so that the report with all open pull requests stays under 5,000 words.
+- The spreadsheet loader skips macOS `._*` metadata files in `data/raw/tennisdata/`. Copies of the repository made on macOS contain such files, and pandas failed on them. The season list is built by `spreadsheet_files`, covered by a test. The results are unchanged: the 114,084 played matches are read again from the same spreadsheets.
 
 ### Added
 - Report: a hypothesis table with expected direction, level, test and research question; contributions paragraph in the introduction; compactness, communities, hubs and structural equivalence reported in Section 5; a test (`tests/test_report_numbers.py`) that checks each quoted number against the committed results.
@@ -127,6 +128,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 - Report: the unreferenced H1-H8 summary table (its data is in the detailed test tables) and the top-10 PageRank table (the leaders are named in the text), to shorten the report. No test or result changes.
 - `run_analysis.py` no longer writes `hypotheses_results.csv`: its placeholder marked H5 as supported without a test and measured H1 on the wrong statistic. H1-H8 come from `make hypotheses triads levels`.
 - Unused loaders for `.mat` and `.edgelist` files, Michieli network 2 (symmetric weights, no winner) and the global NumPy seed in `run_analysis.py`; messages and comments are now in English.
+
 
 ## [0.2.7] - 2026-10-19
 

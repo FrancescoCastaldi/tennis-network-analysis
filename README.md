@@ -40,7 +40,7 @@
 |---|---|
 | **Networks** | 13: 4 reference networks (Michieli, 2018) and 9 comparative networks built from 114,084 played matches (68,972 ATP, 45,112 WTA) |
 | **Hypotheses** | 8 tested: 6 supported, 1 not supported (H1), 1 rejected in the opposite direction (H2) |
-| **Reproducibility** | one seed (`20261115`), 208 tests, CI on every push, every table and figure generated from `results/` |
+| **Reproducibility** | one seed (`20261115`), 209 tests, CI on every push, every table and figure generated from `results/` |
 | **Report** | `report/main.tex`, 3,805 words by the repository count (`wordcount`) and 4,317 counting captions and references, against a limit of 5,000 |
 | **Deadline** | 27 November 2026, 23:59 (course exam session) |
 | **Version** | 0.2.7, see the [changelog](CHANGELOG.md) |
