@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts. Directed Freeman centralization is normalized by the maximum total-degree star, and its interpretation is explicit in the report. The report has also been shortened while retaining its study design, measure interpretations, results, and limitations. The main ruleset requires one review and passing CI checks without administrator bypass.
 
 ### Changed
+- Report RQ1 now says "Big Four dominance", the term used in Sections 5.3 and 6 for Federer, Nadal, Djokovic and Murray. "Big Three" is kept only where the three players are named.
 - Report title block: authors, degree programme and student numbers are set as one aligned table, one author per row.
 - Report layout tightened to 14 pages without changes to the text or the figures: paragraph headings take less space above, the author block has one line per author as in the course template, and four figures are shorter where they had empty margins.
 - Report reshaped around figures: a study-design timeline replaces the network table, a leader figure of PageRank against official rank replaces the leader table, and the yearly figure adds the cyclic-triad ratio by season. Sections 1, 2, 3, 6 and 7 are shortened, the figure count is ten (the approved maximum) and the report has two tables and 15 pages.
