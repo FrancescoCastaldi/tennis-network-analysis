@@ -175,29 +175,20 @@ where $\phi(k)$ is the edge density among the players whose degree exceeds $k$ \
 
 \subsection{Network Structure and Topology}
 
-\paragraph{Sparsity and connectivity.} Across all nine networks, professional tennis graphs are structurally sparse, with directed densities ranging from 0.009 to 0.032. Despite this sparsity, the giant strongly connected component encompasses between 62.2\% and 69.5\% of all players, so most players can reach one another along directed ties. Average directed path lengths are short, between 2.4 and 3.3 steps, with maximum diameters never exceeding 9. The small-world index $\sigma$ gives a different picture: it is 0.85 to 0.92 in the four ATP eras, below 1, and 1.05 to 1.33 for the surface networks and the 2007-2025 tours. Short paths alone therefore do not make these networks small worlds in the sense of Watts and Strogatz \cite{watts1998}. 
+\paragraph{Sparsity and connectivity.} The nine comparative networks are sparse, with directed densities from 0.009 to 0.032 (Figure~\ref{fig:global}). The giant strongly connected component holds 62.2\% to 69.5\% of the players, and average directed path lengths are between 2.4 and 3.3 steps, with diameters never above 9. Short paths do not make these networks small worlds. The small-world index $\sigma$ is 0.85 to 0.92 in the four ATP eras, below 1, and 1.05 to 1.33 for the surfaces and the 2007-2025 tours, so the eras do not show small-world structure in the sense of Watts and Strogatz \cite{watts1998}.
 
-Reciprocity averages 0.28 on hard courts and 0.21 on clay courts (ranging from 0.29 to 0.30 across the four eras), indicating that roughly one quarter to one third of competitive pairings involve mutual victories over time. The exception is grass courts, where reciprocity is 0.086. This lower value is consistent with seasonal calendar compression: the grass swing lasts only five weeks annually, providing minimal opportunity for scheduled rematches. Louvain modularity is higher in multi-decade surface networks (0.38) than in six-year eras (0.11 to 0.15), reflecting generational career turnover rather than isolated playing cliques.
+\paragraph{Reciprocity and modularity.} Reciprocity is 0.28 on hard courts and 0.21 on clay, and between 0.29 and 0.30 across the eras. Grass courts are the exception at 0.086, which fits a five-week grass swing that leaves little room for rematches. Louvain modularity is 0.38 on the surfaces and 0.11 to 0.15 in the shorter eras.
 
-\paragraph{Bounded opponent distributions.} Figure~\ref{fig:degree} presents the log-log complementary cumulative distribution function (CCDF) of distinct opponents. While many social graphs display scale-free power-law tails $P(k) \propto k^{-\alpha}$, Clauset-Shalizi-Newman likelihood-ratio tests \cite{clauset2009} reject pure power-law distributions in all nine networks ($R < 0, p < 0.001$, Table~\ref{tab:topology}). The lognormal distribution fits better than the power law in all nine networks. This structural ceiling arises directly from tournament realities: finite draw sizes (32 to 128 players) and annual scheduling caps restrict the maximum number of unique opponents any player can encounter in a career.
+\paragraph{Degree distributions.} Figure~\ref{fig:topology} (top row) shows the distribution of distinct opponents. Clauset-Shalizi-Newman likelihood-ratio tests \cite{clauset2009} reject a pure power law in all nine networks ($R < 0$, $p < 0.001$), and a lognormal fits better in every case. The bounded tails follow from the tournament structure: draws of 32 to 128 players and annual scheduling caps limit how many different opponents a player can meet in a career.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{fig_degree_ccdf.pdf}
-\caption{Complementary cumulative degree distributions (distinct opponents $k$) on log-log scales across: (a) ATP eras; (b) ATP court surfaces (2000-2025); (c) ATP versus WTA tours (2007-2025).}
-\label{fig:degree}
+\includegraphics[width=\textwidth]{fig_topology.pdf}
+\caption{Top row: complementary cumulative distributions of distinct opponents $k$ on log-log scales, by era (a), surface (b) and tour (c). Bottom row: relative size of the largest component when players are removed in descending PageRank order (solid) or at random (dashed).}
+\label{fig:topology}
 \end{figure}
 
-\begin{table}[htbp]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.5pt}
-\gentable{tab_topology.tex}
-\caption{Topological properties, power-law likelihood-ratio fits, compactness metrics, and ranking-band encounter ratios across the nine comparative networks.}
-\label{tab:topology}
-\end{table}
-
-\paragraph{Ranking homophily and degree confounding.} In naive observations, Top 10 players encounter one another between 9 and 23 times more frequently than expected under random uniform band assignment. However, this apparent homophily is largely an artifact of network activity. When permutation null models control for each player's observed degree, the aggregate same-band encounter share falls within 2.5 standard deviations of configuration expectations ($|z| \le 2.44$, Table~\ref{tab:topology}), though isolated elite pairings (Top 10 vs Top 10) retain moderate positive deviations up to $z = 3.9$ (in WTA 2007-2025, Figure~\ref{fig:core_homophily}). Ranking-band assortativity is close to zero ($-0.01$ to $0.03$), while degree assortativity ranges from $0.03$ to $0.16$. Thus, elite players meet frequently because their deep tournament progressions accumulate large numbers of matches, not because of intrinsic preferential attachment outside bracket design.
+\paragraph{Ranking homophily.} Top-ten players meet one another more often than a uniform assignment of bands predicts. Once the permutation nulls control for each player's degree, however, the same-band share falls within 2.5 standard deviations of the configuration expectation ($|z| \le 2.44$). Ranking-band assortativity is close to zero ($-0.01$ to $0.03$), while degree assortativity lies between $0.03$ and $0.16$. Elite players meet often mainly because deep runs accumulate matches. Figure~\ref{fig:core_homophily} shows the core and the band mixing for 2007-2012.
 
 \begin{figure}[htbp]
 \centering
@@ -208,9 +199,9 @@ Reciprocity averages 0.28 on hard courts and 0.21 on clay courts (ranging from 0
 
 \subsection{Prestige, Inequality and Leader Roles}
 
-\paragraph{Centrality and official rankings.} Weighted directed PageRank aligns with external official rankings in every era and circuit. Since rank 1 is the best position, a negative correlation means that higher PageRank goes with a better rank. Spearman's $\rho$ lies between $-0.80$ and $-0.85$ in all networks except grass courts, where it is $-0.65$. Win distributions are skewed, with in-strength Gini coefficients from 0.73 to 0.83. The Freeman centralization of the directed total degree is between 0.07 and 0.16, so ties are spread across the tour even though a few champions collect many wins.
+\paragraph{Centrality and official rankings.} Weighted directed PageRank aligns with official rankings in every network. Spearman's $\rho$ lies between $-0.80$ and $-0.85$, and is $-0.65$ on grass courts. Since rank 1 is the best position, a negative $\rho$ means that higher PageRank goes with a better rank. In-strength Gini coefficients range from 0.73 to 0.83, and the directed Freeman centralization from 0.07 to 0.16, so ties are spread across the tour even though a few players collect many wins.
 
-\paragraph{Leader nodes across eras.} Table~\ref{tab:top10} displays the top ten leader nodes ranked by directed PageRank across the four ATP eras and the WTA tour. The leaders of each era are as follows. In ATP 2000-2006, Roger Federer, Lleyton Hewitt and Andy Roddick come first, with the veterans Andre Agassi and Carlos Moya close behind. In ATP 2007-2012, Rafael Nadal, Novak Djokovic, Roger Federer and Andy Murray lead the Big Four era, followed by David Ferrer, Nikolay Davydenko and Jo-Wilfried Tsonga. In ATP 2013-2018, Djokovic and Nadal hold the top prestige, joined by Stan Wawrinka, Kei Nishikori and Marin Cilic. In ATP 2019-2025, Daniil Medvedev, Alexander Zverev, Jannik Sinner and Carlos Alcaraz rise alongside an enduring Novak Djokovic. In the WTA 2007-2025 network, Serena Williams and Victoria Azarenka lead, followed by Caroline Wozniacki, Petra Kvitova, Angelique Kerber and Simona Halep.
+\paragraph{Leaders.} Table~\ref{tab:top10} lists the ten leading players of each network by PageRank. Federer leads 2000-2006, Nadal leads 2007-2012, and Nadal and Djokovic hold the top two places in 2013-2018. In 2019-2025 Medvedev, Zverev, Sinner and Alcaraz rise alongside Djokovic. Serena Williams and Victoria Azarenka lead the WTA network.
 
 \begin{table}[htbp]
 \centering
@@ -221,22 +212,20 @@ Reciprocity averages 0.28 on hard courts and 0.21 on clay courts (ranging from 0
 \label{tab:top10}
 \end{table}
 
-\paragraph{Structural roles and core-periphery.} In Kleinberg's HITS model, authority scores correlate closely with PageRank (Spearman $\rho$ between 0.96 and 0.99) and with official ranking ($\rho$ between $-0.62$ on grass courts and $-0.85$ in the 2019-2025 ATP era), so the top authorities are the players who beat strong opponents most often. Hub scores correlate similarly, distinguishing tour regulars who advance deep into draws from early-round qualifiers. Borgatti-Everett core-periphery analysis finds a core of 15\% to 20\% of players, which is far denser than the periphery: its internal density ranges from 0.20 on grass courts to 0.70 in 2007-2012, while the periphery has density between 0.005 and 0.009. Between 93\% and 100\% of core members hold a median official ranking in the Top 100. The core overlaps with the maximum $k$-core partition, with Jaccard similarity from 0.54 to 0.87 (Table~\ref{tab:structure}).
-
-\subsection{Core Structure and Robustness}
-
-\paragraph{Network robustness under targeted attack.} Figure~\ref{fig:robustness} evaluates network resilience by simulating the sequential removal of players. Under random attrition (dashed lines), all networks degrade gracefully, retaining cohesive connectivity. Under targeted attack by descending PageRank (solid lines), connectivity degrades rapidly: removing the top 20\% of players leaves between 51\% and 65\% of the giant component, and removing 40\% leaves only 1\% to 20\% of it. The recent 2019-2025 era displays greater resilience under targeted attack (retaining 60\% of its giant component at 20\% removal) than earlier eras (51\% to 55\%), reflecting a more dispersed distribution of contenders following the Big Three peak.
+\paragraph{Structural roles and cores.} Figure~\ref{fig:structure} puts the role and core measures of the nine networks side by side. Authority scores track PageRank closely (Spearman between 0.96 and 0.99) and official rank (from $-0.62$ on grass courts to $-0.85$ in 2019-2025), so the top authorities are the players who beat strong opponents most often. The core holds 15\% to 20\% of the players and is far denser than the periphery. Between 93\% and 100\% of core members are in the official top 100, and the core overlaps the maximum $k$-core partition with Jaccard similarity from 0.54 to 0.87.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{fig_robustness.pdf}
-\caption{Network robustness under targeted versus random node removal: relative size of the giant connected component as players are removed in descending order of PageRank (solid) versus uniform random removal (dashed).}
-\label{fig:robustness}
+\includegraphics[width=\textwidth]{fig_structure.pdf}
+\caption{Structural roles and cores, one row per network: (a) Spearman correlation of HITS authority with PageRank (circles) and with official rank (squares); (b) core share (circles) and Jaccard overlap with the maximum $k$-core (triangles); (c) density of the core (circles) and of the periphery (squares), log scale; (d) peak normalized rich-club coefficient, with the null baseline at 1.0 dashed.}
+\label{fig:structure}
 \end{figure}
 
-\paragraph{Elite core tournament and triad hierarchy.} Figure~\ref{fig:network_core}(a) visualizes the directed core tournament among the top twelve players during the 2007-2012 era. Edge line widths reflect head-to-head match frequencies, highlighting intense rivalries among the Big Four (Federer, Nadal, Djokovic, Murray) and their structural dominance over contenders such as Ferrer, Berdych, and Del Potro.
+\subsection{Core Structure and Robustness}
 
-Figure~\ref{fig:network_core}(b) displays the corresponding 16-class Holland-Leinhardt triad census \cite{holland1970} spectrum against 200 degree-preserving null models. The hierarchy is clear: transitive triads ($030T$) are enriched ($z > 0$), while cyclic tournament triads ($030C$, where player A beats B, B beats C, and C beats A) are depleted ($z < -1.96$). Outcomes form transitive ladders rather than cyclic loops.
+\paragraph{Robustness under targeted attack.} Figure~\ref{fig:topology} (bottom row) compares the removal of players in descending PageRank order with random removal. Random removal leaves most of the giant component. Targeted removal degrades it quickly: removing the top 20\% of players leaves 51\% to 65\% of the giant component, and removing 40\% leaves 1\% to 20\%. The 2019-2025 era is the most resilient at 20\% removal (60\%, against 51\% to 55\% in the three earlier ATP eras). A more even spread of contenders after the Big Three peak is a plausible reading, but the data do not test it.
+
+\paragraph{Elite core and triad hierarchy.} Figure~\ref{fig:network_core}(a) shows the directed core among the top twelve players in 2007-2012, with edge widths for head-to-head encounters. The Big Four (Federer, Nadal, Djokovic, Murray) dominate contenders such as Ferrer, Berdych and Del Potro. Panel (b) gives the 16-class triad census against 200 degree-preserving nulls \cite{holland1970}. Transitive triads ($030T$) are enriched ($z > 0$), while cyclic triads ($030C$, where A beats B, B beats C and C beats A) are depleted ($z < -1.96$). Outcomes form transitive ladders rather than cycles.
 
 \begin{figure}[htbp]
 \centering
@@ -245,23 +234,7 @@ Figure~\ref{fig:network_core}(b) displays the corresponding 16-class Holland-Lei
 \label{fig:network_core}
 \end{figure}
 
-\begin{table}[htbp]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.5pt}
-\gentable{tab_structure.tex}
-\caption{Core-periphery parameters, HITS role correlations, opponent profile cosine similarities, and rich-club ordering across the nine comparative networks.}
-\label{tab:structure}
-\end{table}
-
-\paragraph{Rich-club ordering.} Across all nine networks, normalized rich-club coefficients $\rho_{\mathrm{rich}}(k)$ exceed 1.0 at their peak thresholds (peak $\rho_{\mathrm{rich}}$ from 1.052 to 1.215, with peak $z$-scores ranging from 13.0 to 27.3, Figure~\ref{fig:rich_club}). Max-statistic permutation tests confirm that high-degree players play one another significantly more often than predicted by degree sequences alone ($p = 0.005$ in all nine networks, the smallest value that 200 null graphs can give).
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.95\textwidth]{fig_rich_club.pdf}
-\caption{Peak normalized rich-club coefficients $\rho_{\mathrm{rich}}(k^*)$ across the comparative networks. Dashed line at 1.0 represents the degree-preserving null baseline; values above 1.0 indicate elite-tier clustering ($p = 0.005$ via max-statistic permutation test).}
-\label{fig:rich_club}
-\end{figure}
+\paragraph{Rich-club ordering.} Normalized rich-club coefficients exceed 1.0 at their peak thresholds in all nine networks (from 1.052 to 1.215, Figure~\ref{fig:structure}(d)). Max-statistic permutation tests give $p = 0.005$, the smallest value that 200 null graphs can produce, so high-degree players meet one another more than their degrees alone predict.
 
 \subsection{Null Models and Hypothesis Testing}
 
