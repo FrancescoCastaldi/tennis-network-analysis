@@ -41,16 +41,16 @@ All data collection, topological metrics, null models, and multi-level hypothesi
    * Professional tennis is governed by strict tournament knockout brackets, seeded entries, surface changes, and distinct governing bodies (ATP and WTA).
    * How do these institutional constraints shape the competitive hierarchy, elite dominance, and structural resilience of professional tennis networks?
 2. **Three Guiding Research Questions (RQs)**:
-   * **RQ1 (Historical Evolution and Eras)**: How did competitive centralization and hierarchical transitivity shift across eras, particularly during the peak of the Big Three (Federer, Nadal, Djokovic) compared to the preceding transition era and the contemporary Next Gen cohort?
+   * **RQ1 (Historical Evolution and Eras)**: How did competitive centralization and hierarchical transitivity shift across eras, particularly during the peak of the Big Four (Federer, Nadal, Djokovic, Murray) compared to the preceding transition era and the contemporary Next Gen cohort?
    * **RQ2 (Surface Ecology and Specialization)**: How do physical court characteristics (clay, hard, grass) and calendar length impact network density, player reciprocity, and prestige centralization?
    * **RQ3 (Gender and Circuit Comparison)**: Do structural properties and prestige concentration differ between the ATP (men's tour) and the WTA (women's tour) over an identical modern observation window (2007-2025)?
 3. **Overview of the Multi-Level Hypothesis Framework (Course Slide L04)**:
    * **Network level (Macro)**:
-     * *H1*: Prestige concentration during the Big Three era (2007-2018) versus 2019-2025.
+     * *H1*: Prestige concentration during the Big Four era (2007-2018) versus 2019-2025.
      * *H2*: Degree assortativity compared to Maslov-Sneppen configuration null models (testing if early-round matchmaking creates disassortativity).
      * *H3*: Centralization and prestige on grass versus clay and hard courts.
      * *H4*: Top-10 PageRank concentration in ATP versus WTA tours.
-     * *H5*: Triad hierarchy (cyclic upset ratio $030C/030T$) during the Big Three peak (2007-2012) versus other periods.
+     * *H5*: Triad hierarchy (cyclic upset ratio $030C/030T$) during the Big Four peak (2007-2012) versus other periods.
    * **Monadic level**:
      * *H6*: Network prestige (PageRank) as an explanatory predictor of official ranking beyond raw victory volume.
    * **Dyadic level**:

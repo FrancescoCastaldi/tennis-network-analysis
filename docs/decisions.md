@@ -37,7 +37,7 @@ Standard NetworkX functions for degree-preserving randomisation (`double_edge_sw
 slow on dense or medium-sized networks, taking several minutes per null sample across 13 networks.
 
 ### Decision
-* We implemented an optimised degree-preserving edge swap in `tennis_networks.nullmodels` that runs
+* An optimised degree-preserving edge swap is implemented in `tennis_networks.nullmodels` that runs
   ten to twenty times faster than the standard library implementation.
 * The seed (`20261115`) is centrally pinned in `config/networks.json`.
 * All generated summary tables and test statistics are committed to `results/tables/`.

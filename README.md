@@ -62,7 +62,7 @@ Hypotheses, tested on the nine comparative networks:
 
 | Hypothesis | Test | Outcome |
 |---|---|---|
-| **H1** prestige more concentrated in 2007-2018 (Big Three) than in 2019-2025 | season permutation | not supported (top-10 PageRank share 0.265 against 0.234, p = 0.060) |
+| **H1** prestige more concentrated in 2007-2018 (Big Four) than in 2019-2025 | season permutation | not supported (top-10 PageRank share 0.265 against 0.234, p = 0.060) |
 | **H2** networks more disassortative than the configuration model | 200 degree-preserving nulls | rejected in the opposite direction: observed assortativity is higher than the null in all eight networks tested (z = 16 to 35); the aggregate ATP 2007-2025 network is not part of this test |
 | **H3** grass is smaller and more centralized than clay and hard | match permutation, size-corrected | supported (p = 0.005 to 0.015) |
 | **H4** WTA prestige less concentrated than ATP | paired sign-flip over seasons | supported for PageRank (p = 0.016), not for centralization (p = 0.17) |
