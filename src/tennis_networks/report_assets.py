@@ -731,13 +731,43 @@ def table_sensitivity():
 
 
 DESIGN_ROWS = [
-    ("H1", "Top-10 share and centralization are higher in 2007-2018 than in 2019-2025", "Network", "Season permutation", "RQ1"),
-    ("H2", "Degree assortativity is more negative than in configuration nulls (bracket seeding)", "Network", "Configuration null, $z$", "RQ1, RQ2"),
-    ("H3", "Grass is smaller and more centralized than clay and hard courts", "Network", "Match permutation, size-corrected", "RQ2"),
+    (
+        "H1",
+        "Top-10 share and centralization are higher in 2007-2018 than in 2019-2025",
+        "Network",
+        "Season permutation",
+        "RQ1",
+    ),
+    (
+        "H2",
+        "Degree assortativity is more negative than in configuration nulls (bracket seeding)",
+        "Network",
+        "Configuration null, $z$",
+        "RQ1, RQ2",
+    ),
+    (
+        "H3",
+        "Grass is smaller and more centralized than clay and hard courts",
+        "Network",
+        "Match permutation, size-corrected",
+        "RQ2",
+    ),
     ("H4", "WTA prestige is less concentrated than ATP prestige", "Network", "Paired sign-flip over seasons", "RQ3"),
-    ("H5", "Fewer cyclic triads in 2007-2012 than in other seasons", "Network", "Season permutation of the cyclic ratio", "RQ1"),
+    (
+        "H5",
+        "Fewer cyclic triads in 2007-2012 than in other seasons",
+        "Network",
+        "Season permutation of the cyclic ratio",
+        "RQ1",
+    ),
     ("H6", "PageRank explains official rank beyond total wins", "Monadic", "Permutation regression (OLS)", "RQ1, RQ3"),
-    ("H7", "Head-to-head dominance carries over from hard courts to clay and grass", "Dyadic", "QAP regression, 999 permutations", "RQ2"),
+    (
+        "H7",
+        "Head-to-head dominance carries over from hard courts to clay and grass",
+        "Dyadic",
+        "QAP regression, 999 permutations",
+        "RQ2",
+    ),
     ("H8", "Players with similar surface profiles meet more often", "Mixed", "QAP regression, 999 permutations", "RQ2"),
 ]
 

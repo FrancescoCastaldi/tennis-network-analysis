@@ -15,8 +15,15 @@ from tennis_networks.config import TABLES
 REPORT = (TABLES.parent.parent / "report" / "main.tex").read_text(encoding="utf-8")
 
 NINE = [
-    "td_atp_2000_2006", "td_atp_2007_2012", "td_atp_2013_2018", "td_atp_2019_2025",
-    "td_atp_clay", "td_atp_grass", "td_atp_hard", "td_atp_2007_2025", "td_wta_2007_2025",
+    "td_atp_2000_2006",
+    "td_atp_2007_2012",
+    "td_atp_2013_2018",
+    "td_atp_2019_2025",
+    "td_atp_clay",
+    "td_atp_grass",
+    "td_atp_hard",
+    "td_atp_2007_2025",
+    "td_wta_2007_2025",
 ]
 
 
@@ -48,7 +55,9 @@ def test_reciprocity_and_modularity():
     g = _csv("global_measures.csv").set_index("network")
     assert f"{g.loc['td_atp_hard', 'reciprocity']:.2f}" == "0.28" and "0.28 on hard courts" in REPORT
     assert f"{g.loc['td_atp_clay', 'reciprocity']:.2f}" == "0.21" and "0.21 on clay" in REPORT
-    assert f"{g.loc['td_atp_grass', 'reciprocity']:.3f}" == "0.086" and "Grass courts are the exception at 0.086" in REPORT
+    assert (
+        f"{g.loc['td_atp_grass', 'reciprocity']:.3f}" == "0.086" and "Grass courts are the exception at 0.086" in REPORT
+    )
     surfaces = g.loc[["td_atp_clay", "td_atp_grass", "td_atp_hard"], "modularity"]
     assert f"{surfaces.mean():.2f}" == "0.38" and "0.38 on the surfaces" in REPORT
 
@@ -106,11 +115,13 @@ def test_compactness_and_communities():
 
 def test_h_verdicts_and_p_values():
     h = _csv("hypothesis_tests.csv")
+
     def p(hyp, needle=None):
         rows = h[h["hypothesis"] == hyp]
         if needle:
             rows = rows[rows["comparison"].str.contains(needle, regex=False)]
         return float(rows["p_value"].iloc[0])
+
     assert f"{p('H1'):.3f}" == "0.060" and "$p = 0.060$" in REPORT
     assert f"{p('H3', 'Grass vs Clay'):.3f}" in ("0.015", "0.005")
     assert "$p = 0.015$" in REPORT and "$p = 0.005$" in REPORT
