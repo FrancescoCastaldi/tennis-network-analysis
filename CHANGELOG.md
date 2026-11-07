@@ -13,7 +13,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 - Clarify that report hypothesis labels use raw permutation p-values, and
   soften causal language about bracket seeding and grass-court reciprocity in
   response to review feedback on report interpretation.
-- Add official student matricola numbers for all team members (Bonifazi, Castaldi, Fusco, Kumar, Muscarello) to report author metadata, submission PDF, and update security privacy check to permit academic report author attribution.
+- Keep student matricola numbers out of the tracked files. The report reads the author block from `private/authors.tex` when that file exists, and otherwise uses a public block with names and degree programme only. The privacy check covers every tracked file again, with no exemption for `report/main.tex`.
 - Enlarge analytical figures and typography (`report_assets.py`): increased plot dimensions and font hierarchy across degree CCDFs, robustness curves, yearly time-series, the 2007-2012 elite core tournament network graph, triad spectrum, and homophily heatmaps for superior visual clarity and print legibility.
 - Incorporate Top-10 Leaderboards table (`tab_top10.tex`) into the report, highlighting PageRank leaders and official rankings across all four ATP eras and the WTA tour.
 - Compact and humanize report prose (`report/main.tex`): streamlined text across Sections 1 to 7 into natural, fluent academic prose matching student team standards, eliminating robotic jargon and maintaining 100% compliance with course rubric criteria, with word count comfortably under 5,000 words.
