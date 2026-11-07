@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import pandas as pd
+from matplotlib.colors import LinearSegmentedColormap
 
 from tennis_networks.config import PROCESSED, REPORT, TABLES
 from tennis_networks.loaders import load_network
@@ -826,11 +827,10 @@ def figure_yearly():
     save(fig, "fig_yearly")
 
 
-def figure_sources():
-    """tennis-data.co.uk against network 1 of Michieli: wins of whole-career players and loser-winner pairs."""
+def _draw_sources(ax_wins, ax_pairs):
+    """Panels (a) and (b) of the source validation: whole-career wins and loser-winner pairs."""
     players = pd.read_csv(TABLES / "td_michieli_players.csv")
     pairs = pd.read_csv(TABLES / "td_michieli_pairs.csv")
-    fig, (ax_wins, ax_pairs) = plt.subplots(1, 2, figsize=(6.5, 2.8), gridspec_kw={"width_ratios": [1, 1.25]})
 
     x, y = players["wins_michieli"], players["wins_tennis_data"]
     top = max(x.max(), y.max()) * 1.05
@@ -865,8 +865,6 @@ def figure_sources():
     labels = [f"{o} ({100 * s:.1f}%)" for o, s in shares.items()]
     ax_pairs.legend(handles, labels, loc="lower left", ncol=2, fontsize=7.5, columnspacing=0.8, handlelength=1)
     ax_pairs.set_title("(b) pairs between those players", loc="left", fontsize=10)
-    fig.tight_layout()
-    save(fig, "fig_sources")
 
 
 def figure_network_core():
@@ -1063,6 +1061,216 @@ def figure_rich_club():
     save(fig, "fig_rich_club")
 
 
+def _draw_reproduction(ax):
+    """Relative difference between our value and the paper's, per reference measure of Michieli (2018)."""
+    rep = pd.read_csv(TABLES / "michieli_reproduction.csv")
+    rep["paper"] = pd.to_numeric(rep["paper"], errors="coerce")
+    rep["ours"] = pd.to_numeric(rep["ours"], errors="coerce")
+    rep = rep[rep["paper"].notna() & rep["ours"].notna() & (rep["paper"] != 0)].copy()
+    rep["pct"] = 100 * (rep["ours"] - rep["paper"]) / rep["paper"].abs()
+    ypos = np.arange(len(rep))[::-1]
+    ax.axvline(0, color=MUTED, linewidth=0.9)
+    for y, (_, r) in zip(ypos, rep.iterrows(), strict=True):
+        close = abs(r["pct"]) <= 5
+        ax.scatter(r["pct"], y, s=24, color=COLORS[2] if close else COLORS[1], edgecolor="none", zorder=3)
+    ax.set_xscale("symlog", linthresh=1)
+    ax.set_xlim(-2, 1000)
+    ax.set_xticks([-1, 0, 1, 10, 100, 1000], ["-1", "0", "1", "10", "100", "1000"])
+    ax.minorticks_off()
+    ax.set_yticks(ypos, [f"{r['network'].split()[0]} {r['measure'][:24]}" for _, r in rep.iterrows()], fontsize=6.8)
+    ax.set_xlabel("difference from the paper, % (symlog)")
+    ax.grid(axis="y", visible=False)
+    ax.set_title("(c) reproduction of the reference study", loc="left", fontsize=10)
+
+
+def _draw_sensitivity(ax):
+    """p-values of H1, H3 and H4 (top-10 share) under each cleaning choice."""
+    sens = pd.read_csv(TABLES / "sensitivity_tests.csv")
+    sens = sens[sens["statistic"] == "top10_pagerank_share"].copy()
+    tests = [
+        ("H1", sens[sens["hypothesis"] == "H1"]),
+        ("H3 grass vs clay", sens[(sens["hypothesis"] == "H3") & sens["comparison"].str.contains("Clay")]),
+        ("H4 WTA vs ATP", sens[sens["hypothesis"] == "H4"]),
+    ]
+    variants = ["baseline", "no_retirements", "walkovers_kept", "carpet_as_hard"]
+    labels = {
+        "baseline": "baseline",
+        "no_retirements": "no retirements",
+        "walkovers_kept": "walkovers kept",
+        "carpet_as_hard": "carpet as hard",
+    }
+    ypos = 0.0
+    yticks, ylabels = [], []
+    for name, frame in tests:
+        for v in variants:
+            row = frame[frame["variant"] == v]
+            if row.empty:
+                continue
+            p = float(row["p_value"].iloc[0])
+            ax.scatter(
+                p, ypos, s=26, color=COLORS[0] if p < 0.05 else "white", edgecolor=COLORS[0], linewidth=1.1, zorder=3
+            )
+            yticks.append(ypos)
+            ylabels.append(f"{name}, {labels[v]}")
+            ypos -= 1
+        ypos -= 0.6
+    ax.axvline(0.05, color=MUTED, linestyle="--", linewidth=0.9)
+    ax.set_yticks(yticks, ylabels, fontsize=7.2)
+    ax.set_xscale("log")
+    ax.set_xlim(0.003, 0.3)
+    ax.set_xlabel("two-sided permutation $p$-value (log scale)")
+    ax.grid(axis="y", visible=False)
+    ax.set_title("(d) sensitivity to cleaning choices", loc="left", fontsize=10)
+
+
+def figure_validity():
+    """Validity of the data and of the reproduction: four panels in a 2x2 grid."""
+    fig, axes = plt.subplots(2, 2, figsize=(5.9, 5.0), gridspec_kw={"width_ratios": [1, 1.25]})
+    _draw_sources(axes[0, 0], axes[0, 1])
+    _draw_reproduction(axes[1, 0])
+    _draw_sensitivity(axes[1, 1])
+    fig.tight_layout()
+    save(fig, "fig_validity")
+
+
+def figure_global_heatmap():
+    """Global measures of the nine comparative networks; colour is scaled within each measure."""
+    g = pd.read_csv(TABLES / "global_measures.csv").set_index("network").loc[NETS]
+    sw = pd.read_csv(TABLES / "structure_summary.csv").set_index("network").loc[NETS]
+    short = {**SHORT, "td_atp_2007_2025": "ATP", "td_wta_2007_2025": "WTA"}
+    values = pd.DataFrame(index=NETS)
+    values["density"] = g["density"]
+    values["giant component"] = g["giant_fraction"]
+    values["mean distance"] = g["avg_path_giant"]
+    values["reciprocity"] = g["reciprocity"]
+    values["modularity"] = g["modularity"]
+    values["degree assortativity"] = g["degree_assortativity"]
+    values["Gini, in-strength"] = g["gini_in_strength"]
+    values["degree centralization"] = g["degree_centralization"]
+    values["small-world $\\sigma$"] = sw["sw_sigma"]
+    values["top-10 PageRank share"] = g["top10_pagerank_share"]
+    values["cyclic / transitive triads"] = g["triad_030C"] / g["triad_030T"]
+    values["PageRank vs rank, $\\rho$"] = g["spearman_pagerank_atp_rank"]
+    digits = {"density": 3, "mean distance": 2, "small-world $\\sigma$": 2}
+    fig, ax = plt.subplots(figsize=(5.9, 3.9))
+    norm = (values - values.min()) / (values.max() - values.min())
+    cmap = LinearSegmentedColormap.from_list("ink", ["#f4f8fd", COLORS[0]])
+    ax.imshow(norm.T.values, cmap=cmap, aspect="auto", vmin=0, vmax=1)
+    for j, measure in enumerate(values.columns):
+        for i in range(len(NETS)):
+            v = values.iloc[i, j]
+            d = digits.get(measure, 2 if abs(v) >= 0.1 else 3)
+            ax.text(
+                i,
+                j,
+                f"{v:.{d}f}".replace("-", "$-$"),
+                ha="center",
+                va="center",
+                fontsize=7.5,
+                color="white" if norm.iloc[i, j] > 0.6 else INK,
+            )
+    ax.set_xticks(range(len(NETS)), [short[n] for n in NETS], fontsize=8)
+    ax.set_yticks(range(len(values.columns)), list(values.columns), fontsize=8)
+    ax.tick_params(length=0)
+    ax.grid(False)
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    ax.axvline(3.5, color="white", linewidth=3)
+    ax.axvline(6.5, color="white", linewidth=3)
+    ax.set_xlabel("eras (left), surfaces (middle), tours (right); colour is scaled within each row")
+    fig.tight_layout()
+    save(fig, "fig_global_heatmap")
+
+
+def figure_hypotheses():
+    """All hypothesis tests on one page: network tests against the null, H2 z-scores, and the three levels."""
+    tests = pd.read_csv(TABLES / "hypothesis_tests.csv")
+    h5 = pd.read_csv(TABLES / "triads_h5.csv")
+    levels = pd.read_csv(TABLES / "levels_tests.csv")
+    fig = plt.figure(figsize=(5.9, 6.2))
+    gs = fig.add_gridspec(3, 1, height_ratios=[10, 9, 11], hspace=0.55)
+
+    ax = fig.add_subplot(gs[0])
+    net = tests[tests["hypothesis"].isin(["H1", "H3", "H4"])].copy()
+    rows = []
+    for r in net.itertuples(index=False):
+        comp = {
+            "ATP 2007-2018 vs 2019-2025 (season means)": "2007-18 vs 2019-25",
+            "ATP Grass vs Clay": "grass vs clay",
+            "ATP Grass vs Hard": "grass vs hard",
+            "WTA vs ATP, paired season differences 2007-2025": "WTA vs ATP",
+        }[r.comparison]
+        stat = {"top10_pagerank_share": "top-10 share", "degree_centralization": "centralization"}[r.statistic]
+        rows.append((f"{r.hypothesis} {stat}, {comp}", r.diff, r.p_value))
+    for r in h5.itertuples(index=False):
+        rows.append(
+            (f"{r.hypothesis}  cyclic ratio, {'2007-12' if r.hypothesis == 'H5' else 'WTA vs ATP'}", r.diff, r.p_value)
+        )
+    for i, (_label, diff, p) in enumerate(rows):
+        ax.scatter(
+            diff, i, s=26, color=COLORS[0] if p < 0.05 else "white", edgecolor=COLORS[0], linewidth=1.1, zorder=3
+        )
+        ax.text(1.02, i, f"$p$ = {p:.3f}", transform=ax.get_yaxis_transform(), va="center", fontsize=7.5, color=INK)
+    ax.axvline(0, color=MUTED, linewidth=0.9)
+    ax.set_yticks(range(len(rows)), [r[0] for r in rows], fontsize=7.5)
+    ax.invert_yaxis()
+    ax.set_xlabel("observed difference (filled: $p < 0.05$)")
+    ax.grid(axis="y", visible=False)
+    ax.set_title("(a) network-level tests H1, H3, H4 and H5", loc="left", fontsize=10)
+
+    ax = fig.add_subplot(gs[1])
+    h2 = tests[tests["hypothesis"] == "H2"].copy()
+    h2["net"] = h2["comparison"].str.replace(" vs configuration model", "", regex=False).str.replace("td_", "")
+    h2 = h2.sort_values("z").reset_index(drop=True)
+    for i, r in h2.iterrows():
+        ax.scatter(r["z"], i, s=24, color=COLORS[2], edgecolor="none", zorder=3)
+    ax.set_yticks(range(len(h2)), [SHORT.get("td_" + n, n) for n in h2["net"]], fontsize=7.5)
+    ax.set_xlabel("$z$-score of degree assortativity against 200 configuration nulls")
+    ax.grid(axis="y", visible=False)
+    ax.set_title("(b) H2, degree assortativity above the null in all nine networks", loc="left", fontsize=10)
+
+    ax = fig.add_subplot(gs[2])
+    lev = levels.copy()
+    labels = []
+    for i, r in enumerate(lev.itertuples(index=False)):
+        if r.hypothesis == "H6":
+            era = r.comparison.split(":")[0].replace("td_", "")
+            lab = f"H6 {r.statistic.replace('beta ', '')}, {era.replace('atp_', '').replace('_', '-')}"
+        else:
+            lab = {
+                "Clay vs on Hard": "H7 hard vs clay",
+                "Grass vs on Hard": "H7 hard vs grass",
+                "same surface profile": "H8 shared surface profile",
+                "clay-hard specialisation": "H8 specialisation distance",
+            }[
+                next(
+                    k
+                    for k in ("Clay vs on Hard", "Grass vs on Hard", "same surface profile", "clay-hard specialisation")
+                    if k in r.comparison
+                )
+            ]
+        labels.append(lab)
+        ax.scatter(
+            r.value,
+            i,
+            s=24,
+            color=COLORS[0] if r.p_value < 0.05 else "white",
+            edgecolor=COLORS[0],
+            linewidth=1.1,
+            zorder=3,
+        )
+        ax.text(
+            1.02, i, f"$p$ = {r.p_value:.3f}", transform=ax.get_yaxis_transform(), va="center", fontsize=7.5, color=INK
+        )
+    ax.axvline(0, color=MUTED, linewidth=0.9)
+    ax.set_yticks(range(len(labels)), labels, fontsize=7)
+    ax.invert_yaxis()
+    ax.set_xlabel("coefficient (H6: $\\beta$ on log PageRank and log wins; H7, H8: QAP $r$)")
+    ax.grid(axis="y", visible=False)
+    ax.set_title("(c) monadic, dyadic and mixed levels", loc="left", fontsize=10)
+    save(fig, "fig_hypotheses")
+
+
 def main():
     table_networks()
     table_reproduction()
@@ -1081,9 +1289,11 @@ def main():
     figure_robustness()
     figure_yearly()
     figure_network_core()
-    figure_sources()
+    figure_validity()
+    figure_global_heatmap()
     figure_core_homophily()
     figure_rich_club()
+    figure_hypotheses()
     print(f"Tables in {OUT_TAB}, figures in {OUT_FIG} (null models: {samples} samples)")
 
 
