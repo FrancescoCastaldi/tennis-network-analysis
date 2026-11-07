@@ -835,7 +835,7 @@ def _draw_sources(ax_wins, ax_pairs):
 
 
 def figure_network_core():
-    fig, (ax_net, ax_triad) = plt.subplots(1, 2, figsize=(5.9, 3.8), gridspec_kw={"width_ratios": [1.18, 1.0]})
+    fig, (ax_net, ax_triad) = plt.subplots(1, 2, figsize=(5.9, 3.3), gridspec_kw={"width_ratios": [1.18, 1.0]})
 
     # (a) Network core (Top 12 players of 2007-2012)
     spec_2007 = {"id": "td_atp_2007_2012", "file": "td_atp_2007_2012.csv", "directed": True}
@@ -1072,7 +1072,7 @@ def _draw_sensitivity(ax):
 
 def figure_validity():
     """Validity of the data and of the reproduction: four panels in a 2x2 grid."""
-    fig, axes = plt.subplots(2, 2, figsize=(5.9, 5.8), gridspec_kw={"width_ratios": [1, 1.25]})
+    fig, axes = plt.subplots(2, 2, figsize=(5.9, 5.4), gridspec_kw={"width_ratios": [1, 1.25]})
     _draw_sources(axes[0, 0], axes[0, 1])
     _draw_reproduction(axes[1, 0])
     _draw_sensitivity(axes[1, 1])
@@ -1134,7 +1134,7 @@ def figure_hypotheses():
     tests = pd.read_csv(TABLES / "hypothesis_tests.csv")
     h5 = pd.read_csv(TABLES / "triads_h5.csv")
     levels = pd.read_csv(TABLES / "levels_tests.csv")
-    fig = plt.figure(figsize=(5.9, 7.2))
+    fig = plt.figure(figsize=(5.9, 6.6))
     gs = fig.add_gridspec(3, 1, height_ratios=[10, 9, 11], hspace=0.55)
 
     ax = fig.add_subplot(gs[0])
@@ -1257,7 +1257,7 @@ def figure_structure():
     rc = pd.read_csv(TABLES / "rich_club_summary.csv").set_index("network").loc[NETS]
     ypos = np.arange(len(NETS))[::-1]
     labels = [SHORT[n] for n in NETS]
-    fig, axes = plt.subplots(1, 4, figsize=(5.9, 3.9), sharey=True, layout="constrained")
+    fig, axes = plt.subplots(1, 4, figsize=(5.9, 3.5), sharey=True, layout="constrained")
     ax = axes[0]
     ax.scatter(st["authority_pagerank_spearman"], ypos, s=18, color=COLORS[0], label="vs PageRank", zorder=3)
     ax.scatter(
