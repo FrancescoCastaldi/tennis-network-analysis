@@ -94,7 +94,7 @@ A published tag is never moved or deleted: fix forward with a patch release. `ma
 ## Writing rules
 
 - Academic English, 12 pt, at most 5,000 words in total (`python -m tennis_networks.wordcount`).
-- At most six figures. Every figure and table is referenced in the text.
+- At most ten figures. Every figure and table is referenced in the text.
 - Report names, emails and student ID numbers only in the title block of the final PDF.
 
 ## Local setup
