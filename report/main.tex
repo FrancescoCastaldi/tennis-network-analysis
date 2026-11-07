@@ -115,42 +115,28 @@ To incorporate player attributes, we compute each player's median official ranki
 
 \paragraph{Construct validity and boundary specification.} Following course guidelines on boundary specification, we restrict our comparative corpus strictly to main-draw matches of Grand Slam, ATP Tour, and WTA Tour events. We deliberately exclude satellite, Challenger, and ITF Futures circuits. Including lower-tier events, as demonstrated by Michieli's extended network M4, artificially inflates node counts with regional semi-professionals who never encounter top-tier players, distorting degree distributions and network centralization. Official median ranking provides an external benchmark of competitive standing, though we account for its endogeneity with match outcomes.
 
-\paragraph{Reproduction of the reference study.} As reported in Table~\ref{tab:reproduction}, our pipeline reproduces the structural metrics of Michieli \cite{michieli2018} with high precision across giant component shares, average path lengths, and degree assortativities. The top five players ranked by directed PageRank match the published order identically (Connors, Lendl, Federer, McEnroe, Nadal). The sole divergence occurs in clustering: our standard NetworkX computation yields $C = 0.311$ (transitivity $T = 0.355$) on M3, compared to the paper's reported 0.07. An audit of eight alternative clustering formulations (including directed, weighted, and triangle-only averages) yields values between 0.010 and 0.477 and none matches 0.07; we therefore retain the standard definition.
+\paragraph{Reproduction of the reference study.} As shown in Figure~\ref{fig:validity}(c), our pipeline reproduces the structural metrics of Michieli \cite{michieli2018} with high precision across giant component shares, average path lengths, and degree assortativities. The top five players ranked by directed PageRank match the published order identically (Connors, Lendl, Federer, McEnroe, Nadal). The largest divergence occurs in clustering: our standard NetworkX computation yields $C = 0.311$ (transitivity $T = 0.355$) on M3, compared to the paper's reported 0.07. An audit of eight alternative clustering formulations (including directed, weighted, and triangle-only averages) yields values between 0.010 and 0.477 and none matches 0.07; we therefore retain the standard definition.
 
-\paragraph{Cross-source validation.} To verify data fidelity, we cross-validated the \texttt{tennis-data} archive against Michieli's M1 over their shared ATP window (January 2000 to August 2017). As illustrated in Figure~\ref{fig:sources}, 97.6\% of all loser-winner pairs appear in both repositories. Among 482 players whose entire careers fall within this window, victory totals correlate at $r = 0.94$, and 90.9\% of pairwise head-to-head counts match identically, confirming high data consistency.
+\paragraph{Cross-source validation.} To verify data fidelity, we cross-validated the \texttt{tennis-data} archive against Michieli's M1 over their shared ATP window (January 2000 to August 2017). As illustrated in Figure~\ref{fig:validity}(a) and (b), 97.6\% of all loser-winner pairs appear in both repositories. Among 482 players whose entire careers fall within this window, victory totals correlate at $r = 0.94$, and 90.9\% of pairwise head-to-head counts match identically, confirming high data consistency.
 
-\paragraph{Sensitivity and robustness to cleaning.} We evaluated whether data cleaning rules impact hypothesis decisions by re-running tests under three alternative specifications: dropping retirements, retaining walkovers, and merging carpet courts with hard courts (Table~\ref{tab:sensitivity}). Every H3 and H4 verdict holds at the 5\% level under each cleaning choice, although the $p$-values move. For H1, the top-ten prestige share stays higher in 2007-2018 under all variants. Its $p$-value is 0.036 without retirements and 0.053 with walkovers kept, against 0.060 in the baseline, so H1 remains a borderline finding.
+\paragraph{Sensitivity and robustness to cleaning.} We evaluated whether data cleaning rules impact hypothesis decisions by re-running tests under three alternative specifications: dropping retirements, retaining walkovers, and merging carpet courts with hard courts (Figure~\ref{fig:validity}(d)). Every H3 and H4 verdict holds at the 5\% level under each cleaning choice, although the $p$-values move. For H1, the top-ten prestige share stays higher in 2007-2018 under all variants. Its $p$-value is 0.036 without retirements and 0.053 with walkovers kept, against 0.060 in the baseline, so H1 remains a borderline finding.
 
 \paragraph{Reliability and reproducibility.} All data processing, network transformations, and statistical tests are fully automated and version-controlled. Source datasets are verified by cryptographic digests, stochastic algorithms use fixed seeds, and execution environments are pinned. The analysis runs from a clean checkout and reproduces the committed outputs for the same seed.
 
-\begin{table}[htbp]
-\centering
-\footnotesize
-\gentable{tab_reproduction.tex}
-\caption{Reproduction of structural metrics from Michieli (2018). Distances on large graphs are estimated via 1,000 random breadth-first search sweeps.}
-\label{tab:reproduction}
-\end{table}
+
+
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\textwidth]{fig_sources.pdf}
-\caption{Cross-source validation between \texttt{tennis-data.co.uk} and Michieli's network M1: (a) career wins for players debuting after 2002, with identity line dashed ($r = 0.94$); (b) distribution of loser-winner pairwise head-to-head match agreement.}
-\label{fig:sources}
+\includegraphics[width=\textwidth]{fig_validity.pdf}
+\caption{Validity of the data and of the reproduction. (a) Career wins of players who debut after 2002, \texttt{tennis-data.co.uk} against Michieli's M1; (b) agreement of loser-winner pairs; (c) relative difference between our value and the paper's for each reference measure (clustering of M3 is the largest gap); (d) $p$-values of H1, H3 and H4 under four cleaning choices, with the 0.05 level dashed and filled marks below it.}
+\label{fig:validity}
 \end{figure}
-
-\begin{table}[htbp]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.5pt}
-\gentable{tab_sensitivity.tex}
-\caption{Sensitivity analysis of hypotheses H1, H3, and H4 across data cleaning variations. Values report differences with two-sided permutation $p$-values in parentheses.}
-\label{tab:sensitivity}
-\end{table}
 
 \section{Measures and Results}
 \label{measures}
 
-In accordance with course criteria, Table~\ref{tab:abc} maps each investigated tennis phenomenon (A) to its formal graph measure (B) and substantive domain interpretation (C). Table~\ref{tab:global} reports global structural properties across the nine comparative networks.
+In accordance with course criteria, Table~\ref{tab:abc} maps each investigated tennis phenomenon (A) to its formal graph measure (B) and substantive domain interpretation (C). Figure~\ref{fig:global} reports global structural properties across the nine comparative networks.
 
 \begin{table}[htbp]
 \centering
@@ -182,14 +168,13 @@ and the peak normalized rich-club coefficient
 \end{equation}
 where $\phi(k)$ is the edge density among the players whose degree exceeds $k$ \cite{colizza2006}. Triadic hierarchy is evaluated via the ratio of cyclic to transitive triads $N_{030C} / N_{030T}$. Structural roles are partitioned using Kleinberg's HITS algorithm (authorities and hubs) \cite{kleinberg1999} and Borgatti-Everett discrete and continuous core-periphery models \cite{borgatti2000}. Dyadic dominance carry-over across surfaces and scheduling homophily are evaluated using 999-permutation Quadratic Assignment Procedure (QAP) regressions \cite{krackhardt1988}.
 
-\begin{table}[htbp]
+
+\begin{figure}[htbp]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{2.5pt}
-\gentable{tab_global.tex}
-\caption{Global network measures across the nine comparative networks. Path lengths and components are evaluated on directed ties; $k$-core and modularity use the undirected projection.}
-\label{tab:global}
-\end{table}
+\includegraphics[width=\textwidth]{fig_global_heatmap.pdf}
+\caption{Global measures of the nine comparative networks. Colour is scaled within each row and the values are printed. Path lengths and components use directed ties; the cyclic-to-transitive triad ratio comes from the triad census.}
+\label{fig:global}
+\end{figure}
 
 \subsection{Network Structure and Topology}
 
@@ -283,7 +268,7 @@ Figure~\ref{fig:network_core}(b) displays the corresponding 16-class Holland-Lei
 
 \subsection{Null Models and Hypothesis Testing}
 
-To determine whether empirical observations reflect genuine organizational mechanisms rather than chance, we test eight formulated hypotheses against null models and permutation baselines (Tables~\ref{tab:null}, \ref{tab:tests}, and \ref{tab:levels}). All reported hypothesis test $p$-values are uncorrected empirical two-sided permutation probabilities at nominal $\alpha = 0.05$. Figure~\ref{fig:yearly} illustrates longitudinal trends across 26 ATP and 19 WTA seasons.
+To determine whether empirical observations reflect genuine organizational mechanisms rather than chance, we test eight formulated hypotheses against null models and permutation baselines (Table~\ref{tab:null} and Figure~\ref{fig:hypotheses}). All reported hypothesis test $p$-values are uncorrected empirical two-sided permutation probabilities at nominal $\alpha = 0.05$. Figure~\ref{fig:yearly} illustrates longitudinal trends across 26 ATP and 19 WTA seasons.
 
 \begin{table}[htbp]
 \centering
@@ -293,7 +278,7 @@ To determine whether empirical observations reflect genuine organizational mecha
 \label{tab:null}
 \end{table}
 
-The hypothesis-test table reports raw permutation $p$-values. Because
+Figure~\ref{fig:hypotheses} reports raw permutation $p$-values. Because
 $p$-values are uncorrected for multiple testing, the labels below do not
 claim multiplicity correction; marginal findings should therefore be
 interpreted cautiously.
@@ -314,23 +299,14 @@ interpreted cautiously.
 
 \paragraph{H8 (Mixed scheduling homophily): Supported.} QAP tests demonstrate that players with shared surface participation profiles meet more frequently ($r = 0.056, p = 0.001$), while surface specialization distance negatively predicts encounter rates ($r = -0.094, p = 0.001$).
 
-\begin{table}[htbp]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2pt}
-\gentable{tab_tests.tex}
-\caption{Permutation tests for network-level hypotheses H1 to H5, reporting group values, observed differences, null expectations, and two-sided $p$-values (uncorrected empirical permutation probabilities at nominal $\alpha = 0.05$).}
-\label{tab:tests}
-\end{table}
 
-\begin{table}[htbp]
+
+\begin{figure}[htbp]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{2.5pt}
-\gentable{tab_levels.tex}
-\caption{Multi-level hypothesis testing framework across network, monadic, dyadic, and mixed relational levels against permutation baselines.}
-\label{tab:levels}
-\end{table}
+\includegraphics[width=\textwidth]{fig_hypotheses.pdf}
+\caption{Hypothesis tests H1 to H8. (a) Observed differences of the network-level tests and H5, filled where $p < 0.05$; (b) $z$-scores of degree assortativity against 200 configuration nulls; (c) monadic coefficients for H6 and QAP correlations for H7 and H8. All $p$-values are raw permutation values, not corrected for multiple testing.}
+\label{fig:hypotheses}
+\end{figure}
 
 \begin{figure}[htbp]
 \centering

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts. Directed Freeman centralization is normalized by the maximum total-degree star, and its interpretation is explicit in the report. The report has also been shortened while retaining its study design, measure interpretations, results, and limitations. The main ruleset requires one review and passing CI checks without administrator bypass.
 
 ### Changed
+- Report figures redesigned: the validity figure (source agreement, reproduction, cleaning sensitivity), a heatmap of the global measures and one forest-style figure for hypotheses H1 to H8 replace the tables with the same numbers. The report has nine figures and six tables; the figures are generated from `results/` by `report_assets.py`.
 - Report prose tightened: emphatic wording, mechanical connectives and the bulleted lists in Sections 1, 2 and 5.1 are replaced by plain sentences. The small-world index and the normalized rich-club coefficient are shown as display equations with their symbols defined.
 - Bibliography in one column, in order of first citation. The triad census, the small-world index and degree assortativity now have references.
 - Clarify that report hypothesis labels use raw permutation p-values, and
