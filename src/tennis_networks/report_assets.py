@@ -1327,8 +1327,14 @@ def figure_prestige():
         x = pr[common]
         yv = ranks[common]
         ax.scatter(x, yv, s=8, color=COLORS[0], alpha=0.45, edgecolors="none")
-        top = x.sort_values(ascending=False).head(3).index
-        for player in top:
+        placed = []
+        for player in x.sort_values(ascending=False).index:
+            if len(placed) == 3:
+                break
+            px, py = np.log10(x[player]), np.log10(yv[player])
+            if any(abs(px - qx) < 0.25 and abs(py - qy) < 0.25 for qx, qy in placed):
+                continue
+            placed.append((px, py))
             ax.annotate(
                 player.split(" ")[0],
                 (x[player], yv[player]),
@@ -1348,7 +1354,7 @@ def figure_prestige():
     axes[1, 2].text(
         0.0,
         0.5,
-        "Each point is a player.\nLabels: the three highest PageRank scores.\nRank 1 is the best position.",
+        "Each point is a player.\nLabels: the highest PageRank scores (up to three).\nRank 1 is the best position.",
         fontsize=7.5,
         color=MUTED,
         va="center",
