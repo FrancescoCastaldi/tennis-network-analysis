@@ -288,26 +288,22 @@ def table_tests():
 
 
 def table_hypothesis_summary():
-    """Summarise H1-H8 with Holm-adjusted primary-test p-values."""
-    raw = []
-    hypotheses = pd.read_csv(TABLES / "hypothesis_tests.csv")
-    for r in hypotheses.itertuples(index=False):
-        raw.append((r.hypothesis, float(r.p_value)))
-    triads = pd.read_csv(TABLES / "triads_h5.csv")
-    for r in triads.itertuples(index=False):
-        raw.append(("H5", float(r.p_value)))
-    levels = pd.read_csv(TABLES / "levels_tests.csv")
-    for r in levels.itertuples(index=False):
-        if r.hypothesis == "H6" and r.statistic != "beta log PageRank":
-            continue
-        raw.append((r.hypothesis, float(r.p_value)))
+    """Summarise H1-H8 with the Holm-adjusted p-values of their own result tables.
 
-    ordered = sorted(enumerate(raw), key=lambda item: item[1][1])
-    adjusted = [0.0] * len(raw)
-    running = 0.0
-    for rank, (index, (_, p_value)) in enumerate(ordered, start=1):
-        running = max(running, min(1.0, p_value * (len(raw) - rank + 1)))
-        adjusted[index] = running
+    Holm is applied within each source table, as the Results text states: the
+    network-level tests of hypothesis_tests.csv, the H5 era test of
+    triads_h5.csv (the WTA vs ATP triad comparison, labelled "H5 (tours)", is
+    reported separately), and the monadic, dyadic and mixed tests of
+    levels_tests.csv (H6 PageRank coefficients only).
+    """
+    tests = pd.concat(
+        [
+            pd.read_csv(TABLES / "hypothesis_tests.csv"),
+            pd.read_csv(TABLES / "triads_h5.csv").query("hypothesis == 'H5'"),
+            pd.read_csv(TABLES / "levels_tests.csv").query("hypothesis != 'H6' or statistic == 'beta log PageRank'"),
+        ],
+        ignore_index=True,
+    )
 
     labels = {
         "H1": "top-10 prestige and centralization, eras",
@@ -319,17 +315,17 @@ def table_hypothesis_summary():
         "H7": "cross-surface dominance carry-over",
         "H8": "surface-profile scheduling homophily",
     }
+
+    def span(values):
+        lo, hi = float(values.min()), float(values.max())
+        return num(lo, 3) if lo == hi else f"{num(lo, 3)}-{num(hi, 3)}"
+
     rows = []
     for hypothesis in labels:
-        values = [p for h, p in raw if h == hypothesis]
-        corrected = [adjusted[i] for i, (h, _) in enumerate(raw) if h == hypothesis]
-        supported = max(corrected) <= 0.05
-        raw_text = num(min(values), 3) if min(values) == max(values) else f"{num(min(values), 3)}-{num(max(values), 3)}"
-        holm_text = (
-            num(min(corrected), 3)
-            if min(corrected) == max(corrected)
-            else f"{num(min(corrected), 3)}-{num(max(corrected), 3)}"
-        )
+        group = tests[tests["hypothesis"] == hypothesis]
+        raw_text = span(group["p_value"])
+        holm_text = span(group["p_value_holm"])
+        supported = group["p_value_holm"].max() <= 0.05
         verdict = "supported" if supported else "not supported after Holm correction"
         rows.append(f"{hypothesis} & {labels[hypothesis]} & {raw_text} & {holm_text} & {verdict} \\\\")
     write(
