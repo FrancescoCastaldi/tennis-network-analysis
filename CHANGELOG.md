@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts. Directed Freeman centralization is normalized by the maximum total-degree star, and its interpretation is explicit in the report. The report has also been shortened while retaining its study design, measure interpretations, results, and limitations. The main ruleset requires one review and passing CI checks without administrator bypass.
 
+### Fixed
+- Validity figure of the report: the M1 diameter point (9 against 10 in the paper) was clipped by the axis limits and is now drawn, the axis ticks no longer overlap, the long measure names are no longer truncated and the correlation note no longer crosses the fit line. The text states the M1 diameter and why it can only fall short (estimated from 1,000 source nodes).
+
 ### Changed
+- PDF metadata carry the report title and authors, the Operational Definitions heading keeps with its text, and the leader figure caption says that some leaders named in the text are not labelled.
 - Report consistency pass, no result changes: the NetworkX version matches `results/run_manifest.json` (3.7), the Problem section names the Big Four with Murray as the rest of the report does, two uncited claims about the literature are worded as what we found, and the unsourced "five-week" grass swing becomes "short" in two places (#63).
 - Apply reviewer feedback from @PaoloFusco19 on report critique: streamline the opening limitation summary and clarify Holm correction scope in statistical power caveats (#63).
 - Align the report conclusion and critique with the Holm-corrected results: RQ2 and RQ3 state which differences survive correction (H3 and H4 do not), and the critique restores the limits on multiple testing, collinearity and tour confounds, in response to review feedback. The hypothesis summary table (`tab_hypotheses.tex`) now takes the Holm values of each result table instead of one pooled correction, so H5 and H6 to H8 are reported as supported, as in the text.

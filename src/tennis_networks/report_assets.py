@@ -861,7 +861,7 @@ def _draw_sources(ax_wins, ax_pairs):
     ax_wins.plot([0, top], [0, top], color=MUTED, linewidth=0.9, linestyle="--", zorder=1)
     ax_wins.scatter(x, y, s=12, color=COLORS[0], alpha=0.6, edgecolors="none", zorder=2)
     r = np.corrcoef(x, y)[0, 1]
-    ax_wins.text(0.04, 0.96, f"$n$ = {len(players)}, $r$ = {r:.2f}", transform=ax_wins.transAxes, va="top", color=MUTED)
+    ax_wins.text(0.04, 0.96, f"$n$ = {len(players)}\n$r$ = {r:.2f}", transform=ax_wins.transAxes, va="top", color=MUTED)
     ax_wins.set_xlim(0, top)
     ax_wins.set_ylim(0, top)
     ax_wins.set_xlabel("wins in Michieli network 1")
@@ -1078,10 +1078,15 @@ def _draw_reproduction(ax):
         close = abs(r["pct"]) <= 5
         ax.scatter(r["pct"], y, s=24, color=COLORS[2] if close else COLORS[1], edgecolor="none", zorder=3)
     ax.set_xscale("symlog", linthresh=1)
-    ax.set_xlim(-2, 1000)
-    ax.set_xticks([-1, 0, 100, 1000], ["-1", "0", "100", "1000"])
+    ax.set_xlim(-25, 900)
+    ax.set_xticks([-10, 0, 10, 100], ["$-$10", "0", "10", "100"])
     ax.minorticks_off()
-    ax.set_yticks(ypos, [f"{r['network'].split()[0]} {r['measure'][:24]}" for _, r in rep.iterrows()], fontsize=8)
+    names = {
+        "largest strongly connected component": "largest strong component",
+        "top-10 PageRank players shared with the paper": "top-10 PageRank overlap",
+    }
+    labels = [f"{r['network'].split()[0]} {names.get(r['measure'], r['measure'])}" for _, r in rep.iterrows()]
+    ax.set_yticks(ypos, labels, fontsize=8)
     ax.set_xlabel("difference from the paper, % (symlog)")
     ax.grid(axis="y", visible=False)
     ax.set_title("(c) reproduction of the reference study", loc="left", fontsize=10)

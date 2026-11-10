@@ -23,6 +23,7 @@
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Structural Analysis of Professional Tennis Networks: A Comparative Study Across Eras, Surfaces, and Tours},pdfauthor={Jacopo Bonifazi, Francesco Castaldi, Paolo Fusco, Shivam Kumar, Gaetano Muscarello}}
 \graphicspath{{figures/}}
 \pagestyle{plain}
 \titleformat{\paragraph}[runin]{\normalsize\bfseries}{}{0pt}{}[\ ]
@@ -110,7 +111,7 @@ Figure~\ref{fig:study} shows the nine comparative networks: four ATP eras, three
 
 \paragraph{Boundary specification.} Only main-draw matches of Grand Slam, ATP Tour and WTA Tour events are kept, in line with the boundary specification used in the literature on match networks. Satellite, Challenger and ITF Futures events are excluded. Michieli's extended network M4 shows why this matters: adding lower-tier events brings in regional players who never meet the top tier, which changes the degree distribution and the centralization. Official median ranking is an external benchmark of standing, but it depends partly on the same results, which should be kept in mind when reading the H6 results.
 
-\paragraph{Reproduction.} Figure~\ref{fig:validity}(c) compares the values obtained with those of the paper. The giant component, path lengths and degree assortativities agree closely, and all ten top PageRank players of the paper appear in the ranking obtained here (led by Connors, Lendl, Federer, McEnroe and Nadal). Clustering is the largest gap: the standard computation gives $C = 0.311$ on M3, against 0.07 in the paper. None of eight alternative definitions reproduces 0.07 (they range from 0.010 to 0.477), so the standard definition is retained. The degree assortativity of M3 differs by a small absolute amount ($-0.004$ against $-0.008$).
+\paragraph{Reproduction.} Figure~\ref{fig:validity}(c) compares the values obtained with those of the paper. The giant component and the average path lengths agree closely. The M1 diameter is 9 against 10 in the paper, as expected for a value estimated from 1,000 source nodes, which can only fall short of the true one. All ten top PageRank players of the paper appear in the ranking obtained here (led by Connors, Lendl, Federer, McEnroe and Nadal). Clustering is the largest gap: the standard computation gives $C = 0.311$ on M3, against 0.07 in the paper. None of eight alternative definitions reproduces 0.07 (they range from 0.010 to 0.477), so the standard definition is retained. The degree assortativity of M3 differs by a small absolute amount ($-0.004$ against $-0.008$).
 
 \paragraph{Cross-source agreement.} Over the shared ATP window (January 2000 to August 2017), 97.6\% of loser-winner pairs appear in both sources (Figure~\ref{fig:validity}(a) and (b)). For the 482 players whose careers fall entirely in this window, win totals correlate at $r = 0.94$, and 90.9\% of head-to-head counts agree exactly.
 
@@ -138,9 +139,8 @@ Table~\ref{tab:abc} maps each investigated tennis phenomenon (A) to its formal g
 \label{tab:abc}
 \end{table}
 
+\needspace{5\baselineskip}
 \subsection{Operational Definitions}
-
-The formulas below define the main measures:
 
 \paragraph{Prestige and inequality.} Prestige flow is modeled using weighted directed PageRank \cite{radicchi2011,newman2018}. An edge directed from loser $j$ to winner $i$ transfers prestige proportional to $j$'s own score and the victory weight $w_{ji}$. With damping factor $d = 0.85$ and uniform teleportation, prestige satisfies:
 \begin{equation}
@@ -201,7 +201,7 @@ where $\phi(k)$ is the edge density among the players whose degree exceeds $k$ \
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=\textwidth]{fig_prestige.pdf}
-\caption{Official median rank against PageRank for every player in the five leader networks (four ATP eras and the WTA 2007-2025), on log scales. Up to three of the highest PageRank scores in each network are labelled; a label is skipped where it would overlap another.}
+\caption{Official median rank against PageRank for every player in the five leader networks (four ATP eras and the WTA 2007-2025), on log scales. Up to three of the highest PageRank scores in each network are labelled; a label is skipped where it would overlap another, so some leaders named in the text are not labelled.}
 \label{fig:prestige}
 \end{figure}
 
