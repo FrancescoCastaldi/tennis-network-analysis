@@ -162,3 +162,38 @@ def test_sensitivity_p_values():
     got = {r.variant: round(float(r.p_value), 3) for r in h1.itertuples()}
     assert got["no_retirements"] == 0.036 and got["walkovers_kept"] == 0.053 and got["baseline"] == 0.06
     assert "$p = 0.036$" in REPORT and "$0.053$" in REPORT
+
+
+def test_network_count_and_introduction():
+    assert "nine tennis networks built from 114,084" in REPORT
+    assert "thirteen tennis networks" not in REPORT
+
+
+def test_top_ten_cell_survives_degree_null_in_seven_networks():
+    m = _csv("homophily_mixing.csv")
+    cell = m[(m["band_a"] == "top10") & (m["band_b"] == "top10") & m["network"].isin(NINE)]
+    assert len(cell) == 9
+    significant = cell[cell["p_deg"] < 0.05]
+    assert len(significant) == 7
+    lo, hi = _range(significant["ratio_deg"], 2)
+    assert "seven of the nine networks" in REPORT and f"{lo} to {hi}" in REPORT
+
+
+def test_directed_null_z_range_for_h2():
+    z = []
+    for name in NINE[:4] + NINE[4:7] + ["td_wta_2007_2025"]:
+        d = pd.read_csv(TABLES.parent / "null_models" / f"{name}_null.csv", encoding="utf-8-sig")
+        z.append(float(d.loc[d["statistic"] == "degree_assortativity", "z"].iloc[0]))
+    lo, hi = _range(z, 0)
+    assert f"{lo} to {hi} standard deviations above 100 nulls" in REPORT
+
+
+def test_h6_collinearity_note():
+    lv = _csv("levels_tests.csv")
+    h6 = lv[lv["hypothesis"] == "H6"].drop_duplicates("comparison")
+    r = [float(s.split("max |r| = ")[1].split(";")[0]) for s in h6["note"]]
+    cond = [float(s.split("condition number = ")[1]) for s in h6["note"]]
+    assert all(f"{x:.2f}" == "0.97" for x in r)
+    assert "maximum absolute pairwise correlation 0.97 in every era" in REPORT
+    lo, hi = _range(cond, 1)
+    assert f"condition number {lo} to {hi}" in REPORT

@@ -31,13 +31,13 @@ All empirical tables, figures, and hypothesis tests have been computed, validate
    * In H1, annual top-10 PageRank share was higher during 2007-2018 than 2019-2025 (0.265 against 0.234), but the difference was not statistically significant ($p = 0.060$). Concentration peaked in specific dominant seasons (2009, 2012, 2015) rather than remaining uniformly elevated across twelve years.
    * However, in H5, triadic hierarchy was significantly more rigid during the Big Four peak (2007-2012): the cyclic upset ratio ($030C/030T$) dropped significantly to 0.184 compared to 0.211 in other periods ($p = 0.010$). When the Big Four met mid-tier players, transitive hierarchies were almost unbreachable.
 4. **Rejection of Assortativity Null Models (H2)**:
-   * Degree assortativity is close to zero ($-0.04$ to $0.10$), significantly less negative than degree-preserving configuration null models ($-0.19$ to $-0.06, z \ge 15$). Tournament seeding systematically guarantees that top players advance to face each other in semifinals and finals, preventing the extreme disassortativity that random pairing would generate.
+   * Degree assortativity is close to zero ($-0.04$ to $0.10$), significantly less negative than degree-preserving configuration null models ($-0.19$ to $-0.06$ for the undirected projection, $z \ge 16$; directed $z$ from 18 to 42). The null means show that degree-preserving rewiring of these graphs is itself strongly disassortative. Tournament seeding is a plausible explanation for the excess of meetings between top players, which the degree-decile test of ranking homophily finds in seven of nine networks, but it is not modelled and is not proven here.
 5. **Multi-Level Relational Insights (H6, H7, H8)**:
    * *Monadic (H6)*: Network PageRank completely subsumes raw win counts in predicting official player rankings ($\beta_1 \approx -0.75, p = 0.001$, while $\beta_2 \approx -0.05, p \ge 0.415$). Quality of victories matters far more than volume.
    * *Dyadic (H7)*: Head-to-head dominance carries over significantly across clay, hard, and grass courts ($r \approx 0.12$ to $0.15, p = 0.001$ via QAP matrix permutation). Psychological and stylistic dominance between player pairs transcends surface speed.
    * *Mixed (H8)*: Players with similar surface specialisation profiles encounter each other significantly more often ($r = 0.056, p = 0.001$), demonstrating scheduling homophily driven by selective tournament entry.
 6. **Gender Differences (H4)**:
-   * The WTA tour displays significantly lower top-10 PageRank concentration than the ATP tour ($p = 0.016$), especially after 2013, alongside a mild tendency towards cyclic upsets ($p = 0.098$). The women's circuit provided greater competitive parity and turnover among title contenders.
+   * The WTA tour displays significantly lower top-10 PageRank concentration than the ATP tour ($p = 0.016$), especially after 2013, alongside a mild tendency towards cyclic upsets ($p = 0.100$). The women's circuit provided greater competitive parity and turnover among title contenders.
 
 ---
 

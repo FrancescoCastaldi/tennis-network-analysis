@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts. Directed Freeman centralization is normalized by the maximum total-degree star, and its interpretation is explicit in the report. The report has also been shortened while retaining its study design, measure interpretations, results, and limitations. The main ruleset requires one review and passing CI checks without administrator bypass.
 
 ### Fixed
+- `results/tables/levels_tests.csv` regenerated from the current code: the H6 note now reports the maximum absolute pairwise correlation and the condition number of the predictors. Betas, p-values and n are unchanged (differences below 1e-12). The collinearity claim in the report is now backed by these numbers.
+- Report text: the introduction counts nine comparative networks (plus four reference networks), the ranking-homophily paragraph states the degree-decile null and the top-ten excess, the H2 paragraph reports the directed and undirected z ranges and no longer presents tournament seeding as the cause, and the Critique states that the networks are populations rather than samples.
 - Validity figure of the report: the M1 diameter point (9 against 10 in the paper) was clipped by the axis limits and is now drawn, the axis ticks no longer overlap, the long measure names are no longer truncated and the correlation note no longer crosses the fit line. The text states the M1 diameter and why it can only fall short (estimated from 1,000 source nodes).
 
 ### Changed

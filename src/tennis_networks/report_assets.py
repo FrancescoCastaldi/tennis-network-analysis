@@ -468,7 +468,12 @@ def table_levels():
             pr_row = sub[sub["statistic"] == "beta log PageRank"].iloc[0]
             w_row = sub[sub["statistic"] == "beta log wins"].iloc[0]
             n_val = pr_row["n"]
-            r2_val = pr_row["note"].replace("R2", "$R^2$")
+            r2_val = (
+                pr_row["note"]
+                .replace("R2", "$R^2$")
+                .replace("max |r|", "max $|r|$")
+                .replace("condition number", "cond. number")
+            )
             pr_val, pr_p = num(pr_row["value"], 3), num(p_value(pr_row, adjusted), 3)
             rows.append(
                 f"H6 & Monadic & {era_name} ($n={n_val}$) & $\\beta$ log PageRank & {pr_val} & {pr_p} & {r2_val} \\\\"

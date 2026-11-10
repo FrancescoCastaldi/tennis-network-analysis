@@ -21,7 +21,8 @@ were fully implemented and executed upfront.
 * **Empirical Grounding for Narrative**: Team members responsible for the Introduction (Role A) and
   Interpretation/Critique (Role C) now work with definitive, reproducible numbers rather than speculative
   assumptions. For instance, the rejection of H2 (networks are significantly more assortative than the
-  null model due to tournament seeding) directly informs the problem formulation and critical discussion.
+  null model) directly informs the problem formulation and critical discussion. Tournament seeding is
+  offered as a plausible explanation, not as a finding: the seeding mechanism is not modelled.
 * **De-Risking the Deadline**: Complex statistical procedures (such as degree-preserving null models,
   season permutations and QAP tests) carry performance bottlenecks and numerical edge cases. Resolving
   these challenges early guarantees a predictable timeline towards the 27 November deadline.
