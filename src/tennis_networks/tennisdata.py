@@ -15,6 +15,7 @@ Outputs:
 """
 
 import re
+import unicodedata
 import warnings
 
 import networkx as nx
@@ -44,6 +45,27 @@ def clean_name(name):
     """Collapse white space; the 'Surname I.' format is the same in both sources."""
     cleaned = re.sub(r"\s+", " ", str(name)).strip()
     return NAME_ALIASES.get(cleaned, cleaned)
+
+
+def name_key(name):
+    """Letters only, ASCII, lower case: spellings that differ in dots, hyphens, spaces or accents share one key."""
+    folded = unicodedata.normalize("NFKD", str(name)).encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z]", "", folded.lower())
+
+
+def canonical_names(matches):
+    """One spelling per player: the most frequent of the spellings that share the same key."""
+    names = pd.concat([matches["winner"], matches["loser"]], ignore_index=True)
+    counts = names.value_counts()
+    table = pd.DataFrame({"name": counts.index, "n": counts.to_numpy()})
+    table["key"] = table["name"].map(name_key)
+    table = table.sort_values(["key", "n", "name"], ascending=[True, False, True])
+    best = table.drop_duplicates("key").set_index("key")["name"]
+    mapping = {name: best[name_key(name)] for name in table["name"]}
+    matches = matches.copy()
+    matches["winner"] = matches["winner"].map(mapping)
+    matches["loser"] = matches["loser"].map(mapping)
+    return matches
 
 
 def spreadsheet_files(folder):
@@ -79,14 +101,19 @@ def load_matches(tours=("atp", "wta")):
                     }
                 )
             )
-    return pd.concat(frames, ignore_index=True)
+    return canonical_names(pd.concat(frames, ignore_index=True))
+
+
+# Comments of matches that were not played: walkover (also the misspelt "Walkoer" in the 2018 WTA file),
+# cancelled and scheduled. Retirements and awarded or disqualified matches are kept.
+NOT_PLAYED = ("walkover", "walkoer", "cancelled", "sched")
 
 
 def played(matches, keep_walkovers=False):
-    """Matches actually played: walkovers and rows without names are dropped, retirements are kept."""
+    """Matches actually played: walkovers, cancelled and scheduled rows and rows without names are dropped."""
     ok = matches["winner"].ne("") & matches["loser"].ne("") & matches["winner"].ne(matches["loser"])
     if not keep_walkovers:
-        ok &= ~matches["comment"].str.lower().str.startswith("walkover")
+        ok &= ~matches["comment"].str.lower().str.startswith(NOT_PLAYED)
     return matches[ok]
 
 

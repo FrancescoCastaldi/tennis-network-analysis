@@ -1337,7 +1337,7 @@ Blanco G.,Peya A.,1
 Blanco G.,Philippoussis M.,1
 Blanco G.,Pioline C.,1
 Blanco G.,Portas A.,2
-Blanco G.,Ramirez Hidalgo R.,1
+Blanco G.,Ramirez-Hidalgo R.,1
 Blanco G.,Robredo T.,1
 Blanco G.,Rochus C.,1
 Blanco G.,Safin M.,4
@@ -1399,15 +1399,15 @@ Bogomolov A.,Salzenstein J.,1
 Bogomolov A.,Srichaphan P.,2
 Bogomolov A.,Tursunov D.,1
 Bogomolov A.,Vemic D.,1
+Bogomolov Jr. A.,Delgado R.,1
 Bogomolov Jr. A.,Ferreira W.,1
 Bogomolov Jr. A.,Gimelstob J.,1
+Bogomolov Jr. A.,Kiefer N.,1
 Bogomolov Jr. A.,Martin A.,1
+Bogomolov Jr. A.,Nalbandian D.,1
 Bogomolov Jr. A.,Srichaphan P.,1
 Bogomolov Jr. A.,Stepanek R.,1
 Bogomolov Jr. A.,Verkerk M.,1
-Bogomolov Jr.A.,Delgado R.,1
-Bogomolov Jr.A.,Kiefer N.,1
-Bogomolov Jr.A.,Nalbandian D.,1
 Bohaboy D.,Kohlmann M.,1
 Bohane A.,Blake J.,1
 Bohli S.,Escude N.,1
@@ -2214,7 +2214,7 @@ Chela J.I.,Pioline C.,1
 Chela J.I.,Portas A.,1
 Chela J.I.,Pozzi G.,1
 Chela J.I.,Puerta M.,1
-Chela J.I.,Ramirez Hidalgo R.,1
+Chela J.I.,Ramirez-Hidalgo R.,1
 Chela J.I.,Rios M.,1
 Chela J.I.,Robredo T.,2
 Chela J.I.,Rochus C.,1
@@ -2326,7 +2326,7 @@ Clavet F.,Philippoussis M.,1
 Clavet F.,Pioline C.,1
 Clavet F.,Puerta M.,1
 Clavet F.,Rafter P.,1
-Clavet F.,Ramirez Hidalgo R.,1
+Clavet F.,Ramirez-Hidalgo R.,1
 Clavet F.,Rios M.,1
 Clavet F.,Rusedski G.,1
 Clavet F.,Safin M.,1
@@ -3022,19 +3022,15 @@ Dent T.,Voinea A.,1
 Dent T.,Zabaleta M.,1
 Dent T.,van Scheppingen D.,1
 Derepasko A.,Henman T.,1
-Dev Varman S.,Massa E.,1
 Devilder N.,Arthurs W.,1
 Devilder N.,Canas G.,1
 Devilder N.,Koubek S.,1
 Devilder N.,Srichaphan P.,1
 Devilder N.,Vinciguerra A.,1
+Devvarman S.,Massa E.,1
 Dewulf F.,Federer R.,1
 Dewulf F.,Rusedski G.,1
 Dewulf F.,Ulihrach B.,1
-Di Pasquale A.,Corretja A.,1
-Di Pasquale A.,Gasquet R.,1
-Di Pasquale A.,Rochus O.,1
-Di Pasquale A.,Stepanek R.,1
 Diaz J.,Agenor R.,1
 Diaz J.,Alvarez E.,1
 Diaz J.,Clavet F.,2
@@ -4110,8 +4106,6 @@ Galvani S.,Pavel A.,1
 Galvani S.,Rusedski G.,1
 Galvani S.,Schuettler R.,1
 Galvani S.,Zabaleta M.,1
-Gambill J. M.,Dent T.,1
-Gambill J. M.,Spadea V.,1
 Gambill J.M.,Agassi A.,7
 Gambill J.M.,Ancic M.,2
 Gambill J.M.,Arazi H.,2
@@ -4133,7 +4127,7 @@ Gambill J.M.,Clement A.,1
 Gambill J.M.,Coria G.,1
 Gambill J.M.,Corretja A.,2
 Gambill J.M.,Delgado R.,1
-Gambill J.M.,Dent T.,2
+Gambill J.M.,Dent T.,3
 Gambill J.M.,El Aynaoui Y.,1
 Gambill J.M.,Enqvist T.,1
 Gambill J.M.,Federer R.,2
@@ -4190,6 +4184,7 @@ Gambill J.M.,Schalken S.,2
 Gambill J.M.,Schuettler R.,3
 Gambill J.M.,Sluiter R.,1
 Gambill J.M.,Soderling R.,1
+Gambill J.M.,Spadea V.,1
 Gambill J.M.,Srichaphan P.,2
 Gambill J.M.,Suzuki T.,2
 Gambill J.M.,Tipsarevic J.,1
@@ -5056,7 +5051,7 @@ Haas T.,Black B.,1
 Haas T.,Black W.,1
 Haas T.,Blake J.,3
 Haas T.,Blanco G.,1
-Haas T.,Bogomolov Jr.A.,1
+Haas T.,Bogomolov Jr. A.,1
 Haas T.,Canas G.,4
 Haas T.,Chang M.,1
 Haas T.,Chela J.,1
@@ -5587,7 +5582,6 @@ Horna L.,Costa A.,1
 Horna L.,Daniel M.,1
 Horna L.,Davydenko N.,1
 Horna L.,Dent T.,1
-Horna L.,Di Pasquale A.,1
 Horna L.,Djokovic N.,1
 Horna L.,El Aynaoui Y.,1
 Horna L.,Falla A.,1
@@ -5647,6 +5641,7 @@ Horna L.,Vemic D.,1
 Horna L.,Verkerk M.,1
 Horna L.,Vicente F.,2
 Horna L.,Youzhny M.,2
+Horna L.,di Pasquale A.,1
 Horna L.,van Lottum J.,1
 Hrbaty D.,Acasuso J.,2
 Hrbaty D.,Agassi A.,2
@@ -6451,7 +6446,7 @@ Knowle J.,Melzer J.,1
 Knowle J.,Montanes A.,1
 Knowle J.,Moya C.,1
 Knowle J.,Radic M.,1
-Knowle J.,Ramirez Hidalgo R.,1
+Knowle J.,Ramirez-Hidalgo R.,1
 Knowle J.,Rochus O.,1
 Knowle J.,Sa A.,1
 Knowle J.,Safin M.,1
@@ -6658,7 +6653,7 @@ Krajan Z.,Coria G.,1
 Krajan Z.,Costa A.,1
 Krajan Z.,Federer R.,2
 Krajan Z.,Ferrer D.,1
-Krajan Z.,Gambill J. M.,1
+Krajan Z.,Gambill J.M.,1
 Krajan Z.,Giner J.,1
 Krajan Z.,Gonzalez F.,1
 Krajan Z.,Massu N.,2
@@ -8051,7 +8046,6 @@ Marcaccio G.,Acasuso J.,1
 Marcaccio G.,Bogomolov A.,1
 Marcaccio G.,Moya C.,1
 March O.,Lisnard J.R.,1
-Marin J.A,Rios M.,1
 Marin J.A.,Acasuso J.,1
 Marin J.A.,Blanco G.,1
 Marin J.A.,Browne F.,1
@@ -8090,6 +8084,7 @@ Marin J.A.,Novak J.,1
 Marin J.A.,Pavel A.,1
 Marin J.A.,Portas A.,2
 Marin J.A.,Puerta M.,3
+Marin J.A.,Rios M.,1
 Marin J.A.,Rochus O.,1
 Marin J.A.,Rodriguez M.,1
 Marin J.A.,Saretta F.,1
@@ -8573,7 +8568,7 @@ Meligeni F.,Krajicek R.,1
 Meligeni F.,Kratochvil M.,1
 Meligeni F.,Kuerten G.,1
 Meligeni F.,Lapentti N.,1
-Meligeni F.,Marin J.A,1
+Meligeni F.,Marin J.A.,1
 Meligeni F.,Martin A.,1
 Meligeni F.,Massu N.,2
 Meligeni F.,Mirnyi M.,1
@@ -9891,9 +9886,9 @@ Patience O.,Savolt A.,1
 Patience O.,Schuettler R.,1
 Patience O.,Tabara M.,1
 Patience O.,Tursunov D.,1
-Patience O.,Van Lottum J.,1
 Patience O.,Vliegen K.,1
 Patience O.,Zabaleta M.,1
+Patience O.,van Lottum J.,1
 Patriarca D.,Haider-Mauer A.,1
 Pavel A.,Acasuso J.,1
 Pavel A.,Agassi A.,3
@@ -10565,7 +10560,7 @@ Puerta M.,Nieminen J.,1
 Puerta M.,Norman M.,1
 Puerta M.,Portas A.,1
 Puerta M.,Puentes G.,1
-Puerta M.,Ramirez Hidalgo R.,1
+Puerta M.,Ramirez-Hidalgo R.,1
 Puerta M.,Rios M.,2
 Puerta M.,Rochus O.,2
 Puerta M.,Rusedski G.,1
@@ -10639,16 +10634,6 @@ Ram R.,Malisse X.,1
 Ram R.,Massu N.,1
 Ram R.,Verdasco F.,1
 Ram R.,Wawrinka S.,1
-Ramirez Hidalgo R.,Coria G.,1
-Ramirez Hidalgo R.,Ferrer D.,1
-Ramirez Hidalgo R.,Gonzalez F.,1
-Ramirez Hidalgo R.,Norman M.,1
-Ramirez Hidalgo R.,Novak J.,1
-Ramirez Hidalgo R.,Prodon E.,1
-Ramirez Hidalgo R.,Rios M.,1
-Ramirez Hidalgo R.,Sluiter R.,1
-Ramirez Hidalgo R.,Squillari F.,1
-Ramirez Hidalgo R.,Voinea A.,1
 Ramirez-Hidalgo R.,Acasuso J.,1
 Ramirez-Hidalgo R.,Ancic M.,2
 Ramirez-Hidalgo R.,Andreev I.,3
@@ -10658,12 +10643,15 @@ Ramirez-Hidalgo R.,Baghdatis M.,1
 Ramirez-Hidalgo R.,Behrend T.,1
 Ramirez-Hidalgo R.,Benneteau J.,1
 Ramirez-Hidalgo R.,Canas G.,1
+Ramirez-Hidalgo R.,Coria G.,1
 Ramirez-Hidalgo R.,Davydenko N.,2
 Ramirez-Hidalgo R.,Dlouhy L.,1
 Ramirez-Hidalgo R.,Elseneer G.,1
 Ramirez-Hidalgo R.,Elsner D.,1
+Ramirez-Hidalgo R.,Ferrer D.,1
 Ramirez-Hidalgo R.,Fish M.,1
 Ramirez-Hidalgo R.,Ginepri R.,1
+Ramirez-Hidalgo R.,Gonzalez F.,1
 Ramirez-Hidalgo R.,Hanescu V.,1
 Ramirez-Hidalgo R.,Henman T.,1
 Ramirez-Hidalgo R.,Labadze I.,1
@@ -10679,15 +10667,21 @@ Ramirez-Hidalgo R.,Montanes A.,1
 Ramirez-Hidalgo R.,Moya C.,1
 Ramirez-Hidalgo R.,Mutis O.,1
 Ramirez-Hidalgo R.,Nalbandian D.,1
-Ramirez-Hidalgo R.,Novak J.,1
+Ramirez-Hidalgo R.,Norman M.,1
+Ramirez-Hidalgo R.,Novak J.,2
 Ramirez-Hidalgo R.,Philippoussis M.,1
+Ramirez-Hidalgo R.,Prodon E.,1
+Ramirez-Hidalgo R.,Rios M.,1
 Ramirez-Hidalgo R.,Rochus O.,1
 Ramirez-Hidalgo R.,Sabau R.,1
 Ramirez-Hidalgo R.,Sanchez D.,1
 Ramirez-Hidalgo R.,Sanguinetti D.,1
 Ramirez-Hidalgo R.,Seppi A.,1
+Ramirez-Hidalgo R.,Sluiter R.,1
+Ramirez-Hidalgo R.,Squillari F.,1
 Ramirez-Hidalgo R.,Vacek J.,1
 Ramirez-Hidalgo R.,Vanek J.,1
+Ramirez-Hidalgo R.,Voinea A.,1
 Ramirez-Hidalgo R.,Volandri F.,2
 Ramirez-Hidalgo R.,Zabaleta M.,1
 Raoux G.,Ilie A.,1
@@ -10714,7 +10708,7 @@ Reid T.,Delic A.,1
 Reid T.,Escude N.,1
 Reid T.,Federer R.,1
 Reid T.,Ferreira W.,1
-Reid T.,Gambill J. M.,1
+Reid T.,Gambill J.M.,1
 Reid T.,Garcia-Lopez G.,1
 Reid T.,Gaudio G.,1
 Reid T.,Grosjean S.,2
@@ -12108,7 +12102,7 @@ Savolt A.,Mirnyi M.,1
 Savolt A.,Montanes A.,2
 Savolt A.,Moya C.,1
 Savolt A.,Nalbandian D.,1
-Savolt A.,Ramirez Hidalgo R.,1
+Savolt A.,Ramirez-Hidalgo R.,1
 Savolt A.,Rios M.,1
 Savolt A.,Rochus O.,1
 Savolt A.,Sanguinetti D.,1
@@ -13633,8 +13627,6 @@ Vahaly B.,Vinciguerra A.,1
 Vahaly B.,Youzhny M.,1
 Vajda I.,Luzzi F.,1
 Vajda I.,Moya C.,1
-Van Lottum J.,Kafelnikov Y.,1
-Van Lottum J.,Srichaphan P.,1
 Van der Dium A.,Calatrava A.,1
 Vanek J.,Acasuso J.,2
 Vanek J.,Agassi A.,1
@@ -14298,8 +14290,8 @@ Wang Y.,Chela J.,1
 Wang Y.,Hrbaty D.,1
 Wang Y.,Kratochvil M.,1
 Wang Y.,Spadea V.,1
+Wang Y. Jr,Gregorc L.,1
 Wang Y. Jr,Wessels P.,1
-Wang Y.Jr.,Gregorc L.,1
 Wang Y.T.,Baghdatis M.,1
 Wang Y.T.,Benneteau J.,1
 Wang Y.T.,Blake J.,1
@@ -14881,12 +14873,14 @@ di Pasquale A.,Boutter J.,1
 di Pasquale A.,Calatrava A.,2
 di Pasquale A.,Canas G.,1
 di Pasquale A.,Chang M.,1
+di Pasquale A.,Corretja A.,1
 di Pasquale A.,Dupuis A.,1
 di Pasquale A.,El Aynaoui Y.,1
 di Pasquale A.,Federer R.,2
 di Pasquale A.,Ferreira W.,1
 di Pasquale A.,Ferrer D.,2
 di Pasquale A.,Ferrero J.C.,2
+di Pasquale A.,Gasquet R.,1
 di Pasquale A.,Gaudio G.,2
 di Pasquale A.,Grosjean S.,1
 di Pasquale A.,Haas T.,1
@@ -14908,6 +14902,7 @@ di Pasquale A.,Philippoussis M.,2
 di Pasquale A.,Portas A.,1
 di Pasquale A.,Puerta M.,1
 di Pasquale A.,Rafter P.,1
+di Pasquale A.,Rochus O.,1
 di Pasquale A.,Ruud C.,1
 di Pasquale A.,Sa A.,1
 di Pasquale A.,Safin M.,1
@@ -14915,6 +14910,7 @@ di Pasquale A.,Schuettler R.,2
 di Pasquale A.,Seppi A.,1
 di Pasquale A.,Sluiter R.,1
 di Pasquale A.,Stanoytchev O.,1
+di Pasquale A.,Stepanek R.,1
 di Pasquale A.,Vicente F.,2
 di Pasquale A.,Vinciguerra A.,1
 di Pasquale A.,Vliegen K.,1
@@ -14943,6 +14939,7 @@ van Lottum J.,Gaudenzi A.,1
 van Lottum J.,Gustafsson M.,1
 van Lottum J.,Haas T.,1
 van Lottum J.,Hipfl M.,1
+van Lottum J.,Kafelnikov Y.,1
 van Lottum J.,Kratochvil M.,2
 van Lottum J.,Kucera K.,1
 van Lottum J.,Kuerten G.,2
@@ -14962,6 +14959,7 @@ van Lottum J.,Schalken S.,1
 van Lottum J.,Sluiter R.,1
 van Lottum J.,Soderling R.,1
 van Lottum J.,Spadea V.,1
+van Lottum J.,Srichaphan P.,1
 van Lottum J.,Stepanek R.,1
 van Lottum J.,Tipsarevic J.,1
 van Lottum J.,Tursunov D.,1

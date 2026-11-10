@@ -60,8 +60,7 @@ Almagro N.,Cervantes I.,1
 Almagro N.,Chardy J.,1
 Almagro N.,Coric B.,1
 Almagro N.,Cuevas P.,3
-Almagro N.,Del Potro J. M.,1
-Almagro N.,Del Potro J.M.,3
+Almagro N.,Del Potro J.M.,4
 Almagro N.,Delbonis F.,1
 Almagro N.,Dimitrov G.,2
 Almagro N.,Djokovic N.,2
@@ -211,7 +210,7 @@ Andujar P.,Becker B.,1
 Andujar P.,Bellucci T.,1
 Andujar P.,Benneteau J.,2
 Andujar P.,Berdych T.,3
-Andujar P.,Carreno-Busta P.,1
+Andujar P.,Carreno Busta P.,1
 Andujar P.,Cilic M.,1
 Andujar P.,Copil M.,1
 Andujar P.,Davydenko N.,1
@@ -357,7 +356,7 @@ Baghdatis M.,Gomez A.,1
 Baghdatis M.,Gonzalez A.,1
 Baghdatis M.,Gulbis E.,1
 Baghdatis M.,Hanfmann Y.,1
-Baghdatis M.,Herbert P.H,1
+Baghdatis M.,Herbert P.H.,1
 Baghdatis M.,Hewitt L.,1
 Baghdatis M.,Isner J.,4
 Baghdatis M.,Istomin D.,3
@@ -620,7 +619,7 @@ Bautista R.,Tsonga J.W.,2
 Bautista R.,Tursunov D.,2
 Bautista R.,Verdasco F.,2
 Bautista R.,Zemlja G.,1
-Beck A.,Carreno-Busta P.,1
+Beck A.,Carreno Busta P.,1
 Beck A.,Cervantes I.,1
 Beck A.,Fognini F.,2
 Beck A.,Mayer F.,1
@@ -715,7 +714,7 @@ Bedene A.,Gasquet R.,1
 Bedene A.,Granollers M.,1
 Bedene A.,Haase R.,1
 Bedene A.,Hanescu V.,1
-Bedene A.,Herbert P.H,1
+Bedene A.,Herbert P.H.,1
 Bedene A.,Isner J.,1
 Bedene A.,Istomin D.,2
 Bedene A.,Johnson S.,1
@@ -868,7 +867,7 @@ Benneteau J.,Berdych T.,1
 Benneteau J.,Berlocq C.,1
 Benneteau J.,Berrettini M.,1
 Benneteau J.,Blake J.,1
-Benneteau J.,Carreno-Busta P.,1
+Benneteau J.,Carreno Busta P.,1
 Benneteau J.,Chardy J.,2
 Benneteau J.,Chung H.,1
 Benneteau J.,Coric B.,1
@@ -1036,7 +1035,7 @@ Berlocq C.,Bautista Agut R.,1
 Berlocq C.,Bautista R.,1
 Berlocq C.,Berdych T.,1
 Berlocq C.,Brands D.,1
-Berlocq C.,Carreno-Busta P.,1
+Berlocq C.,Carreno Busta P.,1
 Berlocq C.,Chardy J.,1
 Berlocq C.,Chung H.,1
 Berlocq C.,Cilic M.,1
@@ -1103,7 +1102,7 @@ Berrer M.,Lopez F.,1
 Berrer M.,Mannarino A.,1
 Berrer M.,Mayer F.,1
 Berrer M.,Mayer L.,1
-Berrer M.,Munoz De La Nava D.,1
+Berrer M.,Munoz-De La Nava D.,1
 Berrer M.,Ramos-Vinolas A.,1
 Berrer M.,Robredo T.,1
 Berrer M.,Seppi A.,1
@@ -1168,7 +1167,7 @@ Blake J.,Tursunov D.,1
 Blancaneaux G.,Sugita Y.,1
 Bogaerts R.,Lu Y.H.,1
 Bogomolov A.,Baker B.,1
-Bogomolov A.,Carreno-Busta P.,1
+Bogomolov A.,Carreno Busta P.,1
 Bogomolov A.,Davydenko N.,1
 Bogomolov A.,Fognini F.,1
 Bogomolov A.,Karlovic I.,1
@@ -1186,7 +1185,7 @@ Bohli S.,Bautista R.,1
 Bolelli S.,Baghdatis M.,1
 Bolelli S.,Bautista R.,1
 Bolelli S.,Berdych T.,1
-Bolelli S.,Carreno-Busta P.,1
+Bolelli S.,Carreno Busta P.,1
 Bolelli S.,Davydenko N.,1
 Bolelli S.,Dimitrov G.,2
 Bolelli S.,Djokovic N.,1
@@ -1299,7 +1298,7 @@ Brown D.,Bautista R.,1
 Brown D.,Benneteau J.,1
 Brown D.,Berdych T.,1
 Brown D.,Bolelli S.,1
-Brown D.,Carreno-Busta P.,1
+Brown D.,Carreno Busta P.,1
 Brown D.,Del Potro J.M.,1
 Brown D.,Delbonis F.,1
 Brown D.,Delic M.,1
@@ -1366,7 +1365,7 @@ Capdeville P.,Almagro N.,1
 Carballes Baena R.,Basilashvili N.,1
 Carballes Baena R.,Bedene A.,1
 Carballes Baena R.,Bolelli S.,1
-Carballes Baena R.,Carreno-Busta P.,1
+Carballes Baena R.,Carreno Busta P.,1
 Carballes Baena R.,Coric B.,1
 Carballes Baena R.,Cuevas P.,1
 Carballes Baena R.,Daniel T.,1
@@ -1396,102 +1395,82 @@ Carballes Baena R.,Tsitsipas S.,1
 Carballes Baena R.,Vesely J.,1
 Carreno Busta P.,Albot R.,1
 Carreno Busta P.,Almagro N.,1
-Carreno Busta P.,Anderson K.,3
+Carreno Busta P.,Anderson K.,4
 Carreno Busta P.,Baghdatis M.,1
 Carreno Busta P.,Basilashvili N.,1
 Carreno Busta P.,Bautista Agut R.,1
+Carreno Busta P.,Bautista R.,1
+Carreno Busta P.,Becker B.,1
 Carreno Busta P.,Bedene A.,2
-Carreno Busta P.,Benneteau J.,1
+Carreno Busta P.,Bellucci T.,2
+Carreno Busta P.,Benneteau J.,2
+Carreno Busta P.,Berlocq C.,1
+Carreno Busta P.,Bhambri Y.,1
+Carreno Busta P.,Brown D.,1
 Carreno Busta P.,Cecchinato M.,1
+Carreno Busta P.,Chardy J.,2
 Carreno Busta P.,Cilic M.,4
 Carreno Busta P.,Coric B.,2
-Carreno Busta P.,Cuevas P.,1
+Carreno Busta P.,Cuevas P.,3
 Carreno Busta P.,Darcis S.,1
-Carreno Busta P.,Delbonis F.,2
-Carreno Busta P.,Dimitrov G.,1
-Carreno Busta P.,Djokovic N.,1
+Carreno Busta P.,Delbonis F.,4
+Carreno Busta P.,Dimitrov G.,3
+Carreno Busta P.,Djokovic N.,2
 Carreno Busta P.,Dolgopolov O.,1
 Carreno Busta P.,Elias G.,1
-Carreno Busta P.,Ferrer D.,1
+Carreno Busta P.,Federer R.,1
+Carreno Busta P.,Ferrer D.,2
+Carreno Busta P.,Fritz T.,1
+Carreno Busta P.,Gabashvili T.,1
 Carreno Busta P.,Garcia-Lopez G.,1
+Carreno Busta P.,Gonzalez M.,1
+Carreno Busta P.,Granollers M.,1
+Carreno Busta P.,Hanescu V.,1
+Carreno Busta P.,Herbert P.H.,2
 Carreno Busta P.,Istomin D.,1
-Carreno Busta P.,Johnson S.,1
+Carreno Busta P.,Janowicz J.,1
+Carreno Busta P.,Johnson S.,2
+Carreno Busta P.,Karlovic I.,1
 Carreno Busta P.,Khachanov K.,1
-Carreno Busta P.,Kohlschreiber P.,1
-Carreno Busta P.,Kuznetsov An.,2
+Carreno Busta P.,Klizan M.,1
+Carreno Busta P.,Kohlschreiber P.,2
+Carreno Busta P.,Kuznetsov An.,3
+Carreno Busta P.,Kyrgios N.,2
+Carreno Busta P.,Lajovic D.,1
 Carreno Busta P.,Lopez F.,1
+Carreno Busta P.,Lorenzi P.,1
+Carreno Busta P.,Lu Y.H.,1
 Carreno Busta P.,Mahut N.,1
 Carreno Busta P.,Martin A.,1
 Carreno Busta P.,Medvedev D.,2
-Carreno Busta P.,Monfils G.,1
-Carreno Busta P.,Nadal R.,1
-Carreno Busta P.,Paire B.,2
+Carreno Busta P.,Melzer J.,1
+Carreno Busta P.,Millman J.,1
+Carreno Busta P.,Monfils G.,3
+Carreno Busta P.,Muller G.,1
+Carreno Busta P.,Nadal R.,4
+Carreno Busta P.,Paire B.,3
 Carreno Busta P.,Ramos-Vinolas A.,1
 Carreno Busta P.,Raonic M.,3
+Carreno Busta P.,Robredo T.,3
+Carreno Busta P.,Rublev A.,1
 Carreno Busta P.,Schwartzman D.,1
 Carreno Busta P.,Simon G.,2
-Carreno Busta P.,Sousa J.,1
+Carreno Busta P.,Sock J.,2
+Carreno Busta P.,Sousa J.,2
+Carreno Busta P.,Souza J.,1
+Carreno Busta P.,Stakhovsky S.,1
 Carreno Busta P.,Sugita Y.,1
-Carreno Busta P.,Thiem D.,3
+Carreno Busta P.,Thiem D.,5
 Carreno Busta P.,Tiafoe F.,1
 Carreno Busta P.,Tsitsipas S.,1
-Carreno Busta P.,Tsonga J.W.,1
-Carreno Busta P.,Verdasco F.,1
-Carreno Busta P.,Wawrinka S.,2
-Carreno Busta P.,Youzhny M.,1
+Carreno Busta P.,Tsonga J.W.,2
+Carreno Busta P.,Tursunov D.,1
+Carreno Busta P.,Verdasco F.,2
+Carreno Busta P.,Wawrinka S.,3
+Carreno Busta P.,Young D.,1
+Carreno Busta P.,Youzhny M.,2
 Carreno Busta P.,Zverev A.,1
-Carreno-Busta P.,Anderson K.,1
-Carreno-Busta P.,Bautista R.,1
-Carreno-Busta P.,Becker B.,1
-Carreno-Busta P.,Bellucci T.,2
-Carreno-Busta P.,Benneteau J.,1
-Carreno-Busta P.,Berlocq C.,1
-Carreno-Busta P.,Bhambri Y.,1
-Carreno-Busta P.,Brown D.,1
-Carreno-Busta P.,Chardy J.,2
-Carreno-Busta P.,Cuevas P.,2
-Carreno-Busta P.,Delbonis F.,2
-Carreno-Busta P.,Dimitrov G.,2
-Carreno-Busta P.,Djokovic N.,1
-Carreno-Busta P.,Federer R.,1
-Carreno-Busta P.,Ferrer D.,1
-Carreno-Busta P.,Fritz T.,1
-Carreno-Busta P.,Gabashvili T.,1
-Carreno-Busta P.,Gonzalez M.,1
-Carreno-Busta P.,Granollers M.,1
-Carreno-Busta P.,Hanescu V.,1
-Carreno-Busta P.,Herbert P.H,1
-Carreno-Busta P.,Herbert P.H.,1
-Carreno-Busta P.,Janowicz J.,1
-Carreno-Busta P.,Johnson S.,1
-Carreno-Busta P.,Karlovic I.,1
-Carreno-Busta P.,Klizan M.,1
-Carreno-Busta P.,Kohlschreiber P.,1
-Carreno-Busta P.,Kuznetsov An.,1
-Carreno-Busta P.,Kyrgios N.,2
-Carreno-Busta P.,Lajovic D.,1
-Carreno-Busta P.,Lorenzi P.,1
-Carreno-Busta P.,Lu Y.H.,1
-Carreno-Busta P.,Melzer J.,1
-Carreno-Busta P.,Millman J.,1
-Carreno-Busta P.,Monfils G.,2
-Carreno-Busta P.,Muller G.,1
-Carreno-Busta P.,Nadal R.,3
-Carreno-Busta P.,Paire B.,1
-Carreno-Busta P.,Robredo T.,3
-Carreno-Busta P.,Rublev A.,1
-Carreno-Busta P.,Sock J.,2
-Carreno-Busta P.,Sousa J.,1
-Carreno-Busta P.,Souza J.,1
-Carreno-Busta P.,Stakhovsky S.,1
-Carreno-Busta P.,Thiem D.,2
-Carreno-Busta P.,Tsonga J.W.,1
-Carreno-Busta P.,Tursunov D.,1
-Carreno-Busta P.,Verdasco F.,1
-Carreno-Busta P.,Wawrinka S.,1
-Carreno-Busta P.,Young D.,1
-Carreno-Busta P.,Youzhny M.,1
-Carreno-Busta P.,Zverev M.,1
+Carreno Busta P.,Zverev M.,1
 Caruana L.,Johnson S.,1
 Caruso S.,Anderson K.,1
 Caruso S.,Baghdatis M.,1
@@ -1538,8 +1517,7 @@ Cecchinato M.,Struff J.L.,1
 Cecchinato M.,Thiem D.,1
 Cecchinato M.,Tiafoe F.,1
 Cecchinato M.,Zeballos H.,1
-Cervantes I.,Carreno Busta P.,1
-Cervantes I.,Carreno-Busta P.,2
+Cervantes I.,Carreno Busta P.,3
 Cervantes I.,Dimitrov G.,1
 Cervantes I.,Dolgopolov O.,1
 Cervantes I.,Donskoy E.,1
@@ -1846,7 +1824,7 @@ Coric B.,Bautista R.,2
 Coric B.,Bedene A.,1
 Coric B.,Berdych T.,3
 Coric B.,Berrer M.,2
-Coric B.,Carreno-Busta P.,1
+Coric B.,Carreno Busta P.,1
 Coric B.,Chardy J.,2
 Coric B.,Chung H.,1
 Coric B.,Cilic M.,7
@@ -2198,8 +2176,6 @@ De Schepper K.,Tsonga J.W.,1
 De Schepper K.,Verdasco F.,2
 De Schepper K.,Youzhny M.,1
 De Schepper K.,Zverev M.,1
-De Voest R.,Ebden M.,1
-Del Potro J. M.,Murray A.,1
 Del Potro J.M.,Basilashvili N.,1
 Del Potro J.M.,Bautista Agut R.,1
 Del Potro J.M.,Bautista R.,1
@@ -2220,6 +2196,7 @@ Del Potro J.M.,Kamke T.,1
 Del Potro J.M.,Kohlschreiber P.,2
 Del Potro J.M.,Kukushkin M.,1
 Del Potro J.M.,Lajovic D.,1
+Del Potro J.M.,Murray A.,1
 Del Potro J.M.,Nadal R.,4
 Del Potro J.M.,Nieminen J.,1
 Del Potro J.M.,Nishikori K.,2
@@ -2459,7 +2436,7 @@ Dodig I.,Anderson K.,1
 Dodig I.,Bellucci T.,1
 Dodig I.,Berdych T.,1
 Dodig I.,Brown D.,1
-Dodig I.,Carreno-Busta P.,1
+Dodig I.,Carreno Busta P.,1
 Dodig I.,Chardy J.,1
 Dodig I.,Cilic M.,3
 Dodig I.,Coric B.,1
@@ -2637,8 +2614,7 @@ Donskoy E.,Bautista R.,1
 Donskoy E.,Benneteau J.,1
 Donskoy E.,Berankis R.,1
 Donskoy E.,Blake J.,1
-Donskoy E.,Carreno Busta P.,1
-Donskoy E.,Carreno-Busta P.,1
+Donskoy E.,Carreno Busta P.,2
 Donskoy E.,Chardy J.,1
 Donskoy E.,Cilic M.,3
 Donskoy E.,Devvarman S.,1
@@ -2739,7 +2715,7 @@ Dustov F.,Tomic B.,1
 Dutra Silva R.,Almagro N.,1
 Dutra Silva R.,Bautista Agut R.,2
 Dutra Silva R.,Carballes Baena R.,1
-Dutra Silva R.,Carreno-Busta P.,1
+Dutra Silva R.,Carreno Busta P.,1
 Dutra Silva R.,Chardy J.,1
 Dutra Silva R.,Cilic M.,1
 Dutra Silva R.,Copil M.,1
@@ -3027,8 +3003,7 @@ Estrella Burgos V.,Berdych T.,1
 Estrella Burgos V.,Berrer M.,2
 Estrella Burgos V.,Bolelli S.,1
 Estrella Burgos V.,Brands D.,1
-Estrella Burgos V.,Carreno Busta P.,1
-Estrella Burgos V.,Carreno-Busta P.,1
+Estrella Burgos V.,Carreno Busta P.,2
 Estrella Burgos V.,Chardy J.,1
 Estrella Burgos V.,Chung H.,2
 Estrella Burgos V.,Donaldson J.,1
@@ -3294,8 +3269,7 @@ Fognini F.,Bautista R.,2
 Fognini F.,Berdych T.,2
 Fognini F.,Berlocq C.,1
 Fognini F.,Bhambri Y.,1
-Fognini F.,Carreno Busta P.,4
-Fognini F.,Carreno-Busta P.,1
+Fognini F.,Carreno Busta P.,5
 Fognini F.,Cecchinato M.,1
 Fognini F.,Chardy J.,1
 Fognini F.,Cilic M.,1
@@ -3731,7 +3705,7 @@ Gimeno-Traver D.,Berlocq C.,2
 Gimeno-Traver D.,Berrer M.,1
 Gimeno-Traver D.,Bolelli S.,1
 Gimeno-Traver D.,Brands D.,1
-Gimeno-Traver D.,Carreno-Busta P.,1
+Gimeno-Traver D.,Carreno Busta P.,1
 Gimeno-Traver D.,Chardy J.,1
 Gimeno-Traver D.,Cuevas P.,1
 Gimeno-Traver D.,Darcis S.,1
@@ -3871,7 +3845,7 @@ Goffin D.,Benneteau J.,2
 Goffin D.,Berdych T.,1
 Goffin D.,Bolelli S.,1
 Goffin D.,Carballes Baena R.,1
-Goffin D.,Carreno-Busta P.,1
+Goffin D.,Carreno Busta P.,1
 Goffin D.,Cecchinato M.,1
 Goffin D.,Chardy J.,1
 Goffin D.,Chung H.,1
@@ -4034,7 +4008,7 @@ Gomez L.,Gojowczyk P.,1
 Gomez L.,Querrey S.,1
 Gong M.X.,Kohlschreiber P.,1
 Gonzalez A.,Brown D.,1
-Gonzalez A.,Carreno-Busta P.,1
+Gonzalez A.,Carreno Busta P.,1
 Gonzalez A.,Chardy J.,1
 Gonzalez A.,Cuevas P.,1
 Gonzalez A.,Djokovic N.,1
@@ -4092,7 +4066,7 @@ Granollers M.,Bautista R.,1
 Granollers M.,Becker B.,1
 Granollers M.,Bedene A.,2
 Granollers M.,Berdych T.,2
-Granollers M.,Carreno-Busta P.,1
+Granollers M.,Carreno Busta P.,1
 Granollers M.,Cervantes I.,1
 Granollers M.,Chardy J.,2
 Granollers M.,Chung H.,1
@@ -4282,7 +4256,7 @@ Haas T.,Basilashvili N.,1
 Haas T.,Bemelmans R.,1
 Haas T.,Berankis R.,1
 Haas T.,Berdych T.,1
-Haas T.,Carreno-Busta P.,1
+Haas T.,Carreno Busta P.,1
 Haas T.,Cilic M.,1
 Haas T.,Del Potro J.M.,2
 Haas T.,Dimitrov G.,1
@@ -4326,8 +4300,7 @@ Haase R.,Bedene A.,2
 Haase R.,Berdych T.,1
 Haase R.,Berlocq C.,1
 Haase R.,Blake J.,1
-Haase R.,Carreno Busta P.,1
-Haase R.,Carreno-Busta P.,2
+Haase R.,Carreno Busta P.,3
 Haase R.,Chardy J.,1
 Haase R.,Cilic M.,2
 Haase R.,Copil M.,1
@@ -4489,7 +4462,7 @@ Halys Q.,Querrey S.,1
 Halys Q.,Ruud C.,1
 Halys Q.,Sousa J.,1
 Halys Q.,Trungelliti M.,1
-Hamou M.,Carreno-Busta P.,1
+Hamou M.,Carreno Busta P.,1
 Hamou M.,Cuevas P.,1
 Hamou M.,Janowicz J.,1
 Hanescu V.,Anderson K.,2
@@ -4619,16 +4592,10 @@ Hemery C.,Herbert P.H.,1
 Hemery C.,Kokkinakis T.,1
 Hemery C.,Lajovic D.,1
 Hemery C.,Schwartzman D.,1
-Herbert P-H.,Golubev A.,1
-Herbert P.H,Anderson K.,1
-Herbert P.H,Bautista R.,2
-Herbert P.H,Garcia-Lopez G.,1
-Herbert P.H,Kovalik J.,1
-Herbert P.H,Murray A.,1
-Herbert P.H,Nishikori K.,1
-Herbert P.H,Simon G.,1
 Herbert P.H.,Albot R.,1
+Herbert P.H.,Anderson K.,1
 Herbert P.H.,Bautista Agut R.,1
+Herbert P.H.,Bautista R.,2
 Herbert P.H.,Becker B.,1
 Herbert P.H.,Benneteau J.,1
 Herbert P.H.,Berlocq C.,1
@@ -4640,14 +4607,17 @@ Herbert P.H.,Dimitrov G.,1
 Herbert P.H.,Djokovic N.,1
 Herbert P.H.,Dzumhur D.,1
 Herbert P.H.,Fratangelo B.,1
+Herbert P.H.,Garcia-Lopez G.,1
 Herbert P.H.,Gasquet R.,1
 Herbert P.H.,Goffin D.,2
+Herbert P.H.,Golubev A.,1
 Herbert P.H.,Groth S.,2
 Herbert P.H.,Haas T.,1
 Herbert P.H.,Isner J.,4
 Herbert P.H.,Istomin D.,1
 Herbert P.H.,Janowicz J.,1
 Herbert P.H.,Kohlschreiber P.,4
+Herbert P.H.,Kovalik J.,1
 Herbert P.H.,Kukushkin M.,1
 Herbert P.H.,Kyrgios N.,1
 Herbert P.H.,Lopez F.,2
@@ -4655,14 +4625,17 @@ Herbert P.H.,Mahut N.,1
 Herbert P.H.,Mannarino A.,1
 Herbert P.H.,Mayer F.,1
 Herbert P.H.,Medvedev D.,1
+Herbert P.H.,Murray A.,1
 Herbert P.H.,Nadal R.,1
 Herbert P.H.,Nieminen J.,1
+Herbert P.H.,Nishikori K.,1
 Herbert P.H.,Nishioka Y.,1
 Herbert P.H.,Paire B.,1
 Herbert P.H.,Pouille L.,2
 Herbert P.H.,Przysiezny M.,1
 Herbert P.H.,Querrey S.,1
 Herbert P.H.,Seppi A.,1
+Herbert P.H.,Simon G.,1
 Herbert P.H.,Skugor F.,1
 Herbert P.H.,Sock J.,3
 Herbert P.H.,Struff J.L.,1
@@ -4672,8 +4645,8 @@ Herbert P.H.,Verdasco F.,3
 Herbert P.H.,Young D.,1
 Herbert P.H.,Zverev A.,1
 Herbert P.H.,Zverev M.,2
+Hernandez-Fernandez J,Bedene A.,1
 Hernandez-Fernandez J,Norrie C.,1
-Hernandez-Fernandez J.,Bedene A.,1
 Hernych J.,Bautista R.,1
 Hernych J.,Garcia-Lopez G.,1
 Hernych J.,Gasquet R.,1
@@ -4976,7 +4949,7 @@ Janowicz J.,Bellucci T.,1
 Janowicz J.,Benneteau J.,1
 Janowicz J.,Berdych T.,3
 Janowicz J.,Blake J.,1
-Janowicz J.,Carreno-Busta P.,1
+Janowicz J.,Carreno Busta P.,1
 Janowicz J.,Cilic M.,1
 Janowicz J.,Cuevas P.,1
 Janowicz J.,Daniel T.,1
@@ -5150,7 +5123,7 @@ Johnson S.,Goffin D.,1
 Johnson S.,Gojowczyk P.,1
 Johnson S.,Haas T.,1
 Johnson S.,Haase R.,1
-Johnson S.,Herbert P.H,1
+Johnson S.,Herbert P.H.,1
 Johnson S.,Hewitt L.,1
 Johnson S.,Isner J.,4
 Johnson S.,Ito T.,2
@@ -5206,7 +5179,7 @@ Kamke T.,Becker B.,1
 Kamke T.,Benneteau J.,3
 Kamke T.,Berdych T.,2
 Kamke T.,Brands D.,1
-Kamke T.,Carreno-Busta P.,1
+Kamke T.,Carreno Busta P.,1
 Kamke T.,Cilic M.,1
 Kamke T.,Cuevas P.,1
 Kamke T.,Dodig I.,2
@@ -5602,7 +5575,7 @@ Kohlschreiber P.,Simon G.,1
 Kohlschreiber P.,Sock J.,1
 Kohlschreiber P.,Sousa J.,2
 Kohlschreiber P.,Stepanek R.,1
-Kohlschreiber P.,Struff J.L.,1
+Kohlschreiber P.,Struff J.L.,2
 Kohlschreiber P.,Thiem D.,1
 Kohlschreiber P.,Tipsarevic J.,1
 Kohlschreiber P.,Tomic B.,2
@@ -5613,7 +5586,6 @@ Kohlschreiber P.,Wawrinka S.,3
 Kohlschreiber P.,Youzhny M.,2
 Kohlschreiber P.,Zeballos H.,1
 Kohlschreiber P.,Zverev A.,2
-Kohlschreiber P..,Struff J.L.,1
 Kokkinakis T.,Anderson K.,1
 Kokkinakis T.,Berlocq C.,1
 Kokkinakis T.,Chardy J.,1
@@ -5860,7 +5832,7 @@ Kukushkin M.,Becker B.,1
 Kukushkin M.,Bellucci T.,2
 Kukushkin M.,Berdych T.,1
 Kukushkin M.,Brugues-Davi A.,1
-Kukushkin M.,Carreno-Busta P.,1
+Kukushkin M.,Carreno Busta P.,1
 Kukushkin M.,Chardy J.,1
 Kukushkin M.,Cilic M.,2
 Kukushkin M.,Copil M.,1
@@ -6216,7 +6188,7 @@ Lazarov A.,Albot R.,1
 Lazov A.,Klizan M.,1
 Ledovskikh M.,Stakhovsky S.,1
 Leshem E.,Baghdatis M.,1
-Lestienne C.,Carreno-Busta P.,1
+Lestienne C.,Carreno Busta P.,1
 Lestienne C.,Gasquet R.,1
 Lestienne C.,Struff J.L.,1
 Levine J.,Anderson K.,1
@@ -6281,7 +6253,7 @@ Lopez F.,Bellucci T.,1
 Lopez F.,Benneteau J.,2
 Lopez F.,Berdych T.,3
 Lopez F.,Berrettini M.,1
-Lopez F.,Carreno-Busta P.,1
+Lopez F.,Carreno Busta P.,1
 Lopez F.,Chardy J.,1
 Lopez F.,Chung H.,1
 Lopez F.,Cilic M.,4
@@ -6373,8 +6345,7 @@ Lorenzi P.,Berlocq C.,1
 Lorenzi P.,Brands D.,1
 Lorenzi P.,Brown D.,1
 Lorenzi P.,Carballes Baena R.,1
-Lorenzi P.,Carreno Busta P.,1
-Lorenzi P.,Carreno-Busta P.,2
+Lorenzi P.,Carreno Busta P.,3
 Lorenzi P.,Chardy J.,2
 Lorenzi P.,Chung H.,1
 Lorenzi P.,Cilic M.,1
@@ -6403,8 +6374,7 @@ Lorenzi P.,Herbert P.H.,1
 Lorenzi P.,Isner J.,1
 Lorenzi P.,Kamke T.,1
 Lorenzi P.,Klizan M.,2
-Lorenzi P.,Kohlschreiber P.,2
-Lorenzi P.,Kohlschreiber P..,1
+Lorenzi P.,Kohlschreiber P.,3
 Lorenzi P.,Kyrgios N.,1
 Lorenzi P.,Lacko L.,2
 Lorenzi P.,Mannarino A.,2
@@ -7325,7 +7295,7 @@ Monfils G.,Bellucci T.,1
 Monfils G.,Berdych T.,3
 Monfils G.,Bhambri Y.,1
 Monfils G.,Brands D.,3
-Monfils G.,Carreno-Busta P.,1
+Monfils G.,Carreno Busta P.,1
 Monfils G.,Chardy J.,1
 Monfils G.,Chung H.,1
 Monfils G.,Cuevas P.,1
@@ -7474,8 +7444,7 @@ Muller G.,Bemelmans R.,1
 Muller G.,Berankis R.,1
 Muller G.,Berdych T.,1
 Muller G.,Brown D.,1
-Muller G.,Carreno Busta P.,2
-Muller G.,Carreno-Busta P.,1
+Muller G.,Carreno Busta P.,3
 Muller G.,Chung H.,1
 Muller G.,Cilic M.,4
 Muller G.,Copil M.,1
@@ -7544,24 +7513,24 @@ Munar J.,Ruud C.,1
 Munar J.,Schwartzman D.,1
 Munar J.,Thiem D.,1
 Munar J.,Vesely J.,1
-Munoz De La Nava D.,Brown D.,1
-Munoz De La Nava D.,Cervantes I.,1
-Munoz De La Nava D.,Gonzalez M.,1
-Munoz De La Nava D.,Granollers M.,1
-Munoz De La Nava D.,Martin A.,1
-Munoz De La Nava D.,Seppi A.,1
-Munoz De La Nava D.,Struff J.L.,1
 Munoz-De La Nava D.,Almagro N.,1
 Munoz-De La Nava D.,Benneteau J.,1
+Munoz-De La Nava D.,Brown D.,1
+Munoz-De La Nava D.,Cervantes I.,1
 Munoz-De La Nava D.,Davydenko N.,1
 Munoz-De La Nava D.,Devvarman S.,1
 Munoz-De La Nava D.,Edmund K.,1
 Munoz-De La Nava D.,Elias G.,1
+Munoz-De La Nava D.,Gonzalez M.,1
+Munoz-De La Nava D.,Granollers M.,1
 Munoz-De La Nava D.,Gulbis E.,1
 Munoz-De La Nava D.,Kukushkin M.,1
 Munoz-De La Nava D.,Llodra M.,1
+Munoz-De La Nava D.,Martin A.,1
 Munoz-De La Nava D.,Monteiro T.,1
 Munoz-De La Nava D.,Querrey S.,1
+Munoz-De La Nava D.,Seppi A.,1
+Munoz-De La Nava D.,Struff J.L.,1
 Munoz-De La Nava D.,Troicki V.,1
 Murray A.,Anderson K.,1
 Murray A.,Berdych T.,2
@@ -7642,7 +7611,7 @@ Napolitano S.,Troicki V.,1
 Naso G.,Lorenzi P.,1
 Nedovyesov A.,Basilashvili N.,1
 Nedovyesov A.,Berdych T.,2
-Nedovyesov A.,Carreno-Busta P.,1
+Nedovyesov A.,Carreno Busta P.,1
 Nedovyesov A.,Cervantes I.,1
 Nedovyesov A.,Cuevas P.,1
 Nedovyesov A.,Garcia-Lopez G.,1
@@ -7842,8 +7811,8 @@ Novikov D.,Melzer J.,1
 Novikov D.,Nishikori K.,1
 Novikov D.,Sela D.,1
 Novikov D.,Sousa J.,1
-O'Connell C.,Dimitrov G.,1
-O'Connell C.,Elias G.,1
+O Connell C.,Dimitrov G.,1
+O Connell C.,Elias G.,1
 Odesnik W.,Ferrer D.,1
 Odesnik W.,Haas T.,1
 Odesnik W.,Isner J.,1
@@ -7927,8 +7896,7 @@ Paire B.,Becker B.,2
 Paire B.,Bedene A.,1
 Paire B.,Berdych T.,2
 Paire B.,Bogomolov A.,1
-Paire B.,Carreno Busta P.,2
-Paire B.,Carreno-Busta P.,1
+Paire B.,Carreno Busta P.,3
 Paire B.,Chiudinelli M.,1
 Paire B.,Chung H.,1
 Paire B.,Cilic M.,4
@@ -8069,8 +8037,7 @@ Pella G.,Carreno Busta P.,1
 Pella G.,Cecchinato M.,1
 Pella G.,Cilic M.,1
 Pella G.,Cuevas P.,1
-Pella G.,Del Potro J. M.,1
-Pella G.,Del Potro J.M.,1
+Pella G.,Del Potro J.M.,2
 Pella G.,Delbonis F.,1
 Pella G.,Dimitrov G.,1
 Pella G.,Djokovic N.,1
@@ -8085,7 +8052,7 @@ Pella G.,Garcia-Lopez G.,1
 Pella G.,Goffin D.,2
 Pella G.,Gojowczyk P.,1
 Pella G.,Groth S.,1
-Pella G.,Herbert P.H,1
+Pella G.,Herbert P.H.,1
 Pella G.,Jarry N.,1
 Pella G.,Jaziri M.,1
 Pella G.,Johnson S.,2
@@ -8522,8 +8489,7 @@ Ramos-Vinolas A.,Berdych T.,1
 Ramos-Vinolas A.,Brown D.,1
 Ramos-Vinolas A.,Bublik A.,1
 Ramos-Vinolas A.,Carballes Baena R.,2
-Ramos-Vinolas A.,Carreno Busta P.,1
-Ramos-Vinolas A.,Carreno-Busta P.,1
+Ramos-Vinolas A.,Carreno Busta P.,2
 Ramos-Vinolas A.,Chung H.,1
 Ramos-Vinolas A.,Cilic M.,2
 Ramos-Vinolas A.,Coric B.,3
@@ -8864,7 +8830,7 @@ Rosol L.,Granollers M.,2
 Rosol L.,Gulbis E.,1
 Rosol L.,Haas T.,1
 Rosol L.,Haase R.,1
-Rosol L.,Herbert P.H,1
+Rosol L.,Herbert P.H.,1
 Rosol L.,Hewitt L.,1
 Rosol L.,Janowicz J.,2
 Rosol L.,Johnson S.,2
@@ -9376,7 +9342,7 @@ Sijsling I.,Simon G.,1
 Sijsling I.,Sock J.,1
 Sijsling I.,Sorensen L.,1
 Sijsling I.,Sousa J.,2
-Sijsling I.,Stebe C-M.,1
+Sijsling I.,Stebe C.M.,1
 Sijsling I.,Tomic B.,2
 Sijsling I.,Tsonga J.W.,1
 Sijsling I.,Tursunov D.,1
@@ -9673,7 +9639,7 @@ Sousa J.,Berlocq C.,1
 Sousa J.,Bogomolov A.,1
 Sousa J.,Brown D.,1
 Sousa J.,Carballes Baena R.,2
-Sousa J.,Carreno-Busta P.,1
+Sousa J.,Carreno Busta P.,1
 Sousa J.,Chung H.,1
 Sousa J.,Cilic M.,4
 Sousa J.,Copil M.,2
@@ -9807,7 +9773,7 @@ Stakhovsky S.,Goffin D.,3
 Stakhovsky S.,Groth S.,1
 Stakhovsky S.,Gulbis E.,1
 Stakhovsky S.,Haas T.,1
-Stakhovsky S.,Herbert P.H,2
+Stakhovsky S.,Herbert P.H.,2
 Stakhovsky S.,Istomin D.,2
 Stakhovsky S.,Jaziri M.,1
 Stakhovsky S.,Johnson S.,1
@@ -9847,7 +9813,6 @@ Starace P.,Tursunov D.,1
 Statham J.,Falla A.,1
 Statham J.,Lacko L.,1
 Statham J.,Vesely J.,1
-Stebe C-M.,Wawrinka S.,1
 Stebe C.M.,Bautista Agut R.,1
 Stebe C.M.,Darcis S.,1
 Stebe C.M.,Dzumhur D.,1
@@ -9858,7 +9823,7 @@ Stebe C.M.,Marterer M.,1
 Stebe C.M.,Pella G.,1
 Stebe C.M.,Rublev A.,1
 Stebe C.M.,Schwartzman D.,1
-Stebe C.M.,Wawrinka S.,1
+Stebe C.M.,Wawrinka S.,2
 Stepanek R.,Anderson K.,1
 Stepanek R.,Bachinger M.,1
 Stepanek R.,Bautista R.,1
@@ -9899,7 +9864,6 @@ Stepanek R.,Tomic B.,1
 Stepanek R.,Troicki V.,1
 Stepanek R.,Tursunov D.,1
 Stepanek R.,Wawrinka S.,3
-Struff J-L.,Cilic M.,1
 Struff J.L.,Anderson K.,1
 Struff J.L.,Bautista Agut R.,3
 Struff J.L.,Bellucci T.,1
@@ -9910,6 +9874,7 @@ Struff J.L.,Carballes Baena R.,1
 Struff J.L.,Carreno Busta P.,1
 Struff J.L.,Cecchinato M.,1
 Struff J.L.,Chardy J.,1
+Struff J.L.,Cilic M.,1
 Struff J.L.,Copil M.,1
 Struff J.L.,Coric B.,2
 Struff J.L.,Daniel T.,1
@@ -10542,7 +10507,7 @@ Vanni L.,Whittington A.,1
 Vanni L.,Zverev A.,1
 Vatutin A.,Andujar P.,1
 Vatutin A.,Fratangelo B.,1
-Vega Hernandez D.,Carreno-Busta P.,1
+Vega Hernandez D.,Carreno Busta P.,1
 Veger F.,Rosol L.,1
 Veic A.,Ferrer D.,1
 Veic A.,Gimeno-Traver D.,1
@@ -10726,7 +10691,7 @@ Viola M.,Rosol L.,1
 Viola M.,Sijsling I.,1
 Viola M.,Simon G.,2
 Volandri F.,Alund M.,1
-Volandri F.,Carreno-Busta P.,1
+Volandri F.,Carreno Busta P.,1
 Volandri F.,De Schepper K.,1
 Volandri F.,Delbonis F.,1
 Volandri F.,Dimitrov G.,1
@@ -11012,7 +10977,7 @@ Youzhny M.,Bedene A.,1
 Youzhny M.,Bellucci T.,3
 Youzhny M.,Brands D.,1
 Youzhny M.,Brown D.,1
-Youzhny M.,Carreno-Busta P.,1
+Youzhny M.,Carreno Busta P.,1
 Youzhny M.,Cilic M.,2
 Youzhny M.,Coric B.,1
 Youzhny M.,Cuevas P.,1
@@ -11084,8 +11049,8 @@ Youzhny M.,Zverev M.,2
 Yuksel A.,Vesely J.,1
 Zapata Miralles B.,Seppi A.,1
 Zayed M. S.,Monfils G.,1
-Zayed M.S.,Murray A.,1
-Zayid M. S.,Chardy J.,1
+Zayed M. S.,Murray A.,1
+Zayid M.S.,Chardy J.,1
 Zayid M.S.,Khachanov K.,1
 Zeballos H.,Almagro N.,3
 Zeballos H.,Anderson K.,2
@@ -11194,7 +11159,7 @@ Ziadi M.,Kavcic B.,1
 Zopp J.,Almagro N.,1
 Zopp J.,Bagnis F.,1
 Zopp J.,Berrettini M.,1
-Zopp J.,Carreno-Busta P.,1
+Zopp J.,Carreno Busta P.,1
 Zopp J.,Dimitrov G.,1
 Zopp J.,Granollers M.,1
 Zopp J.,Gulbis E.,2
@@ -11323,3 +11288,4 @@ Zverev M.,Tsonga J.W.,1
 Zverev M.,Vesely J.,2
 Zverev M.,Wawrinka S.,1
 Zverev M.,Zverev A.,1
+de Voest R.,Ebden M.,1

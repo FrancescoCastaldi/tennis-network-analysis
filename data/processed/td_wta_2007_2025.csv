@@ -478,7 +478,7 @@ Ani M.,Schruff J.,1
 Ani M.,Suarez Navarro C.,1
 Ani M.,Voracova R.,1
 Ani M.,Yakimova A.,1
-Ani M.,Zahlavova Strycova B..,1
+Ani M.,Zahlavova Strycova B.,1
 Anisimova A.,Alexandrova E.,1
 Anisimova A.,Andreescu B.,1
 Anisimova A.,Arango E.,1
@@ -727,7 +727,6 @@ Arruabarrena L.,Witthoeft C.,1
 Arruabarrena L.,Wozniacki C.,1
 Arruabarrena L.,Zheng S.,1
 Arruabarrena L.,Zidansek T.,1
-Arruabarrena Vecino L.,Medina Garrigues A.,1
 Arruabarrena-Vecino L.,Bertens K.,1
 Arruabarrena-Vecino L.,Dolonc V.,1
 Arruabarrena-Vecino L.,Halep S.,1
@@ -740,6 +739,7 @@ Arruabarrena-Vecino L.,Kerber A.,1
 Arruabarrena-Vecino L.,Knapp K.,1
 Arruabarrena-Vecino L.,Kuznetsova S.,1
 Arruabarrena-Vecino L.,Larsson J.,1
+Arruabarrena-Vecino L.,Medina Garrigues A.,1
 Arruabarrena-Vecino L.,Pennetta F.,1
 Arruabarrena-Vecino L.,Pervak K.,1
 Arruabarrena-Vecino L.,Radwanska A.,1
@@ -1204,12 +1204,12 @@ Badosa Gibert P.,Bondarenko K.,1
 Badosa Gibert P.,Cornet A.,1
 Badosa Gibert P.,Errani S.,1
 Badosa Gibert P.,Krunic A.,1
+Badosa Gibert P.,Lepchenko V.,1
+Badosa Gibert P.,Pliskova Ka.,1
 Badosa Gibert P.,Pliskova Kr.,1
 Badosa Gibert P.,Rodina E.,1
 Badosa Gibert P.,Sorribes Tormo S.,1
 Badosa Gibert P.,Vikhlyantseva N.,1
-Badosa Gibert. P.,Lepchenko V.,1
-Badosa Gibert. P.,Pliskova Ka.,1
 Badosa P.,Anisimova A.,2
 Badosa P.,Avanesyan E.,1
 Badosa P.,Azarenka V.,2
@@ -1504,7 +1504,7 @@ Bardina V.,Lepchenko V.,1
 Bardina V.,Llagostera Vives N.,1
 Bardina V.,Malek T.,1
 Bardina V.,Mattek B.,1
-Bardina V.,O'brien K.,1
+Bardina V.,O'Brien K.,1
 Bardina V.,Obziler T.,1
 Bardina V.,Peng S.,1
 Bardina V.,Schnyder P.,1
@@ -1849,7 +1849,7 @@ Beck A.,Cepelova J.,1
 Beck A.,Cibulkova D.,2
 Beck A.,Diyas Z.,2
 Beck A.,Dodin O.,1
-Beck A.,Duque-Marino M.,1
+Beck A.,Duque Marino M.,1
 Beck A.,Dushevina V.,1
 Beck A.,Erakovic M.,1
 Beck A.,Flipkens K.,2
@@ -1941,7 +1941,7 @@ Begu I.,Cocciaretto E.,1
 Begu I.,Collins D.,2
 Begu I.,Dellacqua C.,1
 Begu I.,Diyas Z.,1
-Begu I.,Duque-Marino M.,1
+Begu I.,Duque Marino M.,1
 Begu I.,Errani S.,2
 Begu I.,Friedsam A.L.,2
 Begu I.,Garcia C.,4
@@ -3934,7 +3934,7 @@ Burrage J.,Kasatkina D.,1
 Burrage J.,Korpatsch T.,3
 Burrage J.,Krejcikova B.,1
 Burrage J.,Linette M.,1
-Burrage J.,McNally C.,1
+Burrage J.,Mcnally C.,1
 Burrage J.,Ostapenko J.,1
 Burrage J.,Sabalenka A.,1
 Burrage J.,Siniakova K.,2
@@ -4059,7 +4059,7 @@ Bychkova E.,Pavlyuchenkova A.,1
 Bychkova E.,Pennetta F.,1
 Bychkova E.,Petkovic A.,1
 Bychkova E.,Petrova N.,1
-Bychkova E.,Pous Tio L.,1
+Bychkova E.,Pous-Tio L.,1
 Bychkova E.,Radwanska A.,2
 Bychkova E.,Safina D.,1
 Bychkova E.,Sanchez O.,1
@@ -4068,7 +4068,6 @@ Bychkova E.,Szavay A.,1
 Bychkova E.,Zakopalova K.,1
 Bychkova E.,Zheng J.,1
 Bychkova E.,Zvonareva V.,1
-Cabeza Candela E.,Sromova H.,1
 Cabeza-Candela E.,Azarenka V.,1
 Cabeza-Candela E.,Barty A.,1
 Cabeza-Candela E.,Begu I.,3
@@ -4089,6 +4088,7 @@ Cabeza-Candela E.,Radwanska A.,1
 Cabeza-Candela E.,Robson L.,1
 Cabeza-Candela E.,Rus A.,1
 Cabeza-Candela E.,Shvedova Y.,1
+Cabeza-Candela E.,Sromova H.,1
 Cabeza-Candela E.,Vinci R.,1
 Cabeza-Candela E.,Wozniacki C.,1
 Cabrera L.,Alexandrova E.,1
@@ -4418,7 +4418,7 @@ Cetkovska P.,Allertova D.,1
 Cetkovska P.,Arn G.,1
 Cetkovska P.,Arvidsson S.,1
 Cetkovska P.,Babos T.,1
-Cetkovska P.,Badosa Gibert. P.,1
+Cetkovska P.,Badosa Gibert P.,1
 Cetkovska P.,Barthel M.,1
 Cetkovska P.,Bondarenko K.,1
 Cetkovska P.,Cornet A.,1
@@ -4525,8 +4525,7 @@ Chakvetadze A.,Rodina E.,1
 Chakvetadze A.,Safarova L.,1
 Chakvetadze A.,Safina D.,1
 Chakvetadze A.,Schnyder P.,1
-Chakvetadze A.,Sharapova M.,4
-Chakvetadze A.,"Sharapova, M.",1
+Chakvetadze A.,Sharapova M.,5
 Chakvetadze A.,Srebotnik K.,1
 Chakvetadze A.,Stephens S.,1
 Chakvetadze A.,Suarez Navarro C.,1
@@ -4539,7 +4538,7 @@ Chakvetadze A.,Williams S.,1
 Chakvetadze A.,Williams V.,1
 Chakvetadze A.,Wozniacki C.,4
 Chakvetadze A.,Zvonareva V.,1
-Chan C-W.,Kirilenko M.,1
+Chan C.W.,Kirilenko M.,1
 Chan C.W.,Ruano Pascual V.,1
 Chan C.W.,Tanasugarn T.,1
 Chan W.Y.,Bartoli M.,1
@@ -4709,7 +4708,7 @@ Chirico L.,Vekic D.,1
 Chirico L.,Williams V.,1
 Cho Y.J.,Dominguez Lino L.,1
 Choi J-H.,Pliskova Kr.,1
-Choi J.H.,Voegele S.,1
+Choi J-H.,Voegele S.,1
 Chong E.,Hon P.,2
 Chong E.,Mchale C.,1
 Chong E.,Sakatsume H.,1
@@ -5149,6 +5148,7 @@ Cohen Aloro S.,Schiavone F.,1
 Cohen Aloro S.,Sharapova M.,1
 Cohen Aloro S.,Srebotnik K.,1
 Cohen Aloro S.,Vinci R.,1
+Cohen Aloro S.,Zakopalova K.,1
 Cohen Aloro S.,Zheng J.,1
 Cohen Aloro S.,Zvonareva V.,1
 Cohen J.,Doi M.,2
@@ -5165,7 +5165,6 @@ Cohen J.,Rodionova An.,1
 Cohen J.,Vekic D.,1
 Cohen J.,Zahlavova Strycova B.,1
 Cohen J.,Zheng S.,1
-Cohen-Aloro S.,Zakopalova K.,1
 Coin J.,Bacsinszky T.,1
 Coin J.,Bartoli M.,1
 Coin J.,Bondarenko K.,1
@@ -5889,7 +5888,7 @@ Date Krumm K.,Amanmuradova A.,1
 Date Krumm K.,Arvidsson S.,1
 Date Krumm K.,Azarenka V.,2
 Date Krumm K.,Babos T.,1
-Date Krumm K.,Bartoli M.,2
+Date Krumm K.,Bartoli M.,4
 Date Krumm K.,Bencic B.,1
 Date Krumm K.,Beygelzimer Y.,1
 Date Krumm K.,Bondarenko K.,2
@@ -5904,15 +5903,19 @@ Date Krumm K.,Dementieva E.,2
 Date Krumm K.,Doi M.,1
 Date Krumm K.,Duan Y.Y.,1
 Date Krumm K.,Dulgheru A.,1
+Date Krumm K.,Dulko G.,1
 Date Krumm K.,Groth J.,1
 Date Krumm K.,Halep S.,1
+Date Krumm K.,Hantuchova D.,2
 Date Krumm K.,Hercog P.,1
 Date Krumm K.,Hsieh S.W.,1
-Date Krumm K.,Ivanovic A.,2
+Date Krumm K.,Ivanovic A.,4
 Date Krumm K.,Jaksic J.,1
 Date Krumm K.,Jovanovski B.,1
 Date Krumm K.,Kanepi K.,1
+Date Krumm K.,Kerber A.,1
 Date Krumm K.,King V.,1
+Date Krumm K.,Kremer A.,1
 Date Krumm K.,Kudryavtseva A.,1
 Date Krumm K.,Kuznetsova S.,1
 Date Krumm K.,Lisicki S.,3
@@ -5929,10 +5932,11 @@ Date Krumm K.,Peer S.,1
 Date Krumm K.,Petrova N.,1
 Date Krumm K.,Pfizenmaier D.,1
 Date Krumm K.,Pliskova Ka.,2
-Date Krumm K.,Radwanska A.,1
+Date Krumm K.,Radwanska A.,2
 Date Krumm K.,Robson L.,1
 Date Krumm K.,Rodionova A.,1
 Date Krumm K.,Rybarikova M.,3
+Date Krumm K.,Safarova L.,1
 Date Krumm K.,Savinykh V.,1
 Date Krumm K.,Schiavone F.,5
 Date Krumm K.,Sevastova A.,1
@@ -5949,18 +5953,9 @@ Date Krumm K.,Vesnina E.,1
 Date Krumm K.,Wickmayer Y.,2
 Date Krumm K.,Williams S.,1
 Date Krumm K.,Williams V.,4
-Date Krumm K.,Wozniacki C.,1
+Date Krumm K.,Wozniacki C.,2
 Date Krumm K.,Wozniak A.,1
 Date Krumm K.,Zvonareva V.,1
-Date-Krumm K.,Bartoli M.,2
-Date-Krumm K.,Dulko G.,1
-Date-Krumm K.,Hantuchova D.,2
-Date-Krumm K.,Ivanovic A.,2
-Date-Krumm K.,Kerber A.,1
-Date-Krumm K.,Kremer A.,1
-Date-Krumm K.,Radwanska A.,1
-Date-Krumm K.,Safarova L.,1
-Date-Krumm K.,Wozniacki C.,1
 Davenport L.,Bartoli M.,1
 Davenport L.,Jankovic J.,2
 Davenport L.,Safina D.,1
@@ -6280,7 +6275,7 @@ Dementieva E.,Williams V.,5
 Dementieva E.,Wozniacki C.,5
 Dementieva E.,Zheng J.,1
 Dementieva E.,Zvonareva V.,2
-Dentoni C.,Arruabarrena Vecino L.,1
+Dentoni C.,Arruabarrena-Vecino L.,1
 Dentoni C.,Cabeza-Candela E.,1
 Dentoni C.,Chakhnashvili M.,1
 Dentoni C.,Fuda R.,1
@@ -6439,7 +6434,7 @@ Diyas Z.,Kudryavtseva A.,1
 Diyas Z.,Kulichkova E.,1
 Diyas Z.,Kvitova P.,2
 Diyas Z.,Linette M.,1
-Diyas Z.,Lu J.J,1
+Diyas Z.,Lu J.J.,1
 Diyas Z.,Makarova E.,2
 Diyas Z.,Martic P.,2
 Diyas Z.,Mchale C.,2
@@ -6872,7 +6867,7 @@ Dominguez Lino L.,Pereira T.,1
 Dominguez Lino L.,Petkovic A.,3
 Dominguez Lino L.,Petrova N.,1
 Dominguez Lino L.,Pliskova Ka.,2
-Dominguez Lino L.,Pous Tio L.,1
+Dominguez Lino L.,Pous-Tio L.,1
 Dominguez Lino L.,Radwanska A.,1
 Dominguez Lino L.,Razzano V.,2
 Dominguez Lino L.,Robson L.,1
@@ -7145,20 +7140,34 @@ Duque Marino M.,Bacsinszky T.,1
 Duque Marino M.,Bammer S.,1
 Duque Marino M.,Barthel M.,1
 Duque Marino M.,Bartoli M.,1
+Duque Marino M.,Bertens K.,1
+Duque Marino M.,Bogdan A.,1
+Duque Marino M.,Cepede Royg V.,1
+Duque Marino M.,Cepelova J.,1
+Duque Marino M.,Cibulkova D.,1
+Duque Marino M.,Collins D.,1
 Duque Marino M.,Cornet A.,2
 Duque Marino M.,Dominguez Lino L.,1
+Duque Marino M.,Duan Y.Y.,1
 Duque Marino M.,Dulgheru A.,1
 Duque Marino M.,Gallovits E.,1
+Duque Marino M.,Giorgi C.,1
 Duque Marino M.,Groth J.,1
+Duque Marino M.,Halep S.,1
 Duque Marino M.,Han X.,2
 Duque Marino M.,Hibino N.,1
-Duque Marino M.,Jankovic J.,1
+Duque Marino M.,Jankovic J.,2
 Duque Marino M.,Jozami B.,1
+Duque Marino M.,Kasatkina D.,1
 Duque Marino M.,Keothavong A.,1
+Duque Marino M.,Keys M.,2
 Duque Marino M.,King V.,1
 Duque Marino M.,Knapp K.,1
 Duque Marino M.,Konta J.,1
+Duque Marino M.,Krunic A.,1
 Duque Marino M.,Kudryavtseva A.,1
+Duque Marino M.,Kumkhum L.,1
+Duque Marino M.,Kuznetsova S.,1
 Duque Marino M.,Lepchenko V.,1
 Duque Marino M.,Lucic M.,2
 Duque Marino M.,Mattek-Sands B.,1
@@ -7171,45 +7180,29 @@ Duque Marino M.,Petrova N.,1
 Duque Marino M.,Puig M.,1
 Duque Marino M.,Radwanska A.,1
 Duque Marino M.,Rezai A.,2
+Duque Marino M.,Riske A.,1
 Duque Marino M.,Robson L.,1
 Duque Marino M.,Rogers S.,1
 Duque Marino M.,Rogowska O.,1
+Duque Marino M.,Rus A.,1
+Duque Marino M.,Sadikovic A.,1
+Duque Marino M.,Safarova L.,1
 Duque Marino M.,Salerni M.E.,1
 Duque Marino M.,Scheepers C.,2
 Duque Marino M.,Schiavone F.,1
 Duque Marino M.,Schmiedlova A.,1
 Duque Marino M.,Schnyder P.,1
-Duque Marino M.,Sevastova A.,1
+Duque Marino M.,Sevastova A.,2
 Duque Marino M.,Sharapova M.,2
 Duque Marino M.,Shvedova Y.,1
+Duque Marino M.,Siniakova K.,1
+Duque Marino M.,Stosur S.,1
 Duque Marino M.,Tsurenko L.,1
 Duque Marino M.,Vekic D.,1
 Duque Marino M.,Vinci R.,2
 Duque Marino M.,Wickmayer Y.,1
 Duque Marino M.,Zakopalova K.,2
 Duque Marino M.,Zheng J.,1
-Duque-Marino M.,Bertens K.,1
-Duque-Marino M.,Bogdan A.,1
-Duque-Marino M.,Cepede Royg V.,1
-Duque-Marino M.,Cepelova J.,1
-Duque-Marino M.,Cibulkova D.,1
-Duque-Marino M.,Collins D.,1
-Duque-Marino M.,Duan Y.Y.,1
-Duque-Marino M.,Giorgi C.,1
-Duque-Marino M.,Halep S.,1
-Duque-Marino M.,Jankovic J.,1
-Duque-Marino M.,Kasatkina D.,1
-Duque-Marino M.,Keys M.,2
-Duque-Marino M.,Krunic A.,1
-Duque-Marino M.,Kumkhum L.,1
-Duque-Marino M.,Kuznetsova S.,1
-Duque-Marino M.,Riske A.,1
-Duque-Marino M.,Rus A.,1
-Duque-Marino M.,Sadikovic A.,1
-Duque-Marino M.,Safarova L.,1
-Duque-Marino M.,Sevastova A.,1
-Duque-Marino M.,Siniakova K.,1
-Duque-Marino M.,Stosur S.,1
 Dushevina V.,Azarenka V.,1
 Dushevina V.,Bammer S.,1
 Dushevina V.,Bartoli M.,3
@@ -7787,7 +7780,6 @@ Fernandez L.,Baptiste H.,1
 Fernandez L.,Rogers S.,1
 Fernandez L.,Svitolina E.,1
 Fernandez L.,Watson H.,1
-Fernandez L. A.,Hibino N.,1
 Fernandez L.A.,Alexandrova E.,3
 Fernandez L.A.,Andreeva M.,1
 Fernandez L.A.,Anisimova A.,1
@@ -7806,6 +7798,7 @@ Fernandez L.A.,Davis L.,1
 Fernandez L.A.,Garcia C.,3
 Fernandez L.A.,Gauff C.,2
 Fernandez L.A.,Haddad Maia B.,2
+Fernandez L.A.,Hibino N.,1
 Fernandez L.A.,Inglis M.,1
 Fernandez L.A.,Jabeur O.,4
 Fernandez L.A.,Joint M.,1
@@ -8084,7 +8077,7 @@ Flipkens K.,Petkovic A.,2
 Flipkens K.,Petrova N.,2
 Flipkens K.,Piter K.,1
 Flipkens K.,Pliskova Ka.,1
-Flipkens K.,Pous Tio L.,1
+Flipkens K.,Pous-Tio L.,1
 Flipkens K.,Puchkova O.,1
 Flipkens K.,Puig M.,2
 Flipkens K.,Putintseva Y.,2
@@ -8817,12 +8810,12 @@ Garcia Vidagany B.,Babos T.,1
 Garcia Vidagany B.,Dominguez Lino L.,1
 Garcia Vidagany B.,Errani S.,1
 Garcia Vidagany B.,Jankovic J.,1
+Garcia Vidagany B.,Li N.,1
 Garcia Vidagany B.,Min G.,1
 Garcia Vidagany B.,Oprandi R.,1
 Garcia Vidagany B.,Rybarikova M.,1
 Garcia Vidagany B.,Svitolina E.,1
 Garcia Vidagany B.,Zakopalova K.,1
-Garcia-Vidagany B.,Li N.,1
 Garland J.,Andreescu B.,1
 Garland J.,Birrell K.,1
 Garland J.,Putintseva Y.,1
@@ -8966,7 +8959,7 @@ Gavrilova D.,Buzarnescu M.,1
 Gavrilova D.,Chirico L.,1
 Gavrilova D.,Cibulkova D.,2
 Gavrilova D.,Diyas Z.,1
-Gavrilova D.,Duque-Marino M.,1
+Gavrilova D.,Duque Marino M.,1
 Gavrilova D.,Errani S.,1
 Gavrilova D.,Falconi I.,1
 Gavrilova D.,Ferro F.,1
@@ -9309,8 +9302,7 @@ Goerges J.,Craybas J.,1
 Goerges J.,Danilovic O.,1
 Goerges J.,Davis L.,2
 Goerges J.,Dulgheru A.,1
-Goerges J.,Duque Marino M.,1
-Goerges J.,Duque-Marino M.,1
+Goerges J.,Duque Marino M.,2
 Goerges J.,Dushevina V.,1
 Goerges J.,Erakovic M.,1
 Goerges J.,Errani S.,3
@@ -9550,7 +9542,7 @@ Goncalves P.C.,Cepede Royg V.,3
 Goncalves P.C.,Cepelova J.,1
 Goncalves P.C.,Kovinic D.,1
 Goncalves P.C.,Rogers S.,1
-Goncalves P.C.,Soler-Espinosa S.,1
+Goncalves P.C.,Soler Espinosa S.,1
 Gonzalez M.,Dominguez Lino L.,1
 Gonzalez M.,Osaka N.,1
 Gonzalez M.,Pfizenmaier D.,1
@@ -9871,7 +9863,7 @@ Groenefeld A.L.,Szavay A.,1
 Groenefeld A.L.,Vandeweghe C.,1
 Groenefeld A.L.,Vinci R.,2
 Groenefeld A.L.,Williams V.,2
-Groenefeld A.L.,Zahlavova Strycova B..,1
+Groenefeld A.L.,Zahlavova Strycova B.,1
 Groenefeld A.L.,Zheng J.,1
 Gronert S.,Pervak K.,1
 Gronert S.,Riske A.,1
@@ -9893,7 +9885,7 @@ Groth J.,Peer S.,1
 Groth J.,Peng S.,1
 Groth J.,Petkovic A.,1
 Groth J.,Petrova N.,1
-Groth J.,Pous Tio L.,1
+Groth J.,Pous-Tio L.,1
 Groth J.,Safarova L.,1
 Groth J.,Sharapova M.,2
 Groth J.,Shvedova Y.,1
@@ -10166,21 +10158,21 @@ Hampton J.,Stosur S.,3
 Hampton J.,Suarez Navarro C.,2
 Hampton J.,Vesnina E.,1
 Hampton J.,Watson H.,1
-Han N-L.,Jakupovic D.,1
-Han N-L.,Potapova A.,1
 Han N.L.,Alexandrova E.,1
 Han N.L.,Giorgi C.,1
+Han N.L.,Jakupovic D.,1
 Han N.L.,Lepchenko V.,1
 Han N.L.,Mladenovic K.,1
 Han N.L.,Ozaki R.,1
+Han N.L.,Potapova A.,1
 Han N.L.,Rus A.,1
 Han N.L.,Sorribes Tormo S.,1
 Han N.L.,Stephens S.,1
 Han N.L.,Vondrousova M.,1
 Han N.L.,Watson H.,1
 Han N.L.,Zidansek T.,1
-Han S-H.,Kanepi K.,1
 Han S.H.,Dulgheru A.,1
+Han S.H.,Kanepi K.,1
 Han S.H.,Muller M.,1
 Han S.H.,Parmentier P.,1
 Han X.,Barty A.,1
@@ -10296,8 +10288,7 @@ Hantuchova D.,Razzano V.,3
 Hantuchova D.,Safina D.,5
 Hantuchova D.,Schiavone F.,3
 Hantuchova D.,Schnyder P.,1
-Hantuchova D.,Sharapova M.,3
-Hantuchova D.,"Sharapova, M.",1
+Hantuchova D.,Sharapova M.,4
 Hantuchova D.,Shvedova Y.,1
 Hantuchova D.,Sprem K.,1
 Hantuchova D.,Stosur S.,5
@@ -11066,7 +11057,7 @@ Inglis M.,Kenin S.,2
 Inglis M.,Kudermetova P.,1
 Inglis M.,Linette M.,1
 Inglis M.,Makarova E.,1
-Inglis M.,McNally C.,1
+Inglis M.,Mcnally C.,1
 Inglis M.,Muchova K.,1
 Inglis M.,Pattinama Kerkhove L.,1
 Inglis M.,Peterson R.,1
@@ -11191,8 +11182,7 @@ Ivanovic A.,Radwanska U.,2
 Ivanovic A.,Safarova L.,5
 Ivanovic A.,Schnyder P.,1
 Ivanovic A.,Sevastova A.,1
-Ivanovic A.,Sharapova M.,8
-Ivanovic A.,"Sharapova, M.",1
+Ivanovic A.,Sharapova M.,9
 Ivanovic A.,Shvedova Y.,1
 Ivanovic A.,Stephens S.,1
 Ivanovic A.,Stosur S.,3
@@ -11307,7 +11297,7 @@ Jabeur O.,Wang Q.,2
 Jabeur O.,Wang Yaf.,1
 Jabeur O.,Wozniacki C.,1
 Jabeur O.,Yastremska D.,1
-Jabeur O.,Zhang K-L.,1
+Jabeur O.,Zhang K.L.,1
 Jabeur O.,Zheng Q.,2
 Jabeur O.,Zvonareva V.,1
 Jackson J.,Amanmuradova A.,1
@@ -11410,7 +11400,6 @@ Jang S.J.,Liu F.,1
 Jang S.J.,Pliskova Kr.,1
 Jang S.J.,Rogers S.,1
 Jang S.J.,Svitolina E.,1
-Jani R-L.,Schmiedlova A.,1
 Jani R.L.,Bencic B.,1
 Jani R.L.,Cibulkova D.,1
 Jani R.L.,Cocciaretto E.,1
@@ -11421,7 +11410,7 @@ Jani R.L.,Lapko V.,1
 Jani R.L.,Martincova T.,1
 Jani R.L.,Paquet C.,1
 Jani R.L.,Pigossi L.,1
-Jani R.L.,Schmiedlova A.,1
+Jani R.L.,Schmiedlova A.,2
 Jani R.L.,Stephens S.,1
 Jani R.L.,Tatishvili A.,1
 Jani R.L.,Tomova V.,1
@@ -11482,7 +11471,7 @@ Jankovic J.,Lepchenko V.,2
 Jankovic J.,Li N.,4
 Jankovic J.,Linette M.,1
 Jankovic J.,Lisicki S.,1
-Jankovic J.,Lu J.J,1
+Jankovic J.,Lu J.J.,1
 Jankovic J.,Makarova E.,1
 Jankovic J.,Maria T.,1
 Jankovic J.,Martic P.,1
@@ -11857,7 +11846,7 @@ Juvan K.,Kasatkina D.,1
 Juvan K.,Kerber A.,1
 Juvan K.,Kontaveit A.,1
 Juvan K.,Krunic A.,1
-Juvan K.,McNally C.,1
+Juvan K.,Mcnally C.,1
 Juvan K.,Paolini J.,1
 Juvan K.,Parks A.,1
 Juvan K.,Pegula J.,1
@@ -11919,7 +11908,7 @@ Kalinina A.,Kudermetova P.,1
 Kalinina A.,Kudermetova V.,1
 Kalinina A.,Linette M.,1
 Kalinina A.,Martic P.,1
-Kalinina A.,McNally C.,1
+Kalinina A.,Mcnally C.,1
 Kalinina A.,Mertens E.,1
 Kalinina A.,Osorio M.,1
 Kalinina A.,Ostapenko J.,3
@@ -12714,7 +12703,7 @@ Keys M.,Gibbs N.,1
 Keys M.,Giorgi C.,1
 Keys M.,Golubic V.,2
 Keys M.,Haddad Maia B.,2
-Keys M.,Halep S.,6
+Keys M.,Halep S.,5
 Keys M.,Hercog P.,1
 Keys M.,Ivanovic A.,1
 Keys M.,Jabeur O.,2
@@ -12856,8 +12845,8 @@ Kiick A.,Puig M.,1
 Kiick A.,Stosur S.,1
 Kiick A.,Vandeweghe C.,1
 Kiick A.,Zheng S.,1
-Kim S-J.,Daniilidou E.,1
 Kim S.J.,Baltacha E.,1
+Kim S.J.,Daniilidou E.,1
 Kim S.J.,Gallovits E.,1
 Kim S.J.,Kirilenko M.,1
 Kim S.J.,Scheepers C.,1
@@ -13076,8 +13065,7 @@ Klepac A.,Sugiyama A.,2
 Klepac A.,Vakulenko J.,1
 Klepac A.,Vrljic A.,1
 Klepac A.,Wozniacki C.,1
-Klepac A.,Zahlavova Strycova B.,1
-Klepac A.,Zahlavova Strycova B..,1
+Klepac A.,Zahlavova Strycova B.,2
 Klepac A.,Zakopalova K.,1
 Klepac A.,Zvonareva V.,1
 Kleybanova A.,Azarenka V.,1
@@ -13140,10 +13128,10 @@ Kloesel S.,Knapp K.,1
 Kloesel S.,Li N.,1
 Kloesel S.,Medina Garrigues A.,1
 Kloesel S.,Nakamura A.,1
-Kloesel S.,O'brien K.,1
+Kloesel S.,O'Brien K.,1
 Kloesel S.,Pennetta F.,1
 Kloesel S.,Petkovic A.,1
-Kloesel S.,Pous Tio L.,1
+Kloesel S.,Pous-Tio L.,1
 Kloesel S.,Safarova L.,1
 Kloesel S.,Salerni M.E.,1
 Kloesel S.,Santangelo M.,1
@@ -13436,7 +13424,7 @@ Kontaveit A.,Kudermetova V.,2
 Kontaveit A.,Kuznetsova S.,1
 Kontaveit A.,Kvitova P.,5
 Kontaveit A.,Lapko V.,1
-Kontaveit A.,Li A.,2
+Kontaveit A.,Li A.,1
 Kontaveit A.,Linette M.,2
 Kontaveit A.,Lucic-Baroni M.,1
 Kontaveit A.,Maria T.,1
@@ -14735,8 +14723,7 @@ Kuznetsova S.,Safina D.,5
 Kuznetsova S.,Schiavone F.,3
 Kuznetsova S.,Schnyder P.,1
 Kuznetsova S.,Sevastova A.,1
-Kuznetsova S.,Sharapova M.,4
-Kuznetsova S.,"Sharapova, M.",1
+Kuznetsova S.,Sharapova M.,5
 Kuznetsova S.,Siegemund L.,2
 Kuznetsova S.,Srebotnik K.,2
 Kuznetsova S.,Stephens S.,1
@@ -15153,9 +15140,9 @@ Lee G.,Swiatek I.,1
 Lee P.C.,Williams V.,1
 Lee S.R.,Cepelova J.,1
 Lee S.R.,Paszek T.,1
-Lee Y-H.,Kulichkova E.,1
 Lee Y.H.,Chang K.C.,1
 Lee Y.H.,Chirico L.,1
+Lee Y.H.,Kulichkova E.,1
 Lee Y.H.,Rogers S.,1
 Lee Y.H.,Stosur S.,1
 Lee Y.H.,Watson H.,1
@@ -15204,7 +15191,7 @@ Lepchenko V.,Di Giuseppe M.,1
 Lepchenko V.,Doi M.,1
 Lepchenko V.,Duan Y.Y.,1
 Lepchenko V.,Dulgheru A.,1
-Lepchenko V.,Duque-Marino M.,1
+Lepchenko V.,Duque Marino M.,1
 Lepchenko V.,Errani S.,2
 Lepchenko V.,Flipkens K.,1
 Lepchenko V.,Gallovits E.,1
@@ -15651,7 +15638,7 @@ Lisicki S.,Dodin O.,1
 Lisicki S.,Dolehide C.,1
 Lisicki S.,Dominguez Lino L.,1
 Lisicki S.,Dulgheru A.,1
-Lisicki S.,Duque-Marino M.,1
+Lisicki S.,Duque Marino M.,1
 Lisicki S.,Erakovic M.,2
 Lisicki S.,Errani S.,1
 Lisicki S.,Flipkens K.,1
@@ -15917,20 +15904,19 @@ Lu J.,Hibino N.,1
 Lu J.,Medina Garrigues A.,1
 Lu J.,Sevastova A.,1
 Lu J.,Watson H.,1
-Lu J.J,Barthel M.,1
-Lu J.J,Hibino N.,1
-Lu J.J,Hsieh S.W.,1
+Lu J.J.,Barthel M.,1
 Lu J.J.,Camerin M.E.,1
-Lu J.J.,Hsieh S.W.,1
+Lu J.J.,Hibino N.,1
+Lu J.J.,Hsieh S.W.,2
 Lu J.J.,Kleybanova A.,2
 Lu J.J.,Peng S.,1
-Lu Jia Jing,Zhu L.,1
 Lu Jia-Jing,Cornet A.,1
 Lu Jia-Jing,Kozlova K.,1
 Lu Jia-Jing,Thandi K.,1
+Lu Jia-Jing,Zhu L.,1
 Lu Jing Jing,Larsson J.,1
 Lu Jing Jing,Schiavone F.,1
-Lu Jing-Jing,Xun F.Y.,1
+Lu Jing Jing,Xun F.Y.,1
 Luangnam N.,Beygelzimer Y.,1
 Luangnam N.,Bychkova E.,1
 Luangnam N.,Ivanovic A.,1
@@ -16688,7 +16674,7 @@ Martincova T.,Rybakina E.,1
 Martincova T.,Sabalenka A.,1
 Martincova T.,Sakkari M.,2
 Martincova T.,Siegemund L.,1
-Martincova T.,Soler-Espinosa S.,1
+Martincova T.,Soler Espinosa S.,1
 Martincova T.,Sorribes Tormo S.,1
 Martincova T.,Stephens S.,1
 Martincova T.,Stojanovic N.,1
@@ -16984,7 +16970,7 @@ Mayr P.,Pereira T.,2
 Mayr P.,Petrova N.,1
 Mayr P.,Pfizenmaier D.,1
 Mayr P.,Pliskova Ka.,1
-Mayr P.,Pous Tio L.,1
+Mayr P.,Pous-Tio L.,1
 Mayr P.,Puig M.,1
 Mayr P.,Radwanska A.,2
 Mayr P.,Safarova L.,1
@@ -17011,17 +16997,6 @@ Mboko V.,Potapova A.,1
 Mboko V.,Rybakina E.,2
 Mboko V.,Yastremska D.,1
 Mboko V.,Zheng Q.,1
-McNally C.,Alexandrova E.,1
-McNally C.,Kalinskaya A.,1
-McNally C.,Kessler M.,1
-McNally C.,Keys M.,1
-McNally C.,Navarro E.,1
-McNally C.,Rybakina E.,1
-McNally C.,Samsonova L.,1
-McNally C.,Shnaider D.,1
-McNally C.,Sun L.,1
-McNally C.,Swiatek I.,1
-McNally C.,Tomova V.,1
 Mchale C.,Andreescu B.,1
 Mchale C.,Arruabarrena L.,1
 Mchale C.,Azarenka V.,2
@@ -17150,6 +17125,7 @@ Mchale C.,Wozniak A.,2
 Mchale C.,Yastremska D.,1
 Mchale C.,Zhang S.,1
 Mchale C.,Zvonareva V.,1
+Mcnally C.,Alexandrova E.,1
 Mcnally C.,Badosa P.,1
 Mcnally C.,Baindl K.,1
 Mcnally C.,Bonaventure Y.,1
@@ -17164,12 +17140,15 @@ Mcnally C.,Gauff C.,1
 Mcnally C.,Giorgi C.,1
 Mcnally C.,Gracheva V.,1
 Mcnally C.,Jabeur O.,3
+Mcnally C.,Kalinskaya A.,1
 Mcnally C.,Kasatkina D.,1
+Mcnally C.,Kessler M.,1
+Mcnally C.,Keys M.,1
 Mcnally C.,Mertens E.,2
 Mcnally C.,Mladenovic K.,1
 Mcnally C.,Muchova K.,1
 Mcnally C.,Naef C.,1
-Mcnally C.,Navarro E.,1
+Mcnally C.,Navarro E.,2
 Mcnally C.,Ostapenko J.,1
 Mcnally C.,Pera B.,1
 Mcnally C.,Peterson R.,1
@@ -17177,9 +17156,14 @@ Mcnally C.,Pliskova Ka.,1
 Mcnally C.,Potapova A.,1
 Mcnally C.,Riske A.,2
 Mcnally C.,Rogers S.,2
+Mcnally C.,Rybakina E.,1
+Mcnally C.,Samsonova L.,1
+Mcnally C.,Shnaider D.,1
 Mcnally C.,Siegemund L.,1
 Mcnally C.,Stephens S.,2
-Mcnally C.,Swiatek I.,1
+Mcnally C.,Sun L.,1
+Mcnally C.,Swiatek I.,2
+Mcnally C.,Tomova V.,1
 Mcnally C.,Vekic D.,1
 Mcnally C.,Watson H.,1
 Mcnally C.,Williams S.,1
@@ -17255,7 +17239,7 @@ Medina Garrigues A.,Pennetta F.,3
 Medina Garrigues A.,Perebiynis T.,1
 Medina Garrigues A.,Petrova N.,1
 Medina Garrigues A.,Pfizenmaier D.,1
-Medina Garrigues A.,Pous Tio L.,1
+Medina Garrigues A.,Pous-Tio L.,1
 Medina Garrigues A.,Razzano V.,1
 Medina Garrigues A.,Riske A.,1
 Medina Garrigues A.,Rodionova A.,1
@@ -18076,8 +18060,7 @@ Morita A.,Wickmayer Y.,2
 Morita A.,Williams S.,2
 Morita A.,Wozniacki C.,4
 Morita A.,Wozniak A.,1
-Morita A.,Zahlavova Strycova B.,1
-Morita A.,Zahlavova Strycova B..,1
+Morita A.,Zahlavova Strycova B.,2
 Morita A.,Zakopalova K.,1
 Morita A.,Zhang S.,1
 Morita A.,Zheng J.,1
@@ -18439,7 +18422,7 @@ Nara K.,Kvitova P.,1
 Nara K.,Larsson J.,1
 Nara K.,Li N.,1
 Nara K.,Linette M.,1
-Nara K.,Lu Jing-Jing,1
+Nara K.,Lu Jing Jing,1
 Nara K.,Martic P.,1
 Nara K.,Mertens E.,2
 Nara K.,Minella M.,1
@@ -18570,8 +18553,7 @@ Niculescu M.,Cornet A.,1
 Niculescu M.,Date Krumm K.,1
 Niculescu M.,Doi M.,1
 Niculescu M.,Dominguez Lino L.,1
-Niculescu M.,Duque Marino M.,1
-Niculescu M.,Duque-Marino M.,1
+Niculescu M.,Duque Marino M.,2
 Niculescu M.,Errani S.,3
 Niculescu M.,Ferro F.,1
 Niculescu M.,Flipkens K.,4
@@ -18773,6 +18755,7 @@ O'Brien K.,Benesova I.,1
 O'Brien K.,Bondarenko A.,1
 O'Brien K.,Craybas J.,1
 O'Brien K.,Date Krumm K.,1
+O'Brien K.,Dementieva E.,1
 O'Brien K.,Dominguez Lino L.,1
 O'Brien K.,Dubois S.,1
 O'Brien K.,Dushevina V.,1
@@ -18780,6 +18763,7 @@ O'Brien K.,Govortsova O.,2
 O'Brien K.,Ivanova E.,1
 O'Brien K.,Jankovic J.,1
 O'Brien K.,Karatantcheva S.,1
+O'Brien K.,Krajicek M.,1
 O'Brien K.,Kudryavtseva A.,1
 O'Brien K.,Loit E.,1
 O'Brien K.,Mattek-Sands B.,1
@@ -18788,14 +18772,12 @@ O'Brien K.,Niculescu M.,2
 O'Brien K.,Olaru I.,1
 O'Brien K.,Peer S.,1
 O'Brien K.,Safarova L.,1
+O'Brien K.,Savchuk O.,1
 O'Brien K.,Shvedova Y.,1
 O'Brien K.,South M.,1
 O'Brien K.,Stosur S.,1
 O'Brien K.,Voracova R.,1
 O'Brien K.,Wozniacki C.,1
-O'brien K.,Dementieva E.,1
-O'brien K.,Krajicek M.,1
-O'brien K.,Savchuk O.,1
 Obziler T.,Amanmuradova A.,1
 Obziler T.,Cibulkova D.,1
 Obziler T.,Craybas J.,1
@@ -18880,7 +18862,7 @@ Olyanovskaya V.,Bondar A.,1
 Ondraskova Z.,Arn G.,1
 Ondraskova Z.,Bammer S.,1
 Ondraskova Z.,Bondarenko K.,1
-Ondraskova Z.,Date-Krumm K.,1
+Ondraskova Z.,Date Krumm K.,1
 Ondraskova Z.,Dokic J.,1
 Ondraskova Z.,Falconi I.,1
 Ondraskova Z.,Garcia C.,1
@@ -19615,7 +19597,7 @@ Parks A.,Kontaveit A.,1
 Parks A.,Korneeva A.,1
 Parks A.,Krejcikova B.,2
 Parks A.,Kudermetova P.,1
-Parks A.,McNally C.,1
+Parks A.,Mcnally C.,1
 Parks A.,Mertens E.,1
 Parks A.,Miyazaki Y.,1
 Parks A.,Osaka N.,1
@@ -20561,8 +20543,7 @@ Pennetta F.,Wickmayer Y.,3
 Pennetta F.,Williams S.,7
 Pennetta F.,Williams V.,4
 Pennetta F.,Wozniacki C.,7
-Pennetta F.,Zahlavova Strycova B.,1
-Pennetta F.,Zahlavova Strycova B..,1
+Pennetta F.,Zahlavova Strycova B.,2
 Pennetta F.,Zakopalova K.,3
 Pennetta F.,Zec Peskiric M.,1
 Pennetta F.,Zheng J.,1
@@ -21735,46 +21716,43 @@ Potapova A.,Yuan Y.,1
 Potapova A.,Zanevska M.,1
 Potapova A.,Zheng Q.,2
 Potapova A.,Zidansek T.,1
-Pous Tio L.,Arn G.,1
-Pous Tio L.,Benesova I.,1
-Pous Tio L.,Dulko G.,1
-Pous Tio L.,Knapp K.,1
-Pous Tio L.,Koryttseva M.,1
-Pous Tio L.,Pennetta F.,1
-Pous Tio L.,Sevastova A.,1
-Pous Tio L.,Shaughnessy M.,1
-Pous Tio L.,Vinci R.,1
-Pous Tio L.,Williams V.,1
-Pous Tio L.,Wozniak A.,1
-Pous Tio L.,Yakimova A.,1
-Pous-T L.,Kostova E.,1
-Pous-T L.,Lim A.,1
 Pous-T. L.,Cepede Royg V.,1
+Pous-T. L.,Kostova E.,1
+Pous-T. L.,Lim A.,1
 Pous-T. L.,Tomljanovic A.,1
 Pous-T. L.,Zheng S.,1
+Pous-Tio L.,Arn G.,1
 Pous-Tio L.,Azarenka V.,1
 Pous-Tio L.,Begu I.,1
+Pous-Tio L.,Benesova I.,1
 Pous-Tio L.,Bertens K.,1
 Pous-Tio L.,Brianti A.,1
 Pous-Tio L.,Cabeza-Candela E.,1
 Pous-Tio L.,Dulgheru A.,1
-Pous-Tio L.,Dulko G.,1
+Pous-Tio L.,Dulko G.,2
 Pous-Tio L.,Goerges J.,1
 Pous-Tio L.,Govortsova O.,1
 Pous-Tio L.,Jankovic J.,1
 Pous-Tio L.,Keothavong A.,1
 Pous-Tio L.,King V.,1
 Pous-Tio L.,Kirilenko M.,1
+Pous-Tio L.,Knapp K.,1
+Pous-Tio L.,Koryttseva M.,1
 Pous-Tio L.,Krunic A.,1
 Pous-Tio L.,Manasieva V.,1
 Pous-Tio L.,Martic P.,1
+Pous-Tio L.,Pennetta F.,1
 Pous-Tio L.,Pervak K.,1
 Pous-Tio L.,Scheepers C.,1
 Pous-Tio L.,Schiavone F.,1
-Pous-Tio L.,Sevastova A.,1
+Pous-Tio L.,Sevastova A.,2
+Pous-Tio L.,Shaughnessy M.,1
 Pous-Tio L.,Stosur S.,1
 Pous-Tio L.,Vesnina E.,1
-Pous-Tio L.,Vinci R.,1
+Pous-Tio L.,Vinci R.,2
+Pous-Tio L.,Williams V.,1
+Pous-Tio L.,Wozniak A.,1
+Pous-Tio L.,Yakimova A.,1
 Pous-Tio L.,Zakopalova K.,1
 Poutchek T.,Arvidsson S.,1
 Poutchek T.,Azarenka V.,1
@@ -23047,7 +23025,7 @@ Rogers S.,Davis L.,2
 Rogers S.,Diyas Z.,1
 Rogers S.,Dolehide C.,1
 Rogers S.,Dominguez Lino L.,1
-Rogers S.,Duque-Marino M.,1
+Rogers S.,Duque Marino M.,1
 Rogers S.,Erakovic M.,1
 Rogers S.,Fernandez L.A.,1
 Rogers S.,Flipkens K.,1
@@ -23339,7 +23317,6 @@ Rus A.,Yastremska D.,1
 Rus A.,Yuan Y.,1
 Rus A.,Zhang S.,1
 Rus A.,Zidansek T.,1
-Ruse E-G.,Pera B.,1
 Ruse E.G.,Badosa P.,2
 Ruse E.G.,Baptiste H.,2
 Ruse E.G.,Collins D.,2
@@ -23367,7 +23344,7 @@ Ruse E.G.,Mertens E.,3
 Ruse E.G.,Muchova K.,1
 Ruse E.G.,Muguruza G.,1
 Ruse E.G.,Navarro E.,1
-Ruse E.G.,Pera B.,1
+Ruse E.G.,Pera B.,2
 Ruse E.G.,Pliskova Ka.,1
 Ruse E.G.,Raducanu E.,2
 Ruse E.G.,Radwanska A.,1
@@ -23488,7 +23465,7 @@ Rybarikova M.,Dellacqua C.,1
 Rybarikova M.,Dementieva E.,1
 Rybarikova M.,Dominguez Lino L.,1
 Rybarikova M.,Dulko G.,1
-Rybarikova M.,Duque-Marino M.,1
+Rybarikova M.,Duque Marino M.,1
 Rybarikova M.,Eguchi M.,1
 Rybarikova M.,Errani S.,3
 Rybarikova M.,Falconi I.,1
@@ -23670,7 +23647,7 @@ Sadikovic A.,Karatantcheva S.,1
 Sadikovic A.,Larsson J.,1
 Sadikovic A.,Osterloh L.,1
 Sadikovic A.,Schnyder P.,1
-Sadikovic A.,Soler-Espinosa S.,1
+Sadikovic A.,Soler Espinosa S.,1
 Sadikovic A.,Wickmayer Y.,1
 Sadikovic A.,Williams S.,1
 Safarova L.,Arvidsson S.,1
@@ -23933,7 +23910,7 @@ Sakkari M.,Sabalenka A.,7
 Sakkari M.,Sherif M.,1
 Sakkari M.,Siegemund L.,1
 Sakkari M.,Siniakova K.,2
-Sakkari M.,Soler-Espinosa S.,1
+Sakkari M.,Soler Espinosa S.,1
 Sakkari M.,Sonmez Z.,1
 Sakkari M.,Soylu I.,1
 Sakkari M.,Suarez Navarro C.,3
@@ -24315,7 +24292,7 @@ Saville D.,Kostyuk M.,1
 Saville D.,Krejcikova B.,1
 Saville D.,Li A.,1
 Saville D.,Linette M.,1
-Saville D.,McNally C.,1
+Saville D.,Mcnally C.,1
 Saville D.,Mertens E.,2
 Saville D.,Navarro E.,1
 Saville D.,Osaka N.,1
@@ -24879,7 +24856,7 @@ Sevastova A.,Cristian J.,2
 Sevastova A.,Czink M.,1
 Sevastova A.,Davis L.,1
 Sevastova A.,Dulgheru A.,1
-Sevastova A.,Duque-Marino M.,1
+Sevastova A.,Duque Marino M.,1
 Sevastova A.,Dushevina V.,3
 Sevastova A.,Garcia C.,1
 Sevastova A.,Gauff C.,1
@@ -24959,8 +24936,7 @@ Sevastova A.,Williams S.,1
 Sevastova A.,Williams V.,2
 Sevastova A.,Wozniacki C.,5
 Sevastova A.,Yuan Y.,1
-Sevastova A.,Zahlavova Strycova B.,1
-Sevastova A.,Zahlavova Strycova B..,1
+Sevastova A.,Zahlavova Strycova B.,2
 Sevastova A.,Zhang S.,1
 Sevastova A.,Zvonareva V.,1
 Sfar S.,Daniilidou E.,1
@@ -24995,7 +24971,7 @@ Sharapova M.,Garcia C.,2
 Sharapova M.,Gavrilova D.,1
 Sharapova M.,Giorgi C.,1
 Sharapova M.,Halep S.,2
-Sharapova M.,Henin J.,1
+Sharapova M.,Henin J.,2
 Sharapova M.,Ivanovic A.,4
 Sharapova M.,Jankovic J.,1
 Sharapova M.,Kerber A.,5
@@ -25038,7 +25014,6 @@ Sharapova M.,Williams V.,2
 Sharapova M.,Wozniacki C.,4
 Sharapova M.,Zheng J.,1
 Sharapova M.,Zvonareva V.,1
-"Sharapova, M.",Henin J.,1
 Sharipova S.,Cadantu A.,2
 Sharipova S.,Cepelova J.,1
 Sharipova S.,Gasparyan M.,1
@@ -25272,7 +25247,7 @@ Shvedova Y.,Bychkova E.,1
 Shvedova Y.,Cibulkova D.,2
 Shvedova Y.,Cornet A.,1
 Shvedova Y.,Czink M.,1
-Shvedova Y.,Date-Krumm K.,1
+Shvedova Y.,Date Krumm K.,1
 Shvedova Y.,Dellacqua C.,1
 Shvedova Y.,Dementieva E.,2
 Shvedova Y.,Doi M.,2
@@ -25405,7 +25380,7 @@ Siegemund L.,Cibulkova D.,2
 Siegemund L.,Cirstea S.,3
 Siegemund L.,Dart H.,1
 Siegemund L.,Duan Y.Y.,1
-Siegemund L.,Duque-Marino M.,1
+Siegemund L.,Duque Marino M.,1
 Siegemund L.,Flipkens K.,1
 Siegemund L.,Garcia C.,2
 Siegemund L.,Gauff C.,2
@@ -25429,7 +25404,7 @@ Siegemund L.,Kudermetova V.,1
 Siegemund L.,Kuznetsova S.,1
 Siegemund L.,Kvitova P.,2
 Siegemund L.,Martic P.,2
-Siegemund L.,McNally C.,1
+Siegemund L.,Mcnally C.,1
 Siegemund L.,Mertens E.,2
 Siegemund L.,Niemeier J.,1
 Siegemund L.,Osaka N.,2
@@ -25677,15 +25652,16 @@ Soboleva A.,Lys E.,1
 Sobolieva A.,Shnaider D.,1
 Soler Espinosa S.,Azarenka V.,1
 Soler Espinosa S.,Babos T.,1
-Soler Espinosa S.,Bacsinszky T.,1
-Soler Espinosa S.,Barthel M.,1
+Soler Espinosa S.,Bacsinszky T.,3
+Soler Espinosa S.,Barthel M.,2
 Soler Espinosa S.,Begu I.,1
 Soler Espinosa S.,Bertens K.,2
+Soler Espinosa S.,Bondarenko K.,1
 Soler Espinosa S.,Bouchard E.,2
 Soler Espinosa S.,Cadantu A.,1
 Soler Espinosa S.,Chang K.C.,1
 Soler Espinosa S.,Cirstea S.,1
-Soler Espinosa S.,Cornet A.,2
+Soler Espinosa S.,Cornet A.,3
 Soler Espinosa S.,Diyas Z.,1
 Soler Espinosa S.,Doi M.,2
 Soler Espinosa S.,Dominguez Lino L.,1
@@ -25693,8 +25669,11 @@ Soler Espinosa S.,Dulgheru A.,1
 Soler Espinosa S.,Dulko G.,1
 Soler Espinosa S.,Dushevina V.,1
 Soler Espinosa S.,Errani S.,3
+Soler Espinosa S.,Falconi I.,1
+Soler Espinosa S.,Feuerstein C.,1
 Soler Espinosa S.,Flipkens K.,1
 Soler Espinosa S.,Gavrilova D.,1
+Soler Espinosa S.,Giorgi C.,1
 Soler Espinosa S.,Goerges J.,1
 Soler Espinosa S.,Hradecka L.,1
 Soler Espinosa S.,Ivanovic A.,1
@@ -25702,6 +25681,8 @@ Soler Espinosa S.,Kanepi K.,2
 Soler Espinosa S.,Kleybanova A.,1
 Soler Espinosa S.,Kovinic D.,1
 Soler Espinosa S.,Krajicek M.,1
+Soler Espinosa S.,Krunic A.,1
+Soler Espinosa S.,Kucova K.,1
 Soler Espinosa S.,Kulichkova E.,1
 Soler Espinosa S.,Kvitova P.,1
 Soler Espinosa S.,Li N.,2
@@ -25722,36 +25703,25 @@ Soler Espinosa S.,Rybarikova M.,2
 Soler Espinosa S.,Scheepers C.,1
 Soler Espinosa S.,Schmiedlova A.,1
 Soler Espinosa S.,Shvedova Y.,1
-Soler Espinosa S.,Stephens S.,2
+Soler Espinosa S.,Siegemund L.,1
+Soler Espinosa S.,Sorribes Tormo S.,1
+Soler Espinosa S.,Soylu I.,1
+Soler Espinosa S.,Stephens S.,3
 Soler Espinosa S.,Suarez Navarro C.,4
 Soler Espinosa S.,Svitolina E.,1
+Soler Espinosa S.,Tig P.M.,1
+Soler Espinosa S.,Tomljanovic A.,1
+Soler Espinosa S.,Tsurenko L.,2
 Soler Espinosa S.,Vesnina E.,1
 Soler Espinosa S.,Vinci R.,5
 Soler Espinosa S.,Voegele S.,1
 Soler Espinosa S.,Williams S.,1
+Soler Espinosa S.,Witthoeft C.,1
 Soler Espinosa S.,Wozniacki C.,1
 Soler Espinosa S.,Zahlavova Strycova B.,3
 Soler Espinosa S.,Zakopalova K.,1
 Soler Espinosa S.,Zvonareva V.,1
-Soler Espinosa S..,Bacsinszky T.,1
-Soler Espinosa S..,Tig P.M.,1
 Soler-E. S.,Voegele S.,1
-Soler-Espinosa S.,Bacsinszky T.,1
-Soler-Espinosa S.,Barthel M.,1
-Soler-Espinosa S.,Bondarenko K.,1
-Soler-Espinosa S.,Cornet A.,1
-Soler-Espinosa S.,Falconi I.,1
-Soler-Espinosa S.,Feuerstein C.,1
-Soler-Espinosa S.,Giorgi C.,1
-Soler-Espinosa S.,Krunic A.,1
-Soler-Espinosa S.,Kucova K.,1
-Soler-Espinosa S.,Siegemund L.,1
-Soler-Espinosa S.,Sorribes Tormo S.,1
-Soler-Espinosa S.,Soylu I.,1
-Soler-Espinosa S.,Stephens S.,1
-Soler-Espinosa S.,Tomljanovic A.,1
-Soler-Espinosa S.,Tsurenko L.,2
-Soler-Espinosa S.,Witthoeft C.,1
 Solovieva V.,Ivanovic A.,1
 Solovieva V.,Jovanovski B.,1
 Solovieva V.,Pavlyuchenkova A.,1
@@ -25969,7 +25939,7 @@ Sramkova R.,Linette M.,2
 Sramkova R.,Lys E.,1
 Sramkova R.,Maria T.,1
 Sramkova R.,Martic P.,1
-Sramkova R.,McNally C.,1
+Sramkova R.,Mcnally C.,1
 Sramkova R.,Ostapenko J.,2
 Sramkova R.,Paolini J.,1
 Sramkova R.,Parks A.,1
@@ -26034,7 +26004,7 @@ Sromova H.,De Los Rios R.,1
 Sromova H.,Ditty J.,1
 Sromova H.,Kirilenko M.,1
 Sromova H.,Molik A.,1
-Sromova H.,Pous Tio L.,1
+Sromova H.,Pous-Tio L.,1
 Sromova H.,Rodionova A.,1
 Sromova H.,Sucha M.,1
 Sromova H.,Williams V.,1
@@ -26251,7 +26221,7 @@ Stephens S.,Schiavone F.,1
 Stephens S.,Sevastova A.,3
 Stephens S.,Sharapova M.,3
 Stephens S.,Shnaider D.,1
-Stephens S.,Soler Espinosa S..,1
+Stephens S.,Soler Espinosa S.,1
 Stephens S.,Sorribes Tormo S.,1
 Stephens S.,Stefanini L.,1
 Stephens S.,Stosur S.,2
@@ -26674,7 +26644,7 @@ Suarez Navarro C.,Witthoeft C.,1
 Suarez Navarro C.,Wozniacki C.,5
 Suarez Navarro C.,Wozniak A.,1
 Suarez Navarro C.,Yastremska D.,1
-Suarez Navarro C.,Zahlavova Strycova B..,1
+Suarez Navarro C.,Zahlavova Strycova B.,1
 Suarez Navarro C.,Zakopalova K.,3
 Suarez Navarro C.,Zheng J.,2
 Suarez Navarro C.,Zidansek T.,1
@@ -27176,8 +27146,7 @@ Tatishvili A.,Safarova L.,2
 Tatishvili A.,Sakkari M.,1
 Tatishvili A.,Schiavone F.,1
 Tatishvili A.,Schnyder P.,1
-Tatishvili A.,Soler Espinosa S.,1
-Tatishvili A.,Soler-Espinosa S.,1
+Tatishvili A.,Soler Espinosa S.,2
 Tatishvili A.,Soylu I.,1
 Tatishvili A.,Stephens S.,1
 Tatishvili A.,Suarez Navarro C.,1
@@ -27287,7 +27256,7 @@ Teichmann J.,Kvitova P.,2
 Teichmann J.,Li A.,1
 Teichmann J.,Linette M.,1
 Teichmann J.,Martincova T.,1
-Teichmann J.,McNally C.,1
+Teichmann J.,Mcnally C.,1
 Teichmann J.,Mertens E.,1
 Teichmann J.,Muchova K.,1
 Teichmann J.,Navarro E.,1
@@ -27343,7 +27312,7 @@ Tig P.M.,Buzarnescu M.,1
 Tig P.M.,Carle M.,1
 Tig P.M.,Cirstea S.,1
 Tig P.M.,Dominguez Lino L.,1
-Tig P.M.,Duque-Marino M.,1
+Tig P.M.,Duque Marino M.,1
 Tig P.M.,Errani S.,1
 Tig P.M.,Ferro F.,1
 Tig P.M.,Gasparyan M.,1
@@ -27477,7 +27446,7 @@ Tomljanovic A.,Maria T.,1
 Tomljanovic A.,Martic P.,1
 Tomljanovic A.,Martincova T.,1
 Tomljanovic A.,Masarova R.,1
-Tomljanovic A.,McNally C.,2
+Tomljanovic A.,Mcnally C.,2
 Tomljanovic A.,Mertens E.,2
 Tomljanovic A.,Minella M.,1
 Tomljanovic A.,Mitu A.,1
@@ -27660,13 +27629,12 @@ Torro Flor M.T.,Pliskova Ka.,1
 Torro Flor M.T.,Radwanska A.,1
 Torro Flor M.T.,Radwanska U.,2
 Torro Flor M.T.,Robson L.,1
-Torro Flor M.T.,Rus A.,1
+Torro Flor M.T.,Rus A.,2
 Torro Flor M.T.,Safarova L.,1
 Torro Flor M.T.,Scheepers C.,1
 Torro Flor M.T.,Sevastova A.,1
 Torro Flor M.T.,Siniakova K.,1
 Torro Flor M.T.,Williams V.,2
-Torro-Flor M.T.,Rus A.,1
 Toth A.,Baindl K.,1
 Toth A.,Monnet C.,1
 Townsend T.,Alexandrova E.,2
@@ -28130,8 +28098,7 @@ Van Uytvanck A.,Dellacqua C.,1
 Van Uytvanck A.,Dodin O.,1
 Van Uytvanck A.,Doi M.,1
 Van Uytvanck A.,Dulgheru A.,2
-Van Uytvanck A.,Duque Marino M.,1
-Van Uytvanck A.,Duque-Marino M.,1
+Van Uytvanck A.,Duque Marino M.,2
 Van Uytvanck A.,Ferro F.,2
 Van Uytvanck A.,Fett J.,1
 Van Uytvanck A.,Flipkens K.,2
@@ -28752,7 +28719,7 @@ Vinci R.,Petrova N.,3
 Vinci R.,Pironkova T.,1
 Vinci R.,Pliskova Ka.,1
 Vinci R.,Pliskova Kr.,3
-Vinci R.,Pous Tio L.,1
+Vinci R.,Pous-Tio L.,1
 Vinci R.,Puig M.,1
 Vinci R.,Radwanska A.,8
 Vinci R.,Radwanska U.,1
@@ -29061,7 +29028,7 @@ Voracova R.,Baltacha E.,1
 Voracova R.,Cabeza-Candela E.,1
 Voracova R.,Cornet A.,1
 Voracova R.,Craybas J.,1
-Voracova R.,Date-Krumm K.,1
+Voracova R.,Date Krumm K.,1
 Voracova R.,Davenport L.,1
 Voracova R.,Dechy N.,1
 Voracova R.,Errani S.,2
@@ -29959,7 +29926,7 @@ Witthoeft C.,Cepelova J.,2
 Witthoeft C.,Cibulkova D.,1
 Witthoeft C.,Date Krumm K.,1
 Witthoeft C.,Diyas Z.,3
-Witthoeft C.,Duque-Marino M.,1
+Witthoeft C.,Duque Marino M.,1
 Witthoeft C.,Erakovic M.,1
 Witthoeft C.,Errani S.,1
 Witthoeft C.,Ferro F.,1
@@ -30021,7 +29988,7 @@ Woerle K.,Pennetta F.,1
 Woerle K.,Petkovic A.,1
 Woerle K.,Rybarikova M.,1
 Woerle K.,Safarova L.,1
-Woerle K.,Zahlavova Strycova B..,1
+Woerle K.,Zahlavova Strycova B.,1
 Wolfe J.,Osaka N.,1
 Wolfe J.,Sevastova A.,1
 Wong C.,Bucsa C.,1
@@ -30248,7 +30215,7 @@ Xu S.,Lisicki S.,1
 Xu S.,Muchova K.,1
 Xu S.,Peterson R.,1
 Xu S.,Riske A.,1
-Xu Y-F.,Bencic B.,1
+Xu Y.F.,Bencic B.,1
 Xu Y.F.,Davis L.,1
 Xu Y.F.,Duan Y.Y.,1
 Xu Y.F.,Han X.,1
@@ -30578,16 +30545,19 @@ Zahlavova Strycova B.,Barrois K.,1
 Zahlavova Strycova B.,Barthel M.,3
 Zahlavova Strycova B.,Bartoli M.,1
 Zahlavova Strycova B.,Beck A.,2
-Zahlavova Strycova B.,Benesova I.,2
+Zahlavova Strycova B.,Benesova I.,3
 Zahlavova Strycova B.,Bondarenko A.,1
+Zahlavova Strycova B.,Bondarenko K.,1
 Zahlavova Strycova B.,Bouchard E.,3
 Zahlavova Strycova B.,Clijsters K.,2
 Zahlavova Strycova B.,Cohen Aloro S.,1
-Zahlavova Strycova B.,Cornet A.,3
+Zahlavova Strycova B.,Cornet A.,4
 Zahlavova Strycova B.,Craybas J.,1
-Zahlavova Strycova B.,Czink M.,1
+Zahlavova Strycova B.,Czink M.,2
 Zahlavova Strycova B.,De Los Rios R.,1
-Zahlavova Strycova B.,Dominguez Lino L.,1
+Zahlavova Strycova B.,Dominguez Lino L.,2
+Zahlavova Strycova B.,Dulgheru A.,1
+Zahlavova Strycova B.,Dulko G.,1
 Zahlavova Strycova B.,Erakovic M.,2
 Zahlavova Strycova B.,Errani S.,3
 Zahlavova Strycova B.,Flipkens K.,2
@@ -30597,24 +30567,25 @@ Zahlavova Strycova B.,Garbin T.,1
 Zahlavova Strycova B.,Goerges J.,2
 Zahlavova Strycova B.,Halep S.,1
 Zahlavova Strycova B.,Hantuchova D.,1
-Zahlavova Strycova B.,Hercog P.,2
-Zahlavova Strycova B.,Ivanovic A.,2
+Zahlavova Strycova B.,Hercog P.,3
+Zahlavova Strycova B.,Ivanovic A.,3
 Zahlavova Strycova B.,Jankovic J.,1
 Zahlavova Strycova B.,Jovanovski B.,2
-Zahlavova Strycova B.,Kerber A.,1
+Zahlavova Strycova B.,Kerber A.,2
 Zahlavova Strycova B.,King V.,1
 Zahlavova Strycova B.,Kirilenko M.,1
 Zahlavova Strycova B.,Krajicek M.,1
 Zahlavova Strycova B.,Kuznetsova S.,2
 Zahlavova Strycova B.,Kvitova P.,4
 Zahlavova Strycova B.,Li N.,2
+Zahlavova Strycova B.,Llagostera Vives N.,1
 Zahlavova Strycova B.,Makarova E.,1
 Zahlavova Strycova B.,Martic P.,1
 Zahlavova Strycova B.,Mladenovic K.,1
 Zahlavova Strycova B.,Niculescu M.,1
 Zahlavova Strycova B.,Paszek T.,1
 Zahlavova Strycova B.,Pavlyuchenkova A.,2
-Zahlavova Strycova B.,Peer S.,2
+Zahlavova Strycova B.,Peer S.,3
 Zahlavova Strycova B.,Peng S.,1
 Zahlavova Strycova B.,Perry S.,1
 Zahlavova Strycova B.,Petkovic A.,3
@@ -30636,32 +30607,19 @@ Zahlavova Strycova B.,Stephens S.,1
 Zahlavova Strycova B.,Suarez Navarro C.,5
 Zahlavova Strycova B.,Svitolina E.,2
 Zahlavova Strycova B.,Szavay A.,1
+Zahlavova Strycova B.,Tanasugarn T.,1
 Zahlavova Strycova B.,Tetreault V.,2
 Zahlavova Strycova B.,Vinci R.,3
 Zahlavova Strycova B.,Voegele S.,1
 Zahlavova Strycova B.,Watson H.,1
 Zahlavova Strycova B.,Williams S.,2
-Zahlavova Strycova B.,Williams V.,2
+Zahlavova Strycova B.,Williams V.,3
 Zahlavova Strycova B.,Wozniacki C.,4
 Zahlavova Strycova B.,Wozniak A.,1
 Zahlavova Strycova B.,Yakimova A.,1
 Zahlavova Strycova B.,Zahlavova S.,1
 Zahlavova Strycova B.,Zakopalova K.,1
 Zahlavova Strycova B.,Zvonareva V.,1
-Zahlavova Strycova B..,Benesova I.,1
-Zahlavova Strycova B..,Bondarenko K.,1
-Zahlavova Strycova B..,Cornet A.,1
-Zahlavova Strycova B..,Czink M.,1
-Zahlavova Strycova B..,Dominguez Lino L.,1
-Zahlavova Strycova B..,Dulgheru A.,1
-Zahlavova Strycova B..,Dulko G.,1
-Zahlavova Strycova B..,Hercog P.,1
-Zahlavova Strycova B..,Ivanovic A.,1
-Zahlavova Strycova B..,Kerber A.,1
-Zahlavova Strycova B..,Llagostera Vives N.,1
-Zahlavova Strycova B..,Peer S.,1
-Zahlavova Strycova B..,Tanasugarn T.,1
-Zahlavova Strycova B..,Williams V.,1
 Zaja A.,Alexandrova E.,1
 Zaja A.,Bertens K.,1
 Zaja A.,Li A.,1
@@ -30921,9 +30879,9 @@ Zec Peskiric M.,Srebotnik K.,1
 Zec Peskiric M.,Suarez Navarro C.,1
 Zec Peskiric M.,Yakimova A.,1
 Zec Peskiric M.,Zakopalova K.,1
-Zhang K-L.,Errani S.,1
 Zhang K.L.,Barty A.,1
 Zhang K.L.,Diyas Z.,1
+Zhang K.L.,Errani S.,1
 Zhang K.L.,Hibino N.,1
 Zhang K.L.,King V.,1
 Zhang K.L.,Niculescu M.,1
@@ -31259,7 +31217,7 @@ Zheng S.,Abanda F.,1
 Zheng S.,Andreescu B.,1
 Zheng S.,Andreeva E.,1
 Zheng S.,Anisimova A.,1
-Zheng S.,Badosa Gibert. P.,1
+Zheng S.,Badosa Gibert P.,1
 Zheng S.,Barty A.,3
 Zheng S.,Begu I.,1
 Zheng S.,Bertens K.,2
@@ -31485,8 +31443,7 @@ Zidansek T.,Linette M.,1
 Zidansek T.,Mandlik E.,1
 Zidansek T.,Martic P.,3
 Zidansek T.,Martincova T.,1
-Zidansek T.,McNally C.,1
-Zidansek T.,Mcnally C.,1
+Zidansek T.,Mcnally C.,2
 Zidansek T.,Mertens E.,1
 Zidansek T.,Mladenovic K.,1
 Zidansek T.,Muguruza G.,1

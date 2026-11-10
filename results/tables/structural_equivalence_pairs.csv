@@ -17,38 +17,38 @@ td_atp_2007_2012,Davydenko N.,Wawrinka S.,0.7947167928231686,6.0,21.0
 td_atp_2007_2012,Federer R.,Nadal R.,0.7935540885064005,2.0,2.0
 td_atp_2007_2012,Murray A.,Del Potro J.M.,0.7930328823329849,4.0,12.0
 td_atp_2007_2012,Berdych T.,Murray A.,0.7918883729248574,10.0,4.0
-td_atp_2007_2012,Murray A.,Soderling R.,0.7882700964611656,4.0,11.0
+td_atp_2007_2012,Murray A.,Soderling R.,0.788200647908316,4.0,11.0
 td_atp_2007_2012,Roddick A.,Davydenko N.,0.7867953343245657,7.0,6.0
 td_atp_2013_2018,Berdych T.,Nishikori K.,0.8195122724662616,7.0,9.0
-td_atp_2013_2018,Federer R.,Murray A.,0.7947184619529254,3.0,3.0
-td_atp_2013_2018,Raonic M.,Dimitrov G.,0.7802553002874822,10.0,14.0
-td_atp_2013_2018,Nadal R.,Murray A.,0.7725212422180622,4.0,3.0
-td_atp_2013_2018,Ferrer D.,Dimitrov G.,0.7661186906157514,7.0,14.0
-td_atp_2013_2018,Nadal R.,Nishikori K.,0.7635828897887612,4.0,9.0
-td_atp_2013_2018,Berdych T.,Murray A.,0.7632470852212211,7.0,3.0
-td_atp_2013_2018,Cilic M.,Federer R.,0.7615615654327818,10.0,3.0
-td_atp_2013_2018,Cilic M.,Dimitrov G.,0.7611580976291119,10.0,14.0
-td_atp_2013_2018,Berdych T.,Wawrinka S.,0.7586119320445541,7.0,4.0
+td_atp_2013_2018,Federer R.,Murray A.,0.7986423977521445,3.0,3.0
+td_atp_2013_2018,Raonic M.,Dimitrov G.,0.7817620324851291,10.0,14.0
+td_atp_2013_2018,Nadal R.,Murray A.,0.7745640880589543,4.0,3.0
+td_atp_2013_2018,Ferrer D.,Dimitrov G.,0.7663516187403618,7.0,14.0
+td_atp_2013_2018,Cilic M.,Federer R.,0.7658862371305608,10.0,3.0
+td_atp_2013_2018,Berdych T.,Murray A.,0.7645517401607194,7.0,3.0
+td_atp_2013_2018,Cilic M.,Dimitrov G.,0.7633811981641887,10.0,14.0
+td_atp_2013_2018,Nadal R.,Nishikori K.,0.7630753347514654,4.0,9.0
+td_atp_2013_2018,Berdych T.,Wawrinka S.,0.7570483193920245,7.0,4.0
 td_atp_2019_2025,Auger-Aliassime F.,Rublev A.,0.7821783616164524,19.0,8.0
 td_atp_2019_2025,Alcaraz C.,Tsitsipas S.,0.7787822504821845,3.0,6.0
-td_atp_2019_2025,Medvedev D.,Tsitsipas S.,0.7778387783360128,4.0,6.0
-td_atp_2019_2025,Alcaraz C.,Medvedev D.,0.7737633680598004,3.0,4.0
+td_atp_2019_2025,Medvedev D.,Tsitsipas S.,0.7764771356183032,4.0,6.0
+td_atp_2019_2025,Rublev A.,Struff J.L.,0.7753924777883312,8.0,41.5
+td_atp_2019_2025,Alcaraz C.,Medvedev D.,0.7739889861466496,3.0,4.0
 td_atp_2019_2025,Dimitrov G.,Sinner J.,0.7721966472271473,20.0,10.0
 td_atp_2019_2025,Alcaraz C.,Rublev A.,0.7717271561342958,3.0,8.0
 td_atp_2019_2025,De Minaur A.,Zverev A.,0.7717218069983486,19.0,5.0
-td_atp_2019_2025,Fritz T.,Medvedev D.,0.7702868966812163,13.0,4.0
-td_atp_2019_2025,Rublev A.,Struff J.L.,0.7688902347880098,8.0,41.5
-td_atp_2019_2025,Medvedev D.,Rublev A.,0.7674671082670451,4.0,8.0
+td_atp_2019_2025,Fritz T.,Medvedev D.,0.7699813038915836,13.0,4.0
+td_atp_2019_2025,Medvedev D.,Rublev A.,0.76977861138934,4.0,8.0
 td_atp_clay,Gaudio G.,Moya C.,0.7499609481260476,29.0,21.0
-td_atp_clay,Almagro N.,Ferrer D.,0.7318704496676187,30.0,14.0
-td_atp_clay,Ferrer D.,Federer R.,0.7134108271083968,14.0,2.0
-td_atp_clay,Almagro N.,Monaco J.,0.7110771785535626,30.0,47.0
-td_atp_clay,Almagro N.,Montanes A.,0.708926903997848,30.0,69.0
-td_atp_clay,Ferrer D.,Djokovic N.,0.7025181414289333,14.0,2.0
-td_atp_clay,Federer R.,Murray A.,0.701443198435695,2.0,4.0
-td_atp_clay,Berdych T.,Wawrinka S.,0.6881668380187351,12.0,23.0
-td_atp_clay,Ferrer D.,Monaco J.,0.6873944177435884,14.0,47.0
-td_atp_clay,Almagro N.,Lopez F.,0.6806266661841399,30.0,35.0
+td_atp_clay,Almagro N.,Ferrer D.,0.7334060586946282,30.0,14.0
+td_atp_clay,Ferrer D.,Federer R.,0.7144599384042287,14.0,2.0
+td_atp_clay,Almagro N.,Monaco J.,0.7119689862626852,30.0,47.0
+td_atp_clay,Almagro N.,Montanes A.,0.7118533236749075,30.0,69.0
+td_atp_clay,Federer R.,Murray A.,0.7028324685403342,2.0,4.0
+td_atp_clay,Ferrer D.,Djokovic N.,0.7018697601643814,14.0,2.0
+td_atp_clay,Ferrer D.,Monaco J.,0.6870685611631805,14.0,47.0
+td_atp_clay,Berdych T.,Wawrinka S.,0.6850808725236085,12.0,23.0
+td_atp_clay,Almagro N.,Lopez F.,0.6814963893343376,30.0,35.0
 td_atp_grass,Clement A.,Hewitt L.,0.5137964751758491,43.0,16.0
 td_atp_grass,Kohlschreiber P.,Mayer F.,0.5110129836084507,34.0,64.5
 td_atp_grass,Djokovic N.,Lopez F.,0.5077224298291628,3.0,33.0
@@ -59,33 +59,33 @@ td_atp_grass,Nadal R.,Cilic M.,0.47861695697379286,2.0,15.0
 td_atp_grass,Cilic M.,Chardy J.,0.47213368521878024,15.0,55.0
 td_atp_grass,Cilic M.,Benneteau J.,0.46951607441018967,15.0,56.0
 td_atp_grass,Berdych T.,Youzhny M.,0.4646682279545356,13.0,34.0
-td_atp_hard,Murray A.,Nadal R.,0.8210911416486293,5.0,2.0
+td_atp_hard,Murray A.,Nadal R.,0.8213338861075797,5.0,2.0
 td_atp_hard,Del Potro J.M.,Murray A.,0.8144868996646296,10.0,5.0
 td_atp_hard,Berdych T.,Ferrer D.,0.8026957256120045,9.0,9.0
 td_atp_hard,Berdych T.,Del Potro J.M.,0.7961152611697564,9.0,10.0
 td_atp_hard,Berdych T.,Murray A.,0.7911523192225659,9.0,5.0
 td_atp_hard,Berdych T.,Tsonga J.W.,0.7836241583050477,9.0,11.0
-td_atp_hard,Tsonga J.W.,Wawrinka S.,0.780792663292203,11.0,19.0
-td_atp_hard,Ferrer D.,Tsonga J.W.,0.7782702069528172,9.0,11.0
-td_atp_hard,Berdych T.,Nadal R.,0.7759742515870659,9.0,2.0
-td_atp_hard,Federer R.,Nadal R.,0.77064512228363,2.0,2.0
-td_atp_2007_2025,Berdych T.,Murray A.,0.8516552991328232,8.0,4.0
-td_atp_2007_2025,Murray A.,Del Potro J.M.,0.846748229832305,4.0,10.0
-td_atp_2007_2025,Berdych T.,Del Potro J.M.,0.8428348054801297,8.0,10.0
-td_atp_2007_2025,Berdych T.,Ferrer D.,0.8426845626293514,8.0,7.0
-td_atp_2007_2025,Tsonga J.W.,Wawrinka S.,0.8276457606020662,12.0,18.0
-td_atp_2007_2025,Berdych T.,Tsonga J.W.,0.8274034628791643,8.0,12.0
-td_atp_2007_2025,Del Potro J.M.,Tsonga J.W.,0.8240505950344489,10.0,12.0
-td_atp_2007_2025,Berdych T.,Wawrinka S.,0.8229827061409325,8.0,18.0
-td_atp_2007_2025,Lopez F.,Verdasco F.,0.8177369250020248,33.0,30.0
-td_atp_2007_2025,Murray A.,Nadal R.,0.8173903804811704,4.0,2.0
-td_wta_2007_2025,Radwanska A.,Stosur S.,0.8371031237345543,9.0,19.0
-td_wta_2007_2025,Radwanska A.,Williams S.,0.8331676450592386,9.0,2.0
-td_wta_2007_2025,Halep S.,Kvitova P.,0.8189994535958686,5.0,9.0
-td_wta_2007_2025,Kuznetsova S.,Sharapova M.,0.8156246115238137,14.0,5.0
-td_wta_2007_2025,Wozniacki C.,Radwanska A.,0.8087886014029899,9.0,9.0
-td_wta_2007_2025,Jankovic J.,Radwanska A.,0.808777856458744,9.0,9.0
-td_wta_2007_2025,Wozniacki C.,Azarenka V.,0.8053749924747744,9.0,16.0
-td_wta_2007_2025,Wozniacki C.,Ivanovic A.,0.804932287123813,9.0,13.0
+td_atp_hard,Tsonga J.W.,Wawrinka S.,0.7809271574518795,11.0,19.0
+td_atp_hard,Ferrer D.,Tsonga J.W.,0.7791496083166057,9.0,11.0
+td_atp_hard,Berdych T.,Nadal R.,0.776673372619681,9.0,2.0
+td_atp_hard,Federer R.,Nadal R.,0.7707788755339812,2.0,2.0
+td_atp_2007_2025,Berdych T.,Murray A.,0.8524068598334736,8.0,4.0
+td_atp_2007_2025,Berdych T.,Del Potro J.M.,0.8452295669416795,8.0,10.0
+td_atp_2007_2025,Murray A.,Del Potro J.M.,0.8437277100668434,4.0,10.0
+td_atp_2007_2025,Berdych T.,Ferrer D.,0.8422631149597658,8.0,7.0
+td_atp_2007_2025,Tsonga J.W.,Wawrinka S.,0.8279665968223336,12.0,18.0
+td_atp_2007_2025,Berdych T.,Tsonga J.W.,0.8271951800658256,8.0,12.0
+td_atp_2007_2025,Del Potro J.M.,Tsonga J.W.,0.8270689354024304,10.0,12.0
+td_atp_2007_2025,Berdych T.,Wawrinka S.,0.8222223043282493,8.0,18.0
+td_atp_2007_2025,Federer R.,Murray A.,0.81808031994589,2.0,4.0
+td_atp_2007_2025,Lopez F.,Verdasco F.,0.8180564264062746,33.0,30.0
+td_wta_2007_2025,Radwanska A.,Stosur S.,0.8379535578535682,9.0,19.0
+td_wta_2007_2025,Radwanska A.,Williams S.,0.8332312063630363,9.0,2.0
+td_wta_2007_2025,Halep S.,Kvitova P.,0.818722488753628,5.0,9.0
+td_wta_2007_2025,Kuznetsova S.,Sharapova M.,0.8147187847853554,14.0,5.0
+td_wta_2007_2025,Wozniacki C.,Radwanska A.,0.8088645064403748,9.0,9.0
+td_wta_2007_2025,Jankovic J.,Radwanska A.,0.8086175910032026,9.0,9.0
+td_wta_2007_2025,Wozniacki C.,Azarenka V.,0.8056286858901107,9.0,16.0
+td_wta_2007_2025,Wozniacki C.,Ivanovic A.,0.8046622579333593,9.0,13.0
 td_wta_2007_2025,Cibulkova D.,Makarova E.,0.804619382072567,22.0,37.0
-td_wta_2007_2025,Safarova L.,Radwanska A.,0.8010871403748386,30.0,9.0
+td_wta_2007_2025,Safarova L.,Radwanska A.,0.8015058989305409,30.0,9.0

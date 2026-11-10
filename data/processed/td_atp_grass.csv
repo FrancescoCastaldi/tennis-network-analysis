@@ -150,7 +150,7 @@ Andujar P.,Vassallo-Arguello M.,1
 Andujar P.,Verdasco F.,1
 Andujar P.,Ward J.,1
 Aragone J.,Granollers M.,1
-Aragone JC,Carballes Baena R.,1
+Aragone J.C.,Carballes Baena R.,1
 Arazi H.,Canas G.,1
 Arazi H.,Carlsen K.,1
 Arazi H.,Henman T.,2
@@ -437,7 +437,7 @@ Behrend T.,Coria G.,1
 Behrend T.,Dent T.,1
 Bellier A.,Bautista Agut R.,1
 Bellucci M.,Harris B.,1
-Bellucci M.,McDonald M.,1
+Bellucci M.,Mcdonald M.,1
 Bellucci M.,Norrie C.,1
 Bellucci M.,Shelton B.,1
 Bellucci T.,Anderson K.,1
@@ -972,17 +972,17 @@ Carraz G.,Voinea A.,1
 Carreno Busta P.,Albot R.,1
 Carreno Busta P.,Bellier A.,1
 Carreno Busta P.,Carballes Baena R.,1
+Carreno Busta P.,Ferrer D.,1
+Carreno Busta P.,Fritz T.,1
 Carreno Busta P.,Kyrgios N.,1
 Carreno Busta P.,Lajovic D.,1
 Carreno Busta P.,Medvedev D.,1
+Carreno Busta P.,Monfils G.,1
 Carreno Busta P.,Popyrin A.,1
 Carreno Busta P.,Querrey S.,1
 Carreno Busta P.,Raonic M.,1
 Carreno Busta P.,Sonego L.,1
 Carreno Busta P.,Youzhny M.,1
-Carreno-Busta P.,Ferrer D.,1
-Carreno-Busta P.,Fritz T.,1
-Carreno-Busta P.,Monfils G.,1
 Caruso S.,Cilic M.,1
 Caruso S.,Garin C.,1
 Caruso S.,Simon G.,1
@@ -1397,11 +1397,6 @@ De Schepper K.,Melzer J.,1
 De Schepper K.,Nishikori K.,1
 De Schepper K.,Rochus O.,1
 De Schepper K.,Verdasco F.,1
-De Voest R.,Gonzalez F.,1
-De Voest R.,Grosjean S.,1
-De Voest R.,Malisse X.,1
-De Voest R.,Navarro-Pastor I.,1
-De Voest R.,Reister J.,1
 Decoud S.,Mahut N.,1
 Del Potro J.M.,Djokovic N.,1
 Del Potro J.M.,Federer R.,1
@@ -3241,7 +3236,6 @@ Kiefer N.,Zimonjic N.,1
 Kilderry P.,Gustafsson M.,1
 Kim A.,Blake T.,1
 Kim A.,Salzenstein J.,1
-Kim K,Soderling R.,1
 Kim K.,Bopanna R.,1
 Kim K.,Dancevic F.,2
 Kim K.,Dent T.,1
@@ -3253,6 +3247,7 @@ Kim K.,Querrey S.,1
 Kim K.,Rochus O.,1
 Kim K.,Sanguinetti D.,1
 Kim K.,Schuettler R.,1
+Kim K.,Soderling R.,1
 Kim K.,Zib T.,1
 King K.,Tomic B.,1
 Kirillov E.,Nishikori K.,1
@@ -4221,9 +4216,7 @@ Mayer L.,Vliegen K.,1
 Mayer L.,Young D.,1
 Mayot H.,Kovacevic A.,1
 Mayot H.,Pella G.,1
-McCabe J.,Marozsan F.,1
-McDonald M.,Khachanov K.,2
-McDonald M.,Rune H.,1
+Mccabe J.,Marozsan F.,1
 Mccabe J.,Seyboth Wild T.,1
 Mcdonald M.,Auger-Aliassime F.,1
 Mcdonald M.,Bublik A.,1
@@ -4234,11 +4227,12 @@ Mcdonald M.,Giron M.,1
 Mcdonald M.,Griekspoor T.,1
 Mcdonald M.,Hijikata R.,1
 Mcdonald M.,Ivashka I.,1
-Mcdonald M.,Khachanov K.,1
+Mcdonald M.,Khachanov K.,3
 Mcdonald M.,Michelsen A.,1
 Mcdonald M.,Opelka R.,1
 Mcdonald M.,Ram R.,1
 Mcdonald M.,Raonic M.,1
+Mcdonald M.,Rune H.,1
 Mcdonald M.,Ruusuvuori E.,1
 Mcdonald M.,Schwartzman D.,1
 Medjedovic H.,Auger-Aliassime F.,1
@@ -4441,7 +4435,7 @@ Monfils G.,Kunitsyn I.,1
 Monfils G.,Ljubicic I.,1
 Monfils G.,Mannarino A.,2
 Monfils G.,Martinez P.,1
-Monfils G.,McDonald M.,1
+Monfils G.,Mcdonald M.,1
 Monfils G.,Michelsen A.,1
 Monfils G.,Mirnyi M.,1
 Monfils G.,Nadal R.,1
@@ -5267,13 +5261,13 @@ Ramanathan R.,Baghdatis M.,1
 Ramanathan R.,Humbert U.,1
 Ramanathan R.,Johnson S.,1
 Ramirez-Hidalgo R.,Darcis S.,1
-Ramirez-Hidalgo R.,De Voest R.,1
 Ramirez-Hidalgo R.,Eschauer W.,1
 Ramirez-Hidalgo R.,Falla A.,1
 Ramirez-Hidalgo R.,Fish M.,1
 Ramirez-Hidalgo R.,Henman T.,1
 Ramirez-Hidalgo R.,Mirnyi M.,1
 Ramirez-Hidalgo R.,Querrey S.,1
+Ramirez-Hidalgo R.,de Voest R.,1
 Ramos A.,Del Potro J.M.,1
 Ramos A.,Federer R.,1
 Ramos A.,Fognini F.,1
@@ -6632,11 +6626,11 @@ Van De Zandschulp B.,Nadal R.,1
 Van De Zandschulp B.,Ruusuvuori E.,1
 Van De Zandschulp B.,Tiafoe F.,1
 Van De Zandschulp B.,Ymer M.,1
+Van Der Merwe I.,Garcia-Lopez G.,1
 Van Der Merwe I.,Isner J.,1
 Van Rijthoven T.,Bergs Z.,1
 Van Rijthoven T.,Djokovic N.,1
 Van Rijthoven T.,Krueger M.,1
-Van der Merwe I.,Garcia-Lopez G.,1
 Vanek J.,Andreev I.,1
 Vanek J.,Bjorkman J.,1
 Vanek J.,Chang M.,1
@@ -7106,7 +7100,12 @@ Zverev M.,Tomic B.,1
 Zverev M.,Troicki V.,1
 Zverev M.,Tsonga J.W.,1
 Zverev M.,Wawrinka S.,1
+de Voest R.,Gonzalez F.,1
+de Voest R.,Grosjean S.,1
+de Voest R.,Malisse X.,1
+de Voest R.,Navarro-Pastor I.,1
 de Voest R.,Philippoussis M.,1
+de Voest R.,Reister J.,1
 de Voest R.,Roddick A.,1
 de Voest R.,Safin M.,1
 di Mauro A.,Kiefer N.,1

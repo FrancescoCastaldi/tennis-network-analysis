@@ -38,13 +38,16 @@ The site does not state a licence; it is cited as the source, as the reference p
 
 Cleaning (`tennis_networks.tennisdata`):
 
-- matches ended by walkover are dropped (no tennis was played); retirements are kept;
-- white space in names is normalised; names already follow the `Surname I.` format of Michieli;
+- matches ended by walkover (also the misspelt `Walkoer`), cancelled or scheduled are dropped
+  (no tennis was played); retirements, awarded and disqualified matches are kept;
+- names are normalised: white space is collapsed, and spellings of the same player that differ only
+  in dots, hyphens, spaces or accents are merged into the most frequent one (for example
+  `Del Potro J.M.` and `Del Potro J. M.`), so each player is one node;
 - Greenset is merged into hard courts; the 1,685 ATP carpet matches (surface abandoned in 2009)
   stay out of the surface networks;
 - the season is the year of the file, so the first matches of a season may fall in late December.
 
-Result: 114,084 played matches (68,972 ATP, 45,112 WTA) and nine networks, summarised in
+Result: 114,081 played matches (68,971 ATP, 45,110 WTA) and nine networks, summarised in
 `results/tables/td_networks_summary.csv`.
 
 ## Consistency between the two sources

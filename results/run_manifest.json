@@ -1,6 +1,6 @@
 {
   "stage": "analysis",
-  "git_commit": "c8eb462248916e4a1b1cb0e6244e90f5ebc12364",
+  "git_commit": "d5dc3226167522017dd1fd0471247f8db39ae341",
   "python": "3.14.3",
   "platform": "Windows-11-10.0.26200-SP0",
   "packages": {
@@ -28,52 +28,98 @@
     },
     {
       "path": "data\\processed\\td_atp_2000_2006.csv",
-      "size": 374620,
-      "sha256": "e44ab39202bacf9803a478bb443a2ea28f5d73a3fe4a7eaeb8949b5c0eca0274"
+      "size": 374566,
+      "sha256": "ba6027e3e130705c36ad41cb4bc2265fdc001712267a373c755ab3cfd5440743"
     },
     {
       "path": "data\\processed\\td_atp_2007_2012.csv",
-      "size": 295128,
-      "sha256": "6dee7f77de25b765bef4ba4029da3c3eeb6342ec24d7b97732ec81be0c4f6072"
+      "size": 295093,
+      "sha256": "b055f182e88d165b358f3bcb2c448c79b97e5e0d03a841b91a98dceba7f7beee"
     },
     {
       "path": "data\\processed\\td_atp_2013_2018.csv",
-      "size": 288315,
-      "sha256": "46b68ed514382890f0fa77bdfed00cfd6e66a89f8c09050465a91fbe912b24d9"
+      "size": 287258,
+      "sha256": "0a619d989eef13eede30f4b32e7932393e2115e2bbb34c95e71bdb94f0bbf3f1"
     },
     {
       "path": "data\\processed\\td_atp_2019_2025.csv",
-      "size": 325912,
-      "sha256": "d469feb7cc2c74c87ef0233df55416f17a4c27674f132849f9b830a49deebe63"
+      "size": 325413,
+      "sha256": "f81bad04e73780159c8a96671c82538f71756e3b8805fdc27731211ead966b68"
     },
     {
       "path": "data\\processed\\td_atp_clay.csv",
-      "size": 458858,
-      "sha256": "fbf2207cb87d46421df9d357168101c35989049a6e8a6e8fae90870112ca75a5"
+      "size": 458036,
+      "sha256": "e9dfd12ef0fc8c07fafb6af26fbda42531bbfda9df8a399c6cc43bf15a2fc871"
     },
     {
       "path": "data\\processed\\td_atp_grass.csv",
-      "size": 179863,
-      "sha256": "eaad3aa38f953ed5901f38126b5eb98e7415d894d26bf58b5385926f0cd8524f"
+      "size": 179838,
+      "sha256": "0c97dbb47fa8c573dbdede89d32c576b7d5874fb3e48ef14ea8aad05c42cd703"
     },
     {
       "path": "data\\processed\\td_atp_hard.csv",
-      "size": 699235,
-      "sha256": "968378758f5575eaf442b654039401c7c9895efe40d0d18215ebee6228d3bdda"
+      "size": 698503,
+      "sha256": "70f56300affcaaff13ea6b81d9284a2cdb528230af7f9a7021b2b790e4f906be"
     },
     {
       "path": "data\\processed\\td_atp_2007_2025.csv",
-      "size": 825508,
-      "sha256": "e8bcb512db02cd7f7e081d624cdea964e2e1144ee276ce30909ef0c6d787edf2"
+      "size": 823404,
+      "sha256": "ded4cd89ee7eb8731b95d4552bd7edd4f3919dd204d59f7758869134895acb79"
     },
     {
       "path": "data\\processed\\td_wta_2007_2025.csv",
-      "size": 801807,
-      "sha256": "b5b4431c0b1e6eca3f53995ca3925982757455ffe105d168bcf8d25f2e5b410e"
+      "size": 832044,
+      "sha256": "9a2b8fecc7099862d40789969adeba9e1dc12cf3b3842237cca9c751250cafd9"
+    },
+    {
+      "path": "data\\processed\\td_atp_2000_2006_ranks.csv",
+      "size": 13800,
+      "sha256": "0ac61ce9456b94452cc48e246beaeadbaf2931fad7448b8b7b5f6008b9385e2c"
+    },
+    {
+      "path": "data\\processed\\td_atp_2007_2012_ranks.csv",
+      "size": 11207,
+      "sha256": "6131762f9b2bd2d0b3af26e4b1082c785056526f5e5ddebe752b3dc39f8cf77b"
+    },
+    {
+      "path": "data\\processed\\td_atp_2013_2018_ranks.csv",
+      "size": 10416,
+      "sha256": "3f76a7211fae8c23ec83087f73168ec5e5f2fb3715a3afd1a7e12453ca31d964"
+    },
+    {
+      "path": "data\\processed\\td_atp_2019_2025_ranks.csv",
+      "size": 11061,
+      "sha256": "082d4e94f3af400ae96149dd78f0a49ceffc6dad6ad15c386918cbdfaebb00fb"
+    },
+    {
+      "path": "data\\processed\\td_atp_clay_ranks.csv",
+      "size": 20891,
+      "sha256": "dc7a68d526628b4f0e708c0f1cbaa363f6bd0dd907417c6020712e7f4a4f5afb"
+    },
+    {
+      "path": "data\\processed\\td_atp_grass_ranks.csv",
+      "size": 15338,
+      "sha256": "55a8ba946d988fd8ff5b5a70ccc850c3f0d0e3a566cadfdd31b9f7e930ca9416"
+    },
+    {
+      "path": "data\\processed\\td_atp_hard_ranks.csv",
+      "size": 23736,
+      "sha256": "b525467e39220326dcce4c5c127290e0037e4e6c1ca7fb7c202374b2fc1da37b"
+    },
+    {
+      "path": "data\\processed\\td_atp_2007_2025_ranks.csv",
+      "size": 22160,
+      "sha256": "9c0fe8f1a34bbae2830abfc18d848dcb7c887a60408d32e397cba6b396cf62c0"
+    },
+    {
+      "path": "data\\processed\\td_wta_2007_2025_ranks.csv",
+      "size": 22925,
+      "sha256": "083e64fa80dda4decb27edcca1f413fbab83758cfe51fffba153a907cd30b2da"
     }
   ],
   "extra": {
-    "mode": "centralization-only",
+    "samples": 1000,
+    "only": null,
     "seed": 20261115
   }
 }

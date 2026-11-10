@@ -1,33 +1,33 @@
 variant,hypothesis,statistic,comparison,diff,p_value
-baseline,H1,top10_pagerank_share,ATP 2007-2018 vs 2019-2025 (season means),0.031036396691555113,0.06
-baseline,H1,degree_centralization,ATP 2007-2018 vs 2019-2025 (season means),-0.0010755034077355452,0.757
-baseline,H3,degree_centralization,ATP Grass vs Clay,-0.030042312778845753,0.015
-baseline,H3,top10_pagerank_share,ATP Grass vs Clay,0.020818737570532583,0.005
-baseline,H3,degree_centralization,ATP Grass vs Hard,-0.04384872941430279,0.015
-baseline,H3,top10_pagerank_share,ATP Grass vs Hard,0.0204381508303645,0.005
-baseline,H4,top10_pagerank_share,"WTA vs ATP, paired season differences 2007-2025",-0.020681831530961585,0.015814232809528577
-baseline,H4,degree_centralization,"WTA vs ATP, paired season differences 2007-2025",-0.005456661811290723,0.16664998498648784
-no_retirements,H1,top10_pagerank_share,ATP 2007-2018 vs 2019-2025 (season means),0.03391859277465978,0.036
-no_retirements,H1,degree_centralization,ATP 2007-2018 vs 2019-2025 (season means),-0.001105354750737475,0.763
-no_retirements,H3,degree_centralization,ATP Grass vs Clay,-0.029105171372163285,0.01
-no_retirements,H3,top10_pagerank_share,ATP Grass vs Clay,0.02192966833089187,0.01
-no_retirements,H3,degree_centralization,ATP Grass vs Hard,-0.038546701466065036,0.01
-no_retirements,H3,top10_pagerank_share,ATP Grass vs Hard,0.020693989652923878,0.02
-no_retirements,H4,top10_pagerank_share,"WTA vs ATP, paired season differences 2007-2025",-0.020572002884753745,0.022920628565709138
-no_retirements,H4,degree_centralization,"WTA vs ATP, paired season differences 2007-2025",-0.0070116545049517184,0.05605044540086077
-walkovers_kept,H1,top10_pagerank_share,ATP 2007-2018 vs 2019-2025 (season means),0.03232120559285856,0.053
-walkovers_kept,H1,degree_centralization,ATP 2007-2018 vs 2019-2025 (season means),-0.0009410321759009688,0.758
-walkovers_kept,H3,degree_centralization,ATP Grass vs Clay,-0.030056996332951336,0.01
-walkovers_kept,H3,top10_pagerank_share,ATP Grass vs Clay,0.021521065541100906,0.01
-walkovers_kept,H3,degree_centralization,ATP Grass vs Hard,-0.04386227872153994,0.015
-walkovers_kept,H3,top10_pagerank_share,ATP Grass vs Hard,0.02037095277659616,0.025
-walkovers_kept,H4,top10_pagerank_share,"WTA vs ATP, paired season differences 2007-2025",-0.023095212442789215,0.007807026323691322
-walkovers_kept,H4,degree_centralization,"WTA vs ATP, paired season differences 2007-2025",-0.0040551725001275445,0.32589330397357624
-carpet_as_hard,H1,top10_pagerank_share,ATP 2007-2018 vs 2019-2025 (season means),0.031036396691555113,0.06
-carpet_as_hard,H1,degree_centralization,ATP 2007-2018 vs 2019-2025 (season means),-0.0010755034077355452,0.757
-carpet_as_hard,H3,degree_centralization,ATP Grass vs Clay,-0.030042312778845753,0.015
-carpet_as_hard,H3,top10_pagerank_share,ATP Grass vs Clay,0.020818737570532583,0.005
-carpet_as_hard,H3,degree_centralization,ATP Grass vs Hard,-0.042467348972399954,0.005
-carpet_as_hard,H3,top10_pagerank_share,ATP Grass vs Hard,0.0234692848757561,0.005
-carpet_as_hard,H4,top10_pagerank_share,"WTA vs ATP, paired season differences 2007-2025",-0.020681831530961585,0.015814232809528577
-carpet_as_hard,H4,degree_centralization,"WTA vs ATP, paired season differences 2007-2025",-0.005456661811290723,0.16664998498648784
+baseline,H1,top10_pagerank_share,ATP 2007-2018 vs 2019-2025 (season means),0.031166604641626156,0.059
+baseline,H1,degree_centralization,ATP 2007-2018 vs 2019-2025 (season means),-0.0013375620754479955,0.685
+baseline,H3,degree_centralization,ATP Grass vs Clay,-0.03023460781897519,0.015
+baseline,H3,top10_pagerank_share,ATP Grass vs Clay,0.020977087167549202,0.005
+baseline,H3,degree_centralization,ATP Grass vs Hard,-0.04536074315446667,0.02
+baseline,H3,top10_pagerank_share,ATP Grass vs Hard,0.02065564729849341,0.005
+baseline,H4,top10_pagerank_share,"WTA vs ATP, paired season differences 2007-2025",-0.02055291461693984,0.016114503052747472
+baseline,H4,degree_centralization,"WTA vs ATP, paired season differences 2007-2025",-0.0052540490621651855,0.18166349714743268
+no_retirements,H1,top10_pagerank_share,ATP 2007-2018 vs 2019-2025 (season means),0.034065824768215014,0.036
+no_retirements,H1,degree_centralization,ATP 2007-2018 vs 2019-2025 (season means),-0.0013192571239136752,0.709
+no_retirements,H3,degree_centralization,ATP Grass vs Clay,-0.029277774673930695,0.015
+no_retirements,H3,top10_pagerank_share,ATP Grass vs Clay,0.022013299483996662,0.01
+no_retirements,H3,degree_centralization,ATP Grass vs Hard,-0.03993809012616095,0.005
+no_retirements,H3,top10_pagerank_share,ATP Grass vs Hard,0.02089603058163908,0.005
+no_retirements,H4,top10_pagerank_share,"WTA vs ATP, paired season differences 2007-2025",-0.020370122117526313,0.024922430187168453
+no_retirements,H4,degree_centralization,"WTA vs ATP, paired season differences 2007-2025",-0.006833327814296541,0.06235612050845761
+walkovers_kept,H1,top10_pagerank_share,ATP 2007-2018 vs 2019-2025 (season means),0.03229373921184092,0.053
+walkovers_kept,H1,degree_centralization,ATP 2007-2018 vs 2019-2025 (season means),-0.0012022879305327583,0.697
+walkovers_kept,H3,degree_centralization,ATP Grass vs Clay,-0.03024883662200417,0.01
+walkovers_kept,H3,top10_pagerank_share,ATP Grass vs Clay,0.0217585027402723,0.01
+walkovers_kept,H3,degree_centralization,ATP Grass vs Hard,-0.045372996203908056,0.015
+walkovers_kept,H3,top10_pagerank_share,ATP Grass vs Hard,0.02052036395733614,0.025
+walkovers_kept,H4,top10_pagerank_share,"WTA vs ATP, paired season differences 2007-2025",-0.02308624646651396,0.007606846161545391
+walkovers_kept,H4,degree_centralization,"WTA vs ATP, paired season differences 2007-2025",-0.003849513552022731,0.3501151035932339
+carpet_as_hard,H1,top10_pagerank_share,ATP 2007-2018 vs 2019-2025 (season means),0.031166604641626156,0.059
+carpet_as_hard,H1,degree_centralization,ATP 2007-2018 vs 2019-2025 (season means),-0.0013375620754479955,0.685
+carpet_as_hard,H3,degree_centralization,ATP Grass vs Clay,-0.03023460781897519,0.015
+carpet_as_hard,H3,top10_pagerank_share,ATP Grass vs Clay,0.020977087167549202,0.005
+carpet_as_hard,H3,degree_centralization,ATP Grass vs Hard,-0.04392634204949347,0.005
+carpet_as_hard,H3,top10_pagerank_share,ATP Grass vs Hard,0.023680922676365845,0.005
+carpet_as_hard,H4,top10_pagerank_share,"WTA vs ATP, paired season differences 2007-2025",-0.02055291461693984,0.016114503052747472
+carpet_as_hard,H4,degree_centralization,"WTA vs ATP, paired season differences 2007-2025",-0.0052540490621651855,0.18166349714743268

@@ -47,8 +47,7 @@ Calleri A.,0.14477202364199265,clay
 Canas G.,-0.00773249738766979,all-round
 Capdeville P.,-0.037037037037037035,all-round
 Carballes Baena R.,0.11267274331079091,clay
-Carreno Busta P.,-0.016031746031746064,all-round
-Carreno-Busta P.,0.11249999999999999,clay
+Carreno Busta P.,-0.021920088790233105,all-round
 Cecchinato M.,0.263768115942029,clay
 Cerundolo F.,0.10799999999999998,clay
 Chardy J.,0.019540426591160065,all-round
@@ -72,8 +71,8 @@ Davidovich Fokina A.,0.0041996047430830075,all-round
 Davydenko N.,0.026884980796442304,all-round
 De Bakker T.,0.08509316770186331,all-round
 De Minaur A.,-0.12180240441110013,hard
-Del Potro J.M.,-0.028679962013295368,all-round
-Delbonis F.,0.2702922077922078,clay
+Del Potro J.M.,-0.02939886927425872,all-round
+Delbonis F.,0.27105341309235925,clay
 Dimitrov G.,-0.025069919466253365,all-round
 Djere L.,0.21105110095554636,clay
 Djokovic N.,-0.0437376950951579,all-round
@@ -101,7 +100,7 @@ Fritz T.,-0.049153255836544285,all-round
 Fucsovics M.,0.010752688172043001,all-round
 Gabashvili T.,0.04391229789318962,all-round
 Galan D.E.,0.025757575757575757,all-round
-Gambill J.M.,-0.32504230118443317,hard
+Gambill J.M.,-0.3238805970149254,hard
 Garcia-Lopez G.,0.07055727444076959,all-round
 Garin C.,0.18818786095673967,clay
 Gasquet R.,0.0006784513880243592,all-round
@@ -132,7 +131,7 @@ Hanescu V.,0.19491015117421484,clay
 Hanfmann Y.,0.1391271202591957,clay
 Harrison R.,-0.12121212121212122,hard
 Henman T.,-0.07421895373702603,all-round
-Herbert P.H.,-0.04999999999999999,all-round
+Herbert P.H.,-0.04685099846390167,all-round
 Hernandez O.,0.29494035376388317,clay
 Hernych J.,-0.08316326530612245,all-round
 Hewitt L.,-0.03985641329287248,all-round
@@ -159,7 +158,7 @@ Khachanov K.,0.014918414918414946,all-round
 Kiefer N.,-0.11698518602284297,hard
 Klizan M.,0.12815126050420172,clay
 Koepfer D.,0.002923976608187162,all-round
-Kohlschreiber P.,0.0347290640394089,all-round
+Kohlschreiber P.,0.03487394957983192,all-round
 Korda S.,-0.06778846153846152,all-round
 Korolev E.,-0.10574712643678164,hard
 Kotov P.,0.15347222222222223,clay
@@ -197,7 +196,8 @@ Massu N.,0.14483552984035147,clay
 Mathieu P.H.,0.04618473895582331,all-round
 Mayer F.,0.048636363636363644,all-round
 Mayer L.,0.10087719298245618,clay
-Medvedev D.,-0.1708267342413684,hard
+Mcdonald M.,-0.17479395604395603,hard
+Medvedev D.,-0.17260978630171786,hard
 Meligeni F.,0.0276190476190476,all-round
 Mello R.,0.01855287569573283,all-round
 Melzer J.,0.03780350084697914,all-round
@@ -216,7 +216,7 @@ Muller G.,-0.07986557986557985,all-round
 Munar J.,0.058857808857808835,all-round
 Murray A.,-0.06697819314641751,all-round
 Musetti L.,0.13463463463463465,clay
-Nadal R.,0.12881916799363058,clay
+Nadal R.,0.12917725777511957,clay
 Nakashima B.,-0.07188940092165902,all-round
 Nalbandian D.,0.02015428732985991,all-round
 Nieminen J.,0.006469739148365794,all-round
@@ -225,7 +225,7 @@ Nishioka Y.,-0.12936930091185406,hard
 Norman M.,-0.051563711553372915,all-round
 Norrie C.,0.04264500077748401,all-round
 Novak J.,0.012903225806451646,all-round
-O Connell C.,-0.072007200720072,all-round
+O Connell C.,-0.059440559440559426,all-round
 Odesnik W.,0.21998942358540458,clay
 Ofner S.,0.03903903903903899,all-round
 Opelka R.,-0.1211160431198478,hard
@@ -240,7 +240,7 @@ Popyrin A.,0.04219114219114217,all-round
 Portas A.,0.23739035087719296,clay
 Pouille L.,-0.023322851153039836,all-round
 Querrey S.,-0.106875,hard
-Ramirez-Hidalgo R.,0.2012390087929656,clay
+Ramirez-Hidalgo R.,0.19910394265232975,clay
 Ramos A.,0.18750000000000006,clay
 Ramos-Vinolas A.,0.17854853479853477,clay
 Raonic M.,-0.034494535519125624,all-round
@@ -289,9 +289,9 @@ Squillari F.,0.15254482359745514,clay
 Srichaphan P.,-0.3583333333333334,hard
 Stakhovsky S.,-0.06564102564102564,all-round
 Starace P.,0.23891029168959826,clay
-Stebe C.M.,0.17831541218637992,clay
+Stebe C.M.,0.168081494057725,clay
 Stepanek R.,0.014387763677619958,all-round
-Struff J.L.,0.049108096560563974,all-round
+Struff J.L.,0.050905609191733814,all-round
 Tabara M.,-0.04375000000000001,all-round
 Tabilo A.,0.02647058823529408,all-round
 Thiem D.,0.10561660561660557,clay
@@ -327,3 +327,4 @@ Zhang Zh.,0.17575757575757578,clay
 Zib T.,-0.01563691838291381,all-round
 Zverev A.,0.03824648993008095,all-round
 Zverev M.,-0.07798874824191276,all-round
+di Pasquale A.,0.1055718475073314,clay

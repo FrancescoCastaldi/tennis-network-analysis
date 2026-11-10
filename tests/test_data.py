@@ -44,8 +44,8 @@ def test_michieli_network_1_matches_the_paper():
 def test_tennisdata_networks_summary():
     s = pd.read_csv(TABLES / "td_networks_summary.csv").set_index("network")
     eras = [n for n in s.index if n.startswith("td_atp_20") and n != "td_atp_2007_2025"]
-    assert s.loc[eras, "matches"].sum() == 68972
-    assert s.loc["td_wta_2007_2025", "matches"] == 45112
+    assert s.loc[eras, "matches"].sum() == 68971
+    assert s.loc["td_wta_2007_2025", "matches"] == 45110
     for name, row in s.iterrows():
         edges = pd.read_csv(PROCESSED / f"{name}.csv")
         assert len(edges) == row["edges"], name
