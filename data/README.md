@@ -14,7 +14,7 @@ Source files and the edge lists built from them. The provenance, licences and ch
 | `raw/networks/3_undirect_unweighted.mat` | Michieli (2018) M3: undirected, unweighted |
 | `raw/networks/4_extended_undirect_unweighted.mat` | Michieli (2018) M4: extended with Davis Cup, Challenger and Futures |
 | `raw/networks/readme_michieli.docx` | Notes that came with the Michieli matrices |
-| `raw/tennisdata/` | 45 season spreadsheets (`.xlsx`): 26 ATP seasons (2000 to 2025) and 19 WTA seasons (2007 to 2025) |
+| `raw/tennisdata/` | 45 season spreadsheets (`.xlsx` for ATP, `.xls` for WTA): 26 ATP seasons (2000 to 2025) and 19 WTA seasons (2007 to 2025) |
 | `raw/tennisdata/manifest.csv` | Source URL, size and SHA-256 digest of each spreadsheet |
 
 ## `processed/`

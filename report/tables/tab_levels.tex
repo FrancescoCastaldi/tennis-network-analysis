@@ -1,27 +1,27 @@
-\begin{tabular}{@{}llp{3.6cm}lrrr@{}}
+\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.2cm}rrr@{}}
 \toprule
-Hyp. & Level & Comparison / Target & Predictor / Stat & Coeff. / $r$ & $p$ & Notes \\
+H & Level & Comparison & Metric & Effect & $p_{\mathrm{Holm}}$ & Details \\
 \midrule
 \multicolumn{7}{@{}l}{\emph{Network level: Triad hierarchy (cyclic ratio $030C/030T$, random baseline $= 1/3$)}} \\
-H5 & Network & ATP 2007-12 vs other eras & cyclic triad ratio & $-$0.027 & 0.010 & 0.184 vs 0.211 \\
+H5 & Network & ATP 2007-12 vs other eras & cyclic triad ratio & $-$0.027 & 0.020 & 0.184 vs 0.211 \\
 H5 (tours) & Network & WTA vs ATP (paired seasons) & cyclic triad ratio & 0.008 & 0.100 & 0.206 vs 0.198 \\
 \midrule
 \multicolumn{7}{@{}l}{\emph{Monadic level: Permutation regression of $\log(\text{ranking})$ on PageRank and wins}} \\
-H6 & Monadic & ATP 2000-06 ($n=524$) & $\beta$ log PageRank & $-$0.631 & 0.001 & $R^2$ = 0.611 \\
-   &         &                      & $\beta$ log wins     & $-$0.154 & 0.415 & \\
-H6 & Monadic & ATP 2007-12 ($n=423$) & $\beta$ log PageRank & $-$0.773 & 0.001 & $R^2$ = 0.758 \\
-   &         &                      & $\beta$ log wins     & $-$0.101 & 0.593 & \\
-H6 & Monadic & ATP 2013-18 ($n=393$) & $\beta$ log PageRank & $-$0.859 & 0.001 & $R^2$ = 0.758 \\
-   &         &                      & $\beta$ log wins     & $-$0.012 & 0.951 & \\
-H6 & Monadic & ATP 2019-25 ($n=442$) & $\beta$ log PageRank & $-$0.725 & 0.001 & $R^2$ = 0.729 \\
-   &         &                      & $\beta$ log wins     & $-$0.132 & 0.505 & \\
+H6 & Monadic & ATP 2000-06 ($n=524$) & $\beta$ log PageRank & $-$0.631 & 0.012 & $R^2$ = 0.611 \\
+   &         &                      & $\beta$ log wins     & $-$0.154 & 1.000 & \\
+H6 & Monadic & ATP 2007-12 ($n=423$) & $\beta$ log PageRank & $-$0.773 & 0.012 & $R^2$ = 0.758 \\
+   &         &                      & $\beta$ log wins     & $-$0.101 & 1.000 & \\
+H6 & Monadic & ATP 2013-18 ($n=393$) & $\beta$ log PageRank & $-$0.859 & 0.012 & $R^2$ = 0.758 \\
+   &         &                      & $\beta$ log wins     & $-$0.012 & 1.000 & \\
+H6 & Monadic & ATP 2019-25 ($n=442$) & $\beta$ log PageRank & $-$0.725 & 0.012 & $R^2$ = 0.729 \\
+   &         &                      & $\beta$ log wins     & $-$0.132 & 1.000 & \\
 \midrule
-\multicolumn{7}{@{}l}{\emph{Dyadic level: QAP correlation of head-to-head dominance balance across surfaces}} \\
-H7 & Dyadic & Clay vs Hard balance & QAP Pearson $r$ & 0.149 & 0.001 & $n=328$, $E_0[r]=0.000$ \\
-H7 & Dyadic & Grass vs Hard balance & QAP Pearson $r$ & 0.123 & 0.001 & $n=306$, $E_0[r]=0.000$ \\
+\multicolumn{7}{@{}l}{\emph{Dyadic level: Head-to-head dominance across surfaces (QAP permutation test)}} \\
+H7 & Dyadic & Clay vs Hard balance & QAP correlation $r$ & 0.149 & 0.012 & $n=328$; null $r=0$ \\
+H7 & Dyadic & Grass vs Hard balance & QAP correlation $r$ & 0.123 & 0.012 & $n=306$; null $r=0$ \\
 \midrule
-\multicolumn{7}{@{}l}{\emph{Mixed level: QAP correlation of surface specialisation with match encounters}} \\
-H8 & Mixed & Same surface profile vs meetings & QAP Pearson $r$ & 0.056 & 0.001 & $n=328$, 3 classes \\
-H8 & Mixed & Specialisation gap vs meetings & QAP Pearson $r$ & $-$0.094 & 0.001 & $n=328$, Euclidean diff \\
+\multicolumn{7}{@{}l}{\emph{Mixed level: Surface profile and match encounters (QAP permutation test)}} \\
+H8 & Mixed & Same surface profile & matches vs shared profile & 0.056 & 0.012 & $n=328$; 3 classes \\
+H8 & Mixed & Specialisation gap & matches vs profile distance & $-$0.094 & 0.012 & $n=328$; Euclidean \\
 \bottomrule
 \end{tabular}

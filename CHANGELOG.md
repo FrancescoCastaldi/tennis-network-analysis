@@ -7,17 +7,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts.
+The tennis-data cleaning stage now merges the malformed accented spelling of a player name found in one source spreadsheet, preventing duplicate nodes and inconsistent rankings in the generated WTA network artifacts. Directed Freeman centralization is normalized by the maximum total-degree star, and its interpretation is explicit in the report. The report has also been shortened while retaining its study design, measure interpretations, results, and limitations. The main ruleset requires one review and passing CI checks without administrator bypass.
+
+### Changed
+- Report consistency pass, no result changes: the NetworkX version matches `results/run_manifest.json` (3.7), the Problem section names the Big Four with Murray as the rest of the report does, two uncited claims about the literature are worded as what we found, and the unsourced "five-week" grass swing becomes "short" in two places (#63).
+- Apply reviewer feedback from @PaoloFusco19 on report critique: streamline the opening limitation summary and clarify Holm correction scope in statistical power caveats (#63).
+- Align the report conclusion and critique with the Holm-corrected results: RQ2 and RQ3 state which differences survive correction (H3 and H4 do not), and the critique restores the limits on multiple testing, collinearity and tour confounds, in response to review feedback. The hypothesis summary table (`tab_hypotheses.tex`) now takes the Holm values of each result table instead of one pooled correction, so H5 and H6 to H8 are reported as supported, as in the text.
+- Report RQ1 now says "Big Four dominance", the term used in Sections 5.3 and 6 for Federer, Nadal, Djokovic and Murray. "Big Three" is kept only where the three players are named.
+- Report title block: authors, degree programme and student numbers are set as one aligned table, one author per row.
+- Report layout tightened without changes to the text or the figures: paragraph headings take less space above, the author block has one line per author as in the course template, and four figures are shorter where they had empty margins.
+- Report reshaped around figures: a study-design timeline replaces the network table, a leader figure of PageRank against official rank replaces the leader table, and the yearly figure adds the cyclic-triad ratio by season. Sections 1, 2, 3, 6 and 7 are shortened, the figure count is ten (the cap in `CONTRIBUTING.md`) and the report has three tables and 15 pages.
+- Report topology and structure figures: the degree distributions and the targeted-removal curves share one two-row figure, and the core, HITS and rich-club values of the nine networks share one row-per-network figure. Sections 5.1 to 5.4 now describe the figures instead of listing the values, and the tables for topology and structure are no longer in the PDF (they are still generated for the repository and the tests).
+- Report figures redesigned: the validity figure (source agreement, reproduction, cleaning sensitivity), a heatmap of the global measures and one forest-style figure for hypotheses H1 to H8 replace the tables with the same numbers. The report has ten figures and three tables; the figures are generated from `results/` by `report_assets.py`.
+- Report prose tightened: emphatic wording, mechanical connectives and the bulleted lists in Sections 1, 2 and 5.1 are replaced by plain sentences. The small-world index and the normalized rich-club coefficient are shown as display equations with their symbols defined.
+- Bibliography in one column, in order of first citation. The triad census, the small-world index and degree assortativity now have references.
+- Clarify that report hypothesis labels use raw permutation p-values, and
+  soften causal language about bracket seeding and grass-court reciprocity in
+  response to review feedback on report interpretation.
+- Student matricola numbers are back in the author block of `report/main.tex`, as the course template asks. The privacy check exempts `report/main.tex` only.
+- Enlarge analytical figures and typography (`report_assets.py`): increased plot dimensions and font hierarchy across degree CCDFs, robustness curves, yearly time-series, the 2007-2012 elite core tournament network graph, triad spectrum, and homophily heatmaps for superior visual clarity and print legibility.
+- Incorporate Top-10 Leaderboards table (`tab_top10.tex`) into the report, highlighting PageRank leaders and official rankings across all four ATP eras and the WTA tour.
+- Compact and humanize report prose (`report/main.tex`): streamlined text across Sections 1 to 7 into natural, fluent academic prose matching student team standards, eliminating robotic jargon and maintaining 100% compliance with course rubric criteria, with word count comfortably under 5,000 words.
+- Streamline report equations and tables: retain the essential directed PageRank recurrence equation while removing textbook formula displays, weaving standard definitions into natural academic prose.
+- Redesign hypothesis and null model tables (`tab_null`, `tab_tests`, `tab_levels`): replace concatenated string blobs with structured tabular columns, grouped subheadings, and clear numeric fields.
+- Widen the report figures, add a rich-club comparison plot, and split the longest results paragraphs while preserving their measures and findings.
+
+- Condense repeated background, methods, results, and conclusion text while preserving the thirteen-network design, A/B/C measure explanations, key values, limitations, and course formatting.
 
 ### Fixed
+- Clean macOS AppleDouble metadata (`._*`) across repository and ignore in `.gitignore`.
+- Report: harmonize H2 assortativity text between Table 3 (undirected projection range -0.036 to 0.098) and directed measures (0.03 to 0.16); eliminate overfull hbox warnings in author block, URL formatting, and Table 2 column width (`report_assets.py`); swap Table 2 and Table 3 descriptions in `report/README.md`.
+- Report fixes from an audit of text against results: H2 is tested in eight networks, not nine (the aggregate ATP 2007-2025 network is not in the test); the small-world index range is 0.85 to 0.91 in the four ATP eras; the hypothesis, triad and level tables now carry the Holm-adjusted p-values, computed from the committed raw p-values. A rerun on the current machine reproduces the raw values to three decimals but not exactly (the WTA null statistics differ by up to 1.1 in z), so the committed results are kept. Across the sixteen network-level tests Holm leaves none below 0.05; the report says so.
+- Report figures: all text in the figures is at least 8 pt at print size, figure heights are increased to fit the labels, and the two older figures are drawn at the text width.
+- Report: impersonal academic style throughout (no first-person plural), course references and process narration removed.
+- Report: the leader figure skips labels that would overlap, and the paragraph spacing is raised slightly. The rendered PDF was checked page by page.
+- Report numbers and ranges now match `results/tables/`: HITS and core-periphery values, degree assortativity (0.03 to 0.16), the small-world index (below 1 in the four ATP eras), the targeted-attack resilience figures and the H1, H3 and H4 sensitivity wording.
+- Report: Freeman centralization is defined for both uses (directed total degree for Table 5, undirected projection for the hypothesis tests), the sign of the rank correlations is explained, and the dependent variable of H6 is named.
+- Report: two claims stated as fact are now hedged (the 2020 season and bracket seeding), and the claim of identical outputs across runs is reworded to the seeded, reproducible sense.
+- Remove the duplicate explicit References heading so the bibliography shows one title with consistent spacing before its two-column list.
 
+- Normalize directed Freeman centralization by the maximum total-degree star, so reciprocal and one-way stars score 1 and 0.5 respectively. Clarify the measure in the API, methodology and report, and correct the reported network range.
+- Add `analysis --centralization-only` to reproduce a corrected centralization column without rerunning expensive null models or rewriting unrelated outputs.
+- Skip file fingerprinting for the configured built-in karate fixture so the analysis stage can process the full network list.
+- Require passing lint and tests, report build, PR metadata and latest-review approval checks on `main`, with no bypass actors.
 - Document verified post-merge timesheet updates without assigning hours or guessing external sheet rows.
 - `scripts/sync_sheet.py` no longer overwrites a fixed Attivita row with a hard-coded task, and fails instead of guessing the test count when pytest prints no summary.
 - Normalize the source spelling `Raducànu E.` to `Raducanu E.` before building processed match and network files.
 - `report_assets`: a table shows Holm-adjusted p-values only when every result file it draws from carries them, and otherwise shows the raw values under a raw heading, so stored results from before the correction are never labelled as adjusted. Tests in `tests/test_report_assets.py`.
 - Report: the Reproducibility section is shortened from 108 to about 40 words so that the report with all open pull requests stays under 5,000 words.
+- The spreadsheet loader skips macOS `._*` metadata files in `data/raw/tennisdata/`. Copies of the repository made on macOS contain such files, and pandas failed on them. The season list is built by `spreadsheet_files`, covered by a test. The results are unchanged: the 114,084 played matches are read again from the same spreadsheets.
 
 ### Added
+- Report: a hypothesis table with expected direction, level, test and research question; contributions paragraph in the introduction; compactness, communities, hubs and structural equivalence reported in Section 5; a test (`tests/test_report_numbers.py`) that checks each quoted number against the committed results.
 
 - Run manifests record configuration, environment, and input fingerprints for analysis runs.
 - Hypothesis result tables now include Holm-adjusted p-values alongside the raw permutation values.
@@ -92,6 +133,7 @@ The tennis-data cleaning stage now merges the malformed accented spelling of a p
 - Report: the unreferenced H1-H8 summary table (its data is in the detailed test tables) and the top-10 PageRank table (the leaders are named in the text), to shorten the report. No test or result changes.
 - `run_analysis.py` no longer writes `hypotheses_results.csv`: its placeholder marked H5 as supported without a test and measured H1 on the wrong statistic. H1-H8 come from `make hypotheses triads levels`.
 - Unused loaders for `.mat` and `.edgelist` files, Michieli network 2 (symmetric weights, no winner) and the global NumPy seed in `run_analysis.py`; messages and comments are now in English.
+
 
 ## [0.2.7] - 2026-10-19
 

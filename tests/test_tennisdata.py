@@ -32,3 +32,9 @@ def test_clean_name_collapses_spaces():
 
 def test_clean_name_normalizes_source_name_aliases():
     assert td.clean_name("Raducànu E.") == "Raducanu E."
+
+
+def test_spreadsheet_files_skip_appledouble(tmp_path):
+    for name in ["2007.xlsx", "._2007.xlsx", "2008.xls"]:
+        (tmp_path / name).write_bytes(b"")
+    assert [p.name for p in td.spreadsheet_files(tmp_path)] == ["2007.xlsx", "2008.xls"]

@@ -46,6 +46,12 @@ def clean_name(name):
     return NAME_ALIASES.get(cleaned, cleaned)
 
 
+def spreadsheet_files(folder):
+    """Season spreadsheets in `folder`, in order. macOS AppleDouble files (`._*`) are skipped:
+    they are metadata written by the operating system, not spreadsheets."""
+    return [path for path in sorted(folder.glob("*.xls*")) if not path.name.startswith("._")]
+
+
 def load_matches(tours=("atp", "wta")):
     """All matches with columns tour, year, date, surface, series, round, winner, loser, wrank, lrank, comment.
 
@@ -54,7 +60,7 @@ def load_matches(tours=("atp", "wta")):
     warnings.filterwarnings("ignore", message="Unknown extension", module="openpyxl")
     frames = []
     for tour in tours:
-        for path in sorted((TENNISDATA / tour).glob("*.xls*")):
+        for path in spreadsheet_files(TENNISDATA / tour):
             df = pd.read_excel(path)
             frames.append(
                 pd.DataFrame(

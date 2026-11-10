@@ -19,6 +19,18 @@ def test_star_centralization_is_one():
     assert ms.degree_centralization(nx.star_graph(9)) == pytest.approx(1.0)
 
 
+def test_reciprocal_directed_star_centralization_is_one():
+    g = nx.DiGraph()
+    g.add_edges_from((0, node) for node in range(1, 10))
+    g.add_edges_from((node, 0) for node in range(1, 10))
+    assert ms.degree_centralization(g) == pytest.approx(1.0)
+
+
+def test_one_way_directed_star_centralization_is_half():
+    g = nx.DiGraph((0, node) for node in range(1, 10))
+    assert ms.degree_centralization(g) == pytest.approx(0.5)
+
+
 def test_top_share_of_a_star():
     g = nx.DiGraph([(i, 0) for i in range(1, 20)])
     assert ms.top_pagerank_share(g, 1) > 5 / 20  # well above the uniform share 1/20

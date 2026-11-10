@@ -1,3 +1,3 @@
-hypothesis,statistic,comparison,value_a,value_b,diff,p_value
-H5,cyclic_ratio,ATP seasons 2007-2012 vs 2000-2006 and 2013-2025,0.18368718294676997,0.21077180682089977,-0.0270846238741298,0.01
-H5 (tours),cyclic_ratio,"WTA vs ATP, paired season differences 2007-2025",0.20634035276092572,0.1981433355776142,0.008197017183311537,0.10039035131618457
+hypothesis,statistic,comparison,value_a,value_b,diff,p_value,p_value_holm,significant_holm
+H5,cyclic_ratio,ATP seasons 2007-2012 vs 2000-2006 and 2013-2025,0.18368718294676997,0.21077180682089977,-0.0270846238741298,0.01,0.02,True
+H5 (tours),cyclic_ratio,"WTA vs ATP, paired season differences 2007-2025",0.20634035276092572,0.1981433355776142,0.008197017183311537,0.10039035131618457,0.10039035131618457,False

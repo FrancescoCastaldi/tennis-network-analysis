@@ -56,9 +56,13 @@ note_private/
 
 # OS and editors
 .DS_Store
+._*
 Thumbs.db
 desktop.ini
 .idea/
 .vscode/*
 !.vscode/settings.json
 *.log
+
+# Local deepwork progress is not part of the repository
+.slim/deepwork/

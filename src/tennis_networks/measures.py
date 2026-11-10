@@ -6,14 +6,13 @@ import pandas as pd
 
 
 def degree_centralization(g):
-    """Freeman degree centralization, normalised to [0, 1] (1 for a star)."""
+    """Freeman centralization of total degree, normalized to 1 for a star."""
     n = g.number_of_nodes()
     if n < 3:
         return float("nan")
     deg = np.array([d for _, d in g.degree()])
-    if g.is_directed():
-        return float((deg.max() - deg).sum() / ((n - 1) * (2 * n - 2)))
-    return float((deg.max() - deg).sum() / ((n - 1) * (n - 2)))
+    denominator = (n - 1) * (n - 2) * (2 if g.is_directed() else 1)
+    return float((deg.max() - deg).sum() / denominator)
 
 
 def giant_component(g):
