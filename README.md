@@ -40,8 +40,8 @@
 |---|---|
 | **Networks** | 13: 4 reference networks (Michieli, 2018) and 9 comparative networks built from 114,081 played matches (68,971 ATP, 45,110 WTA) |
 | **Hypotheses** | 8 tested: 6 supported, 1 not supported (H1), 1 rejected in the opposite direction (H2) |
-| **Reproducibility** | one seed (`20261115`), 209 tests, CI on every push, every table and figure generated from `results/` |
-| **Report** | `report/main.tex`, 3,848 words by the repository count (`wordcount`) and 4,360 counting captions and references, against a limit of 5,000 |
+| **Reproducibility** | one seed (`20261115`), 218 tests, CI on every push, every table and figure generated from `results/` |
+| **Report** | `report/main.tex`, 4,089 body words (4,404 by `wordcount` with references, 4,926 including captions), against a limit of 5,000 |
 | **Deadline** | 27 November 2026, 23:59 (course exam session) |
 | **Version** | 0.2.7, see the [changelog](CHANGELOG.md) |
 
@@ -62,7 +62,7 @@ Hypotheses, tested on the nine comparative networks:
 
 | Hypothesis | Test | Outcome |
 |---|---|---|
-| **H1** prestige more concentrated in 2007-2018 (Big Four) than in 2019-2025 | season permutation | not supported (top-10 PageRank share 0.265 against 0.234, p = 0.060) |
+| **H1** prestige more concentrated in 2007-2018 (Big Four) than in 2019-2025 | season permutation | not supported (top-10 PageRank share 0.265 against 0.234, p = 0.059) |
 | **H2** networks more disassortative than the configuration model | 200 degree-preserving nulls | rejected in the opposite direction: observed assortativity is higher than the null in all eight networks tested (undirected z = 16 to 35 with 200 nulls; directed z = 18 to 42 with 100 nulls); the null means show that degree-preserving rewiring is itself strongly disassortative; the aggregate ATP 2007-2025 network is not part of this test |
 | **H3** grass is smaller and more centralized than clay and hard | match permutation, size-corrected | supported (p = 0.005 to 0.015) |
 | **H4** WTA prestige less concentrated than ATP | paired sign-flip over seasons | supported for PageRank (p = 0.016), not for centralization (p = 0.17) |
@@ -76,17 +76,17 @@ Hypotheses, tested on the nine comparative networks:
 - All nine are sparse but compact: 62% to 70% of the players are in the giant strongly connected
   component, and two players are 2.4 to 3.3 wins apart on average.
 - None is scale-free: bracket sizes and calendars cap how many opponents a player can meet.
-- A dense core of 16% to 20% of the players, almost all in the official top 100, holds most of the
-  matches. The rich-club coefficient shows elite closure in every network (peak 1.05 to 1.22, z = 13 to 27).
+- A dense core of 15% to 20% of the players, almost all in the official top 100, holds most of the
+  matches. The rich-club coefficient shows elite closure in every network (peak 1.061 to 1.265, p = 0.005).
 
 **Validity of the data**
 
 - The pipeline reproduces the figures of Michieli (2018) on M1, M3 and M4. One exception: the average
   clustering of M3 is 0.311 here against 0.07 in the paper, and no standard definition gives the published value.
-- tennis-data.co.uk and Michieli agree on 97.6% of the loser-winner pairs and 99.3% of the players over
+- tennis-data.co.uk and Michieli agree on 97.2% of the loser-winner pairs and 99.3% of the players over
   their common window (January 2000 to August 2017).
 - Sensitivity to the cleaning choices: every H3 and H4 verdict holds at the 5% level. H1 is borderline
-  (p = 0.036 without retirements, 0.053 with walkovers, 0.060 in the report).
+  (p = 0.036 without retirements, 0.053 with walkovers, 0.059 in the report).
 
 Every number above is in the committed tables: [`hypothesis_tests.csv`](results/tables/hypothesis_tests.csv),
 [`triads_h5.csv`](results/tables/triads_h5.csv), [`levels_tests.csv`](results/tables/levels_tests.csv),
@@ -187,7 +187,13 @@ push and attaches it to the run as an artifact. The submission PDF is in
 | Hypotheses and tests | 60% | Gaetano Muscarello (Role B3) | Measures and Results (hypotheses) | Written, H1 to H8 with verdicts |
 | Interpretation and critique | 20% | Paolo Fusco (Role C) | Conclusion, Critique | Written, to be checked against the research questions |
 
-The report is at 4,360 words counting captions and references (limit 5,000), so any addition needs an offsetting cut.
+The report is at 4,404 words by `wordcount` (4,926 including captions, limit 5,000), so any addition needs an offsetting cut.
+
+### Course checklist audit
+
+<p align="center">
+  <img src="docs/assets/checklist-summary.png" alt="Course checklist coverage and observed report values" width="100%" />
+</p>
 
 ## Releases and citation
 
