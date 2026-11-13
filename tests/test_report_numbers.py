@@ -199,3 +199,18 @@ def test_h6_collinearity_note():
     assert "maximum absolute pairwise correlation 0.97 in every era" in REPORT
     lo, hi = _range(cond, 1)
     assert f"condition number {lo} to {hi}" in REPORT
+
+
+def test_triad_spectrum_matches_csv():
+    sp = _csv("triads_spectrum_2007_2012.csv").set_index("triad")
+    assert sp.loc["030T", "z"] < -5.0
+    assert sp.loc["030C", "z"] < -10.0
+    assert all(sp.loc[t, "z"] > 20.0 for t in ("120D", "210", "300"))
+    assert "Transitive triads ($030T$) are enriched ($z > 0$)" not in REPORT
+    assert "120D" in REPORT and "210" in REPORT and "300" in REPORT
+
+
+def test_continuous_core_periphery_range_reported():
+    s = _csv("structure_summary.csv").set_index("network").loc[NINE]
+    lo, hi = _range(s["continuous_core_fit"], 2)
+    assert f"from {lo} to {hi}" in REPORT and "continuous" in REPORT.lower()

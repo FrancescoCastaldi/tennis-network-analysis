@@ -128,3 +128,33 @@ def test_figure_core_homophily_generates_pdf_and_png(out_dirs):
     ra.figure_core_homophily()
     assert (out_dirs / "figures" / "fig_core_homophily.pdf").stat().st_size > 5000
     assert (out_dirs / "figures" / "fig_core_homophily.png").stat().st_size > 10000
+
+
+def test_table_abc_describes_hub_losses_to_authorities(out_dirs):
+    ra.table_abc()
+    content = (out_dirs / "tables" / "tab_abc.tex").read_text(encoding="utf-8")
+    assert "while a hub beats authorities" not in content
+    assert "hub loses" in content.lower()
+
+
+def test_table_levels_uses_csv_sample_size_for_h8(out_dirs):
+    ra.table_levels()
+    content = (out_dirs / "tables" / "tab_levels.tex").read_text(encoding="utf-8")
+    lt = pd.read_csv(ra.TABLES / "levels_tests.csv")
+    h8_n = int(lt.loc[lt["hypothesis"] == "H8", "n"].iloc[0])
+    assert "$n=328$" not in content
+    assert f"$n={h8_n}$" in content
+
+
+def test_figure_structure_rich_club_xlim_covers_all_networks(monkeypatch):
+    captured = {}
+
+    def capture_save(fig, name):
+        captured["xlim"] = fig.axes[3].get_xlim()
+        ra.plt.close(fig)
+
+    monkeypatch.setattr(ra, "save", capture_save)
+    ra.style()
+    ra.figure_structure()
+    rc = pd.read_csv(ra.TABLES / "rich_club_summary.csv").set_index("network").loc[ra.NETS]
+    assert captured["xlim"][1] > float(rc["rho_rich_peak"].max())

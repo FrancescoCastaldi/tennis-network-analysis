@@ -503,7 +503,7 @@ def table_levels():
         for r in mix.itertuples(index=False):
             comp = "Same surface profile" if "profile" in r.comparison else "Specialisation gap"
             metric = "matches vs shared profile" if "profile" in r.comparison else "matches vs profile distance"
-            note = "$n=328$; 3 classes" if "profile" in r.comparison else "$n=328$; Euclidean"
+            note = f"$n={int(r.n)}$; 3 classes" if "profile" in r.comparison else f"$n={int(r.n)}$; Euclidean"
             p_val = num(p_value(r._asdict(), adjusted), 3)
             rows.append(f"H8 & Mixed & {comp} & {metric} & {num(r.value, 3)} & {p_val} & {note} \\\\")
 
@@ -609,7 +609,8 @@ ABC_ROWS = [
         "In- and out-degree, PageRank, HITS authority and hub scores",
         "In-degree counts distinct opponents defeated; out-degree counts distinct opponents lost to. "
         "PageRank weights wins by opponent prestige; "
-        "an authority beats players who also score highly, while a hub beats authorities.",
+        "an authority defeats strong contenders, while a hub loses frequently to top authorities "
+        "by advancing deep into draws.",
     ),
     (
         "How concentrated prestige and wins are",
@@ -1348,7 +1349,7 @@ def figure_structure():
     ax.hlines(ypos, 1.0, rc["rho_rich_peak"], color=COLORS[0], linewidth=1.1, alpha=0.6)
     ax.scatter(rc["rho_rich_peak"], ypos, s=18, color=COLORS[0], zorder=3)
     ax.axvline(1.0, color=MUTED, linestyle="--", linewidth=0.8)
-    ax.set_xlim(0.99, 1.25)
+    ax.set_xlim(0.99, max(1.29, float(rc["rho_rich_peak"].max()) + 0.025))
     ax.set_title(r"(d) rich club", loc="left", fontsize=8.5)
     for axis in axes:
         axis.grid(axis="y", visible=False)

@@ -39,8 +39,8 @@
 \renewcommand{\bottomfraction}{0.90}
 \renewcommand{\textfraction}{0.10}
 \renewcommand{\floatpagefraction}{0.75}
-\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
-\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{6pt plus 1.5pt minus 1.5pt}
+\setlength{\intextsep}{6pt plus 1.5pt minus 1.5pt}
 \setlength{\abovecaptionskip}{4pt}
 \setcounter{totalnumber}{6}
 \setcounter{topnumber}{4}
@@ -65,16 +65,16 @@ Gaetano Muscarello & {\small Master's Degree in Computer Science} & {\small matr
 \section{Introduction}
 \label{introduction}
 
-Official rankings and title counts summarise individual achievement, but they treat players as isolated competitors. Social Network Analysis offers a complementary view: it models competition as a system in which players are nodes and matches form directed, weighted ties \cite{newman2018}. In tennis, every official singles match has a direction, from the loser to the winner. Read as endorsements, victories carry prestige through the network, and a win over an established champion counts for more, in structural terms, than a win over a lower-ranked qualifier.
+Official rankings and title counts summarise individual achievement, but they treat players as isolated competitors and depend on tournament-tier point schedules. Social Network Analysis offers a structural complement: it models competition as a one-mode system in which players are nodes and matches form directed, weighted ties \cite{newman2018}. In tennis, every official singles match has an unambiguous direction, from the defeated player to the winner. Read as endorsements, victories carry prestige through the network, so a win over an established champion counts for more, in structural terms, than a win over a lower-ranked qualifier.
 
-This study compares nine tennis networks built from 114,081 professional matches along three dimensions: historical eras from 2000 to 2025, court surfaces, and the two main circuits, the Association of Tennis Professionals (ATP) and the Women's Tennis Association (WTA). Four reference networks from Michieli (2018) validate the construction of the data and of the measures. The analysis combines global topology, community and core-periphery structure, prestige measures and null-model hypothesis tests. The work sits in sports analytics and applies network science to competition: a match graph records who beat whom, and its structure shows how a sport distributes prestige.
+This study compares nine tennis networks built from 114,081 professional matches along three dimensions: historical eras from 2000 to 2025, court surfaces, and the two main circuits, the Association of Tennis Professionals (ATP) and the Women's Tennis Association (WTA). Four reference networks from Michieli (2018) validate the data construction and the core measures. By applying the same multi-level analytical pipeline across all nine comparative graphs, the study connects global topology, core-periphery structure, prestige inequalities and permutation hypothesis tests to the institutional rules of professional tennis.
 
 \section{Problem and Motivation}
 \label{problem-and-motivation}
 
 Prior network studies of professional tennis have used prestige-based ranking algorithms such as PageRank on historical results \cite{radicchi2011,michieli2018}. The existing literature has two main limitations. The first is temporal aggregation: networks that span several decades mix generations of players and hide shifts in dominance, turnover and prestige, for instance around the peak of the Big Four (Federer, Nadal, Djokovic and Murray). The second is segregation by environment and tour: the surface changes playing style, ball speed and physical demands, yet we found few comparative multi-surface analyses, and few that compare the men's and women's tours over the same period.
 
-Tournament tennis also imposes institutional constraints that social networks do not have. Seeded single-elimination brackets keep top players apart in early rounds, and calendars give the surfaces very different lengths, from a short grass swing to long hard-court seasons. Centrality therefore reflects both player quality and scheduling, not skill alone.
+Tournament tennis also imposes institutional constraints that typical social networks do not share. Seeded single-elimination brackets keep top players apart in early rounds, entry cutoffs restrict tour access, and calendars give the surfaces very different lengths, from a short grass swing to long hard-court seasons. Observed centrality and assortativity therefore reflect both player quality and scheduling mechanics, not skill alone. Distinguishing true competitive hierarchy from degree and calendar artifacts requires explicit null-model testing.
 
 The study asks three research questions:
 \begin{enumerate}
@@ -205,7 +205,7 @@ where $\phi(k)$ is the edge density among the players whose degree exceeds $k$ \
 \label{fig:prestige}
 \end{figure}
 
-\paragraph{Structural roles and cores.} Figure~\ref{fig:structure} puts the role and core measures of the nine networks side by side. Authority scores track PageRank closely (Spearman between 0.96 and 0.99) and official rank (from $-0.62$ on grass courts to $-0.86$ in 2019-2025), so the top authorities are the players who beat strong opponents most often. The core holds 15\% to 20\% of the players and is far denser than the periphery. Between 93\% and 100\% of core members are in the official top 100, and the core overlaps the maximum $k$-core partition with Jaccard similarity from 0.54 to 0.88. Hub scores follow official rank too, from $-0.61$ on grass to $-0.85$ in 2019-2025. Structural equivalence, the similarity of players' opponent profiles, averages 0.16 to 0.38 across networks, and QAP tests relate it to the rank gap ($r$ from 0.03 to 0.20), significantly in every network except clay and grass.
+\paragraph{Structural roles and cores.} Figure~\ref{fig:structure} shows the role and core measures across all nine networks. Authority scores track PageRank closely (Spearman between 0.96 and 0.99) and official rank (from $-0.62$ on grass to $-0.86$ in 2019-2025), led in 2007-2012 by Djokovic, Nadal and Federer. Hub scores also follow official rank (from $-0.61$ on grass to $-0.85$ in 2019-2025), identifying deep-run contenders such as Verdasco and Ferrer who frequently lose to top authorities. The discrete Borgatti-Everett core holds 15\% to 20\% of the players ($\phi$ from 0.34 on grass to 0.74 in 2013-2018) and is far denser than the periphery; the continuous model yields consistent fits from 0.34 to 0.65. Between 93\% and 100\% of core members are in the official top 100, and the core overlaps the maximum $k$-core partition with Jaccard similarity from 0.54 to 0.88. Structural equivalence, the cosine similarity of opponent profiles, averages 0.16 to 0.38 (peaking at 0.85 for Berdych and Murray in ATP 2007-2025, and 0.84 for Radwanska and Stosur in WTA), and QAP tests link it to the rank gap ($r$ from 0.03 to 0.20), significantly everywhere except clay and grass.
 
 \begin{figure}[tbp]
 \centering
@@ -218,7 +218,7 @@ where $\phi(k)$ is the edge density among the players whose degree exceeds $k$ \
 
 \paragraph{Robustness under targeted attack.} Figure~\ref{fig:topology} (bottom row) compares the removal of players in descending PageRank order with random removal. Random removal leaves most of the giant component. Targeted removal degrades it quickly: removing the top 20\% of players leaves 52\% to 65\% of the giant component, and removing 40\% leaves 1\% to 20\%. The 2019-2025 era is the most resilient at 20\% removal (61\%, against 52\% to 56\% in the three earlier ATP eras). A more even spread of contenders after the Big Four peak is a plausible reading, but the data do not test it.
 
-\paragraph{Elite core and triad hierarchy.} Figure~\ref{fig:network_core}(a) shows the directed core among the top twelve players in 2007-2012, with edge widths for head-to-head encounters. The Big Four (Federer, Nadal, Djokovic, Murray) dominate contenders such as Ferrer, Berdych and Del Potro. Panel (b) gives the 16-class triad census against 200 degree-preserving nulls \cite{holland1970}. Transitive triads ($030T$) are enriched ($z > 0$), while cyclic triads ($030C$, where A beats B, B beats C and C beats A) are depleted ($z < -1.96$). Outcomes form transitive ladders rather than cycles.
+\paragraph{Elite core and triad hierarchy.} Figure~\ref{fig:network_core}(a) shows the directed core among the top twelve players in 2007-2012, with edge widths for head-to-head encounters. The Big Four (Federer, Nadal, Djokovic, Murray) dominate contenders such as Ferrer, Berdych and Del Potro. Panel (b) gives the 16-class triad census against 200 degree-preserving nulls \cite{holland1970}. Because repeated elite encounters turn simple one-way triangles into mutual rivalries, asymmetric transitive triads ($030T$, $z = -6.0$) are mildly depleted, whereas closed triads carrying reciprocal edges ($120D$, $210$ and $300$, all $z > 20$) are strongly enriched. Pure cyclic triads ($030C$, where A beats B, B beats C and C beats A) are far more suppressed ($z = -11.5$), keeping the cyclic-to-transitive ratio well below null expectation.
 
 \begin{figure}[tbp]
 \centering
@@ -288,7 +288,7 @@ RQ2 asks how the surfaces differ. Grass networks have the lowest reciprocity and
 
 RQ3 asks how the tours compare. The WTA shows lower prestige concentration than the ATP on the raw test (H4, $p = 0.016$), but the difference does not survive Holm correction, so it is suggestive. The two tours do not differ significantly in degree centralization ($p = 0.182$) or in cyclic-triad ratio ($p = 0.100$).
 
-Network measures reveal structure that win totals and point systems hide. PageRank tracks official rankings closely (Spearman's $\rho$ near $-0.8$) while also weighting the quality of opponents. Network metrics must, however, be read against tournament brackets and calendars, which shape competitive topology.
+Network measures reveal structural hierarchies that raw win totals and point systems hide. PageRank tracks official rankings closely (Spearman's $\rho$ near $-0.8$) while weighting opponent quality, HITS separates title-winning authorities from deep-run hubs, and core-periphery plus rich-club analyses confirm a tightly connected elite core across every era and surface. All network metrics must, however, be read alongside tournament brackets and calendars, which actively shape competitive topology.
 
 \needspace{6\baselineskip}
 \section{Critique}
